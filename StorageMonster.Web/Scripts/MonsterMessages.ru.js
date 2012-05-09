@@ -1,0 +1,5 @@
+﻿var MonsterJSMessages =
+{
+    Error: "Ошибка"
+};
+

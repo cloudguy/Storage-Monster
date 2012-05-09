@@ -1,0 +1,34 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="StorageMonster.Services" %>
+<%@ Import Namespace="System.Globalization" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <link href="<%=Url.Content("~/Content/Site.css") %>" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery-1.7.2.min.js")%>" ></script>
+    <%
+        String jsLocalizedMessagesUrl = String.Format(CultureInfo.InvariantCulture, "~/Scripts/MonsterMessages.{0}.js", StorageMonster.Util.RequestContext.GetValue<LocaleData>(StorageMonster.Util.RequestContext.LocaleKey).ShortName);
+     %>
+     
+     <script type="text/javascript" src="<%= Url.Content(jsLocalizedMessagesUrl)%>" ></script>
+    
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+    <title>
+    <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+    </title>
+</head>
+<body>    
+    <%=ViewResources.SharedResources.Title %>   
+    <div id="logindisplay">
+        <% Html.RenderPartial("LogOnUserControl"); %>
+    </div> 
+    <div>
+
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+</body>
+</html>

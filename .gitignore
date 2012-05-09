@@ -1,0 +1,17 @@
+*ReSharper*
+Release/
+bin
+obj
+Thumbs.db
+*.cache
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.userprefs
+logs/
+*.log
+TestResult.xml
+StorageMonster.Web/AppConfig.xml
+StorageMonster.Web/IoC.xml
+StorageMonster.Web/Log4Net.xml

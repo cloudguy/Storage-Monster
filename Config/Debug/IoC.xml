@@ -1,0 +1,50 @@
+  <StructureMap>
+    <!-- Database-->    
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.Configuration.IDbConfiguration, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.Configuration.DbConfiguration, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.IConnectionProvider, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.ConnectionProvider, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
+    
+    
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.Repositories.IStorageRepository, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.Repositories.StorageRepository, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.Repositories.IUserRepository, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.Repositories.UserRepository, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.Repositories.IUserRoleRepository, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.Repositories.UserRoleRepository, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.Repositories.ISessionRepository, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.Repositories.SessionRepository, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
+
+
+    
+
+    <!-- Services -->
+    <DefaultInstance
+            PluginType  ="StorageMonster.Services.ILocaleProvider, StorageMonster.Services"
+            PluggedType ="StorageMonster.Services.LocaleProvider, StorageMonster.Services"
+            Scope="Singleton"  />
+    <DefaultInstance
+           PluginType  ="StorageMonster.Services.Security.IFormsAuthenticationService, StorageMonster.Services"
+           PluggedType ="StorageMonster.Services.Security.FormsAuthenticationService, StorageMonster.Services"
+           Scope="Singleton"  />
+    <DefaultInstance
+           PluginType  ="StorageMonster.Services.Security.IMembershipService, StorageMonster.Services"
+           PluggedType ="StorageMonster.Services.Security.MembershipService, StorageMonster.Services"
+           Scope="Singleton"  />
+    <DefaultInstance
+           PluginType  ="StorageMonster.Common.ICacheService, StorageMonster.Common"
+           PluggedType ="StorageMonster.Services.InMemoryCache, StorageMonster.Services"
+           Scope="Singleton"  />
+  </StructureMap>

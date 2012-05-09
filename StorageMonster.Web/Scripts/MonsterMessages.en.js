@@ -1,0 +1,4 @@
+﻿var MonsterJSMessages =
+{
+    Error : "Error"
+};

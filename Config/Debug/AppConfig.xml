@@ -1,0 +1,3 @@
+<appSettings>
+  <add key="connectionString" value="Server=localhost;Database=storage_services;User ID=storage_monster; Pwd=123456" />
+</appSettings>
