@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StorageMonster.Services
 {
-    public class LocaleProvider : ILocaleProvider
+    internal class LocaleProvider : ILocaleProvider
     {
         protected static List<LocaleData> SupportedLocalesInternal = new List<LocaleData>();
         protected static LocaleData DefaultLocale;

@@ -1225,7 +1225,7 @@ this IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TRetu
 			
 			Func<IDataReader, object> func = (dataReader) =>
 			{
-				int index = 0;
+                int index = startBound;
 				var objectToReturn = newFunc();
 				try
 				{

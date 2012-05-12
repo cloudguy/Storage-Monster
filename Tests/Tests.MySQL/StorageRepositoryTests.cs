@@ -35,8 +35,8 @@ namespace Tests.MySQL
 		[Test]
 		public void BagMultiply()
 		{
-			var items = _storageRepo.List();
-            items = _storageRepo.List();
+			//var items = _storageRepo.List();
+            //items = _storageRepo.List();
 		}
 	}
 }

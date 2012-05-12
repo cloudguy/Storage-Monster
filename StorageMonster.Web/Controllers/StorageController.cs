@@ -13,7 +13,7 @@ namespace StorageMonster.Web.Controllers
         public ActionResult List()
         {
             List<UserStorageModel> storages = new List<UserStorageModel>();
-            List<AccountModel> accounts = new List<AccountModel>();
+            List<UserMenuModel> accounts = new List<UserMenuModel>();
             for (int i =1;i<=5;i++)
             {
                 UserStorageModel smodel = new UserStorageModel
@@ -24,14 +24,14 @@ namespace StorageMonster.Web.Controllers
                     };
                 for (int j = 1; j <= 3; j++)
                 {
-                    AccountModel amodel = new AccountModel
+                    UserMenuModel amodel = new UserMenuModel
                         {
-                            StorageId = i,
-                            AccountLogin = "Acclogin@mail.ru",
-                            FreeSpace = "2 Gb",
-                            TotalSpace = "5 Gb",
-                            Id = i,
-                            UsedSpace = "3 Gb"
+                            //StorageId = i,
+                            //AccountLogin = "Acclogin@mail.ru",
+                            //FreeSpace = "2 Gb",
+                            //TotalSpace = "5 Gb",
+                            //Id = i,
+                            //UsedSpace = "3 Gb"
                         };
                     accounts.Add(amodel);
 

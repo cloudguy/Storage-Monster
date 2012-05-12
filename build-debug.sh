@@ -1,2 +1,2 @@
 #!/bin/sh
-mono ./Tools/xbuild/xbuild.exe /p:Configuration=Debug StorageMonster.sln
+mono xbuild.exe /p:Configuration=Debug StorageMonster2010.sln

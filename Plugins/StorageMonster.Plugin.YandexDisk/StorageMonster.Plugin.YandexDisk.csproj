@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5CB14416-58D0-4533-B621-151DA04B24B4}</ProjectGuid>
+    <ProjectGuid>{D292CF40-B914-4C42-B000-DDFD11BC1FF1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebDavMonoLib</RootNamespace>
-    <AssemblyName>WebDavMonoLib</AssemblyName>
+    <RootNamespace>StorageMonster.Plugin.YandexDisk</RootNamespace>
+    <AssemblyName>StorageMonster.Plugin.YandexDisk</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,8 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WebDavClient.cs" />
+    <Compile Include="YandexDiskPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StorageMonster.Plugin.WebDav\StorageMonster.Plugin.WebDav.csproj">
+      <Project>{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}</Project>
+      <Name>StorageMonster.Plugin.WebDav</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
+      <Project>{715E422B-2A57-4089-AB80-C87E6A77ED8D}</Project>
+      <Name>StorageMonster.Plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

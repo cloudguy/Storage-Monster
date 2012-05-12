@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{57CB7EED-B541-4B1E-99EF-9357FD363007}</ProjectGuid>
-    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StorageMonster.Web</RootNamespace>
@@ -68,7 +68,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
@@ -80,7 +79,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DisplayNameResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\UserMenuModel.cs" />
     <Compile Include="Models\Accounts\RegisterModel.cs" />
     <Compile Include="Models\AjaxErrorModel.cs" />
     <Compile Include="Models\AjaxForbiddenModel.cs" />
@@ -139,7 +138,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Error.htm" />
+    <Content Include="Content\Error.htm" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery.validate-1.9.0.min.js" />
@@ -155,6 +154,7 @@
     <Content Include="Views\Shared\JQueryValidation.ascx" />
     <Content Include="Views\Shared\NotFound.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
+    <Content Include="Views\Shared\UserMenu.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -217,6 +217,10 @@
     <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
+      <Project>{715E422B-2A57-4089-AB80-C87E6A77ED8D}</Project>
+      <Name>StorageMonster.Plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Common\StorageMonster.Common.csproj">
       <Project>{CAA03339-8CEE-494C-A900-948B57748EDB}</Project>
       <Name>StorageMonster.Common</Name>
@@ -246,7 +250,7 @@
   </Target>
   <ProjectExtensions>
     <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
@@ -262,6 +266,11 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties VerifyCodeBehindFields="true" VerifyCodeBehindEvents="true">
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="true" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
   <Target Name="AfterBuild">
     <Delete Files="$(ProjectDir)AppConfig.xml" />
@@ -270,20 +279,25 @@
     <Delete Files="$(ProjectDir)$(OutputPath)Common.Logging.dll" />
     <Delete Files="$(ProjectDir)$(OutputPath)Common.Logging.Log4Net.dll" />
     <Delete Files="$(ProjectDir)$(OutputPath)log4net.dll" />
+    <Delete Files="$(ProjectDir)$(OutputPath)AppLimit.CloudComputing.SharpBox.dll" />
+    <Delete Files="$(ProjectDir)$(OutputPath)Newtonsoft.Json.Net20.dll" />
     <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.DB.MySQL.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.dll" />    
+    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.dll" />
     <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.WebDav.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)WebDavMonoLib.dll" />
+    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.YandexDisk.dll" />
     <Copy SourceFiles="$(SolutionDir)Config\$(Configuration)\IoC.xml" DestinationFiles="$(ProjectDir)IoC.xml" />
     <Copy SourceFiles="$(SolutionDir)Config\$(Configuration)\AppConfig.xml" DestinationFiles="$(ProjectDir)AppConfig.xml" />
     <Copy SourceFiles="$(SolutionDir)Config\$(Configuration)\Log4Net.xml" DestinationFiles="$(ProjectDir)Log4Net.xml" />
     <Copy SourceFiles="$(SolutionDir)References\Common.Logging.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Common.Logging.dll" />
     <Copy SourceFiles="$(SolutionDir)References\Common.Logging.Log4Net.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Common.Logging.Log4Net.dll" />
     <Copy SourceFiles="$(SolutionDir)References\log4net.dll" DestinationFiles="$(ProjectDir)$(OutputPath)log4net.dll" />
+    <Copy SourceFiles="$(SolutionDir)References\AppLimit.CloudComputing.SharpBox.dll" DestinationFiles="$(ProjectDir)$(OutputPath)AppLimit.CloudComputing.SharpBox.dll" />
+    <Copy SourceFiles="$(SolutionDir)References\Newtonsoft.Json.Net20.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Newtonsoft.Json.Net20.dll" />
     <Copy SourceFiles="$(SolutionDir)StorageMonster.DB.MySQL\bin\$(Configuration)\StorageMonster.DB.MySQL.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.DB.MySQL.dll" />
-    <Copy SourceFiles="$(SolutionDir)\Plugins\StorageMonster.Plugin.WebDav\bin\$(Configuration)\StorageMonster.Plugin.WebDav.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.dll" />
-    <Copy SourceFiles="$(SolutionDir)\Plugins\StorageMonster.Plugin\bin\$(Configuration)\StorageMonster.Plugin.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.WebDav.dll" />
-    <Copy SourceFiles="$(SolutionDir)\Plugins\WebDavMonoLib\bin\$(Configuration)\WebDavMonoLib.dll" DestinationFiles="$(ProjectDir)$(OutputPath)WebDavMonoLib.dll" />
+    <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin\bin\$(Configuration)\StorageMonster.Plugin.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.dll" />
+    <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin.WebDav\bin\$(Configuration)\StorageMonster.Plugin.WebDav.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.WebDav.dll" />
+    <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin.YandexDisk\bin\$(Configuration)\StorageMonster.Plugin.YandexDisk.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.YandexDisk.dll" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
 </Project>

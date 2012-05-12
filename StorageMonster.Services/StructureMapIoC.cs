@@ -1,21 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using StorageMonster.Plugin;
 using StructureMap;
 
 namespace StorageMonster.Services
 {
     internal sealed class StructureMapIoC : IoCcontainer
     {
-        internal void Configure(Action configAction)
-        {
-            configAction();
-        }
-
-        internal void Configure()
+        internal void Configure(string configFile)
         {
             ObjectFactory.Initialize(container =>
                 {
-                    container.AddConfigurationFromXmlFile("IoC.xml");
+                    container.AddConfigurationFromXmlFile(configFile);
                     container.Scan(x =>
                         {
                             x.AssembliesFromApplicationBaseDirectory();
@@ -44,6 +41,11 @@ namespace StorageMonster.Services
         public override void CleanUpRequestResources()
         {
             ObjectFactory.ReleaseAndDisposeAllHttpScopedObjects();
+        }
+
+        public override IEnumerable<T> GetAllInstances<T>()
+        {
+            return ObjectFactory.GetAllInstances<T>();
         }
     }
 }

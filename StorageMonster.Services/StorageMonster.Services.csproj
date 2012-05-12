@@ -65,9 +65,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountService.cs" />
+    <Compile Include="IAccountService.cs" />
     <Compile Include="InMemoryCache.cs" />
     <Compile Include="IoCcontainer.cs" />
     <Compile Include="ILocaleProvider.cs" />
+    <Compile Include="IStoragePluginProvider.cs" />
+    <Compile Include="IStorageService.cs" />
     <Compile Include="LocaleData.cs" />
     <Compile Include="LocaleProvider.cs" />
     <Compile Include="Security\FormsAuthenticationService.cs" />
@@ -82,9 +86,16 @@
     <Compile Include="Security\MonsterRoleProvider.cs" />
     <Compile Include="Security\StorageMonsterSecurityException.cs" />
     <Compile Include="Security\MembershipData.cs" />
+    <Compile Include="StoragePluginProvider.cs" />
+    <Compile Include="StorageService.cs" />
+    <Compile Include="StorageStatus.cs" />
     <Compile Include="StructureMapIoC.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
+      <Project>{715E422B-2A57-4089-AB80-C87E6A77ED8D}</Project>
+      <Name>StorageMonster.Plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Common\StorageMonster.Common.csproj">
       <Project>{CAA03339-8CEE-494C-A900-948B57748EDB}</Project>
       <Name>StorageMonster.Common</Name>

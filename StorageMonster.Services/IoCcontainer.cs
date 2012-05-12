@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using StorageMonster.Plugin;
 
 namespace StorageMonster.Services
 {
@@ -11,19 +13,12 @@ namespace StorageMonster.Services
             get { return InstanceInternal; }
         }
 
-        public static void ConfigureStructureMap()
+        public static void ConfigureStructureMap(string configFile)
         {
             StructureMapIoC container = new StructureMapIoC();
-            container.Configure();
+            container.Configure(configFile);
             InstanceInternal = container;
         }
-
-       public static void ConfigureStructureMap(Action configAction)
-       {
-           StructureMapIoC container = new StructureMapIoC();
-           container.Configure(configAction);
-           InstanceInternal = container;
-       }
 
         public abstract T Resolve<T>();
 
@@ -32,6 +27,8 @@ namespace StorageMonster.Services
 	    public abstract string GetLastError();
 
         public abstract void CleanUpRequestResources();
+
+	    public abstract IEnumerable<T> GetAllInstances<T>();
 	}
 }
 

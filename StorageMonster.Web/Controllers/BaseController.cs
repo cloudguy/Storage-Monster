@@ -2,7 +2,7 @@
 
 namespace StorageMonster.Web.Controllers
 {
-    [OutputCache(Duration=3600, VaryByParam="none", VaryByCustom = Constants.LocaleCacheDisableKey)] //disable cache for localization
+    [OutputCache(NoStore = true, Duration = 0, VaryByParam = "none")] //disable cache for localization
     public class BaseController : Controller
     {
     }

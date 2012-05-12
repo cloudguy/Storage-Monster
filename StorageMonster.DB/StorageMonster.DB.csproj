@@ -67,13 +67,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\IDbConfiguration.cs" />
+    <Compile Include="Domain\Account.cs" />
     <Compile Include="Domain\IdAndStamp.cs" />
     <Compile Include="Domain\Session.cs" />
     <Compile Include="Domain\UserRole.cs" />
     <Compile Include="Domain\Storage.cs" />
-    <Compile Include="Domain\StorageStatus.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="IConnectionProvider.cs" />
+    <Compile Include="Repositories\IAccountRepository.cs" />
     <Compile Include="Repositories\ISessionRepository.cs" />
     <Compile Include="Repositories\IStorageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +105,10 @@
     <ProjectReference Include="..\StorageMonster.Common\StorageMonster.Common.csproj">
       <Project>{CAA03339-8CEE-494C-A900-948B57748EDB}</Project>
       <Name>StorageMonster.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Util\StorageMonster.Util.csproj">
+      <Project>{7B5F85BD-3FB7-4E5D-AAD5-9544F3172E40}</Project>
+      <Name>StorageMonster.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using StorageMonster.Services;
@@ -33,6 +34,14 @@ namespace StorageMonster.Web.Controllers
         public ActionResult LogOff()
         {
             FormsAuthService.SignOut();
+            //Response.RemoveOutputCacheItem("/Home/Index");
+            HttpCookie myCookie = new HttpCookie(FormsAuthentication.FormsCookieName)
+                {
+                    Expires = DateTime.Now.AddDays(-1d)
+                };
+            Response.Cookies.Add(myCookie);
+            //Response.RemoveOutputCacheItem("/Home/Index");
+            //Response
             return RedirectToAction("Index", "Home");
         }        
 

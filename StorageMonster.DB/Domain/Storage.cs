@@ -6,7 +6,7 @@ namespace StorageMonster.DB.Domain
     {
         public int Id { get; set; }
         public string ClassPath { get; set; }
-        public StorageStatus Status { get; set; }
+        public int Status { get; set; }
         public DateTime Stamp { get; set; }
     }
 }

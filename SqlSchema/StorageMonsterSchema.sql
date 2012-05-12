@@ -55,16 +55,23 @@ ENGINE = InnoDB;
 
 CREATE  TABLE `accounts` (
   `id` INT NOT NULL AUTO_INCREMENT ,
+  `user_id` INT NOT NULL ,
   `storage_id` INT NOT NULL ,
+  `account_server` VARCHAR(100) NOT NULL ,
   `account_login` VARCHAR(100) NOT NULL ,
   `stamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_accounts_storages` (`storage_id` ASC) ,
-  UNIQUE INDEX `un_accountlogin_storageid` (`storage_id` ASC, `account_login` ASC) ,
+  UNIQUE INDEX `un_accountlogin_storageid` (`storage_id` ASC, `account_server` ASC, `account_login` ASC, `user_id` ASC) ,
   CONSTRAINT `fk_accounts_storages`
     FOREIGN KEY (`storage_id` )
     REFERENCES `storages` (`id` )
     ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_accounts_users`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `users` (`id` )
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
@@ -183,3 +190,24 @@ BEGIN
 	RETURN 0;
 END //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION init_plugin_status(classpath_in VARCHAR(100), status_in INT)
+RETURNS INT
+BEGIN	
+	DECLARE storage_id_local INT; 
+
+	SELECT id INTO storage_id_local FROM storages WHERE classpath = classpath_in;
+
+	IF storage_id_local IS NOT NULL THEN
+		UPDATE storages SET status = status_in WHERE id = storage_id_local;
+		RETURN storage_id_local;	
+	END IF;
+
+	
+	INSERT INTO storages (classpath, status) VALUES (classpath_in, status_in);
+	RETURN LAST_INSERT_ID();	
+END //
+DELIMITER ; 

@@ -2,5 +2,7 @@
 {
     public interface IStoragePlugin
     {
+        string Name { get; }
+		void Test();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -15,6 +16,7 @@ using Common.Logging;
 using StorageMonster.Common;
 using StorageMonster.DB;
 using StorageMonster.DB.Repositories;
+using StorageMonster.Plugin;
 using StorageMonster.Services;
 using StorageMonster.Services.Security;
 using StorageMonster.Web.Models;
@@ -74,8 +76,23 @@ namespace StorageMonster.Web
 
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-            IoCcontainer.ConfigureStructureMap();
+			Logger.Info("Storage Monster starting...");
+			try
+			{
+            	Initialize();
+			    InitPlugins();
+			}
+			catch(Exception ex)
+			{
+				Logger.Error("Initialization error", ex);
+				throw ex;
+			}
+		}
+		
+		protected void Initialize()
+		{
+			AreaRegistration.RegisterAllAreas();
+            IoCcontainer.ConfigureStructureMap(ConfigurationManager.AppSettings["iocConfigFile"]);
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(IoCcontainer.Instance));
             ILocaleProvider localeProvider = IoCcontainer.Instance.Resolve<ILocaleProvider>();
             LocaleData defaultLocale = new LocaleData
@@ -98,6 +115,20 @@ namespace StorageMonster.Web
 
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(MinStringLengthAttribute), typeof(MinStringLengthValidator));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(PropertiesMustMatchAttribute), typeof(PropertiesMustMatchValidator));
+		}
+		
+
+        protected void InitPlugins()
+        {
+            IStorageService storageSerive = IoCcontainer.Instance.Resolve<IStorageService>();
+            storageSerive.ResetStorages();
+            IEnumerable<IStoragePlugin> storagePlugins = IoCcontainer.Instance.GetAllInstances<IStoragePlugin>();
+            if (storagePlugins.FirstOrDefault() == null)
+            {
+                Logger.Warn("No storage plugins found");
+                return;
+            }
+            storageSerive.InitStorges(storagePlugins);
         }
 
         protected void Application_AuthorizeRequest(object sender, EventArgs e)
@@ -166,6 +197,9 @@ namespace StorageMonster.Web
         {
 #warning check nulls
             Exception ex = Server.GetLastError();
+            Logger.Error(ex);
+
+
             if (ex is HttpException)
             {
                 if (((HttpException)ex).GetHttpCode() == 404)

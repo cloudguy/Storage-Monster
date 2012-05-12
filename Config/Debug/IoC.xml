@@ -26,9 +26,12 @@
             PluginType  ="StorageMonster.DB.Repositories.ISessionRepository, StorageMonster.DB"
             PluggedType ="StorageMonster.DB.MySQL.Repositories.SessionRepository, StorageMonster.DB.MySQL"
             Scope="Singleton"  />
+    <DefaultInstance
+            PluginType  ="StorageMonster.DB.Repositories.IAccountRepository, StorageMonster.DB"
+            PluggedType ="StorageMonster.DB.MySQL.Repositories.AccountRepository, StorageMonster.DB.MySQL"
+            Scope="Singleton"  />
 
-
-    
+   
 
     <!-- Services -->
     <DefaultInstance
@@ -47,4 +50,28 @@
            PluginType  ="StorageMonster.Common.ICacheService, StorageMonster.Common"
            PluggedType ="StorageMonster.Services.InMemoryCache, StorageMonster.Services"
            Scope="Singleton"  />
+    <DefaultInstance
+           PluginType  ="StorageMonster.Services.IStorageService, StorageMonster.Services"
+           PluggedType ="StorageMonster.Services.StorageService, StorageMonster.Services"
+           Scope="Singleton"  />
+    <DefaultInstance
+           PluginType  ="StorageMonster.Services.IAccountService, StorageMonster.Services"
+           PluggedType ="StorageMonster.Services.AccountService, StorageMonster.Services"
+           Scope="Singleton"  />
+    <DefaultInstance
+           PluginType  ="StorageMonster.Services.IStoragePluginProvider, StorageMonster.Services"
+           PluggedType ="StorageMonster.Services.StoragePluginProvider, StorageMonster.Services"
+           Scope="Singleton"  />
+    
+    <!-- Storage plugins -->
+    <AddInstance   
+      Key="WebDav"
+      PluginType="StorageMonster.Plugin.IStoragePlugin, StorageMonster.Plugin"
+      PluggedType="StorageMonster.Plugin.WebDav.WebDavPlugin, StorageMonster.Plugin.WebDav" 
+      Scope="Singleton"/>
+    <AddInstance
+      Key="YandexDisk"
+      PluginType="StorageMonster.Plugin.IStoragePlugin, StorageMonster.Plugin"
+      PluggedType="StorageMonster.Plugin.YandexDisk.YandexDiskPlugin, StorageMonster.Plugin.YandexDisk"
+      Scope="Singleton"/>
   </StructureMap>

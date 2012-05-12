@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WebDavMono")]
+[assembly: AssemblyTitle("StorageMonster.Plugin.YandexDisk")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebDavMono")]
+[assembly: AssemblyProduct("StorageMonster.Plugin.YandexDisk")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2415e94e-0e44-49a6-90f5-6e9cac7e29f3")]
+[assembly: Guid("cbdf52aa-539e-4a47-9f73-befd14ea835f")]
 
 // Version information for an assembly consists of the following four values:
 //
