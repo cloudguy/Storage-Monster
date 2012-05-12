@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<StorageMonster.Web.Models.UserMenuModel>" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="StorageMonster.Util" %>
 
 
 Storage accounts
@@ -8,7 +9,7 @@ Storage accounts
     <div id='menu_account_<%=accountItem.AccountId %>'>
         <a href='<%=Url.Action("Content", "Storage", new {accountId = accountItem.AccountId}) %>'>
             <%= Html.Encode(accountItem.StorageName) %> <br/>
-            <%=Html.Encode(accountItem.AccountLogin) %> - <%=Html.Encode(accountItem.AccountServer) %>
+            <%=Html.Encode(accountItem.AccountLogin.ShortenString(10)) %> - <%=Html.Encode(accountItem.AccountServer.ShortenString(20)) %>
         </a>         
         <br/>
         ----------------------------------------

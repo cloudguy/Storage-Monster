@@ -35,7 +35,7 @@ namespace StorageMonster.Plugin.WebDav
 		    var f =storage.GetFolder("/");
             //f.First().
 
-            var c =storage.GetCloudConfiguration(nSupportedCloudConfigurations.WebDav);
+            //var c =storage.GetCloudConfiguration(nSupportedCloudConfigurations.WebDav);
 			//storage.
 			storage.Close();
 		}
