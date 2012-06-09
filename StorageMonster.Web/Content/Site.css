@@ -1,5 +1,15 @@
 /* Styles for validation helpers
 -----------------------------------------------------------*/
+@import url('reset.css');
+@import url('misc.css');
+@import url('menu.css');    
+body{
+    font: 14px 'trebuchet ms', arial, sans-serif;
+    background: url('images/body-bg.jpg') repeat;
+}
+a{
+    text-decoration: none;
+}
 .field-validation-error
 {
     color: #ff0000;
@@ -25,10 +35,4 @@
 .validation-summary-valid
 {
     display: none;
-}
-div#storages{
-    clear: both;
-    height: 75%;
-    width:15%;
-    overflow-y: scroll;
 }
