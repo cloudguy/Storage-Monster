@@ -97,6 +97,8 @@ namespace StorageMonster.Web.Controllers
 
         public ActionResult LogOn()
         {
+            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             LogOnModel model = new LogOnModel();
             return View(model);
         }

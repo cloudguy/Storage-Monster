@@ -143,9 +143,6 @@
   <ItemGroup>
     <Content Include="Content\Error.htm" />
     <Content Include="Content\jquery.ui.all.css" />
-    <Content Include="Content\reset.css" />
-    <Content Include="Content\misc.css" />
-    <Content Include="Content\menu.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
@@ -154,6 +151,7 @@
     <Content Include="Scripts\MicrosoftMvcJQueryValidation.js" />
     <Content Include="Scripts\MonsterMessages.en.js" />
     <Content Include="Scripts\MonsterMessages.ru.js" />
+    <Content Include="Scripts\MonsterScripts.Ajax.js" />
     <Content Include="Scripts\MonsterScripts.js" />
     <Content Include="Scripts\MonsterValidation.js" />
     <Content Include="Views\Account\LogOn.aspx" />
@@ -250,7 +248,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -309,4 +307,5 @@
     <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin.YandexDisk\bin\$(Configuration)\StorageMonster.Plugin.YandexDisk.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.YandexDisk.dll" />
   </Target>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
 </Project>
