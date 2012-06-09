@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Principal;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -10,6 +12,7 @@ using StorageMonster.Services.Security;
 using StorageMonster.Web.Properties;
 using StorageMonster.Web.Models.Accounts;
 using StorageMonster.Common;
+using StorageMonster.Web.Services;
 
 namespace StorageMonster.Web.Controllers
 {
@@ -106,6 +109,14 @@ namespace StorageMonster.Web.Controllers
             {
                 if (model == null)
                     model = new LogOnModel();
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    return Json(new AjaxLogOnModel
+                        {
+                            Success = false,
+                            Html = this.RenderViewToString("LogOnFormControl", model)
+                        });
+                }
                 return View(model);
             }
 
@@ -113,10 +124,25 @@ namespace StorageMonster.Web.Controllers
             if (!MembershipService.ValidateUser(model.Email, model.Password))
             {
                 ModelState.AddModelError("_FORM", ValidationResources.UserNameOrPasswordIncorrect);
+                if (HttpContext.Request.IsAjaxRequest())
+                {
+                    return Json(new AjaxLogOnModel
+                        {
+                            Success = false,
+                            Html = this.RenderViewToString("LogOnFormControl", model)
+                        });
+                }
                 return View(model);
             }
 
 			FormsAuthService.SignIn(model.Email, model.RememberMe);
+
+            if (HttpContext.Request.IsAjaxRequest())
+                return Json(new AjaxLogOnModel
+                {
+                    Success = true,
+                });
+
 			if (!String.IsNullOrEmpty(returnUrl))
 				return Redirect(returnUrl);
 

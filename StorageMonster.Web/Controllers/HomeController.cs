@@ -24,24 +24,36 @@ namespace StorageMonster.Web.Controllers
         [MonsterAuthorize(new[] { MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin })]
         public ActionResult Index()
         {
-            int userId = ((Identity) HttpContext.User.Identity).UserId;
+            UserMenuModel model = GetUserMenu();
+            return View(model);
+        }
+
+        protected UserMenuModel GetUserMenu()
+        {
+            int userId = ((Identity)HttpContext.User.Identity).UserId;
             var accounts = AccountService.GetActiveAccounts(userId);
 
-            UserMenuModel model = new UserMenuModel
+            return new UserMenuModel
+            {
+                Accounts = accounts.Select(a => new UserMenuModel.AccountItem()
                 {
-                    Accounts = accounts.Select(a => new UserMenuModel.AccountItem()
-                        {
-                            AccountId = a.Object1.Id,
-                            AccountLogin = a.Object1.AccountLogin,
-                            AccountServer = a.Object1.AccountServer,
-                            StorageId = a.Object1.StorageId,
-                            StorageName = StorageService.GetStoragePlugin(a.Object2.Id).Name
-                        }),
+                    AccountId = a.Object1.Id,
+                    AccountLogin = a.Object1.AccountLogin,
+                    AccountServer = a.Object1.AccountServer,
+                    StorageId = a.Object1.StorageId,
+                    StorageName = StorageService.GetStoragePlugin(a.Object2.Id).Name
+                }),
 
-                    UserId = userId
-                };
+                UserId = userId
+            };
+        }
 
-            return View(model);
+        [MonsterAuthorize(new[] { MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin })]
+        public ActionResult UserMenu()
+        {
+            UserMenuModel model = GetUserMenu();
+            string viewContent = this.RenderViewToString("UserMenu", model);
+            return Json(new {Menu = viewContent}, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult NotFound()

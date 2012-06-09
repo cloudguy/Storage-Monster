@@ -7,9 +7,9 @@
     <%=ViewResources.AccountResources.RegisterTitle %>
 </asp:Content>
 
-<asp:Content ID="registerContent" ContentPlaceHolderID="MainContent" runat="server">    
+<asp:Content ID="registerContent" ContentPlaceHolderID="MainContent" runat="server">   
 
-    <%Html.RenderPartial("JQueryValidation"); %>
+    <% Html.EnableClientValidation(); %>
 
     <h2><%=ViewResources.AccountResources.CreateNewAccount %></h2>
     

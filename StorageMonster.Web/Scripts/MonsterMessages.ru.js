@@ -1,5 +1,5 @@
 ﻿var MonsterJSMessages =
 {
-    Error: "Ошибка"
+    ServerError: "Ошибка сервера..."
 };
 

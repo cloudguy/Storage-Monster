@@ -1,4 +1,4 @@
 ﻿var MonsterJSMessages =
 {
-    Error : "Error"
+    ServerError : "Server error occured..."
 };

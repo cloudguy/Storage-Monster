@@ -28,6 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -73,6 +74,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Models\Accounts\AjaxLogOnModel.cs" />
     <Compile Include="Models\Accounts\LogOnModel.cs" />
     <Compile Include="Properties\DisplayNameResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -82,7 +84,7 @@
     <Compile Include="Models\UserMenuModel.cs" />
     <Compile Include="Models\Accounts\RegisterModel.cs" />
     <Compile Include="Models\AjaxErrorModel.cs" />
-    <Compile Include="Models\AjaxForbiddenModel.cs" />
+    <Compile Include="Models\AjaxUnauthorizedModel.cs" />
     <Compile Include="Models\UserStorageListModel.cs" />
     <Compile Include="Models\UserStorageModel.cs" />
     <Compile Include="Properties\DisplayNameResources.ru.Designer.cs">
@@ -96,6 +98,7 @@
       <DependentUpon>ValidationResources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\AjaxOnlyAttribute.cs" />
+    <Compile Include="Services\ControllerExtensions.cs" />
     <Compile Include="Services\ControllerFactory.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -139,16 +142,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Error.htm" />
+    <Content Include="Content\jquery.ui.all.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Scripts\jquery.validate-1.9.0.min.js" />
     <Content Include="Scripts\jquery.validate.messages_ru.js" />
     <Content Include="Scripts\MicrosoftMvcJQueryValidation.js" />
     <Content Include="Scripts\MonsterMessages.en.js" />
     <Content Include="Scripts\MonsterMessages.ru.js" />
+    <Content Include="Scripts\MonsterScripts.js" />
     <Content Include="Scripts\MonsterValidation.js" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Account\LogOnFormControl.ascx" />
     <Content Include="Views\Shared\Forbidden.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\JQueryValidation.ascx" />

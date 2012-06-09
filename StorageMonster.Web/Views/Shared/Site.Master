@@ -7,12 +7,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <link href="<%=Url.Content("~/Content/Site.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%=Url.Content("~/Content/jquery.ui.all.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%=Url.Content("~/Content/jquery.ui.base.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%=Url.Content("~/Content/jquery.ui.theme.css") %>" rel="stylesheet" type="text/css" />
+      
     <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery-1.7.2.min.js")%>" ></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery-ui-1.8.21.custom.min.js")%>" ></script>
+    
     <%
-        String jsLocalizedMessagesUrl = String.Format(CultureInfo.InvariantCulture, "~/Scripts/MonsterMessages.{0}.js", StorageMonster.Util.RequestContext.GetValue<LocaleData>(StorageMonster.Util.RequestContext.LocaleKey).ShortName);
-     %>
+        string jsLocalizedMessagesUrl = String.Format(CultureInfo.InvariantCulture, "~/Scripts/MonsterMessages.{0}.js", StorageMonster.Util.RequestContext.GetValue<LocaleData>(StorageMonster.Util.RequestContext.LocaleKey).ShortName);
+    %>
      
-     <script type="text/javascript" src="<%= Url.Content(jsLocalizedMessagesUrl)%>" ></script>
+    <script type="text/javascript" src="<%= Url.Content(jsLocalizedMessagesUrl)%>" ></script>
+    
+    <%Html.RenderPartial("JQueryValidation"); %>
+
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/MonsterScripts.Ajax.js")%>" ></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/MonsterScripts.js")%>" ></script>
+    
     
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
     <title>
@@ -21,14 +33,34 @@
 </head>
 <body>    
     <%=ViewResources.SharedResources.Title %>   
+
     <div id="logindisplay">
         <% Html.RenderPartial("LogOnUserControl"); %>
-    </div> 
-    <div>
+    </div>
 
-        <asp:ContentPlaceHolder ID="MainContent" runat="server">
-        
+    <div>
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">        
         </asp:ContentPlaceHolder>
     </div>
+
+
+    <div id="AjaxLogOnContainer">
+    </div>
+
+    <input type="button" id="test_button" value="Test ajax login"/>
+
+     <script type="text/javascript">      
+     //<![CDATA[
+         $('#test_button').click(function () {
+            MonsterAjax(
+             {
+                 url: '<%=Url.Action("Index", "Home") %>',
+                 type: 'POST',
+                 data: $(this).serialize(),                 
+             });       
+         });
+
+    //]]>
+    </script>    
 </body>
 </html>

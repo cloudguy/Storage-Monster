@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using StorageMonster.Services.Security;
 using StorageMonster.Web.Models;
+using StorageMonster.Web.Models.Accounts;
 
 namespace StorageMonster.Web.Services
 {
@@ -26,12 +27,14 @@ namespace StorageMonster.Web.Services
             {
                 if (actionContext.HttpContext.Request.IsAjaxRequest())
                 {
+#warning rewrite
                     UrlHelper u = new UrlHelper(actionContext.RequestContext);
                     actionContext.Result = new JsonResult
                     {
-                        Data = new AjaxForbiddenModel
+                        Data = new AjaxUnauthorizedModel
                             {
-                                Redirect = u.Content(FormsAuthentication.LoginUrl)
+                                Redirect =  u.Content(FormsAuthentication.LoginUrl),
+                                LogOnPage = actionContext.Controller.RenderViewToString<object>("~/Views/Account/LogOnFormControl.ascx", new LogOnModel())
                             },
                         ContentEncoding = System.Text.Encoding.UTF8,
                         ContentType = "application/json",
@@ -52,7 +55,7 @@ namespace StorageMonster.Web.Services
             if (role == null)
             {
                 String error = String.Format(CultureInfo.InvariantCulture, "User {0} requested page {1}", ((Identity)actionContext.HttpContext.User.Identity).Email, actionContext.HttpContext.Request.Path);
-                throw new HttpException((int) HttpStatusCode.Forbidden, error);
+                throw new HttpException((int) HttpStatusCode.Unauthorized, error);
             }
 
         }

@@ -17,4 +17,3 @@
 
 <script type="text/javascript" src="<%= Url.Content("~/Scripts/MicrosoftMvcJQueryValidation.js")%>" ></script>
 <script type="text/javascript" src="<%= Url.Content("~/Scripts/MonsterValidation.js")%>" ></script>
-<% Html.EnableClientValidation(); %>

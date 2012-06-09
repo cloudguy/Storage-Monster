@@ -5,6 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Web;
 using System.Web.Configuration;
@@ -113,6 +114,10 @@ namespace StorageMonster.Web
 
             RegisterRoutes(RouteTable.Routes);
 
+            ModelValidatorProviders.Providers.Clear();
+            ModelValidatorProviders.Providers.Add(new DataAnnotationsModelValidatorProvider());
+            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(MinStringLengthAttribute), typeof(MinStringLengthValidator));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(PropertiesMustMatchAttribute), typeof(PropertiesMustMatchValidator));
 		}
@@ -130,6 +135,7 @@ namespace StorageMonster.Web
             }
             storageSerive.InitStorges(storagePlugins);
         }
+        
 
         protected void Application_AuthorizeRequest(object sender, EventArgs e)
         {
@@ -171,11 +177,7 @@ namespace StorageMonster.Web
                 Logger.Error(exception);
             }
         }
-       
-
-        /*protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-        }*/
+        
 
         protected void Application_EndRequest(object sender, EventArgs e)
         {
@@ -186,6 +188,9 @@ namespace StorageMonster.Web
 
         public static bool IsAjaxRequest(HttpRequest httpRequest)
         {
+            if (httpRequest == null)
+                throw new ArgumentNullException("httpRequest");
+
             var headers = httpRequest.Headers;
             if (!headers.AllKeys.Contains("X-Requested-With") || headers.GetValues("X-Requested-With").FirstOrDefault() != "XMLHttpRequest")
                 return false;
@@ -202,7 +207,7 @@ namespace StorageMonster.Web
 
             if (ex is HttpException)
             {
-                if (((HttpException)ex).GetHttpCode() == 404)
+                if (((HttpException)ex).GetHttpCode() == (int)HttpStatusCode.NotFound)
                 {
                     if (IsAjaxRequest(HttpContext.Current.Request))
                     {
@@ -218,7 +223,7 @@ namespace StorageMonster.Web
                     }
                     return;
                 }
-                if (((HttpException)ex).GetHttpCode() == 403)
+                if (((HttpException)ex).GetHttpCode() == (int)HttpStatusCode.Forbidden)
                 {
                     if (IsAjaxRequest(HttpContext.Current.Request))
                     {
