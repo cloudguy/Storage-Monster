@@ -141,6 +141,12 @@
   <data name="PasswordRequirementFormat" xml:space="preserve">
     <value>Passwords are required to be a minimum of {0} character(s) in length.</value>
   </data>
+  <data name="ProfileSubmitButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ProfileTitle" xml:space="preserve">
+    <value>Change personal data</value>
+  </data>
   <data name="RegisterButtonText" xml:space="preserve">
     <value>Register</value>
   </data>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using StorageMonster.Common.DataAnnotations;
 
 namespace StorageMonster.Web.Services.Validation
 {

@@ -3,21 +3,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{57CB7EED-B541-4B1E-99EF-9357FD363007}</ProjectGuid>
-    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{37F121EE-FC9A-49F0-B88B-BD65B5A2C306}</ProjectGuid>
+    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StorageMonster.Web</RootNamespace>
     <AssemblyName>StorageMonster.Web</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,87 +34,119 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Monster.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AppLimit.CloudComputing.SharpBox">
+      <HintPath>..\References\AppLimit.CloudComputing.SharpBox.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\References\Common.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging.Log4Net1211, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Common.Logging.Log4Net1211.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b9a188c8922137c6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\References\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Extensions">
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StorageAccountController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Accounts\AjaxLogOnModel.cs" />
     <Compile Include="Models\Accounts\LogOnModel.cs" />
+    <Compile Include="Models\Accounts\ProfileModel.cs" />
+    <Compile Include="Models\Accounts\RegisterModel.cs" />
+    <Compile Include="Models\AjaxErrorModel.cs" />
+    <Compile Include="Models\AjaxUnauthorizedModel.cs" />
+    <Compile Include="Models\MenuActivator.cs" />
+    <Compile Include="Models\StorageAccountsCollection.cs" />
+    <Compile Include="Models\StorageAccount\StorageAccountModel.cs" />
+    <Compile Include="Models\UserMenuModel.cs" />
+    <Compile Include="Models\User\UserAccountsModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\DisplayNameResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DisplayNameResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserMenuModel.cs" />
-    <Compile Include="Models\Accounts\RegisterModel.cs" />
-    <Compile Include="Models\AjaxErrorModel.cs" />
-    <Compile Include="Models\AjaxUnauthorizedModel.cs" />
-    <Compile Include="Models\UserStorageListModel.cs" />
-    <Compile Include="Models\UserStorageModel.cs" />
     <Compile Include="Properties\DisplayNameResources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DisplayNameResources.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\ValidationResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidationResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\ValidationResources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ValidationResources.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\AjaxOnlyAttribute.cs" />
-    <Compile Include="Services\ControllerExtensions.cs" />
+    <Compile Include="Services\ActionAnnotations\AjaxOnlyAttribute.cs" />
+    <Compile Include="Services\ActionAnnotations\DoNotResetAuthCookieAttribute .cs" />
+    <Compile Include="Services\ActionAnnotations\MenuActivatorAttribute.cs" />
+    <Compile Include="Services\ActionAnnotations\MonsterAuthorizeAttribute.cs" />
+    <Compile Include="Services\ActionAnnotations\StorageAccountMenuActivatorAttribute.cs" />
+    <Compile Include="Services\Configuration\ConfigurationException.cs" />
+    <Compile Include="Services\Configuration\IWebConfiguration.cs" />
+    <Compile Include="Services\Configuration\WebConfiguration.cs" />
     <Compile Include="Services\ControllerFactory.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LocaleModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\HtmlExtensions.cs" />
-    <Compile Include="Services\LocalizedDisplayNameAttribute.cs" />
-    <Compile Include="Services\MonsterAuthorizeAttribute.cs" />
-    <Compile Include="Properties\ValidationResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ValidationResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Validation\MinStringLengthValidator.cs" />
-    <Compile Include="Services\Validation\PropertiesMustMatchAttribute.cs" />
-    <Compile Include="Services\Validation\MinStringLengthAttribute.cs" />
+    <Compile Include="Services\Extensions\ControllerExtensions.cs" />
+    <Compile Include="Services\Extensions\HtmlExtensions.cs" />
+    <Compile Include="Services\Extensions\HttpRequestExtensions.cs" />
+    <Compile Include="Services\HttpInMemoryCacheService.cs" />
+    <Compile Include="Services\HttpModules\MonsterAuthorizeHttpModule.cs" />
+    <Compile Include="Services\HttpModules\MonsterCleanupHttpModule.cs" />
+    <Compile Include="Services\StorageAccountSettingsModelBinder.cs" />
+    <Compile Include="Services\Security\FormsAuthenticationService.cs" />
+    <Compile Include="Services\Security\Identity.cs" />
+    <Compile Include="Services\Security\IFormsAuthenticationService.cs" />
+    <Compile Include="Services\Security\IMembershipService.cs" />
+    <Compile Include="Services\Security\MembershipData.cs" />
+    <Compile Include="Services\Security\MembershipService.cs" />
+    <Compile Include="Services\Security\MonsterMembershipProvider.cs" />
+    <Compile Include="Services\Security\MonsterRoleProvider.cs" />
+    <Compile Include="Services\Security\Principal.cs" />
+    <Compile Include="Services\StructureMapIoC.cs" />
+    <Compile Include="Services\Validation\MinPasswordLengthAttribute.cs" />
+    <Compile Include="Services\Validation\MinPasswordLengthValidator.cs" />
     <Compile Include="Services\Validation\PropertiesMustMatchValidator.cs" />
     <Compile Include="Views\Account\AccountResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -129,6 +158,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AccountResources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\HomeResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HomeResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\HomeResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HomeResources.ru.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\SharedResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -139,12 +178,66 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SharedResources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\StorageAccount\StorageAccountResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StorageAccountResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StorageAccount\StorageAccountResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StorageAccountResources.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User\UserResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User\UserResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserResources.ru.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Error.htm" />
-    <Content Include="Content\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\bootstrap-responsive.css" />
+    <Content Include="Content\themes\base\bootstrap.css" />
+    <Content Include="Content\themes\base\images\active.png" />
+    <Content Include="Content\themes\base\images\icons.png" />
+    <Content Include="Content\themes\base\images\ui-bg_diagonals-small_50_262626_40x40.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_303030_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_4c4c4c_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_40_0a0a0a_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_f1fbe5_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_60_000000_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_55_000000_500x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_85_9fda58_500x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_95_f6ecd5_500x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_000000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_1f1f1f_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_9fda58_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_b8ec79_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui-1.8.21.custom.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\site.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Scripts\jquery.validate-1.9.0.min.js" />
     <Content Include="Scripts\jquery.validate.messages_ru.js" />
@@ -152,48 +245,96 @@
     <Content Include="Scripts\MonsterMessages.en.js" />
     <Content Include="Scripts\MonsterMessages.ru.js" />
     <Content Include="Scripts\MonsterScripts.Ajax.js" />
-    <Content Include="Scripts\MonsterScripts.js" />
     <Content Include="Scripts\MonsterValidation.js" />
+    <Content Include="Views\Account\Edit.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Account\LogOnFormControl.ascx" />
-    <Content Include="Views\Shared\Forbidden.aspx" />
+    <Content Include="Views\Account\ProfileControl.ascx" />
+    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Home\Index.aspx" />
-    <Content Include="Views\Shared\JQueryValidation.ascx" />
-    <Content Include="Views\Shared\NotFound.aspx" />
+    <Content Include="Views\Shared\BadRequest.aspx" />
+    <Content Include="Views\Shared\Forbidden.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
+    <Content Include="Views\Shared\NotFound.aspx" />
     <Content Include="Views\Shared\UserMenu.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Views\StorageAccount\Add.aspx" />
+    <Content Include="Views\StorageAccount\Edit.aspx" />
+    <Content Include="Views\StorageAccount\GetFolder.aspx" />
+    <Content Include="Views\StorageAccount\StorageAccountSettingsControl.ascx" />
+    <Content Include="Views\User\ListUserStorageAccountsControl.ascx" />
+    <Content Include="Views\User\StorageAccounts.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\Monster.snk">
+      <Link>Monster.snk</Link>
+    </None>
+    <Content Include="Views\Shared\Site.Master" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\DisplayNameResources.ru.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>DisplayNameResources.ru.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin.WebDav\StorageMonster.Plugin.WebDav.csproj">
+      <Project>{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}</Project>
+      <Name>StorageMonster.Plugin.WebDav</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin.YandexDisk\StorageMonster.Plugin.YandexDisk.csproj">
+      <Project>{D292CF40-B914-4C42-B000-DDFD11BC1FF1}</Project>
+      <Name>StorageMonster.Plugin.YandexDisk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
+      <Project>{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}</Project>
+      <Name>StorageMonster.Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Common\StorageMonster.Common.csproj">
+      <Project>{6EAD7036-B02D-4810-9DD8-C2B5ED772220}</Project>
+      <Name>StorageMonster.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Database.MySql\StorageMonster.Database.MySql.csproj">
+      <Project>{7EC44A61-F242-48F7-B606-1BC8FAF91D48}</Project>
+      <Name>StorageMonster.Database.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Database\StorageMonster.Database.csproj">
+      <Project>{98345447-133D-4824-8CBD-6D5C74D50CB7}</Project>
+      <Name>StorageMonster.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Domain\StorageMonster.Domain.csproj">
+      <Project>{9B8636B6-96C1-4C48-873F-FD142E67A7E2}</Project>
+      <Name>StorageMonster.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Services.Facade\StorageMonster.Services.Facade.csproj">
+      <Project>{670674E3-2325-4C8A-8EAF-D9CFCA5CFC98}</Project>
+      <Name>StorageMonster.Services.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Services\StorageMonster.Services.csproj">
+      <Project>{7657B8A1-30D2-4576-A87C-3885A41A3994}</Project>
+      <Name>StorageMonster.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Utilities\StorageMonster.Utilities.csproj">
+      <Project>{FCBFD68D-ABFA-4C96-A793-AEB57959EF81}</Project>
+      <Name>StorageMonster.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Properties\DisplayNameResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DisplayNameResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\DisplayNameResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DisplayNameResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\ValidationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationResources.Designer.cs</LastGenOutput>
-      <SubType>
-      </SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\ValidationResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -205,8 +346,18 @@
       <CustomToolNamespace>ViewResources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Account\AccountResources.ru.resx">
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AccountResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\HomeResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HomeResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\HomeResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HomeResources.ru.Designer.cs</LastGenOutput>
       <CustomToolNamespace>ViewResources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\SharedResources.resx">
@@ -219,36 +370,29 @@
       <LastGenOutput>SharedResources.ru.Designer.cs</LastGenOutput>
       <CustomToolNamespace>ViewResources</CustomToolNamespace>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\StorageAccount\StorageAccountResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StorageAccountResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\StorageAccount\StorageAccountResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StorageAccountResources.ru.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\User\UserResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\User\UserResources.ru.resx">
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\jquery-1.7.2.min.js" />
-    <Content Include="Views\Shared\Site.Master" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
-      <Project>{715E422B-2A57-4089-AB80-C87E6A77ED8D}</Project>
-      <Name>StorageMonster.Plugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.Common\StorageMonster.Common.csproj">
-      <Project>{CAA03339-8CEE-494C-A900-948B57748EDB}</Project>
-      <Name>StorageMonster.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.DB\StorageMonster.DB.csproj">
-      <Project>{7B42BC0B-C45B-41C8-9121-24B7C1D0BBBA}</Project>
-      <Name>StorageMonster.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.Services\StorageMonster.Services.csproj">
-      <Project>{B61E23DE-4002-4748-985A-EEF1FF8EB3B1}</Project>
-      <Name>StorageMonster.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.Util\StorageMonster.Util.csproj">
-      <Project>{7B5F85BD-3FB7-4E5D-AAD5-9544F3172E40}</Project>
-      <Name>StorageMonster.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -258,12 +402,12 @@
   </Target>
   <ProjectExtensions>
     <VisualStudio>
-      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>10082</DevelopmentServerPort>
-          <DevelopmentServerVPath>/StorageMonster</DevelopmentServerVPath>
+          <DevelopmentServerPort>64403</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
@@ -274,38 +418,13 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
-    <MonoDevelop>
-      <Properties VerifyCodeBehindFields="true" VerifyCodeBehindEvents="true">
-        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="true" />
-      </Properties>
-    </MonoDevelop>
   </ProjectExtensions>
+  <!--
   <Target Name="AfterBuild">
-    <Delete Files="$(ProjectDir)AppConfig.xml" />
-    <Delete Files="$(ProjectDir)IoC.xml" />
-    <Delete Files="$(ProjectDir)Log4Net.xml" />
-    <Delete Files="$(ProjectDir)$(OutputPath)Common.Logging.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)Common.Logging.Log4Net.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)log4net.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)AppLimit.CloudComputing.SharpBox.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)Newtonsoft.Json.Net20.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.DB.MySQL.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.WebDav.dll" />
-    <Delete Files="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.YandexDisk.dll" />
-    <Copy SourceFiles="$(SolutionDir)Config\$(Configuration)\IoC.xml" DestinationFiles="$(ProjectDir)IoC.xml" />
-    <Copy SourceFiles="$(SolutionDir)Config\$(Configuration)\AppConfig.xml" DestinationFiles="$(ProjectDir)AppConfig.xml" />
-    <Copy SourceFiles="$(SolutionDir)Config\$(Configuration)\Log4Net.xml" DestinationFiles="$(ProjectDir)Log4Net.xml" />
-    <Copy SourceFiles="$(SolutionDir)References\Common.Logging.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Common.Logging.dll" />
-    <Copy SourceFiles="$(SolutionDir)References\Common.Logging.Log4Net.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Common.Logging.Log4Net.dll" />
+    <Copy SourceFiles="$(SolutionDir)References\Common.Logging.Log4Net1211.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Common.Logging.Log4Net1211.dll" />
     <Copy SourceFiles="$(SolutionDir)References\log4net.dll" DestinationFiles="$(ProjectDir)$(OutputPath)log4net.dll" />
-    <Copy SourceFiles="$(SolutionDir)References\AppLimit.CloudComputing.SharpBox.dll" DestinationFiles="$(ProjectDir)$(OutputPath)AppLimit.CloudComputing.SharpBox.dll" />
-    <Copy SourceFiles="$(SolutionDir)References\Newtonsoft.Json.Net20.dll" DestinationFiles="$(ProjectDir)$(OutputPath)Newtonsoft.Json.Net20.dll" />
-    <Copy SourceFiles="$(SolutionDir)StorageMonster.DB.MySQL\bin\$(Configuration)\StorageMonster.DB.MySQL.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.DB.MySQL.dll" />
-    <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin\bin\$(Configuration)\StorageMonster.Plugin.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.dll" />
-    <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin.WebDav\bin\$(Configuration)\StorageMonster.Plugin.WebDav.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.WebDav.dll" />
-    <Copy SourceFiles="$(SolutionDir)Plugins\StorageMonster.Plugin.YandexDisk\bin\$(Configuration)\StorageMonster.Plugin.YandexDisk.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Plugin.YandexDisk.dll" />
+    <Copy SourceFiles="$(SolutionDir)StorageMonster.Database.MySql\bin\$(Configuration)\StorageMonster.Database.MySql.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Database.MySql.dll" />
+    <Copy SourceFiles="$(SolutionDir)StorageMonster.Services.Facade\bin\$(Configuration)\StorageMonster.Services.Facade.dll" DestinationFiles="$(ProjectDir)$(OutputPath)StorageMonster.Services.Facade.dll" />
   </Target>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  -->
 </Project>

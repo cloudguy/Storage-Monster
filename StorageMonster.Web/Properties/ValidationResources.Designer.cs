@@ -61,6 +61,33 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account already exists.
+        /// </summary>
+        public static string AccountExistsError {
+            get {
+                return ResourceManager.GetString("AccountExistsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid account.
+        /// </summary>
+        public static string AccountInvalidError {
+            get {
+                return ResourceManager.GetString("AccountInvalidError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account not found.
+        /// </summary>
+        public static string AccountNotFoundError {
+            get {
+                return ResourceManager.GetString("AccountNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access denied.
         /// </summary>
         public static string AjaxAccessDenied {
@@ -79,6 +106,15 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Request can not be processed (404).
+        /// </summary>
+        public static string AjaxNotFound {
+            get {
+                return ResourceManager.GetString("AjaxNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server error.
         /// </summary>
         public static string AjaxServerError {
@@ -88,11 +124,29 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Request is not accepatble.
+        /// </summary>
+        public static string BadRequestError {
+            get {
+                return ResourceManager.GetString("BadRequestError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field &apos;{0}&apos; is invalid..
         /// </summary>
         public static string InvalidFieldFormat {
             get {
                 return ResourceManager.GetString("InvalidFieldFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have no permissions to view this page.
+        /// </summary>
+        public static string NoPermissionsError {
+            get {
+                return ResourceManager.GetString("NoPermissionsError", resourceCulture);
             }
         }
         
@@ -115,7 +169,16 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A username for that e-mail address already exists. Please enter a different e-mail address..
+        ///   Looks up a localized string similar to Plugin crashed.
+        /// </summary>
+        public static string PluginError {
+            get {
+                return ResourceManager.GetString("PluginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specified e-mail address already exists. Please enter a different e-mail address..
         /// </summary>
         public static string RegDuplicateEmail {
             get {
@@ -214,6 +277,33 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Storage account not found.
+        /// </summary>
+        public static string StorageAccountNotFoundError {
+            get {
+                return ResourceManager.GetString("StorageAccountNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account was already updated by someone else.
+        /// </summary>
+        public static string StorageAccountStalled {
+            get {
+                return ResourceManager.GetString("StorageAccountStalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage type not found.
+        /// </summary>
+        public static string StoragePluginNotFoundError {
+            get {
+                return ResourceManager.GetString("StoragePluginNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field &apos;{0}&apos; must be less than {1} characters.
         /// </summary>
         public static string StringLengthFormat {
@@ -228,6 +318,15 @@ namespace StorageMonster.Web.Properties {
         public static string UserNameOrPasswordIncorrect {
             get {
                 return ResourceManager.GetString("UserNameOrPasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found.
+        /// </summary>
+        public static string UserNotFoundError {
+            get {
+                return ResourceManager.GetString("UserNotFoundError", resourceCulture);
             }
         }
     }

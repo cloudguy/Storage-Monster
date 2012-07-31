@@ -7,13 +7,12 @@
         type: options.type,
         data: options.data,
         beforeSend: options.beforeSend,
-        error: options.error,
+        error: options.error,       
         success: function (data) {
                     if (data.Unauthorized) {
-                        $('#LogOnControl').remove();
-                        var dom = $(data.LogOnPage);
-                        $('#AjaxLogOnContainer').html(dom.html())
-                                                .dialog(
+                        $('#LogOnControl').remove();                        
+                        InsertAjaxHtmlAndEnableValidation(data.LogOnPage, $('#AjaxLogOnContainer'));
+                        $('#AjaxLogOnContainer').dialog(
                                                         {
                                                             modal: true,
                                                             closeOnEscape: false,
@@ -21,7 +20,7 @@
                                                                 //hide close button.
                                                                 $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
                                                             }
-                                                        });
+                                                        });                        
                         return;
                     }
                     if (data.Error) {
@@ -38,6 +37,16 @@
 }
 
 
+//this staff enables validaion for target field
+//after ajax request
+function InsertAjaxHtmlAndEnableValidation(plainHtml, targetSelector) {
+    var dom = $(plainHtml);
+    $(dom).filter("script").each(function (i) {
+        eval($(this).text());
+    });
+    targetSelector.html(dom.html());
+    chargeValidation();  
+}
 
 
 /*-----------------------------------------------------------*/
@@ -59,27 +68,28 @@ function RequestLogOnSuccess(data, selectorToUpdate, logOnUrl) {
         return;
     }
     if (data.Html) {
-        selectorToUpdate.html(data.Html);        
+        InsertAjaxHtmlAndEnableValidation(data.Html, selectorToUpdate);        
         return;
     }
     if (data.Error) {
-        $('#LogonError').html(data.Error);
+        $('#LogonError').html(data.Error);        
         return;
     }
     $('#LogonError').html(MonsterJSMessages.ServerError);
 }
 
-function LogOnSubmit(formSelector, logOnUrl, selectorToUpdate) {
-    //if ($(this).valid()) {
-    $.ajax({
-        url: logOnUrl,
-        type: 'POST',
-        data: formSelector.serialize(),
-        beforeSend: BeginLogin,
-        error: RequestLogOnError,
-        success: function (data) { RequestLogOnSuccess(data, selectorToUpdate, logOnUrl); },
-        complete: EndLogin
-    });
-    //}
+function LogOnSubmit(formSelector, logOnUrl, selectorToUpdate) {    
+    formSelector.validate();
+    if (formSelector.valid()) {
+        $.ajax({
+            url: logOnUrl,
+            type: 'POST',
+            data: formSelector.serialize(),
+            beforeSend: BeginLogin,
+            error: RequestLogOnError,
+            success: function(data) { RequestLogOnSuccess(data, selectorToUpdate, logOnUrl); },
+            complete: EndLogin
+        });
+    }    
     return false;
 }

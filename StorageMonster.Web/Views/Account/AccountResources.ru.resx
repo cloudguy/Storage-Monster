@@ -141,6 +141,12 @@
   <data name="PasswordRequirementFormat" xml:space="preserve">
     <value>Пароль должен содержать как минимум {0} символа(ов)</value>
   </data>
+  <data name="ProfileSubmitButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="ProfileTitle" xml:space="preserve">
+    <value>Изменить персональные данные</value>
+  </data>
   <data name="RegisterButtonText" xml:space="preserve">
     <value>Зарегистрироваться</value>
   </data>

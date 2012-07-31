@@ -112,11 +112,17 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddStorageAccountName" xml:space="preserve">
+    <value>Storage account name</value>
+  </data>
+  <data name="AddStorageAccountPluginId" xml:space="preserve">
+    <value>Select storage type</value>
+  </data>
   <data name="LogOnEmail" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -125,6 +131,21 @@
   </data>
   <data name="LogOnRememberMe" xml:space="preserve">
     <value>Remember me?</value>
+  </data>
+  <data name="ProfileConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="ProfileEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ProfileLocale" xml:space="preserve">
+    <value>Change language</value>
+  </data>
+  <data name="ProfilePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="ProfileUserName" xml:space="preserve">
+    <value>Change user name</value>
   </data>
   <data name="RegConfirmPassword" xml:space="preserve">
     <value>Confirm password</value>

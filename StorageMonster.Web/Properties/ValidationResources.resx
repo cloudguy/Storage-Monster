@@ -112,22 +112,40 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountExistsError" xml:space="preserve">
+    <value>Account already exists</value>
+  </data>
+  <data name="AccountInvalidError" xml:space="preserve">
+    <value>Invalid account</value>
+  </data>
+  <data name="AccountNotFoundError" xml:space="preserve">
+    <value>Account not found</value>
+  </data>
   <data name="AjaxAccessDenied" xml:space="preserve">
     <value>Access denied</value>
   </data>
   <data name="AjaxNotAcceptable" xml:space="preserve">
     <value>Request is not acceptable</value>
   </data>
+  <data name="AjaxNotFound" xml:space="preserve">
+    <value>Request can not be processed (404)</value>
+  </data>
   <data name="AjaxServerError" xml:space="preserve">
     <value>Server error</value>
   </data>
+  <data name="BadRequestError" xml:space="preserve">
+    <value>Request is not accepatble</value>
+  </data>
   <data name="InvalidFieldFormat" xml:space="preserve">
     <value>Field '{0}' is invalid.</value>
+  </data>
+  <data name="NoPermissionsError" xml:space="preserve">
+    <value>You have no permissions to view this page</value>
   </data>
   <data name="PasswordMinLengthFormat" xml:space="preserve">
     <value>Field '{0}' is required to be a minimum of {1} character(s) in length.</value>
@@ -135,8 +153,11 @@
   <data name="PasswordsMustMatch" xml:space="preserve">
     <value>Paswords must match.</value>
   </data>
+  <data name="PluginError" xml:space="preserve">
+    <value>Plugin crashed</value>
+  </data>
   <data name="RegDuplicateEmail" xml:space="preserve">
-    <value>A username for that e-mail address already exists. Please enter a different e-mail address.</value>
+    <value>Specified e-mail address already exists. Please enter a different e-mail address.</value>
   </data>
   <data name="RegDuplicateUserName" xml:space="preserve">
     <value>Username already exists. Please enter a different user name.</value>
@@ -168,10 +189,22 @@
   <data name="RequiredFieldFormat" xml:space="preserve">
     <value>Field '{0}' is required.</value>
   </data>
+  <data name="StorageAccountNotFoundError" xml:space="preserve">
+    <value>Storage account not found</value>
+  </data>
+  <data name="StorageAccountStalled" xml:space="preserve">
+    <value>Account was already updated by someone else</value>
+  </data>
+  <data name="StoragePluginNotFoundError" xml:space="preserve">
+    <value>Storage type not found</value>
+  </data>
   <data name="StringLengthFormat" xml:space="preserve">
     <value>Field '{0}' must be less than {1} characters</value>
   </data>
   <data name="UserNameOrPasswordIncorrect" xml:space="preserve">
     <value>The username or password provided is incorrect.</value>
+  </data>
+  <data name="UserNotFoundError" xml:space="preserve">
+    <value>User not found</value>
   </data>
 </root>

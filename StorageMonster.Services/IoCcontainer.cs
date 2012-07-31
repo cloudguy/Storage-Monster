@@ -1,23 +1,15 @@
 using System;
 using System.Collections.Generic;
-using StorageMonster.Plugin;
 
 namespace StorageMonster.Services
 {
-	public abstract class IoCcontainer
+	public abstract class IocContainer
 	{
-        protected static IoCcontainer InstanceInternal;
+        protected static IocContainer InstanceInternal;
 
-        public static IoCcontainer Instance
+        public static IocContainer Instance
         {
             get { return InstanceInternal; }
-        }
-
-        public static void ConfigureStructureMap(string configFile)
-        {
-            StructureMapIoC container = new StructureMapIoC();
-            container.Configure(configFile);
-            InstanceInternal = container;
         }
 
         public abstract T Resolve<T>();

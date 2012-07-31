@@ -166,7 +166,7 @@ function __MVC_EnableClientValidation(validationContext) {
 }
 
 // need to wait for the document to signal that it is ready
-$(document).ready(function () {
+/*$(document).ready(function () {
     var allFormOptions = window.mvcClientValidationMetadata;
     if (allFormOptions) {
         while (allFormOptions.length > 0) {
@@ -174,4 +174,16 @@ $(document).ready(function () {
             __MVC_EnableClientValidation(thisFormOptions);
         }
     }
-});
+});*/
+
+$(document).ready(chargeValidation);
+
+function chargeValidation() {
+    var allFormOptions = window.mvcClientValidationMetadata;
+    if (allFormOptions) {
+        while (allFormOptions.length > 0) {
+            var thisFormOptions = allFormOptions.pop();
+            __MVC_EnableClientValidation(thisFormOptions);
+        }
+    }
+}

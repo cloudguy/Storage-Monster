@@ -1,10 +1,24 @@
-﻿using System.IO;
+﻿using System;
 using System.Web.Mvc;
+using StorageMonster.Web.Services.Security;
 
 namespace StorageMonster.Web.Controllers
 {
+#warning do smth with cache
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "none")] //disable cache for localization
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
+        public ActionResult Forbidden()
+        {
+            return View();
+        }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (!(filterContext.HttpContext.User.Identity is Identity))
+            {
+                throw new InvalidOperationException("Storage monster custom identity is supported only.");
+            }
+        } 
     }
 }

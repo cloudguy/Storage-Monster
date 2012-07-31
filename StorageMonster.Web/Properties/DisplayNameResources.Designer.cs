@@ -61,6 +61,24 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Storage account name.
+        /// </summary>
+        public static string AddStorageAccountName {
+            get {
+                return ResourceManager.GetString("AddStorageAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select storage type.
+        /// </summary>
+        public static string AddStorageAccountPluginId {
+            get {
+                return ResourceManager.GetString("AddStorageAccountPluginId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string LogOnEmail {
@@ -84,6 +102,51 @@ namespace StorageMonster.Web.Properties {
         public static string LogOnRememberMe {
             get {
                 return ResourceManager.GetString("LogOnRememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string ProfileConfirmPassword {
+            get {
+                return ResourceManager.GetString("ProfileConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string ProfileEmail {
+            get {
+                return ResourceManager.GetString("ProfileEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change language.
+        /// </summary>
+        public static string ProfileLocale {
+            get {
+                return ResourceManager.GetString("ProfileLocale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        public static string ProfilePassword {
+            get {
+                return ResourceManager.GetString("ProfilePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change user name.
+        /// </summary>
+        public static string ProfileUserName {
+            get {
+                return ResourceManager.GetString("ProfileUserName", resourceCulture);
             }
         }
         

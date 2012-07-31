@@ -1,59 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using StorageMonster.DB.Repositories;
+using StorageMonster.Domain;
 using StorageMonster.Services;
-using StorageMonster.Services.Security;
 using StorageMonster.Web.Models;
-using StorageMonster.Web.Services;
+using StorageMonster.Web.Services.ActionAnnotations;
+using StorageMonster.Web.Services.Extensions;
+using StorageMonster.Web.Services.Security;
 
 
 namespace StorageMonster.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        protected IAccountService AccountService;
-        protected IStorageService StorageService;
-        public HomeController(IAccountService accountService, IStorageService storageService)
+        protected IStorageAccountService AccountService;
+        protected IStoragePluginsService StorageService;
+        public HomeController(IStorageAccountService accountService, IStoragePluginsService storageService)
         {
             AccountService = accountService;
             StorageService = storageService;
         }
 
+        public ActionResult BadRequest()
+        {
+            return View();
+        }
 
-        [MonsterAuthorize(new[] { MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin })]
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
         public ActionResult Index()
         {
-            UserMenuModel model = GetUserMenu();
-            return View(model);
+            return View();
         }
+       
 
-        protected UserMenuModel GetUserMenu()
-        {
-            int userId = ((Identity)HttpContext.User.Identity).UserId;
-            var accounts = AccountService.GetActiveAccounts(userId);
-
-            return new UserMenuModel
-            {
-                Accounts = accounts.Select(a => new UserMenuModel.AccountItem()
-                {
-                    AccountId = a.Object1.Id,
-                    AccountLogin = a.Object1.AccountLogin,
-                    AccountServer = a.Object1.AccountServer,
-                    StorageId = a.Object1.StorageId,
-                    StorageName = StorageService.GetStoragePlugin(a.Object2.Id).Name
-                }),
-
-                UserId = userId
-            };
-        }
-
-        [MonsterAuthorize(new[] { MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin })]
+        [AjaxOnly(JsonRequestBehavior.AllowGet)]
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
         public ActionResult UserMenu()
         {
-            UserMenuModel model = GetUserMenu();
-            string viewContent = this.RenderViewToString("UserMenu", model);
-            return Json(new {Menu = viewContent}, JsonRequestBehavior.AllowGet);
+            Identity identity = (Identity)HttpContext.User.Identity;
+            StorageAccountsCollection accountsCollection = new StorageAccountsCollection().Init(AccountService, StorageService, identity.UserId);
+            UserMenuModel menuModel = new UserMenuModel
+            {
+                StorageAccountsCollection = accountsCollection
+            };
+            string viewContent = this.RenderViewToString("UserMenu", menuModel);
+            return Json(new { Menu = viewContent }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult NotFound()
@@ -61,23 +53,16 @@ namespace StorageMonster.Web.Controllers
             return View();
         }
 
-        public ActionResult Forbidden()
-        {
-            return View();
-        }
-
-        //public A
-       
-
 #if DEBUG
 
-        [MonsterAuthorize(new[] { MonsterRoleProvider.RoleUser })]
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser)]
         public ActionResult TestUser()
         {
             return new EmptyResult();
         }
 
-        [MonsterAuthorize(new[] { MonsterRoleProvider.RoleAdmin })]
+
+        [MonsterAuthorize(MonsterRoleProvider.RoleAdmin)]
         public ActionResult TestAdmin()
         {
             return new EmptyResult();

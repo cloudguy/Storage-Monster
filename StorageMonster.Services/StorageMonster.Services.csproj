@@ -3,30 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B61E23DE-4002-4748-985A-EEF1FF8EB3B1}</ProjectGuid>
+    <ProjectGuid>{7657B8A1-30D2-4576-A87C-3885A41A3994}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StorageMonster.Services</RootNamespace>
     <AssemblyName>StorageMonster.Services</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -45,86 +31,54 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Monster.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging">
-      <HintPath>..\References\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\References\StructureMap.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountService.cs" />
-    <Compile Include="IAccountService.cs" />
-    <Compile Include="InMemoryCache.cs" />
-    <Compile Include="IoCcontainer.cs" />
+    <Compile Include="IStorageAccountService.cs" />
+    <Compile Include="Security\ICryptoService.cs" />
     <Compile Include="ILocaleProvider.cs" />
-    <Compile Include="IStoragePluginProvider.cs" />
-    <Compile Include="IStorageService.cs" />
+    <Compile Include="IoCcontainer.cs" />
+    <Compile Include="ISweeper.cs" />
+    <Compile Include="Security\ISecurityConfiguration.cs" />
+    <Compile Include="Security\ISessionService.cs" />
+    <Compile Include="IStoragePluginsService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="LocaleData.cs" />
-    <Compile Include="LocaleProvider.cs" />
-    <Compile Include="Security\FormsAuthenticationService.cs" />
-    <Compile Include="Security\Identity.cs" />
-    <Compile Include="Security\IFormsAuthenticationService.cs" />
-    <Compile Include="Security\IMembershipService.cs" />
-    <Compile Include="Security\MonsterMembershipProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\MembershipService.cs" />
-    <Compile Include="Security\PasswordHasher.cs" />
-    <Compile Include="Security\Principal.cs" />
-    <Compile Include="Security\MonsterRoleProvider.cs" />
-    <Compile Include="Security\StorageMonsterSecurityException.cs" />
-    <Compile Include="Security\MembershipData.cs" />
-    <Compile Include="StoragePluginProvider.cs" />
-    <Compile Include="StorageService.cs" />
+    <Compile Include="Security\IPasswordHasher.cs" />
+    <Compile Include="Security\MonsterSecurityException.cs" />
     <Compile Include="StorageStatus.cs" />
-    <Compile Include="StructureMapIoC.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
-      <Project>{715E422B-2A57-4089-AB80-C87E6A77ED8D}</Project>
+      <Project>{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}</Project>
       <Name>StorageMonster.Plugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Common\StorageMonster.Common.csproj">
-      <Project>{CAA03339-8CEE-494C-A900-948B57748EDB}</Project>
+      <Project>{6EAD7036-B02D-4810-9DD8-C2B5ED772220}</Project>
       <Name>StorageMonster.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.DB\StorageMonster.DB.csproj">
-      <Project>{7B42BC0B-C45B-41C8-9121-24B7C1D0BBBA}</Project>
-      <Name>StorageMonster.DB</Name>
+    <ProjectReference Include="..\StorageMonster.Database\StorageMonster.Database.csproj">
+      <Project>{98345447-133D-4824-8CBD-6D5C74D50CB7}</Project>
+      <Name>StorageMonster.Database</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.Util\StorageMonster.Util.csproj">
-      <Project>{7B5F85BD-3FB7-4E5D-AAD5-9544F3172E40}</Project>
-      <Name>StorageMonster.Util</Name>
+    <ProjectReference Include="..\StorageMonster.Domain\StorageMonster.Domain.csproj">
+      <Project>{9B8636B6-96C1-4C48-873F-FD142E67A7E2}</Project>
+      <Name>StorageMonster.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <None Include="..\Monster.snk">
+      <Link>Monster.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

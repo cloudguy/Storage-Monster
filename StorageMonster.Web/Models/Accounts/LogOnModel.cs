@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using StorageMonster.Common.DataAnnotations;
 using StorageMonster.Web.Properties;
-using StorageMonster.Web.Services;
+
 
 namespace StorageMonster.Web.Models.Accounts
 {

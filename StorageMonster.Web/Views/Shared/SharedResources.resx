@@ -112,11 +112,20 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BackLinkName" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BadRequestContent" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
+  <data name="BadRequestTitle" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
   <data name="ForbiddenContent" xml:space="preserve">
     <value>Access denied</value>
   </data>
@@ -134,6 +143,18 @@
   </data>
   <data name="LogOnWelcome" xml:space="preserve">
     <value>Welcome</value>
+  </data>
+  <data name="MenuItemAccountsMgr" xml:space="preserve">
+    <value>Storages settings</value>
+  </data>
+  <data name="MenuItemProfileMgr" xml:space="preserve">
+    <value>Profile settings</value>
+  </data>
+  <data name="MenuTitleSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MenuTitleStorageAccounts" xml:space="preserve">
+    <value>Storages</value>
   </data>
   <data name="NotFoundContent" xml:space="preserve">
     <value>Page not found</value>

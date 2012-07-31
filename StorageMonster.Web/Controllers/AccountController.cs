@@ -1,70 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using StorageMonster.Services;
-using StorageMonster.Services.Security;
-using StorageMonster.Web.Properties;
-using StorageMonster.Web.Models.Accounts;
 using StorageMonster.Common;
-using StorageMonster.Web.Services;
+using StorageMonster.Domain;
+using StorageMonster.Services;
+using StorageMonster.Web.Models.Accounts;
+using StorageMonster.Web.Properties;
+using StorageMonster.Web.Services.ActionAnnotations;
+using StorageMonster.Web.Services.Extensions;
+using StorageMonster.Web.Services.Security;
 
 namespace StorageMonster.Web.Controllers
 {
-    public class AccountController : BaseController
+    public sealed class AccountController : BaseController
     {
-        protected IFormsAuthenticationService FormsAuthService;
-        protected IMembershipService MembershipService;
-        protected ILocaleProvider LocaleProvider;
-		protected ICacheService CacheService;
+        private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
 
-        public AccountController(IFormsAuthenticationService formsAuthService, 
-			IMembershipService membershipService, 
-			ILocaleProvider localeProvider,
-			ICacheService cacheService)
+        private readonly ICacheService _cacheService;
+        private readonly ILocaleProvider _localeProvider;
+        private readonly IMembershipService _membershipService;
+        private readonly IUserService _userService;
+        private readonly IFormsAuthenticationService _formsAuthService;
+
+        public AccountController(ICacheService cacheService, 
+            ILocaleProvider localeProvider,
+            IMembershipService membershipService,
+            IUserService userService,
+            IFormsAuthenticationService formsAuthService)
         {
-            FormsAuthService = formsAuthService;
-            MembershipService = membershipService;
-            LocaleProvider = localeProvider;
-			CacheService = cacheService;
+            _cacheService = cacheService;
+            _localeProvider = localeProvider;
+            _membershipService = membershipService;
+            _formsAuthService = formsAuthService;
+            _userService = userService;
         }
         
         public ActionResult LogOff()
         {
-            FormsAuthService.SignOut();
-            //Response.RemoveOutputCacheItem("/Home/Index");
-            HttpCookie myCookie = new HttpCookie(FormsAuthentication.FormsCookieName)
-                {
-                    Expires = DateTime.Now.AddDays(-1d)
-                };
-            Response.Cookies.Add(myCookie);
-            //Response.RemoveOutputCacheItem("/Home/Index");
-            //Response
+            _formsAuthService.SignOut();
+			
             return RedirectToAction("Index", "Home");
         }        
-
-		protected IEnumerable<SelectListItem> GetSupportedLocales()
-		{
-			return CacheService.Get(Constants.LocaleDropDownListKeyCacheKey, () => 
-                LocaleProvider.SupportedLocales.Select(x => new SelectListItem
-			    {
-			        Text = x.FullName,
-			        Value = x.ShortName,
-			        Selected = false
-			    }).ToList() /*override lazy init*/);				
-		}		
+        
+        private IEnumerable<SelectListItem> GetSupportedLocales()
+        {
+            return _cacheService.Get(LocaleDropDownListCacheKey, () =>
+                _localeProvider.SupportedLocales.Select(x => new SelectListItem
+                {
+                    Text = x.FullName,
+                    Value = x.ShortName,
+                    Selected = false
+                }).ToList() /*override lazy init*/);
+        }
 
         public ActionResult Register()
         {
 			RegisterModel model = new RegisterModel();
-			model.Init(GetSupportedLocales(), MembershipService.MinPasswordLength);			
+			model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);			
+            model.Init(GetSupportedLocales(), 6);	
 			return View(model);
         }
+        
+		[MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+		public ActionResult Edit()
+		{
+			ProfileModel model = new ProfileModel();
+			model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);
+		    Principal principal = (Principal) User;
+		    Identity identity = (Identity) principal.Identity;
+            User user = _userService.Load(identity.UserId);
+			model.Email = user.Email;
+			model.UserName = user.Name;
+			model.Locale = user.Locale;
+			var selectedLocale = model.SupportedLocales.Where(l => String.Equals(l.Value, model.Locale, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+			if (selectedLocale != null)
+				selectedLocale.Selected = true;
+			return View(model);
+		}
 
 		[AcceptVerbs(HttpVerbs.Post)]
 		public ActionResult Register(RegisterModel model)
@@ -73,18 +89,18 @@ namespace StorageMonster.Web.Controllers
 			{
 				if (model == null)
 					model = new RegisterModel();
-				model.Init(GetSupportedLocales(), MembershipService.MinPasswordLength);
+				model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);
 				return View(model);
 			}
 
-			model.Init(GetSupportedLocales(), MembershipService.MinPasswordLength);
+			model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);
 
 			// Attempt to register the user
-			MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email, model.Locale);
+			MembershipCreateStatus createStatus = _membershipService.CreateUser(model.UserName, model.Password, model.Email, model.Locale);
 
 			if (createStatus == MembershipCreateStatus.Success)
 			{
-				FormsAuthService.SignIn(model.Email, false /* createPersistentCookie */);
+				_formsAuthService.SignIn(model.Email, false /* createPersistentCookie */);
 				return RedirectToAction("Index", "Home");
 			}
 			
@@ -94,7 +110,7 @@ namespace StorageMonster.Web.Controllers
 			return View(model);
 		}
 
-
+        
         public ActionResult LogOn()
         {
             if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
@@ -102,7 +118,7 @@ namespace StorageMonster.Web.Controllers
             LogOnModel model = new LogOnModel();
             return View(model);
         }
-
+        
 
 		[AcceptVerbs(HttpVerbs.Post)]
 		public ActionResult LogOn(LogOnModel model, string returnUrl)
@@ -123,7 +139,7 @@ namespace StorageMonster.Web.Controllers
             }
 
 
-            if (!MembershipService.ValidateUser(model.Email, model.Password))
+            if (!_membershipService.ValidateUser(model.Email, model.Password))
             {
                 ModelState.AddModelError("_FORM", ValidationResources.UserNameOrPasswordIncorrect);
                 if (HttpContext.Request.IsAjaxRequest())
@@ -137,7 +153,7 @@ namespace StorageMonster.Web.Controllers
                 return View(model);
             }
 
-			FormsAuthService.SignIn(model.Email, model.RememberMe);
+			_formsAuthService.SignIn(model.Email, model.RememberMe);
 
             if (HttpContext.Request.IsAjaxRequest())
                 return Json(new AjaxLogOnModel
@@ -189,13 +205,5 @@ namespace StorageMonster.Web.Controllers
                     return ValidationResources.RegUnknownError;
             }
         }
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            if (filterContext.HttpContext.User.Identity is WindowsIdentity)
-            {
-                throw new InvalidOperationException("Windows authentication is not supported.");
-            }
-        }        
     }
 }

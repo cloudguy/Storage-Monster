@@ -61,6 +61,33 @@ namespace ViewResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BackLinkName {
+            get {
+                return ResourceManager.GetString("BackLinkName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad request.
+        /// </summary>
+        public static string BadRequestContent {
+            get {
+                return ResourceManager.GetString("BadRequestContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad request.
+        /// </summary>
+        public static string BadRequestTitle {
+            get {
+                return ResourceManager.GetString("BadRequestTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access denied.
         /// </summary>
         public static string ForbiddenContent {
@@ -111,6 +138,42 @@ namespace ViewResources {
         public static string LogOnWelcome {
             get {
                 return ResourceManager.GetString("LogOnWelcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storages settings.
+        /// </summary>
+        public static string MenuItemAccountsMgr {
+            get {
+                return ResourceManager.GetString("MenuItemAccountsMgr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile settings.
+        /// </summary>
+        public static string MenuItemProfileMgr {
+            get {
+                return ResourceManager.GetString("MenuItemProfileMgr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string MenuTitleSettings {
+            get {
+                return ResourceManager.GetString("MenuTitleSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storages.
+        /// </summary>
+        public static string MenuTitleStorageAccounts {
+            get {
+                return ResourceManager.GetString("MenuTitleStorageAccounts", resourceCulture);
             }
         }
         

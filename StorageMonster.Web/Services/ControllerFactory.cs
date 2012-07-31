@@ -8,37 +8,37 @@ namespace StorageMonster.Web.Services
 {
     public class ControllerFactory : DefaultControllerFactory
     {
-        protected readonly IoCcontainer Container;
-        public ControllerFactory(IoCcontainer container)
+        protected IocContainer Container { get; set; }
+
+        public ControllerFactory(IocContainer container)
         {
             Container = container;
         }
 
+
         public override IController CreateController(RequestContext requestContext, string controllerName)
         {
-            try
+            if (requestContext == null)
             {
-                Type controllerType = GetControllerType(requestContext, controllerName);
-                return GetControllerInstance(controllerType);
+                throw new ArgumentNullException("requestContext");
             }
-            catch (Exception ex)
+            if (string.IsNullOrEmpty(controllerName))
             {
-                throw new HttpException(404, requestContext.HttpContext.Request.FilePath, ex);
+                throw new ArgumentException("Controller name not specified");
             }
+
+
+            Type controllerType = GetControllerType(requestContext, controllerName);
+            if (controllerType == null)
+                throw new HttpException(404, requestContext.HttpContext.Request.FilePath);
+
+            return GetControllerInstance(controllerType);
+
         }
 
         protected virtual IController GetControllerInstance(Type controllerType)
         {
             return Container.Resolve(controllerType) as Controller;
-        }
-
-        public override void ReleaseController(IController controller)
-        {
-            base.ReleaseController(controller);
-            if (controller is IDisposable)
-                (controller as IDisposable).Dispose();
-
-            controller = null;
         }
     }
 }
