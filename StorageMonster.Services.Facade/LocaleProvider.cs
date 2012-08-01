@@ -2,6 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Globalization;
+using StorageMonster.Utilities;
 
 namespace StorageMonster.Services.Facade
 {
@@ -32,6 +35,12 @@ namespace StorageMonster.Services.Facade
             if (info == null)
                 return DefaultCulture;
             return info;
+        }
+        public void SetThreadLocale(LocaleData locale)
+        {
+            RequestContext.SetValue(RequestContext.LocaleKey, locale);
+			Thread.CurrentThread.CurrentUICulture = locale.Culture;
+			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(locale.Culture.Name);
         }
     }
 }

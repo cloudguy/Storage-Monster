@@ -156,6 +156,9 @@
   <data name="MenuTitleStorageAccounts" xml:space="preserve">
     <value>Storages</value>
   </data>
+  <data name="NoScriptWarning" xml:space="preserve">
+    <value>Storage Monster works best with JavaScript enabled</value>
+  </data>
   <data name="NotFoundContent" xml:space="preserve">
     <value>Page not found</value>
   </data>

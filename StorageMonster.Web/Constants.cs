@@ -4,13 +4,17 @@
     {
         public const string JsonContentType = "application/json";
 
+        public const string RequestInfoHtmlClass = "request-info-summary";
+
         public const string StorageAccountIdFormKey = "storageAccountId";
         public const string StampFormKey = "stamp";
 
         public const string StorageAccountTitleViewDataKey = "storageAccountTitle";
         public const string MenuActivatorViewDataKey = "menu_activator";
+        public const string RequestInfoMessagesViewDataKey = "requestMessages";
 
         #region antiforgery salts
+        public const string Salt_Account_Edit = "062e973d-e20a-4029-af84-e34ecb66787e";
         public const string Salt_StorageAccount_Edit = "f8d6f50d-5c65-490d-87c1-a901644e0721";
         public const string Salt_StorageAccount_Delete = "f6221aae-2a6f-4559-b7de-b4b1886f3711";
         public const string Salt_StorageAccount_Add = "e290c087-1368-4a7d-a3a6-f2d51683be53";

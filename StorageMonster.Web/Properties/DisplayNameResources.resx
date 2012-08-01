@@ -133,7 +133,7 @@
     <value>Remember me?</value>
   </data>
   <data name="ProfileConfirmPassword" xml:space="preserve">
-    <value>Confirm password</value>
+    <value>Confirm new password</value>
   </data>
   <data name="ProfileEmail" xml:space="preserve">
     <value>Email</value>
@@ -141,11 +141,14 @@
   <data name="ProfileLocale" xml:space="preserve">
     <value>Change language</value>
   </data>
+  <data name="ProfileOldPassword" xml:space="preserve">
+    <value>Old password</value>
+  </data>
   <data name="ProfilePassword" xml:space="preserve">
-    <value>Change password</value>
+    <value>New password</value>
   </data>
   <data name="ProfileUserName" xml:space="preserve">
-    <value>Change user name</value>
+    <value>New user name</value>
   </data>
   <data name="RegConfirmPassword" xml:space="preserve">
     <value>Confirm password</value>

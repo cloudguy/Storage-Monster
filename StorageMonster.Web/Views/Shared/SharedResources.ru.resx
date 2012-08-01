@@ -156,6 +156,9 @@
   <data name="MenuTitleStorageAccounts" xml:space="preserve">
     <value>Хранилища</value>
   </data>
+  <data name="NoScriptWarning" xml:space="preserve">
+    <value>Storage Monster лучше работает с яваскриптом</value>
+  </data>
   <data name="NotFoundContent" xml:space="preserve">
     <value>Страница не найдена</value>
   </data>

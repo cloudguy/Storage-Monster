@@ -9,7 +9,7 @@ namespace StorageMonster.Database.Repositories
 	    IEnumerable<User> List();
 	    void DeleteAll();
 	    User Insert(User user);
-        User Update(User user);
+        UpdateResult Update(User user);
         User Load(User user);
         User Load(int id);
 	    User GetUserBySessionToken(Session session);

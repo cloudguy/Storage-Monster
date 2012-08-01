@@ -88,7 +88,7 @@ namespace StorageMonster.Web.Controllers
 
                 if (!int.TryParse(Request.Form[Constants.StorageAccountIdFormKey], NumberStyles.Integer, CultureInfo.InvariantCulture, out storageAccountId))
                 {
-                    ModelState.AddModelError("storage_account_id", ValidationResources.AccountNotFoundError);
+                    ModelState.AddModelError("storage_account_id", ValidationResources.StorageAccountNotFoundError);
                     return View();
                 }
 
@@ -125,7 +125,7 @@ namespace StorageMonster.Web.Controllers
                 }
                 catch(ObjectNotExistsException)
                 {
-                    ModelState.AddModelError("storage_account_id", ValidationResources.AccountNotFoundError);
+                    ModelState.AddModelError("storage_account_id", ValidationResources.StorageAccountNotFoundError);
                 }
             }
             return View();

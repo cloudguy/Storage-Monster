@@ -11,7 +11,7 @@
     <link href="<%=Url.Content("~/Content/themes/base/bootstrap.css") %>" rel="stylesheet" type="text/css" />
     <style type="text/css">
       body {
-        padding-top:60px;        
+        padding-top:80px;        
         padding-bottom: 40px;
       }
       .sidebar-nav {
@@ -69,7 +69,7 @@
     <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
     </title>
 </head>
-<body> 
+<body>
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">            
             <div class="container-fluid">
@@ -77,41 +77,46 @@
                 <% Html.RenderPartial("LogOnUserControl"); %>                         
             </div>
         </div>
+        <noscript>
+            <div class="subnav-warn subnav-fixed-warn">
+                <%=ViewResources.SharedResources.NoScriptWarning %>
+            </div>            
+        </noscript>
     </div>
-
-<% if (Request.IsAuthenticated) {%>  
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span3">
-                <%if (HttpContext.Current.User.Identity.IsAuthenticated) {
-                    IStorageAccountService storageAccountService = IocContainer.Instance.Resolve<IStorageAccountService>();
-                    IStoragePluginsService storagePluginsService = IocContainer.Instance.Resolve<IStoragePluginsService>();
-                    StorageAccountsCollection menuAccountsCollection = new StorageAccountsCollection().Init(storageAccountService, storagePluginsService, ((Identity)HttpContext.Current.User.Identity).UserId);
-                    var menu = new UserMenuModel
-                    {
-                        StorageAccountsCollection = menuAccountsCollection,
-                    };
-                    Html.RenderPartial("UserMenu", menu);
-                }%>
-            </div>
-            <div class="span9">
-                <div class="row-fluid"> 
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server">        
-                    </asp:ContentPlaceHolder>
+   
+    <% if (Request.IsAuthenticated) {%>  
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <%if (HttpContext.Current.User.Identity.IsAuthenticated) {
+                        IStorageAccountService storageAccountService = IocContainer.Instance.Resolve<IStorageAccountService>();
+                        IStoragePluginsService storagePluginsService = IocContainer.Instance.Resolve<IStoragePluginsService>();
+                        StorageAccountsCollection menuAccountsCollection = new StorageAccountsCollection().Init(storageAccountService, storagePluginsService, ((Identity)HttpContext.Current.User.Identity).UserId);
+                        var menu = new UserMenuModel
+                        {
+                            StorageAccountsCollection = menuAccountsCollection,
+                        };
+                        Html.RenderPartial("UserMenu", menu);
+                    }%>
+                </div>
+                <div class="span9">
+                    <div class="row-fluid"> 
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server">        
+                        </asp:ContentPlaceHolder>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>    
-<%} else { %>    
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span12">            
-                <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
-                </asp:ContentPlaceHolder>
+        </div>    
+    <%} else { %>    
+        <div class="container">
+            <div class="row">                   
+                <div class="span8 offset2">            
+                    <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
+                    </asp:ContentPlaceHolder>
+                </div>            
             </div>
         </div>
-    </div>
-<%} %>
+    <%} %>
     
 
    

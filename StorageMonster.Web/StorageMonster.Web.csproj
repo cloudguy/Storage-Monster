@@ -89,7 +89,9 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Accounts\AjaxLogOnModel.cs" />
     <Compile Include="Models\Accounts\LogOnModel.cs" />
+    <Compile Include="Models\Accounts\ProfileBaseModel.cs" />
     <Compile Include="Models\Accounts\ProfileModel.cs" />
+    <Compile Include="Models\Accounts\ProfilePasswordModel.cs" />
     <Compile Include="Models\Accounts\RegisterModel.cs" />
     <Compile Include="Models\AjaxErrorModel.cs" />
     <Compile Include="Models\AjaxUnauthorizedModel.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Services\Extensions\ControllerExtensions.cs" />
     <Compile Include="Services\Extensions\HtmlExtensions.cs" />
     <Compile Include="Services\Extensions\HttpRequestExtensions.cs" />
+    <Compile Include="Services\Extensions\ViewDataDictionaryExtensions.cs" />
     <Compile Include="Services\HttpInMemoryCacheService.cs" />
     <Compile Include="Services\HttpModules\MonsterAuthorizeHttpModule.cs" />
     <Compile Include="Services\HttpModules\MonsterCleanupHttpModule.cs" />
@@ -249,7 +252,9 @@
     <Content Include="Views\Account\Edit.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\LogOnFormControl.ascx" />
+    <Content Include="Views\Account\ProfileBaseControl.ascx" />
     <Content Include="Views\Account\ProfileControl.ascx" />
+    <Content Include="Views\Account\ProfilePasswordControl.ascx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\BadRequest.aspx" />

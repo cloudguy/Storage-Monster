@@ -13,7 +13,37 @@ using StorageMonster.Common.DataAnnotations;
 namespace StorageMonster.Web.Services.Extensions
 {
 	public static class HtmlExtensions
-	{
+	{        
+        public static MvcHtmlString RequestSuccessInfo(this HtmlHelper htmlHelper, object htmlAttributes)
+        {            
+            IEnumerable<string> messages = htmlHelper.ViewData.GetRequestSuccessMessage();
+            if (messages == null)
+                return null;
+
+            StringBuilder htmlBuilder = new StringBuilder();
+            
+            foreach (var message in messages)
+            {
+                if (string.IsNullOrEmpty(message))
+                    continue;
+                TagBuilder divBuilder = new TagBuilder("div");
+                divBuilder.MergeAttributes<string, object>(new RouteValueDictionary(htmlAttributes));
+                divBuilder.AddCssClass(Constants.RequestInfoHtmlClass);
+
+                TagBuilder spanBuilder = new TagBuilder("span");                
+                spanBuilder.SetInnerText(message);
+                divBuilder.InnerHtml = spanBuilder.ToString(TagRenderMode.Normal);
+                htmlBuilder.Append(divBuilder.ToString(TagRenderMode.Normal));                
+            }
+            
+            return MvcHtmlString.Create(htmlBuilder.ToString());
+        }
+
+        public static MvcHtmlString RequestSuccessInfo(this HtmlHelper htmlHelper)
+        {
+            return RequestSuccessInfo(htmlHelper, null);
+        }
+
 		public static MvcHtmlString LocalizedLabelFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression)
 		{
 			return LocalizedLabelFor(html, expression, null);

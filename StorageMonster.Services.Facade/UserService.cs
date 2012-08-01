@@ -69,5 +69,19 @@ namespace StorageMonster.Services.Facade
                     throw new ObjectNotExistsException(string.Format(CultureInfo.InvariantCulture, "Error creating user role for user with email {0}, user not found", user.Email));
             }
         }
+        public void UpdateUser(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            UpdateResult updateResult = UserRepository.Update(user);
+            switch (updateResult)
+            {
+                case UpdateResult.Stalled:
+                    throw new StaleObjectException(string.Format(CultureInfo.InvariantCulture, "Error updating user {0}, object stalled", user.Id));
+                case UpdateResult.ItemNotExists:
+                    throw new ObjectNotExistsException(string.Format(CultureInfo.InvariantCulture, "Error updating user {0}, user not found", user.Id));
+            }
+        }
 	}
 }

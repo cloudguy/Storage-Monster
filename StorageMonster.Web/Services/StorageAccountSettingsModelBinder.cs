@@ -21,7 +21,7 @@ namespace StorageMonster.Web.Services
             NameValueCollection form = controllerContext.HttpContext.Request.Form;
             if (!form.AllKeys.Contains(Constants.StorageAccountIdFormKey))
             {
-                bindingContext.ModelState.AddModelError("storage_account", ValidationResources.AccountNotFoundError);
+                bindingContext.ModelState.AddModelError("storage_account", ValidationResources.StorageAccountNotFoundError);
                 return null;
             }
 
@@ -30,7 +30,7 @@ namespace StorageMonster.Web.Services
             int accountId;
             if (!int.TryParse(pluginFormValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out accountId))
             {
-                bindingContext.ModelState.AddModelError("storage_account", ValidationResources.AccountNotFoundError);
+                bindingContext.ModelState.AddModelError("storage_account", ValidationResources.StorageAccountNotFoundError);
                 return null;
             }
 
@@ -38,7 +38,7 @@ namespace StorageMonster.Web.Services
             StorageAccount account = accountService.Load(accountId);
             if (account == null)
             {
-                bindingContext.ModelState.AddModelError("storage_account", ValidationResources.AccountNotFoundError);
+                bindingContext.ModelState.AddModelError("storage_account", ValidationResources.StorageAccountNotFoundError);
                 return null;
             }
 

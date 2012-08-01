@@ -106,11 +106,9 @@ namespace StorageMonster.Web.Services.HttpModules
 				langName = identity.Locale;
 			}
 
-			var localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();
-			LocaleData locale = localeProvider.GetCultureByName(langName);
-			RequestContext.SetValue(RequestContext.LocaleKey, locale);			
-			Thread.CurrentThread.CurrentUICulture = locale.Culture;
-			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(locale.Culture.Name);		
+            var localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();
+            LocaleData locale = localeProvider.GetCultureByName(langName);
+            localeProvider.SetThreadLocale(locale);		
 		}
 	}
 }

@@ -8,5 +8,6 @@ namespace StorageMonster.Services
         LocaleData DefaultCulture { get; }
         void Init(LocaleData[] supportedLocales, LocaleData defaultLocale);
         LocaleData GetCultureByName(string name);
+        void SetThreadLocale(LocaleData locale);
     }
 }

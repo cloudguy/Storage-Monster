@@ -77,6 +77,10 @@
       <Project>{7657B8A1-30D2-4576-A87C-3885A41A3994}</Project>
       <Name>StorageMonster.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Utilities\StorageMonster.Utilities.csproj">
+      <Project>{FCBFD68D-ABFA-4C96-A793-AEB57959EF81}</Project>
+      <Name>StorageMonster.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Monster.snk">

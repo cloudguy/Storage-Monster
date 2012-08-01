@@ -123,8 +123,11 @@
   <data name="AccountInvalidError" xml:space="preserve">
     <value>Invalid account</value>
   </data>
-  <data name="AccountNotFoundError" xml:space="preserve">
+  <data name="AccountNotFound" xml:space="preserve">
     <value>Account not found</value>
+  </data>
+  <data name="AccountStalled" xml:space="preserve">
+    <value>Account was already updated</value>
   </data>
   <data name="AjaxAccessDenied" xml:space="preserve">
     <value>Access denied</value>
@@ -155,6 +158,9 @@
   </data>
   <data name="PluginError" xml:space="preserve">
     <value>Plugin crashed</value>
+  </data>
+  <data name="ProfileUpdateSuccessMessage" xml:space="preserve">
+    <value>Profile updated successfully</value>
   </data>
   <data name="RegDuplicateEmail" xml:space="preserve">
     <value>Specified e-mail address already exists. Please enter a different e-mail address.</value>

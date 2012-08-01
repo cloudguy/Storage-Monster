@@ -106,7 +106,7 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confirm password.
+        ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ProfileConfirmPassword {
             get {
@@ -133,7 +133,16 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change password.
+        ///   Looks up a localized string similar to Old password.
+        /// </summary>
+        public static string ProfileOldPassword {
+            get {
+                return ResourceManager.GetString("ProfileOldPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string ProfilePassword {
             get {
@@ -142,7 +151,7 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change user name.
+        ///   Looks up a localized string similar to New user name.
         /// </summary>
         public static string ProfileUserName {
             get {

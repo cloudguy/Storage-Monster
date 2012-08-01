@@ -11,12 +11,12 @@ using StorageMonster.Domain;
 using StorageMonster.Services;
 using StorageMonster.Services.Security;
 using StorageMonster.Utilities;
+using StorageMonster.Common;
 
 namespace StorageMonster.Web.Services.Security
 {
     public class MonsterMembershipProvider : MembershipProvider
-    {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(MonsterMembershipProvider));
+    {        private static readonly ILog Logger = LogManager.GetLogger(typeof(MonsterMembershipProvider));
 
         protected int MinRequiredPasswordLengthInternal = 6;
         protected Regex EmailValidationRegex = new Regex(Constants.EmailRegexp, RegexOptions.Compiled);
@@ -255,7 +255,7 @@ namespace StorageMonster.Web.Services.Security
 
         public override bool RequiresUniqueEmail
         {
-            get { throw new NotImplementedException(); }
+            get { return true; }
         }
 
         public override string ResetPassword(string username, string answer)
@@ -268,9 +268,9 @@ namespace StorageMonster.Web.Services.Security
             throw new NotImplementedException();
         }
 
-        public override void UpdateUser(MembershipUser user)
+        public override void UpdateUser(MembershipUser membershipUser)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException();        
         }
     }
 }

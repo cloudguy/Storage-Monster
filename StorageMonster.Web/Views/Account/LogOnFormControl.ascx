@@ -2,7 +2,7 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="StorageMonster.Web.Services.Extensions" %>
 
-<div id="LogOnControl">
+<div id="LogOnControl" class="center-align">
     <% if (!HttpContext.Current.User.Identity.IsAuthenticated) {%>
 
         <h2><%=ViewResources.AccountResources.LogOnTitle %></h2>
@@ -16,6 +16,7 @@
         <div id="LogonWait">
         </div>
 
+        
         <%= Html.ValidationSummary(ViewResources.AccountResources.LogOnValidationSummary, new { @class = "alert alert-error" })%>        
         
         <div id="LogonError" class="validation-summary-errors" >
@@ -36,18 +37,19 @@
         <% using (Html.BeginForm("LogOn", "Account", FormMethod.Post, new { id= formId, onsubmit=ajaxHandler } )) {%>
             <div class="well">
                 <fieldset>
+                    <div>
                     <legend><%=ViewResources.AccountResources.AccountInfoTitle %></legend>
                     <p>
                         <%= Html.LocalizedLabelFor(model => model.Email)%> 
-                        <%= Html.TextBoxFor(model => model.Email, new { @class = "input-large" })%>
+                        <%= Html.TextBoxFor(model => model.Email, new { @class = "fullwidth" })%>
                         <%= Html.ValidationMessageFor(model=>model.Email)%>
                     </p>
                     <p>                        
                         <%= Html.LocalizedLabelFor(model => model.Password)%>                             
-                        <%= Html.PasswordFor(model => model.Password, new { @class = "input-large" })%>
+                        <%= Html.PasswordFor(model => model.Password, new { @class = "fullwidth" })%>
                         <%= Html.ValidationMessageFor(model=>Model.Password)%>
                     </p>
-                     <p>
+                    <p>
                         <label class = "checkbox">
                             <%= Html.CheckBoxFor(model => model.RememberMe)%>
                             <%= Html.LocalizedLabelFor(model => model.RememberMe)%>                    

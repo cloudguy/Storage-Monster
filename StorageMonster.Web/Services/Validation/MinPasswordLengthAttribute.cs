@@ -15,6 +15,8 @@ namespace StorageMonster.Web.Services.Validation
         protected readonly PropertyInfo NamePropertyProtected;
         protected readonly Type ResourceTypeProtected;
 
+        public bool CanBeNull { get; set; }
+
         public MinPasswordLengthAttribute(string displayNameKey, Type displayResourceType)
             : base(DefaultErrorMessage)
 		{
@@ -37,6 +39,9 @@ namespace StorageMonster.Web.Services.Validation
 		public override bool IsValid(object value)
 		{
 			string valueAsString = value as string;
+            if (valueAsString == null)
+                return CanBeNull;
+            
             return (valueAsString != null && valueAsString.Length >= MinCharactersProtected);
 		}
 	}

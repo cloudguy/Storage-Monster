@@ -133,6 +133,15 @@ namespace ViewResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile change was unsuccessful. Please correct the errors and try again..
+        /// </summary>
+        public static string ProfileEditValidationSummary {
+            get {
+                return ResourceManager.GetString("ProfileEditValidationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string ProfileSubmitButtonText {

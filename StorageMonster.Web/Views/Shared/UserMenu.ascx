@@ -36,7 +36,7 @@
             <%=ViewResources.SharedResources.MenuTitleSettings%>
         </li>        
         <li <%=activationType == MenuActivator.ActivationTypeEnum.EditProfile? "class=\"active\"" : string.Empty %>>
-            <%=Html.ActionLink(ViewResources.SharedResources.MenuItemProfileMgr, "Profile", "User", new { Id = Model.StorageAccountsCollection.UserId }, null)%> 
+            <%=Html.ActionLink(ViewResources.SharedResources.MenuItemProfileMgr, "Edit", "Account")%> 
         </li>
         <li <%=activationType == MenuActivator.ActivationTypeEnum.ListStorageAccounts? "class=\"active\"" : string.Empty %>>            
             <%=Html.ActionLink(ViewResources.SharedResources.MenuItemAccountsMgr, "StorageAccounts", "User", new { Id = Model.StorageAccountsCollection.UserId }, null)%>

@@ -4,11 +4,13 @@ using System.Globalization;
 using System.Linq;
 using StorageMonster.Database.Repositories;
 using StorageMonster.Domain;
+using System.Transactions;
 
 namespace StorageMonster.Database.MySql.Repositories
 {
     public class UserRepository : IUserRepository
     {
+#warning timezone remove?
         protected IConnectionProvider ConnectionProvider { get; set; }
 
         protected const string TableName = "users";
@@ -79,27 +81,42 @@ namespace StorageMonster.Database.MySql.Repositories
                 });
         }
 
-        public User Update(User user)
+        public UpdateResult Update(User user)
         {
-#warning check stamp
             if (user == null)
                 throw new ArgumentNullException("user");
 
 
             return SqlQueryExecutor.Execute(() =>
                 {
-                    String query = string.Format(CultureInfo.InvariantCulture, "UPDATE {1} SET {0} WHERE Id=@Id", UpdateFieldList, TableName);
-                    ConnectionProvider.CurrentConnection.Execute(query, new { user.Email, user.Name, user.Password, user.Locale, user.TimeZone, user.Id });
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        String checkStampQuery = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} u " +
+                        "WHERE u.Id = @Id AND u.stamp = @Stamp LIMIT 1", SelectFieldList, TableName);
+                        User userCheck = ConnectionProvider.CurrentConnection.Query<User>(checkStampQuery, new { Id = user.Id, Stamp = user.Stamp }).FirstOrDefault();
 
-                    String idAndStampQuery = string.Format(CultureInfo.InvariantCulture, "SELECT id AS Id, stamp AS Stamp FROM {0} WHERE id=@Id;", TableName);
-                    IdAndStamp idAndStamp = ConnectionProvider.CurrentConnection.Query<IdAndStamp>(idAndStampQuery, new { user.Id }).FirstOrDefault();
+                        if (userCheck == null)
+                        {
+                            String checkUserQuery = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} u " +
+                            "WHERE u.Id = @Id LIMIT 1", SelectFieldList, TableName);
+                            userCheck = ConnectionProvider.CurrentConnection.Query<User>(checkUserQuery, new { Id = user.Id }).FirstOrDefault();
+                            return userCheck == null ? UpdateResult.ItemNotExists : UpdateResult.Stalled;
+                        }
 
-                    if (idAndStamp == null)
-                        throw new MonsterDbException("User update failed");
+                        String query = string.Format(CultureInfo.InvariantCulture, "UPDATE {1} SET {0} WHERE Id=@Id", UpdateFieldList, TableName);
+                        ConnectionProvider.CurrentConnection.Execute(query, new { user.Email, user.Name, user.Password, user.Locale, user.TimeZone, user.Id });
 
-                    user.Id = idAndStamp.Id;
-                    user.Stamp = idAndStamp.Stamp;
-                    return user;
+                        String idAndStampQuery = string.Format(CultureInfo.InvariantCulture, "SELECT id AS Id, stamp AS Stamp FROM {0} WHERE id=@Id;", TableName);
+                        IdAndStamp idAndStamp = ConnectionProvider.CurrentConnection.Query<IdAndStamp>(idAndStampQuery, new { user.Id }).FirstOrDefault();
+
+                        if (idAndStamp == null)
+                            throw new MonsterDbException("User update failed");
+
+                        user.Id = idAndStamp.Id;
+                        user.Stamp = idAndStamp.Stamp;                       
+                        scope.Complete();
+                        return UpdateResult.Success;
+                    }
                 });
         }
 

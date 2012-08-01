@@ -178,6 +178,15 @@ namespace ViewResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Storage Monster works best with JavaScript enabled.
+        /// </summary>
+        public static string NoScriptWarning {
+            get {
+                return ResourceManager.GetString("NoScriptWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page not found.
         /// </summary>
         public static string NotFoundContent {

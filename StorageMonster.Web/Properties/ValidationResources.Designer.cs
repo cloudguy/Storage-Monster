@@ -81,9 +81,18 @@ namespace StorageMonster.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Account not found.
         /// </summary>
-        public static string AccountNotFoundError {
+        public static string AccountNotFound {
             get {
-                return ResourceManager.GetString("AccountNotFoundError", resourceCulture);
+                return ResourceManager.GetString("AccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account was already updated.
+        /// </summary>
+        public static string AccountStalled {
+            get {
+                return ResourceManager.GetString("AccountStalled", resourceCulture);
             }
         }
         
@@ -174,6 +183,15 @@ namespace StorageMonster.Web.Properties {
         public static string PluginError {
             get {
                 return ResourceManager.GetString("PluginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile updated successfully.
+        /// </summary>
+        public static string ProfileUpdateSuccessMessage {
+            get {
+                return ResourceManager.GetString("ProfileUpdateSuccessMessage", resourceCulture);
             }
         }
         

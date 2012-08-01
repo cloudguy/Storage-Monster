@@ -14,5 +14,6 @@ namespace StorageMonster.Services
 		User GetUserByEmail(string email);
 	    User Insert(User user);
 	    void CreateRoleForUser(User user, string role);
+        void UpdateUser(User user);
 	}
 }

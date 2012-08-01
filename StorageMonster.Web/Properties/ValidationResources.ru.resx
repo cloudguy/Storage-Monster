@@ -123,8 +123,11 @@
   <data name="AccountInvalidError" xml:space="preserve">
     <value>Неправильная учетна запись</value>
   </data>
-  <data name="AccountNotFoundError" xml:space="preserve">
-    <value>Учетная запись хранилища не найдена</value>
+  <data name="AccountNotFound" xml:space="preserve">
+    <value>Профиль не найден</value>
+  </data>
+  <data name="AccountStalled" xml:space="preserve">
+    <value>Профиль был обновлен ранее</value>
   </data>
   <data name="AjaxAccessDenied" xml:space="preserve">
     <value>Доступ запрещен</value>
@@ -155,6 +158,9 @@
   </data>
   <data name="PluginError" xml:space="preserve">
     <value>Ошибка плагина</value>
+  </data>
+  <data name="ProfileUpdateSuccessMessage" xml:space="preserve">
+    <value>Профиль успешно обновлен</value>
   </data>
   <data name="RegDuplicateEmail" xml:space="preserve">
     <value>Пользователь с таким почтовым ящиком уже существует.</value>

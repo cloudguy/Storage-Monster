@@ -11,10 +11,10 @@ namespace StorageMonster.Web.Services.Security
     public class Identity : IIdentity, ISerializable
     {
         private readonly bool _isAuthenticated;
-        private readonly string _name;
+        private string _name;
         private readonly string _email;
         private readonly int _userId;
-		private readonly String _locale;
+		private String _locale;
 
         public Identity(User user, bool isAuthenticated)
         {
@@ -23,7 +23,7 @@ namespace StorageMonster.Web.Services.Security
             _email = user == null ? string.Empty : user.Email;
             _userId = user == null ? 0 : user.Id;
 			_locale = user == null ? null : user.Locale;
-        }
+        }       
 
         public string AuthenticationType
         {
@@ -38,6 +38,7 @@ namespace StorageMonster.Web.Services.Security
         public string Name
         {
             get { return _name; }
+            set { _name = value; }
         }
 
         public string Email
@@ -52,6 +53,7 @@ namespace StorageMonster.Web.Services.Security
 		public string Locale
 		{
 			get { return _locale; }
+            set { _locale = value; }
 		}
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

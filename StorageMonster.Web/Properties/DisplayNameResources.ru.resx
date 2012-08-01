@@ -133,7 +133,7 @@
     <value>Запомнить меня?</value>
   </data>
   <data name="ProfileConfirmPassword" xml:space="preserve">
-    <value>Повторить пароль</value>
+    <value>Повторить новый пароль</value>
   </data>
   <data name="ProfileEmail" xml:space="preserve">
     <value>Почтовый ящик</value>
@@ -141,11 +141,14 @@
   <data name="ProfileLocale" xml:space="preserve">
     <value>Изменить язык</value>
   </data>
+  <data name="ProfileOldPassword" xml:space="preserve">
+    <value>Старый пароль</value>
+  </data>
   <data name="ProfilePassword" xml:space="preserve">
-    <value>Изменить пароль</value>
+    <value>Новый пароль</value>
   </data>
   <data name="ProfileUserName" xml:space="preserve">
-    <value>Изменить имя пользователя</value>
+    <value>Новое имя пользователя</value>
   </data>
   <data name="RegConfirmPassword" xml:space="preserve">
     <value>Повторить пароль</value>
