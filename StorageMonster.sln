@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Services.Fac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Web", "StorageMonster.Web\StorageMonster.Web.csproj", "{37F121EE-FC9A-49F0-B88B-BD65B5A2C306}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Plugin", "Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj", "{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Plugin.WebDav", "Plugins\StorageMonster.Plugin.WebDav\StorageMonster.Plugin.WebDav.csproj", "{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Plugin.YandexDisk", "Plugins\StorageMonster.Plugin.YandexDisk\StorageMonster.Plugin.YandexDisk.csproj", "{D292CF40-B914-4C42-B000-DDFD11BC1FF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +59,18 @@ Global
 		{37F121EE-FC9A-49F0-B88B-BD65B5A2C306}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37F121EE-FC9A-49F0-B88B-BD65B5A2C306}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37F121EE-FC9A-49F0-B88B-BD65B5A2C306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35D9F41-7648-4BAF-87F0-DCF7C09C530A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F6361AF-FD3E-478C-BC45-7F9E9B70C563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
