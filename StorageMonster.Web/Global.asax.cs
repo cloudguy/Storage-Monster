@@ -24,6 +24,7 @@ namespace StorageMonster.Web
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
+#warning Validate antiforgery during ajax
     public class MonsterApplication : HttpApplication
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(MonsterApplication));
