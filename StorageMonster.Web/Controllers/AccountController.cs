@@ -135,12 +135,12 @@ namespace StorageMonster.Web.Controllers
                 {
                     User user = _membershipService.UpdateUser(identity.UserId, baseModel.UserName, baseModel.Locale, DateTime.FromBinary(stamp));
                     stamp = user.Stamp.ToBinary();
+#warning to service?
                     LocaleData locale = _localeProvider.GetCultureByName(baseModel.Locale);
                     _localeProvider.SetThreadLocale(locale);
                     identity.Name = user.Name;
                     identity.Locale = locale.ShortName;
-                    ViewData.AddRequestSuccessMessage(ValidationResources.ProfileUpdateSuccessMessage);
-                    
+                    ViewData.AddRequestSuccessMessage(ValidationResources.ProfileUpdateSuccessMessage);                    
                 }
                 catch (StaleObjectException)
                 {
@@ -157,7 +157,7 @@ namespace StorageMonster.Web.Controllers
                 BaseModel = baseModel,
                 PasswordModel = GetProfilePasswordModel()
             };
-            ViewData.Add(Constants.StampFormKey, stamp);
+            ViewData.Add(Constants.StampFormKey, stamp);           
             return View("Edit", model);
         }
 
