@@ -3,6 +3,9 @@
 <%@ Import Namespace="StorageMonster.Web" %>
 <%@ Import Namespace="StorageMonster.Web.Services.Extensions" %>
 <%@ Import Namespace="StorageMonster.Utilities" %>
+<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+
 
 <% Html.EnableClientValidation(); %>
 <%=Html.ValidationSummary()  %>

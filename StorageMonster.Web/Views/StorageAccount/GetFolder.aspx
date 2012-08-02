@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<StorageMonster.Plugin.StorageQueryResult>" %>
 <%@ Import Namespace="StorageMonster.Web" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="System.Linq" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	GetFolder

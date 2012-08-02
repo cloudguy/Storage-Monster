@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<StorageMonster.Web.Models.User.UserAccountsModel>" %>
 <%@ Import Namespace="StorageMonster.Web.Services.Security" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="System.Linq" %>
 
 <div id="accountsList">
     <% Identity identity = (Identity)HttpContext.Current.User.Identity; %>

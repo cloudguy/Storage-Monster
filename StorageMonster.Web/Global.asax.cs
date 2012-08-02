@@ -124,6 +124,9 @@ namespace StorageMonster.Web
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);
 
+            //mono hack
+            CaseInsensitiveViewEngine.Register(ViewEngines.Engines);
+
             StructureMapIoC.CreateContainer();
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(IocContainer.Instance));
             ILocaleProvider localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();

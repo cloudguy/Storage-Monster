@@ -141,6 +141,7 @@
     <Compile Include="Services\ActionAnnotations\MenuActivatorAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\MonsterAuthorizeAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\StorageAccountMenuActivatorAttribute.cs" />
+    <Compile Include="Services\CaseInsensitiveViewEngine.cs" />
     <Compile Include="Services\Configuration\ConfigurationException.cs" />
     <Compile Include="Services\Configuration\IWebConfiguration.cs" />
     <Compile Include="Services\Configuration\WebConfiguration.cs" />
