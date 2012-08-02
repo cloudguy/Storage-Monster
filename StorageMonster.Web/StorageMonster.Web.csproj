@@ -52,6 +52,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Common.Logging.Log4Net1211.dll</HintPath>
     </Reference>
+    <Reference Include="LeLog4net">
+      <HintPath>..\References\LeLog4net.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\log4net.dll</HintPath>
