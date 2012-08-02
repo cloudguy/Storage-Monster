@@ -25,10 +25,7 @@ namespace StorageMonster.Web.Controllers
             StorageService = storageService;
         }
 
-        public ActionResult BadRequest()
-        {
-            return View();
-        }
+        
 
         [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
         public ActionResult Index()
@@ -51,10 +48,7 @@ namespace StorageMonster.Web.Controllers
             return Json(new { Menu = viewContent }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult NotFound()
-        {
-            return View();
-        }
+ 
 
 #if DEBUG
 

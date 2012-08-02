@@ -86,6 +86,12 @@
    
     <% if (Request.IsAuthenticated) {%>  
         <div class="container-fluid">
+          <%--  <div class="row">                   
+                <div class="span8 offset2">            
+                    <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
+                    </asp:ContentPlaceHolder>                   
+                </div>            
+            </div>--%>
             <div class="row-fluid">
                 <div class="span3">
                     <%if (HttpContext.Current.User.Identity.IsAuthenticated) {
@@ -102,7 +108,7 @@
                 <div class="span9">
                     <div class="row-fluid"> 
                         <asp:ContentPlaceHolder ID="MainContent" runat="server">        
-                        </asp:ContentPlaceHolder>
+                        </asp:ContentPlaceHolder>                        
                     </div>
                 </div>
             </div>
@@ -112,7 +118,7 @@
             <div class="row">                   
                 <div class="span8 offset2">            
                     <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
-                    </asp:ContentPlaceHolder>
+                    </asp:ContentPlaceHolder>                   
                 </div>            
             </div>
         </div>

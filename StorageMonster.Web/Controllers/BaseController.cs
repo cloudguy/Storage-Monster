@@ -10,9 +10,19 @@ namespace StorageMonster.Web.Controllers
     {
         public ActionResult Forbidden()
         {
+#warning master page?
             return View();
         }
 
+        public ActionResult BadRequest()
+        {
+#warning master page?
+            return View();
+        }
+        public ActionResult NotFound()
+        {
+            return View();
+        }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (!(filterContext.HttpContext.User.Identity is Identity))

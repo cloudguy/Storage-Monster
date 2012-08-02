@@ -51,7 +51,7 @@ namespace StorageMonster.Web.Services
 
         public void SendMail(string subject, string body, string from, string recipient)
         {
-            if (string.IsNullOrEmpty(recipient) == null)
+            if (string.IsNullOrEmpty(recipient))
                 throw new ArgumentNullException("recipient");
 
             if (string.IsNullOrEmpty(from))
