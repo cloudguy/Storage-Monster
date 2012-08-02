@@ -17,6 +17,7 @@ using StorageMonster.Web.Properties;
 using StorageMonster.Web.Services;
 using StorageMonster.Web.Services.Configuration;
 using StorageMonster.Web.Services.Extensions;
+using StorageMonster.Web.Services.Routing;
 using StorageMonster.Web.Services.Validation;
 
 namespace StorageMonster.Web
@@ -37,25 +38,25 @@ namespace StorageMonster.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Content/*");
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 "NotFound", // Route name
                 "NotFound", // URL with parameters
                 new { controller = "Home", action = "NotFound" } // Parameter defaults
             );
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 "Forbidden", // Route name
                 "Forbidden", // URL with parameters
                 new { controller = "Home", action = "Forbidden" } // Parameter defaults
             );
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 "BadRequest", // Route name
                 "BadRequest", // URL with parameters
                 new { controller = "Home", action = "BadRequest" } // Parameter defaults
             );
 
-            routes.MapRoute(
+            routes.MapRouteLowercase(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
@@ -90,6 +91,8 @@ namespace StorageMonster.Web
             if (!webConfig.RunSweeper)
                 return;
 
+            ILog sweeperLogger = LogManager.GetLogger(typeof(ISweeper));
+
             ISweeper sweeper = IocContainer.Instance.Resolve<ISweeper>();
             TimeSpan timeout = webConfig.SweeperTimeout;
             Thread sweeperThread = new Thread(() =>
@@ -97,7 +100,14 @@ namespace StorageMonster.Web
                         while (true)
                         {
                             Thread.Sleep(timeout);
-                            sweeper.CleanUp();
+                            try
+                            {
+                                sweeper.CleanUp();
+                            }
+                            catch (Exception ex)
+                            {
+                                sweeperLogger.Error(ex);
+                            }
                         }
 
                     });

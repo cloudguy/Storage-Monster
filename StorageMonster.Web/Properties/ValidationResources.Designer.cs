@@ -142,6 +142,15 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specified email was not found.
+        /// </summary>
+        public static string EmailNotFoundError {
+            get {
+                return ResourceManager.GetString("EmailNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field &apos;{0}&apos; is invalid..
         /// </summary>
         public static string InvalidFieldFormat {
@@ -156,6 +165,15 @@ namespace StorageMonster.Web.Properties {
         public static string NoPermissionsError {
             get {
                 return ResourceManager.GetString("NoPermissionsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password changed.
+        /// </summary>
+        public static string PasswordChangedInfo {
+            get {
+                return ResourceManager.GetString("PasswordChangedInfo", resourceCulture);
             }
         }
         
@@ -291,6 +309,24 @@ namespace StorageMonster.Web.Properties {
         public static string RequiredFieldFormat {
             get {
                 return ResourceManager.GetString("RequiredFieldFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server error.
+        /// </summary>
+        public static string ResetInstructionSendingFailedError {
+            get {
+                return ResourceManager.GetString("ResetInstructionSendingFailedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructions for reseting the password were sent to your email box.
+        /// </summary>
+        public static string ResetPasswdRequestSentInfo {
+            get {
+                return ResourceManager.GetString("ResetPasswdRequestSentInfo", resourceCulture);
             }
         }
         

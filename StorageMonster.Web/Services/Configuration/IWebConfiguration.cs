@@ -11,5 +11,7 @@ namespace StorageMonster.Web.Services.Configuration
         bool AllowMultipleLogons { get; }
 	    bool RunSweeper { get; }
 	    TimeSpan SweeperTimeout { get; }
+        string RestorePasswordMailFrom { get; }
+        TimeSpan ResetPasswordRequestExpiration { get; }
 	}
 }

@@ -165,4 +165,28 @@
   <data name="RegisterValidationSummary" xml:space="preserve">
     <value>Не удалось создать учетную запись. Поправьте ошибки и попробуйте снова.</value>
   </data>
+  <data name="ResetPasswordButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="ResetPasswordLinkContent" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="ResetPasswordRequestButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="ResetPasswordRequestFormInfo" xml:space="preserve">
+    <value>Укажите почтовый ящик, на который следует выслать инструкции по сбросу пароля</value>
+  </data>
+  <data name="ResetPasswordRequestTitle" xml:space="preserve">
+    <value>Сброс пароля</value>
+  </data>
+  <data name="ResetPasswordRequestValidationSummary" xml:space="preserve">
+    <value>Отправить информацию о сбросе пароля не удалось</value>
+  </data>
+  <data name="ResetPasswordTitle" xml:space="preserve">
+    <value>Укажите новый пароль</value>
+  </data>
+  <data name="ResetPasswordValidationSummary" xml:space="preserve">
+    <value>Не удалось обновить пароль</value>
+  </data>
 </root>

@@ -15,11 +15,15 @@ using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
 using StorageMonster.Web.Models;
 using System.Globalization;
+using Common.Logging;
+using System.Net;
 
 namespace StorageMonster.Web.Controllers
 {
     public sealed class AccountController : BaseController
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
+
         private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
 
         private readonly ICacheService _cacheService;
@@ -66,7 +70,86 @@ namespace StorageMonster.Web.Controllers
             model.Init(GetSupportedLocales(), 6);	
 			return View(model);
         }
-        
+
+        public ActionResult ResetPasswordRequest()
+        {
+            return View(new ResetPasswordRequestModel());
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {                
+                try
+                {
+                    _membershipService.ChangePassword(model.Token, model.NewPassword);
+                    ViewData.AddRequestSuccessMessage(ValidationResources.PasswordChangedInfo);
+                    return View();
+                }
+                catch (InvalidPasswordTokenException ex)
+                {
+                    throw new HttpException((int)HttpStatusCode.NotFound, "not found", ex);
+                }
+                catch (ObjectNotExistsException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.AccountNotFound);
+                    return View();
+                }
+                catch (StaleObjectException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.AccountStalled);
+                    return View();
+                }                
+            }
+            return View(model);           
+        }
+
+        public ActionResult ResetPassword(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                throw new HttpException((int)HttpStatusCode.NotFound, "not found");
+
+            ResetPasswordRequest request = _membershipService.GetActivePasswordResetRequestByToken(token);
+
+            if (request == null)
+                throw new HttpException((int)HttpStatusCode.NotFound, "not found");
+
+            ResetPasswordModel model = new ResetPasswordModel();
+            model.Init(_membershipService.MinPasswordLength);
+            model.Token = request.Token;
+
+            return View(model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ResetPasswordRequest(ResetPasswordRequestModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string siteUrl = Url.Action("Index", "Home", null, Request.Url.Scheme);
+                    _membershipService.RequestPasswordReset(model.Email, siteUrl, (token) => Url.Action("ResetPassword", "Account", new { token }, Request.Url.Scheme));
+                    ViewData.AddRequestSuccessMessage(ValidationResources.ResetPasswdRequestSentInfo);
+                    return View();
+                }
+                catch (ObjectNotExistsException)
+                {
+                    ModelState.AddModelError("email", ValidationResources.EmailNotFoundError);
+                }
+                catch (DeliveryException ex)
+                {
+                    Logger.Error(ex);
+                    ModelState.AddModelError("email_delivery", ValidationResources.ResetInstructionSendingFailedError);
+                }
+            }
+            if (model == null)
+                model = new ResetPasswordRequestModel();
+            return View(model);
+        }
+
 		[MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.EditProfile)]
 		public ActionResult Edit()

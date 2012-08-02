@@ -9,18 +9,15 @@ using StorageMonster.Web.Properties;
 
 namespace StorageMonster.Web.Models.Accounts
 {
-    public class ProfilePasswordModel
+    public class ResetPasswordModel
     {
+        public string Token { get; set; }
+
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [StringLength(200, ErrorMessageResourceName = "StringLengthFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [MinPasswordLength("PasswordMinLengthFormat", typeof(ValidationResources), CanBeNull = true)]
         [LocalizedDisplayName("ProfilePassword", typeof(DisplayNameResources))]
-        public string NewPassword { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
-        [LocalizedDisplayName("ProfileOldPassword", typeof(DisplayNameResources))]
-        [MinPasswordLength("PasswordMinLengthFormat", typeof(ValidationResources), CanBeNull = true)]
-        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }        
 
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [LocalizedDisplayName("ProfileConfirmPassword", typeof(DisplayNameResources))]
@@ -31,7 +28,7 @@ namespace StorageMonster.Web.Models.Accounts
 
         public void Init(int minPasswordLength)
         {
-            MinPasswordLength = minPasswordLength;            
+            MinPasswordLength = minPasswordLength;
         }
     }
 }

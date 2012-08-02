@@ -12,11 +12,15 @@ namespace StorageMonster.Services.Facade
 	{
 	    protected IUserRepository UserRepository { get; set; }
         protected IUserRoleRepository UserRoleRepository { get; set; }
+        protected IResetPasswdRequestsRepository ResetPasswdRequestsRepository { get; set; }
 
-		public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository)
+		public UserService(IUserRepository userRepository, 
+            IUserRoleRepository userRoleRepository,
+            IResetPasswdRequestsRepository resetPasswdRequestsRepository)
 		{
 			UserRepository = userRepository;
 			UserRoleRepository = userRoleRepository;
+            ResetPasswdRequestsRepository = resetPasswdRequestsRepository;
 		}
 
 		public User GetUserBySessionToken(Session session)
@@ -82,6 +86,30 @@ namespace StorageMonster.Services.Facade
                 case UpdateResult.ItemNotExists:
                     throw new ObjectNotExistsException(string.Format(CultureInfo.InvariantCulture, "Error updating user {0}, user not found", user.Id));
             }
+        }       
+
+        public ResetPasswordRequest CreatePasswordResetRequestForUser(User user, DateTime expiration)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            ResetPasswordRequest request = new ResetPasswordRequest
+            {
+                Token = Guid.NewGuid().ToString(),
+                UserId = user.Id,
+                Expiration = expiration
+            };
+
+            return ResetPasswdRequestsRepository.CreateRequest(request);
+        }
+
+        public ResetPasswordRequest GetActivePasswordResetRequestByToken(string token)
+        {
+            return ResetPasswdRequestsRepository.GetActiveRequestByToken(token);
+        }
+        public void DeleteResetPasswordRequest(int requestId)
+        {
+            ResetPasswdRequestsRepository.DeleteRequest(requestId);
         }
 	}
 }

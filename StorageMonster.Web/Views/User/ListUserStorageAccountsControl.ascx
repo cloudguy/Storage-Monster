@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<StorageMonster.Web.Models.User.UserAccountsModel>" %>
 <%@ Import Namespace="StorageMonster.Web.Services.Security" %>
+<%@ Import Namespace="System.Globalization" %>
 
 <div id="accountsList">
     <% Identity identity = (Identity)HttpContext.Current.User.Identity; %>
@@ -20,14 +21,14 @@
                         <td><%=Html.Encode(account.AccountName) %></td>
                         <% if (identity.UserId == Model.AccountsCollection.UserId) { %>
                             <td>
-                                <% using(Html.BeginForm("Edit", "StorageAccount", FormMethod.Get)) {%>                               
-                                    <%=Html.Hidden("Id", account.AccountId)%>                               
+                                <% using(Html.BeginForm("Edit", "StorageAccount", FormMethod.Get)) {%>  
+                                    <input type="hidden" name="Id" value="<%=account.AccountId.ToString(CultureInfo.InvariantCulture) %>" /> 
                                     <input type="submit" class="btn btn-primary" value="<%=ViewResources.UserResources.EditButtonText %>"/>
                                 <% } %>                         
                             </td>
                             <td>
                                  <% using(Html.BeginForm("Delete", "StorageAccount", FormMethod.Post)) {%>                               
-                                    <%=Html.Hidden("Id", account.AccountId)%>                               
+                                    <input type="hidden" name="Id" value="<%=account.AccountId.ToString(CultureInfo.InvariantCulture) %>" />                          
                                     <input type="submit" class="btn btn-danger" value="<%=ViewResources.UserResources.DeleteButtonText %>"/>
                                 <% } %>  
                             </td>

@@ -39,6 +39,9 @@
     <AssemblyOriginatorKeyFile>..\Monster.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NVelocity">
+      <HintPath>..\References\NVelocity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Transactions" />
@@ -55,6 +58,7 @@
     <Compile Include="StoragePluginsService.cs" />
     <Compile Include="Sweeper.cs" />
     <Compile Include="UserService.cs" />
+    <Compile Include="VelocityTemplateEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">

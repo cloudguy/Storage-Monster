@@ -165,4 +165,7 @@
   <data name="RegUserName" xml:space="preserve">
     <value>Имя пользователя</value>
   </data>
+  <data name="ResetPasswdEmail" xml:space="preserve">
+    <value>Почтовый ящик</value>
+  </data>
 </root>

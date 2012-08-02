@@ -15,6 +15,7 @@ using StorageMonster.Common;
 
 namespace StorageMonster.Web.Services.Security
 {
+#warning remove provider?
     public class MonsterMembershipProvider : MembershipProvider
     {        private static readonly ILog Logger = LogManager.GetLogger(typeof(MonsterMembershipProvider));
 
@@ -131,8 +132,7 @@ namespace StorageMonster.Web.Services.Security
             string salt;
             var passwordHasher = IocContainer.Instance.Resolve<IPasswordHasher>();
             try
-            {
-                
+            {                
                 salt = passwordHasher.GetSaltFromHash(user.Password);
             }
             catch(MonsterSecurityException ex)

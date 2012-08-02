@@ -50,6 +50,7 @@
     <Compile Include="DataAnnotations\MonsterDisplayAttribute.cs" />
     <Compile Include="DataAnnotations\MonsterInputBoxAttribute.cs" />
     <Compile Include="ICacheService.cs" />
+    <Compile Include="DeliveryException.cs" />
     <Compile Include="MonsterFrontException.cs" />
     <Compile Include="ObjectNotExistsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

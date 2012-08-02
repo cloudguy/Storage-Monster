@@ -203,5 +203,14 @@ namespace StorageMonster.Web.Properties {
                 return ResourceManager.GetString("RegUserName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string ResetPasswdEmail {
+            get {
+                return ResourceManager.GetString("ResetPasswdEmail", resourceCulture);
+            }
+        }
     }
 }

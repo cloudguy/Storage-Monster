@@ -165,4 +165,7 @@
   <data name="RegUserName" xml:space="preserve">
     <value>User name</value>
   </data>
+  <data name="ResetPasswdEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
 </root>

@@ -165,4 +165,28 @@
   <data name="RegisterValidationSummary" xml:space="preserve">
     <value>Account creation was unsuccessful. Please correct the errors and try again.</value>
   </data>
+  <data name="ResetPasswordButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ResetPasswordLinkContent" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="ResetPasswordRequestButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ResetPasswordRequestFormInfo" xml:space="preserve">
+    <value>Specify your email. Detailed instructions for reseting password will be sent to it</value>
+  </data>
+  <data name="ResetPasswordRequestTitle" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="ResetPasswordRequestValidationSummary" xml:space="preserve">
+    <value>Failed to send reset password information</value>
+  </data>
+  <data name="ResetPasswordTitle" xml:space="preserve">
+    <value>Specify new password</value>
+  </data>
+  <data name="ResetPasswordValidationSummary" xml:space="preserve">
+    <value>Could not set new password</value>
+  </data>
 </root>

@@ -203,5 +203,77 @@ namespace ViewResources {
                 return ResourceManager.GetString("RegisterValidationSummary", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string ResetPasswordButtonText {
+            get {
+                return ResourceManager.GetString("ResetPasswordButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password?.
+        /// </summary>
+        public static string ResetPasswordLinkContent {
+            get {
+                return ResourceManager.GetString("ResetPasswordLinkContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string ResetPasswordRequestButtonText {
+            get {
+                return ResourceManager.GetString("ResetPasswordRequestButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify your email. Detailed instructions for reseting password will be sent to it.
+        /// </summary>
+        public static string ResetPasswordRequestFormInfo {
+            get {
+                return ResourceManager.GetString("ResetPasswordRequestFormInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset password.
+        /// </summary>
+        public static string ResetPasswordRequestTitle {
+            get {
+                return ResourceManager.GetString("ResetPasswordRequestTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to send reset password information.
+        /// </summary>
+        public static string ResetPasswordRequestValidationSummary {
+            get {
+                return ResourceManager.GetString("ResetPasswordRequestValidationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify new password.
+        /// </summary>
+        public static string ResetPasswordTitle {
+            get {
+                return ResourceManager.GetString("ResetPasswordTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not set new password.
+        /// </summary>
+        public static string ResetPasswordValidationSummary {
+            get {
+                return ResourceManager.GetString("ResetPasswordValidationSummary", resourceCulture);
+            }
+        }
     }
 }

@@ -87,6 +87,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\Accounts\ResetPasswordModel.cs" />
+    <Compile Include="Models\Accounts\ResetPasswordRequestModel.cs" />
+    <Compile Include="Properties\MailResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MailResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Accounts\AjaxLogOnModel.cs" />
     <Compile Include="Models\Accounts\LogOnModel.cs" />
     <Compile Include="Models\Accounts\ProfileBaseModel.cs" />
@@ -110,6 +117,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DisplayNameResources.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\MailResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MailResources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\ValidationResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -137,6 +149,12 @@
     <Compile Include="Services\HttpInMemoryCacheService.cs" />
     <Compile Include="Services\HttpModules\MonsterAuthorizeHttpModule.cs" />
     <Compile Include="Services\HttpModules\MonsterCleanupHttpModule.cs" />
+    <Compile Include="Services\HttpModules\MonsterLowercaseRoutesHttpModule.cs" />
+    <Compile Include="Services\IMailService.cs" />
+    <Compile Include="Services\MailService.cs" />
+    <Compile Include="Services\Routing\LowercaseRoute.cs" />
+    <Compile Include="Services\Routing\RouteCollectionExtensions.cs" />
+    <Compile Include="Services\Security\InvalidPasswordTokenException.cs" />
     <Compile Include="Services\StorageAccountSettingsModelBinder.cs" />
     <Compile Include="Services\Security\FormsAuthenticationService.cs" />
     <Compile Include="Services\Security\Identity.cs" />
@@ -256,6 +274,8 @@
     <Content Include="Views\Account\ProfileControl.ascx" />
     <Content Include="Views\Account\ProfilePasswordControl.ascx" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Account\ResetPassword.aspx" />
+    <Content Include="Views\Account\ResetPasswordRequest.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\BadRequest.aspx" />
     <Content Include="Views\Shared\Forbidden.aspx" />
@@ -329,6 +349,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\MailResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MailResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MailResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MailResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\DisplayNameResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DisplayNameResources.Designer.cs</LastGenOutput>

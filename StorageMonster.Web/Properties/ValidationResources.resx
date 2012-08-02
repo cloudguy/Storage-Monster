@@ -144,11 +144,17 @@
   <data name="BadRequestError" xml:space="preserve">
     <value>Request is not accepatble</value>
   </data>
+  <data name="EmailNotFoundError" xml:space="preserve">
+    <value>Specified email was not found</value>
+  </data>
   <data name="InvalidFieldFormat" xml:space="preserve">
     <value>Field '{0}' is invalid.</value>
   </data>
   <data name="NoPermissionsError" xml:space="preserve">
     <value>You have no permissions to view this page</value>
+  </data>
+  <data name="PasswordChangedInfo" xml:space="preserve">
+    <value>Password changed</value>
   </data>
   <data name="PasswordMinLengthFormat" xml:space="preserve">
     <value>Field '{0}' is required to be a minimum of {1} character(s) in length.</value>
@@ -194,6 +200,12 @@
   </data>
   <data name="RequiredFieldFormat" xml:space="preserve">
     <value>Field '{0}' is required.</value>
+  </data>
+  <data name="ResetInstructionSendingFailedError" xml:space="preserve">
+    <value>Server error</value>
+  </data>
+  <data name="ResetPasswdRequestSentInfo" xml:space="preserve">
+    <value>Instructions for reseting the password were sent to your email box</value>
   </data>
   <data name="StorageAccountNotFoundError" xml:space="preserve">
     <value>Storage account not found</value>

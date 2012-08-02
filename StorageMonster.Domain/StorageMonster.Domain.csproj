@@ -42,6 +42,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResetPasswordRequest.cs" />
     <Compile Include="StorageAccount.cs" />
     <Compile Include="StorageAccountSetting.cs" />
     <Compile Include="GlobalSuppressions.cs" />

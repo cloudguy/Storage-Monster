@@ -117,112 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountExistsError" xml:space="preserve">
-    <value>Учетная запись уже существует</value>
+  <data name="RestorePasswordMailBody" xml:space="preserve">
+    <value>Здавствуйте, $username.
+Кто-то запросил сброс пароля на сайте $siteurl для вашей учетной записи.
+Для сброса пароля, проследуйте по этой ссылке $link. Ссылка действительна до $expire.
+
+Если вы не запрашивали сброс пароля, проигнорируйте это письмо.
+
+Storage Monster team</value>
   </data>
-  <data name="AccountInvalidError" xml:space="preserve">
-    <value>Неправильная учетна запись</value>
-  </data>
-  <data name="AccountNotFound" xml:space="preserve">
-    <value>Профиль не найден</value>
-  </data>
-  <data name="AccountStalled" xml:space="preserve">
-    <value>Профиль был обновлен ранее</value>
-  </data>
-  <data name="AjaxAccessDenied" xml:space="preserve">
-    <value>Доступ запрещен</value>
-  </data>
-  <data name="AjaxNotAcceptable" xml:space="preserve">
-    <value>Невозможно обработать запрос</value>
-  </data>
-  <data name="AjaxNotFound" xml:space="preserve">
-    <value>Запрос не может быть обработан (404)</value>
-  </data>
-  <data name="AjaxServerError" xml:space="preserve">
-    <value>Ошибка сервера</value>
-  </data>
-  <data name="BadRequestError" xml:space="preserve">
-    <value>Невозможно обработать запрос</value>
-  </data>
-  <data name="EmailNotFoundError" xml:space="preserve">
-    <value>Указанный почтовый ящик не найден</value>
-  </data>
-  <data name="InvalidFieldFormat" xml:space="preserve">
-    <value>Поле '{0}' заполнено неверно.</value>
-  </data>
-  <data name="NoPermissionsError" xml:space="preserve">
-    <value>У вас нет прав для просмотра данной страницы</value>
-  </data>
-  <data name="PasswordChangedInfo" xml:space="preserve">
-    <value>Пароль изменен</value>
-  </data>
-  <data name="PasswordMinLengthFormat" xml:space="preserve">
-    <value>Поле '{0}' должно содержать как минимум {1} символа(ов).</value>
-  </data>
-  <data name="PasswordsMustMatch" xml:space="preserve">
-    <value>Пароли должны совпадать.</value>
-  </data>
-  <data name="PluginError" xml:space="preserve">
-    <value>Ошибка плагина</value>
-  </data>
-  <data name="ProfileUpdateSuccessMessage" xml:space="preserve">
-    <value>Профиль успешно обновлен</value>
-  </data>
-  <data name="RegDuplicateEmail" xml:space="preserve">
-    <value>Пользователь с таким почтовым ящиком уже существует.</value>
-  </data>
-  <data name="RegDuplicateUserName" xml:space="preserve">
-    <value>Пользователь с таким именем уже существует.</value>
-  </data>
-  <data name="RegInvalidAnswer" xml:space="preserve">
-    <value>Ответ для восстановления пароля указан неверно.</value>
-  </data>
-  <data name="RegInvalidEmail" xml:space="preserve">
-    <value>Неправильно указан почтовый ящик.</value>
-  </data>
-  <data name="RegInvalidPassword" xml:space="preserve">
-    <value>Неверно введен пароль.</value>
-  </data>
-  <data name="RegInvalidQuestion" xml:space="preserve">
-    <value>Вопрос для восстановления пароля указан неверно.</value>
-  </data>
-  <data name="RegInvalidUserName" xml:space="preserve">
-    <value>Неправильно указано имя пользователя.</value>
-  </data>
-  <data name="RegProviderError" xml:space="preserve">
-    <value>Ошибка регистрации. Проверьте введенные поля. Если ошибка остается, свяжитесь с системным администратором.</value>
-  </data>
-  <data name="RegUnknownError" xml:space="preserve">
-    <value>Неизвестная ошибка.  Проверьте введенные поля. Если ошибка остается, свяжитесь с системным администратором.</value>
-  </data>
-  <data name="RegUserRejected" xml:space="preserve">
-    <value>Отказано в создании нового пользователя. Проверьте введенные поля. Если ошибка остается, свяжитесь с системным администратором.</value>
-  </data>
-  <data name="RequiredFieldFormat" xml:space="preserve">
-    <value>Отсутствует обязательное поле '{0}'.</value>
-  </data>
-  <data name="ResetInstructionSendingFailedError" xml:space="preserve">
-    <value>Ошибка сервера</value>
-  </data>
-  <data name="ResetPasswdRequestSentInfo" xml:space="preserve">
-    <value>Инструкции по сбросу пароля высланы на ваш почтовый ящик</value>
-  </data>
-  <data name="StorageAccountNotFoundError" xml:space="preserve">
-    <value>Учетная запись хранилища не найдена</value>
-  </data>
-  <data name="StorageAccountStalled" xml:space="preserve">
-    <value>Учетная запись была кем-то обновлена ранее</value>
-  </data>
-  <data name="StoragePluginNotFoundError" xml:space="preserve">
-    <value>Тип хранилища не найден</value>
-  </data>
-  <data name="StringLengthFormat" xml:space="preserve">
-    <value>Поле '{0}' должно быть меньше, чем {1} символа(ов)</value>
-  </data>
-  <data name="UserNameOrPasswordIncorrect" xml:space="preserve">
-    <value>Неправильно указан почтовый ящик или пароль.</value>
-  </data>
-  <data name="UserNotFoundError" xml:space="preserve">
-    <value>Пользователь не найден</value>
+  <data name="RestorePasswordMailSubject" xml:space="preserve">
+    <value>Сброс пароля на сайте $siteurl</value>
   </data>
 </root>

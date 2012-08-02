@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IStorageAccountService.cs" />
+    <Compile Include="ITemplateEngine.cs" />
     <Compile Include="Security\ICryptoService.cs" />
     <Compile Include="ILocaleProvider.cs" />
     <Compile Include="IoCcontainer.cs" />

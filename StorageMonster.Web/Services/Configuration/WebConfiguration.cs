@@ -29,6 +29,13 @@ namespace StorageMonster.Web.Services.Configuration
         public const string SweeperTimeoutConfigKey = "SweeperTimeout";
         public const int DefaultSweeperTimeout = 30;
 
+        public const string ResetPasswordRequestExpirationConfigKey = "ResetPasswordRequestExpiration";
+        public const int DefaultResetPasswordRequestExpiration = 30;
+
+        public const string RestorePasswordMailFromConfigKey = "RestorePasswordMailFrom";
+        public const string DefaultRestorePasswordMailFrom = "do-not-reply@storage-monster.com";
+               
+
         private object _initObject;
         private readonly object _lock = new object();
 
@@ -36,7 +43,7 @@ namespace StorageMonster.Web.Services.Configuration
 
         public void Initialize()
         {
-            int minutes = ParseInt(AuthenticationExpirationConfigKey, DefaultAuthenticationExpiration);
+            int minutes = ParsePositiveInt(AuthenticationExpirationConfigKey, DefaultAuthenticationExpiration);
             _authenticationExpiration = new TimeSpan(0, minutes, 0);
             //------------------------------
             _authenticationCookieName = ParseString(AuthenticationnCookieNameKey, DefaultAuthenticationnCookieName);
@@ -49,9 +56,14 @@ namespace StorageMonster.Web.Services.Configuration
             //------------------------------
             _runSweeper = ParseBool(RunSweeperConfigKey, DefaultRunSweeperConfig);
             //------------------------------
+            _restorePasswordMailFrom = ParseString(RestorePasswordMailFromConfigKey, DefaultRestorePasswordMailFrom);
+            //------------------------------
+            minutes = ParsePositiveInt(ResetPasswordRequestExpirationConfigKey, DefaultResetPasswordRequestExpiration);
+            _resetPasswordRequestExpiration = new TimeSpan(0, minutes, 0);
+            //------------------------------
             if (_runSweeper)
             {
-                minutes = ParseInt(SweeperTimeoutConfigKey, DefaultSweeperTimeout);
+                minutes = ParsePositiveInt(SweeperTimeoutConfigKey, DefaultSweeperTimeout);
                 _sweeperTimeout = new TimeSpan(0, minutes, 0);
             }
             _initObject = new object();
@@ -70,7 +82,7 @@ namespace StorageMonster.Web.Services.Configuration
             return value;
         }
 
-        private static int ParseInt(string configSection, int defaultValue)
+        private static int ParsePositiveInt(string configSection, int defaultValue)
         {
             string sValue = WebConfigurationManager.AppSettings[configSection];
             if (sValue != null)
@@ -115,6 +127,8 @@ namespace StorageMonster.Web.Services.Configuration
         private bool _authenticationSlidingExpiration;
         private bool _runSweeper;
         private TimeSpan _sweeperTimeout;
+        private TimeSpan _resetPasswordRequestExpiration;
+        private string _restorePasswordMailFrom;       
 
         public TimeSpan AuthenticationExpiration { get { return SafeGet(ref _authenticationExpiration); } }
         public String AuthenticationCookiename { get { return SafeGet(ref _authenticationCookieName); } }
@@ -123,12 +137,7 @@ namespace StorageMonster.Web.Services.Configuration
         public bool AllowMultipleLogons { get { return SafeGet(ref _allowMultipleLogons); } }
         public bool RunSweeper { get { return SafeGet(ref _runSweeper); } }
         public TimeSpan SweeperTimeout { get { return SafeGet(ref _sweeperTimeout); } }
+        public string RestorePasswordMailFrom { get { return SafeGet(ref _restorePasswordMailFrom); } }
+        public TimeSpan ResetPasswordRequestExpiration { get { return SafeGet(ref _resetPasswordRequestExpiration); } }
     }
 }
-
-/*
-<add key="LoginUrl" value="~/Account/LogOn"/>
-    <add key="LoginTomeout" value="2880"/>
-    <add key="LoginCookieName" value="sm_auth"/>
-    <add key="UseSlidingExpiration" value="true"/>
-*/

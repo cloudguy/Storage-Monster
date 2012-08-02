@@ -10,7 +10,7 @@
         <% if (!Request.IsAjaxRequest()) { %>
         <p>
             <%=ViewResources.AccountResources.LogOnText%> <%= Html.ActionLink(ViewResources.AccountResources.RegisterLinkContent, "Register", "Account")%> <%=ViewResources.AccountResources.RegisterText %>
-        </p>
+        </p>        
         <% } %>     
 
         <div id="LogonWait">
@@ -36,8 +36,7 @@
 
         <% using (Html.BeginForm("LogOn", "Account", FormMethod.Post, new { id= formId, onsubmit=ajaxHandler } )) {%>
             <div class="well">
-                <fieldset>
-                    <div>
+                <fieldset>                    
                     <legend><%=ViewResources.AccountResources.AccountInfoTitle %></legend>
                     <p>
                         <%= Html.LocalizedLabelFor(model => model.Email)%> 
@@ -58,6 +57,7 @@
                     </p>
                     <p>
                         <input type="submit" class="btn" value="<%=ViewResources.AccountResources.LogOnButtonText %>" />
+                        <%= Html.ActionLink(ViewResources.AccountResources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account")%>
                     </p>
                 </fieldset>
             </div>

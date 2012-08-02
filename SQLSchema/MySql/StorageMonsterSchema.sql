@@ -9,7 +9,9 @@ CREATE  TABLE `storage_plugins` (
   `stamp`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `un_classpath` (`classpath` ASC) )
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 CREATE  TABLE `users` (
   `id` INT NOT NULL AUTO_INCREMENT ,
@@ -21,7 +23,9 @@ CREATE  TABLE `users` (
   `stamp`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) ,  
   UNIQUE INDEX `un_email` (`email` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 CREATE  TABLE `user_roles` (
   `id` INT NOT NULL AUTO_INCREMENT ,
@@ -35,7 +39,9 @@ CREATE  TABLE `user_roles` (
     REFERENCES `users` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 CREATE  TABLE `sessions` (
   `id` INT NOT NULL AUTO_INCREMENT ,
@@ -50,7 +56,9 @@ CREATE  TABLE `sessions` (
     REFERENCES `users` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 CREATE  TABLE `storage_accounts` (
   `id` INT NOT NULL AUTO_INCREMENT ,
@@ -71,7 +79,9 @@ CREATE  TABLE `storage_accounts` (
     REFERENCES `users` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 
 CREATE  TABLE `storage_accounts_settings` (
@@ -88,4 +98,22 @@ CREATE  TABLE `storage_accounts_settings` (
     REFERENCES `storage_accounts` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+CREATE  TABLE `reset_password_requests` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `user_id` INT NOT NULL ,
+  `token` VARCHAR(100) NOT NULL ,
+  `expiration_date` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_resetpasswd_users` (`user_id` ASC) ,
+  CONSTRAINT `fk_resetpasswd_users`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `storage_services`.`users` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
