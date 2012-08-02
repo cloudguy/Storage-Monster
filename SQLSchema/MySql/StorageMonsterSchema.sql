@@ -111,7 +111,7 @@ CREATE  TABLE `reset_password_requests` (
   INDEX `fk_resetpasswd_users` (`user_id` ASC) ,
   CONSTRAINT `fk_resetpasswd_users`
     FOREIGN KEY (`user_id` )
-    REFERENCES `storage_services`.`users` (`id` )
+    REFERENCES `users` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
