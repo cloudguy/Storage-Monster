@@ -22,14 +22,17 @@
             <div class="well">
                 <fieldset>    
                     <legend><%=ViewResources.AccountResources.ResetPasswordTitle %></legend>                
+                    <p>
+                        <%=String.Format(System.Globalization.CultureInfo.CurrentCulture, ViewResources.AccountResources.PasswordRequirementFormat, Model.MinPasswordLength)%>
+                    </p>
                     <p>                        
                         <%= Html.LocalizedLabelFor(model => model.NewPassword)%>                               
-                        <%= Html.TextBoxFor(model => model.NewPassword, new { @class = "fullwidth" })%>
+                        <%= Html.PasswordFor(model => model.NewPassword, new { @class = "fullwidth" })%>
                         <%= Html.ValidationMessageFor(model => model.NewPassword)%>                   
                     </p> 
                      <p>                        
                         <%= Html.LocalizedLabelFor(model => model.ConfirmNewPassword)%>                               
-                        <%= Html.TextBoxFor(model => model.ConfirmNewPassword, new { @class = "fullwidth" })%>
+                        <%= Html.PasswordFor(model => model.ConfirmNewPassword, new { @class = "fullwidth" })%>
                         <%= Html.ValidationMessageFor(model => model.ConfirmNewPassword)%>                   
                     </p> 
                     <p>

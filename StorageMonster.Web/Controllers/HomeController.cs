@@ -34,33 +34,8 @@ namespace StorageMonster.Web.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-       
-        [AcceptVerbs(HttpVerbs.Post)]
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        public ActionResult SendMail()
-        {
-            //var engine = IocContainer.Instance.Resolve<ITemplateEngine>();
-
-            //string emailTemplate = MailResources.RestorePasswordMail;
-
-            //string template = engine.TransformTemplate(new Dictionary<string, object> { { "token", "fffd-7777-855-664" } }, emailTemplate);
-
-           /* var mailMessage = new System.Net.Mail.MailMessage();
-            mailMessage.To.Add("cloudguy@yandex.ru");
-            mailMessage.From = new MailAddress("cloudguy@apphb.com");
-            mailMessage.Subject = "test appharbor mail";
-            mailMessage.Body = "test appharbor body";
-
-            var smtpClient = new SmtpClient();
-            //smtpClient.Host = "smtp.mailgun.org";
-            //smtpClient.Credentials = new NetworkCredential("postmaster@app1090.mailgun.org", "44nqd7xsopo7");
-            //smtpClient.Port = 587;
-            //smtpClient.EnableSsl = true;
-            smtpClient.Send(mailMessage);*/
-            return View("Index");
-            //postmaster@app1090.mailgun.org
-        }
+        }      
+      
 
         [AjaxOnly(JsonRequestBehavior.AllowGet)]
         [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]

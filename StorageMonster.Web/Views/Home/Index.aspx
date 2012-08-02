@@ -9,9 +9,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<%using(Html.BeginForm("SendMail", "Home", FormMethod.Post)) {%>
-<input type="submit" value="send email" />
-<%} %>
 
 </asp:Content>
 

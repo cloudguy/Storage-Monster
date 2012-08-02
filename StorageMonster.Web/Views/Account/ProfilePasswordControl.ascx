@@ -4,8 +4,7 @@
 
 <% if (Model != null) { %>
     <div class="well">
-        <% using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post)) {%>
-            <div>
+        <% using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post)) {%>            
             <fieldset>
                 <legend><%=ViewResources.AccountResources.AccountInfoTitle %></legend>
                     <p>
@@ -27,8 +26,7 @@
                     <%=Html.AntiForgeryToken(Constants.Salt_Account_Edit) %>
                     <input type="submit" class="btn" value="<%=ViewResources.AccountResources.ProfileSubmitButtonText %>" />
                 </p>
-            </fieldset>
-            </div>
+            </fieldset>            
         <% } %>
     </div>
 <% } %>
