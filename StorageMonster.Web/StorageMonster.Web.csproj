@@ -139,6 +139,7 @@
     </Compile>
     <Compile Include="Services\ActionAnnotations\AjaxOnlyAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\DoNotResetAuthCookieAttribute .cs" />
+    <Compile Include="Services\ActionAnnotations\MonsterValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\MenuActivatorAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\MonsterAuthorizeAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\StorageAccountMenuActivatorAttribute.cs" />

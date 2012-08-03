@@ -207,6 +207,7 @@ namespace StorageMonster.Web
                         });
                         contentType = Constants.JsonContentType;
                     }
+#warning log path and ip
                     ForbiddenLogger.Warn(ex);
                     loggingRequired = false;
                 }
@@ -223,6 +224,7 @@ namespace StorageMonster.Web
                     });
                     contentType = Constants.JsonContentType;
                 }
+#warning log path and ip
                 ForbiddenLogger.Warn(ex);
                 loggingRequired = false;
             }

@@ -262,8 +262,7 @@ namespace StorageMonster.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        [ValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]
-        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [MonsterValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]        
         [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
         public ActionResult Edit(ProfileBaseModel baseModel)
         {
