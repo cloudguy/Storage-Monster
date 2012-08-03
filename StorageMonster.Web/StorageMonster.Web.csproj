@@ -159,6 +159,7 @@
     <Compile Include="Services\Routing\LowercaseRoute.cs" />
     <Compile Include="Services\Routing\RouteCollectionExtensions.cs" />
     <Compile Include="Services\Security\InvalidPasswordTokenException.cs" />
+    <Compile Include="Services\Security\PasswordsMismatchException.cs" />
     <Compile Include="Services\StorageAccountSettingsModelBinder.cs" />
     <Compile Include="Services\Security\FormsAuthenticationService.cs" />
     <Compile Include="Services\Security\Identity.cs" />

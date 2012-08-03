@@ -13,6 +13,6 @@ namespace StorageMonster.Web.Services.Security
         void RequestPasswordReset(string email, string siteurl, Func<string,string> urlGenerator);
         ResetPasswordRequest GetActivePasswordResetRequestByToken(string token);
         void ChangePassword(string resetToken, string newPassword);
-        void ChangePassword(int userId, string newPassword, string oldPassword);
+        User ChangePassword(int userId, string newPassword, string oldPassword, DateTime userStamp);
     }
 }

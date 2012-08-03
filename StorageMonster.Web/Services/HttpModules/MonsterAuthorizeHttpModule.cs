@@ -63,9 +63,9 @@ namespace StorageMonster.Web.Services.HttpModules
 		{
 			HttpApplication application = (HttpApplication)sender;
 			HttpRequest request = application.Context.Request;
+			
+			Logger.DebugFormat(CultureInfo.InvariantCulture, "AuthorizeRequest {0}", request.AppRelativeCurrentExecutionFilePath);
 
-			//if (Logger.IsDebugEnabled)
-			//	Logger.DebugFormat(CultureInfo.InvariantCulture, "AuthorizeRequest {0}", request.AppRelativeCurrentExecutionFilePath);
 			try
 			{
                 IFormsAuthenticationService authenticationService = IocContainer.Instance.Resolve<IFormsAuthenticationService>();
@@ -88,8 +88,7 @@ namespace StorageMonster.Web.Services.HttpModules
 			HttpContext context = application.Context;
 			HttpRequest request = application.Context.Request;
 
-			//if (Logger.IsDebugEnabled)
-			//	Logger.DebugFormat(CultureInfo.InvariantCulture, "AcquireRequestState {0}", request.AppRelativeCurrentExecutionFilePath);
+			Logger.DebugFormat(CultureInfo.InvariantCulture, "AcquireRequestState {0}", request.AppRelativeCurrentExecutionFilePath);
 
 			Identity identity = context.User.Identity as Identity;
 			string langName = string.Empty;

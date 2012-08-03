@@ -153,6 +153,9 @@
   <data name="NoPermissionsError" xml:space="preserve">
     <value>У вас нет прав для просмотра данной страницы</value>
   </data>
+  <data name="OldPasswordsMismatchError" xml:space="preserve">
+    <value>Старый пароль указан не верно</value>
+  </data>
   <data name="PasswordChangedInfo" xml:space="preserve">
     <value>Пароль изменен</value>
   </data>

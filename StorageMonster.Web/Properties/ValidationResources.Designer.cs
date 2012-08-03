@@ -169,6 +169,15 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Old password is incorrect.
+        /// </summary>
+        public static string OldPasswordsMismatchError {
+            get {
+                return ResourceManager.GetString("OldPasswordsMismatchError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password changed.
         /// </summary>
         public static string PasswordChangedInfo {

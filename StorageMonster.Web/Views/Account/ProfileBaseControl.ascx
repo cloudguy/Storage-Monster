@@ -1,11 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<StorageMonster.Web.Models.Accounts.ProfileBaseModel>" %>
+<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="StorageMonster.Web" %>
 <%@ Import Namespace="StorageMonster.Web.Services.Extensions" %>
 
-<% if (Model != null) { %>     
-    
-
-    <div class="well">
+<% if (Model != null) { %>
+   <div class="well">
         <h2><%=ViewResources.AccountResources.ProfileTitle %></h2>            
         <% long stamp = 0;
            if (ViewData[Constants.StampFormKey] != null)
@@ -32,7 +31,7 @@
                     </p>
                     <p>
                         <%=Html.AntiForgeryToken(Constants.Salt_Account_Edit) %>
-                        <%=Html.Hidden(Constants.StampFormKey, stamp)%>
+                        <input type="hidden" name="<%=Constants.StampFormKey %>" value="<%=stamp.ToString(CultureInfo.InvariantCulture) %>" />                        
                         <input type="submit" class="btn" value="<%=ViewResources.AccountResources.ProfileSubmitButtonText %>" />
                     </p>
                 </fieldset>

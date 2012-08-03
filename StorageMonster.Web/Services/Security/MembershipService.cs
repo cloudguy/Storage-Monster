@@ -8,11 +8,14 @@ using StorageMonster.Web.Services.Configuration;
 using StorageMonster.Web.Properties;
 using System.Collections.Generic;
 using StorageMonster.Services.Security;
+using Common.Logging;
 
 namespace StorageMonster.Web.Services.Security
 {
     public class MembershipService : IMembershipService
     {
+        protected static readonly ILog Logger = LogManager.GetLogger(typeof(IMembershipService));
+
         protected IUserService UserService { get; set; }
         protected ITemplateEngine TemplateEngine { get; set; }
         protected IMailService MailService { get; set; }
@@ -139,8 +142,50 @@ namespace StorageMonster.Web.Services.Security
             UserService.DeleteResetPasswordRequest(request.Id);
         }
 
-        public void ChangePassword(int userId, string newPassword, string oldPassword)
+        public User ChangePassword(int userId, string newPassword, string oldPassword, DateTime userStamp)
         {
+            if (string.IsNullOrEmpty(newPassword))
+                throw new ArgumentNullException("newPassword");
+
+            if (string.IsNullOrEmpty(oldPassword))
+                throw new ArgumentNullException("oldPassword");
+
+#warning check pass length
+            User user = UserService.Load(userId);
+            if (user == null)
+#warning make new exception for user
+                throw new ObjectNotExistsException(string.Format(CultureInfo.InvariantCulture, "User with id {0} not exists", userId));
+
+            if (!ValidatePasswords(user, oldPassword))
+                throw new PasswordsMismatchException("Old password mismatch");
+           
+
+            user.Password = PasswordHasher.EncryptPassword(newPassword);
+            user.Stamp = userStamp;
+            UserService.UpdateUser(user);
+            return user;
+        }
+
+#warning copied from provider
+        public bool ValidatePasswords(User user, string oldPasswordCheck)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            string salt;            
+            try
+            {
+                salt = PasswordHasher.GetSaltFromHash(user.Password);
+            }
+            catch (MonsterSecurityException ex)
+            {
+                Logger.ErrorFormat(CultureInfo.InvariantCulture, "User with email {0} has invalid password hash", ex, user.Email);
+                return false;
+            }
+
+            string checkHash = PasswordHasher.EncryptPassword(oldPasswordCheck, salt);
+
+            return user.Password.Equals(checkHash, StringComparison.InvariantCulture);
         }
     }
 }

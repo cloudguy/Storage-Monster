@@ -22,6 +22,7 @@ namespace StorageMonster.Web.Controllers
 {
     public sealed class AccountController : BaseController
     {
+        private const string SuccessMessageTempDataKey = "success_message_temp_data";
         private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
 
         private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
@@ -84,6 +85,7 @@ namespace StorageMonster.Web.Controllers
             {                
                 try
                 {
+#warning use stamp
                     _membershipService.ChangePassword(model.Token, model.NewPassword);
                     ViewData.AddRequestSuccessMessage(ValidationResources.PasswordChangedInfo);
                     return View();
@@ -150,22 +152,29 @@ namespace StorageMonster.Web.Controllers
             return View(model);
         }
 
+        
+
 		[MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.EditProfile)]
+        [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
 		public ActionResult Edit()
 		{
+            if (TempData.ContainsKey(SuccessMessageTempDataKey))
+                ViewData.AddRequestSuccessMessage((string)TempData[SuccessMessageTempDataKey]);            
+
             ProfileBaseModel baseModel = null;
+            ProfilePasswordModel passwdModel = null;
             ProfileModel model = new ProfileModel 
             {
                 BaseModel = GetProfileBaseModel(ref baseModel),
-                PasswordModel = GetProfilePasswordModel() 
+                PasswordModel = GetProfilePasswordModel(ref passwdModel) 
             };
             return View(model);
 		}
 
-        private ProfilePasswordModel GetProfilePasswordModel()
+        private ProfilePasswordModel GetProfilePasswordModel(ref ProfilePasswordModel passwdModel)
         {
-            ProfilePasswordModel passwdModel = new ProfilePasswordModel();
+            if (passwdModel == null)
+                passwdModel = new ProfilePasswordModel();
             passwdModel.Init(_membershipService.MinPasswordLength);
             return passwdModel;
         }
@@ -192,14 +201,71 @@ namespace StorageMonster.Web.Controllers
             return baseModel;
         }
 
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        public ActionResult ChangePassword()
+        {
+            return RedirectToAction("Edit");
+        }
+
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]
         [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
-        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.EditProfile)]
+        [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
+        public ActionResult ChangePassword(ProfilePasswordModel passwordModel)
+        {
+            long stamp;
+            if (!long.TryParse(Request.Form[Constants.StampFormKey], NumberStyles.Integer, CultureInfo.InvariantCulture, out stamp))
+            {
+                ModelState.AddModelError("user_stamp", ValidationResources.BadRequestError);
+                return View("Edit");
+            }
+
+            ProfileBaseModel baseModel = null;
+            baseModel = GetProfileBaseModel(ref baseModel);
+
+            if (ModelState.IsValid)
+            {
+                Principal principal = (Principal)User;
+                Identity identity = (Identity)principal.Identity;
+
+                try
+                {
+                    User user = _membershipService.ChangePassword(identity.UserId, passwordModel.NewPassword, passwordModel.OldPassword, DateTime.FromBinary(stamp));
+                    //stamp = user.Stamp.ToBinary();                   
+                    TempData[SuccessMessageTempDataKey] = ValidationResources.PasswordChangedInfo;                   
+                    return RedirectToAction("Edit");
+                }
+                catch (StaleObjectException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.AccountStalled);
+                }
+                catch (ObjectNotExistsException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.AccountNotFound);
+                }
+                catch (PasswordsMismatchException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.OldPasswordsMismatchError);
+                }
+            }
+
+            ProfileModel model = new ProfileModel
+            {
+                BaseModel = baseModel,
+                PasswordModel = GetProfilePasswordModel(ref passwordModel)
+            };
+            ViewData[Constants.StampFormKey] = stamp;
+            return View("Edit", model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]
+        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
         public ActionResult Edit(ProfileBaseModel baseModel)
         {
-#warning add locale cookie
-            baseModel = GetProfileBaseModel(ref baseModel);
+#warning add locale cookie            
 
             long stamp;
             if (!long.TryParse(Request.Form[Constants.StampFormKey], NumberStyles.Integer, CultureInfo.InvariantCulture, out stamp))
@@ -207,7 +273,8 @@ namespace StorageMonster.Web.Controllers
                 ModelState.AddModelError("user_stamp", ValidationResources.BadRequestError);
                 return View();
             }
-            
+
+            baseModel = GetProfileBaseModel(ref baseModel);
 
             if (ModelState.IsValid)
             {
@@ -235,12 +302,13 @@ namespace StorageMonster.Web.Controllers
                 }
             }
 
+            ProfilePasswordModel passwdModel = null;
             ProfileModel model = new ProfileModel
             {
                 BaseModel = baseModel,
-                PasswordModel = GetProfilePasswordModel()
+                PasswordModel = GetProfilePasswordModel(ref passwdModel)
             };
-            ViewData.Add(Constants.StampFormKey, stamp);           
+            ViewData[Constants.StampFormKey] = stamp;           
             return View("Edit", model);
         }
 

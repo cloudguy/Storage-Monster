@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Concurrent;
 
 namespace StorageMonster.Web.Services
 {
@@ -28,8 +29,8 @@ namespace StorageMonster.Web.Services
         }
 
         //holds all of the actual paths to the required files
-        private static Dictionary<string, string> _ViewPaths =
-            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private static ConcurrentDictionary<string, string> _ViewPaths =
+            new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         //update the path to match a real file
         protected override IView CreateView(ControllerContext controllerContext,
@@ -94,8 +95,8 @@ namespace StorageMonster.Web.Services
 
             //save this path for later use
             virtualPath = string.Join("/", segments);
-            CaseInsensitiveViewEngine._ViewPaths.Remove(virtualPath);
-            CaseInsensitiveViewEngine._ViewPaths.Add(virtualPath, virtualPath);
+            //CaseInsensitiveViewEngine._ViewPaths.Remove(virtualPath);
+            CaseInsensitiveViewEngine._ViewPaths[virtualPath] = virtualPath;
             return virtualPath;
         }
 

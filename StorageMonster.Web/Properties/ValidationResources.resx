@@ -153,6 +153,9 @@
   <data name="NoPermissionsError" xml:space="preserve">
     <value>You have no permissions to view this page</value>
   </data>
+  <data name="OldPasswordsMismatchError" xml:space="preserve">
+    <value>Old password is incorrect</value>
+  </data>
   <data name="PasswordChangedInfo" xml:space="preserve">
     <value>Password changed</value>
   </data>
