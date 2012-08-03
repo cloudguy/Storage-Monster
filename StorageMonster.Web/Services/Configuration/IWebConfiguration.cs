@@ -5,7 +5,9 @@ namespace StorageMonster.Web.Services.Configuration
 	public interface IWebConfiguration
 	{
 		TimeSpan AuthenticationExpiration { get; }
-		string AuthenticationCookiename { get; }
+		string AuthenticationCookieName { get; }
+        string LocaleCookieName { get; }
+        TimeSpan LocaleCookieTimeout { get; }
         string LoginUrl { get; }
         bool AuthenticationSlidingExpiration { get; }
         bool AllowMultipleLogons { get; }

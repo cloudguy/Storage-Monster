@@ -53,7 +53,7 @@ namespace StorageMonster.Web.Services.Security
 
 		public void SignOut()
         {
-            HttpCookie authCookie = HttpContext.Current.Request.Cookies[WebConfiguration.AuthenticationCookiename];
+            HttpCookie authCookie = HttpContext.Current.Request.Cookies[WebConfiguration.AuthenticationCookieName];
             if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                 SessionService.ExpireSession(authCookie.Value);
 
@@ -66,7 +66,7 @@ namespace StorageMonster.Web.Services.Security
 
         protected HttpCookie CreateAuthCookie(string email, string userData, bool persistent, out DateTime expiration)
         {
-            var cookie = new HttpCookie(WebConfiguration.AuthenticationCookiename, userData);
+            var cookie = new HttpCookie(WebConfiguration.AuthenticationCookieName, userData);
             expiration = DateTime.UtcNow.AddMinutes(WebConfiguration.AuthenticationExpiration.TotalMinutes);
             if (persistent)
                 cookie.Expires = expiration;
@@ -81,7 +81,7 @@ namespace StorageMonster.Web.Services.Security
 
             //updating session expiration in db
 
-            HttpCookie authCookie = httpContext.Request.Cookies[WebConfiguration.AuthenticationCookiename];
+            HttpCookie authCookie = httpContext.Request.Cookies[WebConfiguration.AuthenticationCookieName];
             if (authCookie == null || string.IsNullOrEmpty(authCookie.Value)) return;
 
             DateTime cookieTime = authCookie.Expires.ToUniversalTime();
@@ -109,7 +109,7 @@ namespace StorageMonster.Web.Services.Security
         {
             try
             {
-                HttpCookie authCookie = HttpContext.Current.Request.Cookies[WebConfiguration.AuthenticationCookiename];
+                HttpCookie authCookie = HttpContext.Current.Request.Cookies[WebConfiguration.AuthenticationCookieName];
                 if (authCookie == null || string.IsNullOrEmpty(authCookie.Value))
                 {
                     SetUser(HttpContext.Current, null, null, false);

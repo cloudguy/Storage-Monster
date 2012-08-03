@@ -215,6 +215,7 @@ namespace StorageMonster.Web.Controllers
         [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
         public ActionResult ChangePassword(ProfilePasswordModel passwordModel)
         {
+#warning maybe move stamp to model and write custom hidden for?
             long stamp;
             if (!long.TryParse(Request.Form[Constants.StampFormKey], NumberStyles.Integer, CultureInfo.InvariantCulture, out stamp))
             {

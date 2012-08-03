@@ -19,14 +19,12 @@ namespace StorageMonster.Web.Services.ActionAnnotations
             get { return this._salt ?? string.Empty; }
             set { this._salt = value; }
         }
-        ValidateAntiForgeryTokenAttribute validator = new ValidateAntiForgeryTokenAttribute();
-        public MonsterValidateAntiForgeryTokenAttribute()
-        {
-            validator.Salt = Salt;
-        }
+        ValidateAntiForgeryTokenAttribute validator = new ValidateAntiForgeryTokenAttribute();      
+        
 
         public void OnAuthorization(AuthorizationContext filterContext)
         {
+            validator.Salt = Salt;
             try
             {
                 validator.OnAuthorization(filterContext);

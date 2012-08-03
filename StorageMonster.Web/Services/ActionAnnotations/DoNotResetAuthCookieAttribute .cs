@@ -17,7 +17,7 @@ namespace StorageMonster.Web.Services.ActionAnnotations
 		{
             IWebConfiguration webConfig = IocContainer.Instance.Resolve<IWebConfiguration>();
 			var response = filterContext.HttpContext.Response;
-            response.Cookies.Remove(webConfig.AuthenticationCookiename);
+            response.Cookies.Remove(webConfig.AuthenticationCookieName);
 		}
 	}
 }

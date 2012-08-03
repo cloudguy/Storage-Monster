@@ -34,10 +34,23 @@ namespace StorageMonster.Web.Services.HttpModules
 // ReSharper restore MemberCanBeMadeStatic.Local
         {
             HttpApplication application = (HttpApplication)sender;
+
+            //updating locale cookies
+            IWebConfiguration webConfiguration = IocContainer.Instance.Resolve<IWebConfiguration>();
+            ILocaleProvider localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();
+            var localeData = RequestContext.GetValue<LocaleData>(RequestContext.LocaleKey);
+            if (localeData != null)
+            {
+                HttpCookie localeCookie = new HttpCookie(webConfiguration.LocaleCookieName, RequestContext.GetValue<LocaleData>(RequestContext.LocaleKey).ShortName);
+                localeCookie.Expires = DateTime.UtcNow.Add(webConfiguration.LocaleCookieTimeout);
+                application.Context.Response.SetCookie(localeCookie);
+            }
+
+
+           
             HttpStatusCode code = (HttpStatusCode)application.Response.StatusCode;
             if (code == HttpStatusCode.Unauthorized)
-            {
-                IWebConfiguration webConfiguration = IocContainer.Instance.Resolve<IWebConfiguration>();
+            {                
                 application.Response.Redirect(webConfiguration.LoginUrl);
             }
         }
@@ -90,22 +103,28 @@ namespace StorageMonster.Web.Services.HttpModules
 
 			Logger.DebugFormat(CultureInfo.InvariantCulture, "AcquireRequestState {0}", request.AppRelativeCurrentExecutionFilePath);
 
+            var localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();
+            var webConfiguration = IocContainer.Instance.Resolve<IWebConfiguration>();
+
 			Identity identity = context.User.Identity as Identity;
 			string langName = string.Empty;
-#warning add cookie
+
+            
 			if (identity == null || string.IsNullOrEmpty(identity.Locale))
 			{
-				if (request.UserLanguages != null && request.UserLanguages.Length != 0)
-				{
-                    langName = request.UserLanguages[0].Substring(0, 2);
-				}
+                //user not authenticated, first try is tracking cookie
+                //if no cookie, use browser headers
+                var cookie = request.Cookies.Get(webConfiguration.LocaleCookieName);
+                if (cookie != null)
+                    langName = cookie.Value;
+                else if (request.UserLanguages != null && request.UserLanguages.Length != 0)				
+                    langName = request.UserLanguages[0].Substring(0, 2);				
 			}
 			else
 			{
 				langName = identity.Locale;
 			}
-
-            var localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();
+            
             LocaleData locale = localeProvider.GetCultureByName(langName);
             localeProvider.SetThreadLocale(locale);		
 		}
