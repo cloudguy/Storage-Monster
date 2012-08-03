@@ -11,5 +11,6 @@ namespace StorageMonster.Database.Repositories
         StorageAccount Load(int id);
         StorageAccount Load(string accountName, int storagePluginId, int userId);
         StorageAccount Insert(StorageAccount account);
+        void Delete(int storageAccountId);
     }
 }

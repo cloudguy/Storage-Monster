@@ -6,6 +6,7 @@ using StorageMonster.Domain;
 
 namespace StorageMonster.Services
 {
+#warning make exceptions
     public enum StorageAccountCreationResult
     {
         Success,
@@ -19,5 +20,6 @@ namespace StorageMonster.Services
         StorageAccountCreationResult CreateStorageAccount(StorageAccount account);
         void SaveSettings(IDictionary<string, string> storageAccountSettingsList, int storageAccountId, DateTime storageAccountStamp);
         IEnumerable<StorageAccountSetting> GetSettingsForStoargeAccount(int storageAccountId);
+        void DeleteStorageAccount(int storageAccountId);
     }
 }

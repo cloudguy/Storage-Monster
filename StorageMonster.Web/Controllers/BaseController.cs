@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Web.Mvc;
 using StorageMonster.Web.Services.Security;
+using StorageMonster.Web.Services.ActionAnnotations;
 
 namespace StorageMonster.Web.Controllers
 {
 #warning do smth with cache
+    [TempDataTransfer]
     [OutputCache(NoStore = true, Duration = 0, VaryByParam = "none")] //disable cache for localization
     public abstract class BaseController : Controller
     {

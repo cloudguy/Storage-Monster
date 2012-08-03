@@ -92,6 +92,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Accounts\ResetPasswordModel.cs" />
     <Compile Include="Models\Accounts\ResetPasswordRequestModel.cs" />
+    <Compile Include="Models\StorageAccount\AskDeleteModel.cs" />
     <Compile Include="Properties\MailResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -141,6 +142,7 @@
     <Compile Include="Services\ActionAnnotations\MenuActivatorAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\MonsterAuthorizeAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\StorageAccountMenuActivatorAttribute.cs" />
+    <Compile Include="Services\ActionAnnotations\TempDataTransferAttribute.cs" />
     <Compile Include="Services\CaseInsensitiveViewEngine.cs" />
     <Compile Include="Services\Configuration\ConfigurationException.cs" />
     <Compile Include="Services\Configuration\IWebConfiguration.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Services\Extensions\ControllerExtensions.cs" />
     <Compile Include="Services\Extensions\HtmlExtensions.cs" />
     <Compile Include="Services\Extensions\HttpRequestExtensions.cs" />
+    <Compile Include="Services\Extensions\TempDataDictionaryExtensions.cs" />
     <Compile Include="Services\Extensions\ViewDataDictionaryExtensions.cs" />
     <Compile Include="Services\HttpInMemoryCacheService.cs" />
     <Compile Include="Services\HttpModules\MonsterAuthorizeHttpModule.cs" />
@@ -288,6 +291,7 @@
     <Content Include="Views\Shared\NotFound.aspx" />
     <Content Include="Views\Shared\UserMenu.ascx" />
     <Content Include="Views\StorageAccount\Add.aspx" />
+    <Content Include="Views\StorageAccount\AskDelete.aspx" />
     <Content Include="Views\StorageAccount\Edit.aspx" />
     <Content Include="Views\StorageAccount\GetFolder.aspx" />
     <Content Include="Views\StorageAccount\StorageAccountSettingsControl.ascx" />

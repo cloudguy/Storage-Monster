@@ -12,7 +12,7 @@ namespace StorageMonster.Web.Models
             None,
             StorageAccount,
             EditProfile,
-            ListStorageAccounts
+            StorageAccountsSettings
         }
 
         public ActivationTypeEnum ActivationType { get; set; }

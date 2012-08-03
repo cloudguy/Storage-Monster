@@ -11,7 +11,10 @@
 
         public const string StorageAccountTitleViewDataKey = "storageAccountTitle";
         public const string MenuActivatorViewDataKey = "menu_activator";
-        public const string RequestInfoMessagesViewDataKey = "requestMessages";
+        public const string RequestSuccessMessagesViewDataKey = "requestMessages";
+
+        public const string RequestSuccessMessagesTempDataKey = "requestMessages";
+        public const string RequestErrorMessagesTempDataKey = "requestErrors";
 
         #region antiforgery salts
         public const string Salt_Account_Edit = "062e973d-e20a-4029-af84-e34ecb66787e";

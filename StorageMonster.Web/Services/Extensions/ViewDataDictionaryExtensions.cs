@@ -13,20 +13,20 @@ namespace StorageMonster.Web.Services.Extensions
             if (dictionary == null)
                 throw new ArgumentNullException("dictionary");
 
-            IList<string> messages = dictionary[Constants.RequestInfoMessagesViewDataKey] as IList<string>;
+            IList<string> messages = dictionary[Constants.RequestSuccessMessagesViewDataKey] as IList<string>;
             if (messages == null)
                 messages = new List<string>();
 
             messages.Add(message);
-            dictionary[Constants.RequestInfoMessagesViewDataKey] = messages;
+            dictionary[Constants.RequestSuccessMessagesViewDataKey] = messages;
         }
 
-        public static IEnumerable<string> GetRequestSuccessMessage(this ViewDataDictionary dictionary)
+        public static IEnumerable<string> GetRequestSuccessMessages(this ViewDataDictionary dictionary)
         {
             if (dictionary == null)
                 throw new ArgumentNullException("dictionary");
 
-            return dictionary[Constants.RequestInfoMessagesViewDataKey] as IEnumerable<string>;
+            return dictionary[Constants.RequestSuccessMessagesViewDataKey] as IEnumerable<string>;
         }
     }
 }

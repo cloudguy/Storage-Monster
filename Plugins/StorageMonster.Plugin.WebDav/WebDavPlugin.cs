@@ -143,6 +143,9 @@ namespace StorageMonster.Plugin.WebDav
                     .CatchIt((ex) => result.AddError(ValidationResources.BadServerError))  
                 .IfExceptionIs(typeof(SharpBoxException))
                     .CatchIt((ex)=>result.AddError(ValidationResources.CanNotConnectError))
+                .IfExceptionIs(typeof(UnauthorizedAccessException))
+#warning localization
+                    .CatchIt((ex)=>result.AddError("Unauthorized"))
                 .Run();
 
             return result;

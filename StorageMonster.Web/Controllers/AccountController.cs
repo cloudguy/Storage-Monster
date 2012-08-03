@@ -22,7 +22,7 @@ namespace StorageMonster.Web.Controllers
 {
     public sealed class AccountController : BaseController
     {
-        private const string SuccessMessageTempDataKey = "success_message_temp_data";
+       // private const string SuccessMessageTempDataKey = "success_message_temp_data";
         private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
 
         private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
@@ -133,6 +133,7 @@ namespace StorageMonster.Web.Controllers
                 try
                 {
                     string siteUrl = Url.Action("Index", "Home", null, Request.Url.Scheme);
+#warning add manual url option
                     _membershipService.RequestPasswordReset(model.Email, siteUrl, (token) => Url.Action("ResetPassword", "Account", new { token }, Request.Url.Scheme));
                     ViewData.AddRequestSuccessMessage(ValidationResources.ResetPasswdRequestSentInfo);
                     return View();
@@ -158,8 +159,8 @@ namespace StorageMonster.Web.Controllers
         [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
 		public ActionResult Edit()
 		{
-            if (TempData.ContainsKey(SuccessMessageTempDataKey))
-                ViewData.AddRequestSuccessMessage((string)TempData[SuccessMessageTempDataKey]);            
+            //if (TempData.ContainsKey(SuccessMessageTempDataKey))
+            //    ViewData.AddRequestSuccessMessage((string)TempData[SuccessMessageTempDataKey]);            
 
             ProfileBaseModel baseModel = null;
             ProfilePasswordModel passwdModel = null;
@@ -233,7 +234,8 @@ namespace StorageMonster.Web.Controllers
                 {
                     User user = _membershipService.ChangePassword(identity.UserId, passwordModel.NewPassword, passwordModel.OldPassword, DateTime.FromBinary(stamp));
                     //stamp = user.Stamp.ToBinary();                   
-                    TempData[SuccessMessageTempDataKey] = ValidationResources.PasswordChangedInfo;                   
+                    //TempData[SuccessMessageTempDataKey] = ValidationResources.PasswordChangedInfo;                   
+                    TempData.AddRequestSuccessMessage(ValidationResources.PasswordChangedInfo);
                     return RedirectToAction("Edit");
                 }
                 catch (StaleObjectException)

@@ -18,6 +18,7 @@ using StorageMonster.Web.Services.Security;
 using ValidationResources = StorageMonster.Web.Properties.ValidationResources;
 using Common.Logging;
 using StorageMonster.Web.Models;
+using StorageMonster.Web.Services.Extensions;
 
 namespace StorageMonster.Web.Controllers
 {
@@ -38,7 +39,7 @@ namespace StorageMonster.Web.Controllers
         }
 
         [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.ListStorageAccounts)]
+        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult Edit(int id)
         {
             StorageAccount account = _storageAccountService.Load(id);
@@ -75,10 +76,73 @@ namespace StorageMonster.Web.Controllers
         }
 
         [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
+        public ActionResult AskDelete(int id, string returnUrl)
+        {
+            Principal principal = (Principal)User;
+            Identity identity = (Identity)principal.Identity;
+
+            StorageAccount storageAccount = _storageAccountService.Load(id);
+            if (storageAccount == null)
+            {
+                ModelState.AddModelError("id", ValidationResources.StorageAccountNotFoundError);
+                return View();
+            }
+
+            if (storageAccount.UserId != identity.UserId)
+            {
+                ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
+                return View();
+            }            
+           
+            AskDeleteModel model = new AskDeleteModel
+            {
+                StorageAccountId = id,
+                StorageAccountName = storageAccount.AccountName,
+                ReturnUrl = returnUrl ?? Url.Action("StorageAccounts", "User", new { Id = identity.UserId })
+            };
+            return View(model);
+        }
+
+
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
+        [ValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Delete)]
+        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        public ActionResult Delete(int id, string returnUrl)
+        {
+            Principal principal = (Principal)User;
+            Identity identity = (Identity)principal.Identity;
+
+            StorageAccount storageAccount = _storageAccountService.Load(id);
+            if (storageAccount == null)
+            {
+                ModelState.AddModelError("id", ValidationResources.StorageAccountNotFoundError);
+                return View();
+            }
+
+            if (storageAccount.UserId != identity.UserId)
+            {
+                ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
+                return View();
+            }
+            
+            _storageAccountService.DeleteStorageAccount(storageAccount.Id);
+
+#warning localization
+            TempData.AddRequestSuccessMessage("Deleted " + storageAccount.AccountName);
+
+            string url = returnUrl ?? Url.Action("StorageAccounts", "User", new { Id = identity.UserId });
+            return Redirect(url);
+            
+        }
+
+        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Edit)]
         [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult Edit([ModelBinder(typeof(StorageAccountSettingsModelBinder))]object model)
         {            
             if (ModelState.IsValid)
@@ -112,11 +176,13 @@ namespace StorageMonster.Web.Controllers
 
                 try
                 {
-                    storagePlugin.ApplyConfiguration(storageAccountId, DateTime.FromBinary(stamp), model);
+                    storagePlugin.ApplyConfiguration(storageAccountId, DateTime.FromBinary(stamp), model);                   
                     account = _storageAccountService.Load(storageAccountId);
                     ViewData.Add(Constants.StorageAccountIdFormKey, account.Id);
                     ViewData.Add(Constants.StampFormKey, account.Stamp.ToBinary());
                     ViewData.Add(Constants.StorageAccountTitleViewDataKey, account.AccountName);
+#warning localization
+                    ViewData.AddRequestSuccessMessage("Ok");
                     return View(model);
                 }
                 catch(StaleObjectException)
@@ -132,7 +198,7 @@ namespace StorageMonster.Web.Controllers
         }
 
         [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.ListStorageAccounts)]
+        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult Add()
         {
             IEnumerable<SelectListItem> storagePlugins = GetSupportedStoragePlugins();

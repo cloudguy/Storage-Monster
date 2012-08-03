@@ -9,6 +9,7 @@
 
 <% Html.EnableClientValidation(); %>
 <%=Html.ValidationSummary()  %>
+<%= Html.RequestSuccessInfo(new { @class = "alert alert-success" })%>
 
 <% if (Model != null) { %>
     <% using (Html.BeginForm()) {%>

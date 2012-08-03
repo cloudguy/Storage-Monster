@@ -16,7 +16,7 @@ namespace StorageMonster.Web.Services.Extensions
 	{        
         public static MvcHtmlString RequestSuccessInfo(this HtmlHelper htmlHelper, object htmlAttributes)
         {            
-            IEnumerable<string> messages = htmlHelper.ViewData.GetRequestSuccessMessage();
+            IEnumerable<string> messages = htmlHelper.ViewData.GetRequestSuccessMessages();
             if (messages == null)
                 return null;
 

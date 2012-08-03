@@ -23,7 +23,7 @@
                                 <% using(Html.BeginForm()) { %>
                                     <%=Html.AntiForgeryToken(Constants.Salt_StorageAccount_GetFolder) %>
                                     <input type="hidden" name="id" value="<%=item.StorageAccountId.ToString(CultureInfo.InvariantCulture) %>" />
-                                    <input type="hidden" name="path" value="<%=item.Path %>" />
+                                    <input type="hidden" name="path" value="<%=Html.Encode(item.Path) %>" />
                                     <button type="submit"><span><%= Html.Encode(item.Name) %></span></button> 
                                 <% } %>
                             <% } else {%>

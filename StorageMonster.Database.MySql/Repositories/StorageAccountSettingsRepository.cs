@@ -87,6 +87,15 @@ namespace StorageMonster.Database.MySql.Repositories
             });
         }
 
+        public void DeleteSettings(int storageAccountId)
+        {
+            SqlQueryExecutor.Execute(() =>
+            {
+                String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE storage_account_id = @StorageAccountId;", TableName);
+                ConnectionProvider.CurrentConnection.Execute(query, new { StorageAccountId = storageAccountId });
+            });
+        }
+
         public UpdateResult SaveSettings(IDictionary<string, string> storageAccountSettingsList, int storageAccountId, DateTime storageAccountStamp)
         {
             if (storageAccountSettingsList == null)

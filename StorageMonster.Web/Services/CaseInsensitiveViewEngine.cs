@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 
 namespace StorageMonster.Web.Services
 {
-    //http://hugoware.net/blog/ignoring-case-with-mono-mvc
+    //thanks to http://hugoware.net/blog/ignoring-case-with-mono-mvc
     public class CaseInsensitiveViewEngine : WebFormViewEngine
     {
         private static string _Root = HttpContext.Current.Server.MapPath("~/");

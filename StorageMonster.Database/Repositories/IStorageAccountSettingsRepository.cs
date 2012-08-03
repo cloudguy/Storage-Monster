@@ -11,5 +11,6 @@ namespace StorageMonster.Database.Repositories
         StorageAccountSetting Update(StorageAccountSetting setting);
         StorageAccountSetting Create(StorageAccountSetting setting);
         UpdateResult SaveSettings(IDictionary<string, string> storageAccountSettingsList, int storageAccountId, DateTime storgaeAccountStamp);
+        void DeleteSettings(int storageAccountId);
     }
 }

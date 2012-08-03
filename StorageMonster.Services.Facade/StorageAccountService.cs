@@ -70,5 +70,15 @@ namespace StorageMonster.Services.Facade
         {
             return StorageAccountSettingsRepository.GetSettingsForStoargeAccount(storageAccountId);
         }
+
+        public void DeleteStorageAccount(int storageAccountId)
+        {
+            using (var scope = new TransactionScope())
+            {
+                StorageAccountSettingsRepository.DeleteSettings(storageAccountId);
+                StorageAccountRepository.Delete(storageAccountId);
+                scope.Complete();
+            }
+        }
     }
 }

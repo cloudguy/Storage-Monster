@@ -24,9 +24,10 @@ namespace StorageMonster.Web.Controllers
         }
 
         [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.ListStorageAccounts)]
+        [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult StorageAccounts(int Id)
         {
+#warning if not admin -- show error
             Identity identity = (Identity) HttpContext.User.Identity;
             UserAccountsModel userAccountsModel = new UserAccountsModel();
 

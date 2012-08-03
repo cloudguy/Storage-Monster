@@ -2,8 +2,12 @@
 <%@ Import Namespace="StorageMonster.Web.Services.Security" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="StorageMonster.Web.Services.Extensions" %>
 
 <div id="accountsList">
+    <%= Html.ValidationSummary(string.Empty, new { @class = "alert alert-error" }) %>
+    <%= Html.RequestSuccessInfo(new { @class = "alert alert-success" })%>
+
     <% Identity identity = (Identity)HttpContext.Current.User.Identity; %>
     <% if (Model.AccountsCollection.Accounts.Count() > 0) { %>
         <table class="table table-condensed">
@@ -22,16 +26,14 @@
                         <td><%=Html.Encode(account.AccountName) %></td>
                         <% if (identity.UserId == Model.AccountsCollection.UserId) { %>
                             <td>
-                                <% using(Html.BeginForm("Edit", "StorageAccount", FormMethod.Get)) {%>  
-                                    <input type="hidden" name="Id" value="<%=account.AccountId.ToString(CultureInfo.InvariantCulture) %>" /> 
-                                    <input type="submit" class="btn btn-primary" value="<%=ViewResources.UserResources.EditButtonText %>"/>
-                                <% } %>                         
+                                <%= Html.ActionLink(ViewResources.UserResources.EditButtonText, "Edit", "StorageAccount", 
+                                    new { Id = account.AccountId }, 
+                                    new { @class = "btn btn-primary" })%>
                             </td>
                             <td>
-                                 <% using(Html.BeginForm("Delete", "StorageAccount", FormMethod.Post)) {%>                               
-                                    <input type="hidden" name="Id" value="<%=account.AccountId.ToString(CultureInfo.InvariantCulture) %>" />                          
-                                    <input type="submit" class="btn btn-danger" value="<%=ViewResources.UserResources.DeleteButtonText %>"/>
-                                <% } %>  
+                                <%= Html.ActionLink(ViewResources.UserResources.DeleteButtonText, "AskDelete", "StorageAccount", 
+                                    new { Id = account.AccountId, returnUrl = ViewContext.HttpContext.Request.Url.PathAndQuery }, 
+                                    new { @class = "btn btn-warning" })%>
                             </td>
                         <% } else { %>
                             <td></td><td></td>
