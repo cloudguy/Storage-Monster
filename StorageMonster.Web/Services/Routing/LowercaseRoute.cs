@@ -18,11 +18,28 @@ namespace StorageMonster.Web.Services.Routing
             : base(url, defaults, constraints, dataTokens, routeHandler) { }
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
-        {
+        {            
             VirtualPathData path = base.GetVirtualPath(requestContext, values);
 
             if (path != null)
-                path.VirtualPath = path.VirtualPath.ToLowerInvariant();
+            {
+                string virtualPath = path.VirtualPath;
+                var lastIndexOf = virtualPath.LastIndexOf("?");
+
+                if (lastIndexOf != 0)
+                {
+                    if (lastIndexOf > 0)
+                    {
+                        string leftPart = virtualPath.Substring(0, lastIndexOf).ToLowerInvariant();
+                        string queryPart = virtualPath.Substring(lastIndexOf);
+                        path.VirtualPath = leftPart + queryPart;
+                    }
+                    else
+                    {
+                        path.VirtualPath = path.VirtualPath.ToLowerInvariant();
+                    }
+                }
+            }
 
             return path;
         }

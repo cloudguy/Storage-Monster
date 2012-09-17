@@ -7,6 +7,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+     <%--iframe killer script--%>
+     <script type="text/javascript">      
+     //<![CDATA[
+         if (top != self) top.location.replace(location);
+     //]]>
+    </script>
+
     <link href="<%=Url.Content("~/Content/themes/base/site.css") %>" rel="stylesheet" type="text/css" />
     <link href="<%=Url.Content("~/Content/themes/base/bootstrap.css") %>" rel="stylesheet" type="text/css" />
     <style type="text/css">
@@ -16,30 +23,13 @@
       }
       .sidebar-nav {
         padding: 9px 0;
-      }
+      }     
     </style>
 
     <link href="<%=Url.Content("~/Content/themes/base/bootstrap-responsive.css") %>" rel="stylesheet" type="text/css" />
     
-
-    <link href="<%=Url.Content("~/Content/themes/base/jquery-ui-1.8.21.custom.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.accordion.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.all.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.autocomplete.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.base.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.button.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.core.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.datepicker.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.dialog.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.progressbar.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.resizable.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.selectable.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.slider.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.tabs.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=Url.Content("~/Content/themes/base/jquery.ui.theme.css") %>" rel="stylesheet" type="text/css" />
-      
     <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery-1.7.2.min.js")%>" ></script>
-    <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery-ui-1.8.21.custom.min.js")%>" ></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/bootstrap.js")%>" ></script>
     
     <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery.validate-1.9.0.min.js")%>" ></script>
     <%  string shortLocaleName = StorageMonster.Utilities.RequestContext.GetValue<LocaleData>(StorageMonster.Utilities.RequestContext.LocaleKey).ShortName;        
@@ -62,6 +52,7 @@
    
 
     <script type="text/javascript" src="<%= Url.Content("~/Scripts/MonsterScripts.Ajax.js")%>" ></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/Monster.Widgets.js")%>" ></script>
     
     
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
@@ -70,11 +61,29 @@
     </title>
 </head>
 <body>
+    <script type="text/javascript">      
+     //<![CDATA[
+        var workSpace;
+        $(document).ready(function () {
+
+//            $("#waitpopup").ajaxSend(function (event, xhr, options) {
+//                $('#waitcontainer').addClass("loading");
+//            }).ajaxStop(function () {
+//                $('#waitcontainer').removeClass("loading");
+//            })
+
+            $('.js_only').show();
+
+            workSpace = new Workspace($('#workspace_container'));           
+        });
+    //]]>
+    </script>
+
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">            
             <div class="container-fluid">
                 <a class="brand" href="<%=Url.Content("~/") %>"><%=ViewResources.SharedResources.Title %></a>  
-                <% Html.RenderPartial("LogOnUserControl"); %>                         
+                <% Html.RenderPartial("~/Views/Shared/Controls/LogOnUserControl.ascx"); %>                         
             </div>
         </div>
         <noscript>
@@ -82,58 +91,65 @@
                 <%=ViewResources.SharedResources.NoScriptWarning %>
             </div>            
         </noscript>
-    </div>
+    </div>  
    
-    <% if (Request.IsAuthenticated) {%>  
-        <div class="container-fluid">
-          <%--  <div class="row">                   
-                <div class="span8 offset2">            
-                    <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
-                    </asp:ContentPlaceHolder>                   
-                </div>            
-            </div>--%>
-            <div class="row-fluid">
-                <div class="span3">
-                    <%if (HttpContext.Current.User.Identity.IsAuthenticated) {
-                        IStorageAccountService storageAccountService = IocContainer.Instance.Resolve<IStorageAccountService>();
-                        IStoragePluginsService storagePluginsService = IocContainer.Instance.Resolve<IStoragePluginsService>();
-                        StorageAccountsCollection menuAccountsCollection = new StorageAccountsCollection().Init(storageAccountService, storagePluginsService, ((Identity)HttpContext.Current.User.Identity).UserId);
-                        var menu = new UserMenuModel
-                        {
-                            StorageAccountsCollection = menuAccountsCollection,
-                        };
-                        Html.RenderPartial("UserMenu", menu);
-                    }%>
-                </div>
-                <div class="span9">
-                    <div class="row-fluid"> 
-                        <asp:ContentPlaceHolder ID="MainContent" runat="server">        
-                        </asp:ContentPlaceHolder>                        
+    <div id="workspace_container">
+        <% if (Request.IsAuthenticated) { %>  
+            <div class="container-fluid">         
+                <div class="row-fluid">
+                    <div class="span3">
+                        <%if (HttpContext.Current.User.Identity.IsAuthenticated) {
+                            IStorageAccountService storageAccountService = IocContainer.Instance.Resolve<IStorageAccountService>();
+                            IStoragePluginsService storagePluginsService = IocContainer.Instance.Resolve<IStoragePluginsService>();
+                            StorageAccountsCollection menuAccountsCollection = new StorageAccountsCollection().Init(storageAccountService, storagePluginsService, ((Identity)HttpContext.Current.User.Identity).UserId);
+                            var menu = new UserMenuModel
+                            {
+                                StorageAccountsCollection = menuAccountsCollection,
+                            };
+                            Html.RenderPartial("~/Views/Shared/Controls/UserMenuControl.ascx", menu);
+                        }%>
+                    </div>
+                    <div id="waitcontainer" class="span9">
+                        <div id="mainpanel" class="row-fluid"> 
+                            <asp:ContentPlaceHolder ID="MainContent" runat="server">        
+                            </asp:ContentPlaceHolder>                        
+                        </div>
+                        <div id="waitpopup" class="waitmodal"></div>
                     </div>
                 </div>
+            </div>    
+        <% } else { %>    
+            <div class="container">
+                <div class="row">                   
+                    <div class="span8 offset2">            
+                        <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
+                        </asp:ContentPlaceHolder>                   
+                    </div>            
+                </div>
             </div>
-        </div>    
-    <%} else { %>    
-        <div class="container">
-            <div class="row">                   
-                <div class="span8 offset2">            
-                    <asp:ContentPlaceHolder ID="LogOnContent" runat="server">        
-                    </asp:ContentPlaceHolder>                   
-                </div>            
-            </div>
-        </div>
-    <%} %>
-    
-
-   
-
-    <div id="AjaxLogOnContainer">
+        <%} %>
     </div>
+
+      <%-- <div class="modal hide" id="myModal">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Modal header</h3>
+    </div>
+    <div class="modal-body">
+    <p>One fine body…</p>
+    </div>
+    <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <a href="#" class="btn btn-primary">Save changes</a>
+    </div>
+    </div>--%>
+
+    <div id="ajaxLogOnContainer"></div>
 
     <input type="button" id="test_button" value="Test ajax login"/>
 
      <script type="text/javascript">      
-     //<![CDATA[
+     //<![CDATA[         
          $('#test_button').click(function () {
             MonsterAjax(
              {
@@ -143,7 +159,12 @@
              });       
          });
 
+         //$('#myModal').modal('toggle');
     //]]>
     </script>    
+
+    
+         
+    
 </body>
 </html>

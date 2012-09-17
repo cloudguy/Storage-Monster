@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Common.Logging;
 using StorageMonster.Common;
 using StorageMonster.Domain;
 using StorageMonster.Plugin;
 using StorageMonster.Services;
+using StorageMonster.Web.Models;
 using StorageMonster.Web.Models.StorageAccount;
 using StorageMonster.Web.Services;
 using StorageMonster.Web.Services.ActionAnnotations;
+using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
 using ValidationResources = StorageMonster.Web.Properties.ValidationResources;
-using Common.Logging;
-using StorageMonster.Web.Models;
-using StorageMonster.Web.Services.Extensions;
+using StorageMonster.Web.Properties;
+using StorageMonster.Web.Services.ActionResults;
 
 namespace StorageMonster.Web.Controllers
 {
@@ -26,11 +25,12 @@ namespace StorageMonster.Web.Controllers
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(StorageAccountController));
 
-        public const string StoragePluginsDropDownListCacheKey = "Web.StoragePluginsDropDownListKey";
+        private const string StoragePluginsDropDownListCacheKey = "Web.StoragePluginsDropDownListKey";
 
         private readonly IStoragePluginsService _storagePluginsService;
         private readonly IStorageAccountService _storageAccountService;
         private readonly ICacheService _cacheService;
+
         public StorageAccountController(IStoragePluginsService storagePluginsService, IStorageAccountService storageAccountService, ICacheService cacheService)
         {
             _storagePluginsService = storagePluginsService;
@@ -38,7 +38,7 @@ namespace StorageMonster.Web.Controllers
             _cacheService = cacheService;
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult Edit(int id)
         {
@@ -49,7 +49,7 @@ namespace StorageMonster.Web.Controllers
                 return View();
             }
 
-            Identity identity = (Identity)HttpContext.User.Identity;
+            Identity identity = User.Identity;
             if (identity.UserId != account.UserId)
             {
                 ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
@@ -69,18 +69,16 @@ namespace StorageMonster.Web.Controllers
             ViewData.Add(Constants.StorageAccountTitleViewDataKey, account.AccountName);
             
             
-            object pluginSettingsModel = plugin.GetAccountConfigurationModel(account.Id);          
-
+            object pluginSettingsModel = plugin.GetAccountConfigurationModel(account.Id);
             
             return View(pluginSettingsModel);
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult AskDelete(int id, string returnUrl)
         {
-            Principal principal = (Principal)User;
-            Identity identity = (Identity)principal.Identity;
+            Identity identity = User.Identity;
 
             StorageAccount storageAccount = _storageAccountService.Load(id);
             if (storageAccount == null)
@@ -93,8 +91,8 @@ namespace StorageMonster.Web.Controllers
             {
                 ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
                 return View();
-            }            
-           
+            }
+
             AskDeleteModel model = new AskDeleteModel
             {
                 StorageAccountId = id,
@@ -105,43 +103,45 @@ namespace StorageMonster.Web.Controllers
         }
 
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
-        [ValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Delete)]
-        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
-        public ActionResult Delete(int id, string returnUrl)
+        [MonsterValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Delete)]      
+        public ActionResult Delete(AskDeleteModel model)
         {
-            Principal principal = (Principal)User;
-            Identity identity = (Identity)principal.Identity;
-
-            StorageAccount storageAccount = _storageAccountService.Load(id);
-            if (storageAccount == null)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("id", ValidationResources.StorageAccountNotFoundError);
-                return View();
+                StorageAccount storageAccount = _storageAccountService.Load(model.StorageAccountId);
+                if (storageAccount == null)
+                {
+                    ModelState.AddModelError("id", ValidationResources.StorageAccountNotFoundError);
+                    return View("AskDelete");
+                }
+
+                Identity identity = User.Identity;
+
+                if (storageAccount.UserId != identity.UserId)
+                {
+                    ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
+                    return View("AskDelete");
+                }
+
+                _storageAccountService.DeleteStorageAccount(storageAccount.Id);
+
+                TempData.AddRequestSuccessMessage(string.Format(CultureInfo.CurrentCulture, SuccessMessagesResources.StorageAccountDeletedFormat, storageAccount.AccountName));
+                               
+                if (Url.IsLocalUrl(model.ReturnUrl))
+                    return Redirect(model.ReturnUrl);
+
+                return RedirectToAction("StorageAccounts", "User", new { Id = identity.UserId });
+
             }
-
-            if (storageAccount.UserId != identity.UserId)
-            {
-                ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
-                return View();
-            }
-            
-            _storageAccountService.DeleteStorageAccount(storageAccount.Id);
-
-#warning localization
-            TempData.AddRequestSuccessMessage("Deleted " + storageAccount.AccountName);
-
-            string url = returnUrl ?? Url.Action("StorageAccounts", "User", new { Id = identity.UserId });
-            return Redirect(url);
-            
+            return View("AskDelete", model);            
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(false)]
-        [ValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Edit)]
-        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [MonsterValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Edit)]       
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult Edit([ModelBinder(typeof(StorageAccountSettingsModelBinder))]object model)
         {            
@@ -176,28 +176,23 @@ namespace StorageMonster.Web.Controllers
 
                 try
                 {
-                    storagePlugin.ApplyConfiguration(storageAccountId, DateTime.FromBinary(stamp), model);                   
-                    account = _storageAccountService.Load(storageAccountId);
-                    ViewData.Add(Constants.StorageAccountIdFormKey, account.Id);
-                    ViewData.Add(Constants.StampFormKey, account.Stamp.ToBinary());
-                    ViewData.Add(Constants.StorageAccountTitleViewDataKey, account.AccountName);
-#warning localization
-                    ViewData.AddRequestSuccessMessage("Ok");
-                    return View(model);
+                    storagePlugin.ApplyConfiguration(storageAccountId, DateTime.FromBinary(stamp), model);
+                    TempData.AddRequestSuccessMessage(string.Format(CultureInfo.CurrentCulture, SuccessMessagesResources.StorageAccountUpdatedFormat, account.AccountName));
+                    return RedirectToAction("Edit");                  
                 }
                 catch(StaleObjectException)
                 {
-                    ModelState.AddModelError("storage_account_id", ValidationResources.StorageAccountStalled);
+                    ModelState.AddModelError("storage_account_id", ValidationResources.StorageAccountStalled);                    
                 }
                 catch(ObjectNotExistsException)
                 {
                     ModelState.AddModelError("storage_account_id", ValidationResources.StorageAccountNotFoundError);
                 }
             }
-            return View();
+            return View(model);
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
         public ActionResult Add()
         {
@@ -210,11 +205,10 @@ namespace StorageMonster.Web.Controllers
             return View(model);
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(false)]
-        [ValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Add)]
-        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [MonsterValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_Add)]      
         public ActionResult Add(StorageAccountModel storageAccountModel)
         {
             if (storageAccountModel == null)
@@ -231,7 +225,7 @@ namespace StorageMonster.Web.Controllers
                     {
                         AccountName = storageAccountModel.AccountName,
                         StoragePluginId = storageAccountModel.PluginId,
-                        UserId = ((Identity) System.Web.HttpContext.Current.User.Identity).UserId
+                        UserId = User.Identity.UserId
                     };
                 StorageAccountCreationResult result = _storageAccountService.CreateStorageAccount(account);
                 switch (result)
@@ -250,49 +244,123 @@ namespace StorageMonster.Web.Controllers
             return View(storageAccountModel);
         }
 
+        public ActionResult GetFile(string url, int id)
+        {
+            string redirectUrl;
+            if (Request.UrlReferrer != null && Url.IsLocalUrl(Request.UrlReferrer.ToString()))
+                redirectUrl = Request.UrlReferrer.PathAndQuery;
+            else
+                redirectUrl = Url.Action("Index", "Home");
+            StorageAccount account = _storageAccountService.Load(id);
+            if (account == null)
+            {
+                TempData.AddRequestErrorMessage(ValidationResources.StorageAccountNotFoundError);
+                return Redirect(redirectUrl);
+            }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        [AcceptVerbs(HttpVerbs.Post)]
+            if (string.IsNullOrEmpty(url))
+            {
+                TempData.AddRequestErrorMessage(ValidationResources.InvalidFileLocation);
+                return Redirect(redirectUrl);
+            }
+
+            if (User == null || User.Identity == null)
+            {
+                TempData.AddRequestErrorMessage(ValidationResources.NoPermissionsToDownload);
+                return Redirect(redirectUrl);
+            }
+
+            if (account.UserId != User.Identity.UserId)
+            {
+                TempData.AddRequestErrorMessage(ValidationResources.NoPermissionsToDownload);
+                return Redirect(redirectUrl);
+            }
+            try
+            {
+                var streamResult = _storagePluginsService.DownloadFile(account, url);
+                return new BufferLessFileResult(streamResult.FileStream, streamResult.FileName);
+            }
+            catch (StoragePluginNotFoundException)
+            {
+                TempData.AddRequestErrorMessage(ValidationResources.StoragePluginNotFoundError);
+            }
+            catch (PluginException ex)
+            {
+                TempData.AddRequestErrorMessage(GetErrorMessage(ex.ErrorCode));
+                if (ex.ErrorCode == PluginErrorCodes.PluginError)
+                    Logger.Error("Storage plugin error", ex);               
+            }
+            catch (Exception ex)
+            {
+                TempData.AddRequestErrorMessage(ErrorResources.PluginError);              
+                Logger.Error("Storage plugin error", ex);               
+            }
+
+            return Redirect(redirectUrl);
+        }
+
+
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]        
         [ValidateInput(false)]
-        [ValidateAntiForgeryToken(Salt = Constants.Salt_StorageAccount_GetFolder)]
-        [StorageAccountMenuActivatorAttribute("id")]
-        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [StorageAccountMenuActivator("id")]       
         public ActionResult GetFolder(int id, string path)
         {
+            FolderModel model = null;
+
+            var resultAction = Condition()
+                        .DoIfNotAjax(() => View(model))
+                        .DoIfAjax(() => Json(new AjaxResult
+                        {
+                            MainPanelHtml = this.RenderViewToString("~/Views/StorageAccount/Controls/StorageAccountFolderControl.ascx", model)
+                        }, JsonRequestBehavior.AllowGet));
+
             StorageAccount account = _storageAccountService.Load(id);
             if (account == null)
             {
                 ModelState.AddModelError("notfound", ValidationResources.StorageAccountNotFoundError);
-                return View();
+                return resultAction;
             }
             Identity identity = (Identity)HttpContext.User.Identity;
             if (identity.UserId != account.UserId)
             {
                 ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
-                return View();
+                return resultAction;
             }
+#warning call service not plugin dirrectly
             IStoragePlugin storagePlugin = _storagePluginsService.GetStoragePlugin(account.StoragePluginId);
             if (storagePlugin == null)
             {
                 ModelState.AddModelError("storage_plugin", ValidationResources.StoragePluginNotFoundError);
-                return View();
+                return resultAction;
             }
 
-            StorageQueryResult model = null;
+            StorageFolderResult queryModel = null;
+
             try
             {
-                model = storagePlugin.QueryStorage(id, path);
-                int errorCounter = 0;
-                foreach (var error in model.Errors)                                    
-                    ModelState.AddModelError(string.Format(CultureInfo.InvariantCulture,"error_{0}",++errorCounter), error);                
+                queryModel = storagePlugin.QueryStorage(id, path);                
+            }
+            catch (PluginException ex)
+            {
+                ModelState.AddModelError("storage_plugin", GetErrorMessage(ex.ErrorCode));
+                if (ex.ErrorCode == PluginErrorCodes.PluginError)
+                    Logger.Error("Storage plugin error", ex);
+                return resultAction;
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("storage_plugin", ValidationResources.PluginError);
+                ModelState.AddModelError("storage_plugin", ErrorResources.PluginError);
                 Logger.Error("Storage plugin error", ex);
-                return View();
-            }           
-            return View(model);
+                return resultAction;
+            }
+           
+            model = new FolderModel()
+            {
+                Content = queryModel,                
+                StorageAccount = account
+            };
+
+            return resultAction;
         }
 
         private IEnumerable<SelectListItem> GetSupportedStoragePlugins()
@@ -304,6 +372,33 @@ namespace StorageMonster.Web.Controllers
                     Value = x.Id.ToString(CultureInfo.InvariantCulture),
                     Selected = false
                 }).ToList() /*override lazy init*/);
+        }
+
+        private static string GetErrorMessage(PluginErrorCodes errorCode)
+        {
+            switch (errorCode)
+            {
+                case PluginErrorCodes.CouldNotContactStorageService:
+                    return ErrorResources.CouldNotContactStorageService;
+                case PluginErrorCodes.InvalidFileOrDirectoryName:
+                    return ErrorResources.InvalidFileOrDirectoryName;
+                case PluginErrorCodes.FileNotFound:
+                    return ErrorResources.FileNotFound;
+                case PluginErrorCodes.InvalidCredentialsOrConfiguration:
+                    return ErrorResources.InvalidCredentialsOrConfiguration;
+                case PluginErrorCodes.CouldNotRetrieveDirectoryList:
+                    return ErrorResources.CouldNotRetrieveDirectoryList;
+                case PluginErrorCodes.CreateOperationFailed:
+                    return ErrorResources.CreateOperationFailed;
+                case PluginErrorCodes.LimitExceeded:
+                    return ErrorResources.LimitExceeded;
+                case PluginErrorCodes.InsufficientDiskSpace:
+                    return ErrorResources.InsufficientDiskSpace;
+                case PluginErrorCodes.TransferAbortedManually:
+                    return ErrorResources.TransferAbortedManually;
+                default:
+                    return ErrorResources.PluginError;
+            }            
         }
     }
 }

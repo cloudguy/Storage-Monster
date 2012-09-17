@@ -70,6 +70,15 @@ namespace ViewResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not add new storage account.
+        /// </summary>
+        public static string AddStorageAccountValidationSummary {
+            get {
+                return ResourceManager.GetString("AddStorageAccountValidationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add storage account.
         /// </summary>
         public static string AddTitle {
@@ -79,11 +88,74 @@ namespace ViewResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string AskDeleteCancelButtonText {
+            get {
+                return ResourceManager.GetString("AskDeleteCancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete storage account &quot;{0}&quot;?.
+        /// </summary>
+        public static string AskDeleteQuestionFormat {
+            get {
+                return ResourceManager.GetString("AskDeleteQuestionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string AskDeleteSubmitButtonText {
+            get {
+                return ResourceManager.GetString("AskDeleteSubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete storage account?.
+        /// </summary>
+        public static string AskDeleteTitle {
+            get {
+                return ResourceManager.GetString("AskDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not delete storage account.
+        /// </summary>
+        public static string AskDeleteValidationSummary {
+            get {
+                return ResourceManager.GetString("AskDeleteValidationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string EditButtonText {
+            get {
+                return ResourceManager.GetString("EditButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit storage account settings.
         /// </summary>
         public static string EditTitle {
             get {
                 return ResourceManager.GetString("EditTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage Monster.
+        /// </summary>
+        public static string GetFolderTitle {
+            get {
+                return ResourceManager.GetString("GetFolderTitle", resourceCulture);
             }
         }
     }

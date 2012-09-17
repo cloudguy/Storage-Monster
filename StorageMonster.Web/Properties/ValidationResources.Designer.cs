@@ -133,6 +133,15 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad request.
+        /// </summary>
+        public static string AntiforgeryMismath {
+            get {
+                return ResourceManager.GetString("AntiforgeryMismath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request is not accepatble.
         /// </summary>
         public static string BadRequestError {
@@ -160,6 +169,15 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File location is invalid.
+        /// </summary>
+        public static string InvalidFileLocation {
+            get {
+                return ResourceManager.GetString("InvalidFileLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have no permissions to view this page.
         /// </summary>
         public static string NoPermissionsError {
@@ -169,20 +187,20 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have no permissions to download file.
+        /// </summary>
+        public static string NoPermissionsToDownload {
+            get {
+                return ResourceManager.GetString("NoPermissionsToDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old password is incorrect.
         /// </summary>
         public static string OldPasswordsMismatchError {
             get {
                 return ResourceManager.GetString("OldPasswordsMismatchError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Password changed.
-        /// </summary>
-        public static string PasswordChangedInfo {
-            get {
-                return ResourceManager.GetString("PasswordChangedInfo", resourceCulture);
             }
         }
         
@@ -201,24 +219,6 @@ namespace StorageMonster.Web.Properties {
         public static string PasswordsMustMatch {
             get {
                 return ResourceManager.GetString("PasswordsMustMatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Plugin crashed.
-        /// </summary>
-        public static string PluginError {
-            get {
-                return ResourceManager.GetString("PluginError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Profile updated successfully.
-        /// </summary>
-        public static string ProfileUpdateSuccessMessage {
-            get {
-                return ResourceManager.GetString("ProfileUpdateSuccessMessage", resourceCulture);
             }
         }
         
@@ -331,11 +331,11 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Instructions for reseting the password were sent to your email box.
+        ///   Looks up a localized string similar to Bad request.
         /// </summary>
-        public static string ResetPasswdRequestSentInfo {
+        public static string StampRequired {
             get {
-                return ResourceManager.GetString("ResetPasswdRequestSentInfo", resourceCulture);
+                return ResourceManager.GetString("StampRequired", resourceCulture);
             }
         }
         

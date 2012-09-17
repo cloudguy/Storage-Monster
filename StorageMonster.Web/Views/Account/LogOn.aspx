@@ -5,5 +5,5 @@
 </asp:Content>
 
 <asp:Content ID="loginContent" ContentPlaceHolderID="LogOnContent" runat="server">   
-    <% Html.RenderPartial("~/Views/Account/LogOnFormControl.ascx", Model); %>
+    <% Html.RenderPartial("~/Views/Account/Controls/LogOnFormControl.ascx", Model); %>
 </asp:Content>

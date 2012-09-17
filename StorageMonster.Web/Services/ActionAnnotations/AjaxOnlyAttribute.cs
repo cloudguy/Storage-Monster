@@ -8,16 +8,16 @@ namespace StorageMonster.Web.Services.ActionAnnotations
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class AjaxOnlyAttribute : ActionFilterAttribute
     {
-        protected JsonRequestBehavior JsonRequestBehavior;
+        private readonly JsonRequestBehavior _jsonRequestBehavior;
 
         public AjaxOnlyAttribute(JsonRequestBehavior jsonRequestBehavior)
         {
-            JsonRequestBehavior = jsonRequestBehavior;
+            _jsonRequestBehavior = jsonRequestBehavior;
         }
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
             var request = actionContext.HttpContext.Request;
-            if (!request.IsAjaxRequest() || (JsonRequestBehavior == JsonRequestBehavior.DenyGet && string.Compare(request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase) == 0))
+            if (!request.IsAjaxRequest() || (_jsonRequestBehavior == JsonRequestBehavior.DenyGet && string.Compare(request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase) == 0))
             {
                 actionContext.HttpContext.Response.Clear();
                 actionContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;

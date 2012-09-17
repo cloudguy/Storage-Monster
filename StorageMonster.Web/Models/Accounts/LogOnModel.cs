@@ -8,14 +8,16 @@ namespace StorageMonster.Web.Models.Accounts
 {
     public class LogOnModel
     {
-        protected String EmailProtected;
+        public String ReturnUrl { get; set; }
+
+        private String _email;
 
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [LocalizedDisplayName("LogOnEmail", typeof(DisplayNameResources))]
         public string Email
         {
-            get { return EmailProtected; }
-            set { EmailProtected = value != null ? value.Trim() : value; }
+            get { return _email; }
+            set { _email = value != null ? value.Trim() : value; }
         }
         
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]

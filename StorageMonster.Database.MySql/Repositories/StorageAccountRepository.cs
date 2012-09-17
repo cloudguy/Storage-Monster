@@ -10,15 +10,14 @@ namespace StorageMonster.Database.MySql.Repositories
 {
     public class StorageAccountRepository : IStorageAccountRepository
     {
+        private readonly IConnectionProvider _connectionProvider;
+        private const string SelectFieldList = "a.id AS Id, a.user_id AS UserId, a.storage_plugin_id AS StoragePluginId, a.account_name AS AccountName, a.stamp AS Stamp";
+        private const string InsertFieldList = "(user_id, storage_plugin_id, account_name) VALUES(@UserId, @StoragePluginId, @AccountName)";
+        private const string TableName = "storage_accounts";
 
-        protected IConnectionProvider ConnectionProvider { get; set; }
-        protected const string SelectFieldList = "a.id AS Id, a.user_id AS UserId, a.storage_plugin_id AS StoragePluginId, a.account_name AS AccountName, a.stamp AS Stamp";
-        protected const string InsertFieldList = "(user_id, storage_plugin_id, account_name) VALUES(@UserId, @StoragePluginId, @AccountName)";
-        protected const string TableName = "storage_accounts";
-
-        public StorageAccountRepository(IConnectionProvider connectionprovider)
+        public StorageAccountRepository(IConnectionProvider connectionProvider)
         {
-            ConnectionProvider = connectionprovider;
+            _connectionProvider = connectionProvider;
         }
 
         public IEnumerable<Tuple<StorageAccount, StoragePlugin>> GetAccounts(int userId, int storageStatus)
@@ -27,7 +26,7 @@ namespace StorageMonster.Database.MySql.Repositories
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "SELECT {0}, {1} FROM {2} a INNER JOIN storage_plugins s ON a.storage_plugin_id=s.id WHERE a.user_id=@UserId AND s.status = @StorageStatus;", SelectFieldList, StoragePluginsRepository.GetSelectFieldList(), TableName);
 
-                return ConnectionProvider.CurrentConnection.Query<StorageAccount, StoragePlugin, Tuple<StorageAccount, StoragePlugin>>(query, 
+                return _connectionProvider.CurrentConnection.Query<StorageAccount, StoragePlugin, Tuple<StorageAccount, StoragePlugin>>(query, 
                     (a, s) => new Tuple<StorageAccount, StoragePlugin>(a, s),
                     new { UserId = userId, StorageStatus = storageStatus }, 
                     null, 
@@ -44,7 +43,7 @@ namespace StorageMonster.Database.MySql.Repositories
             return SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} a WHERE id = @Id;", SelectFieldList, TableName);
-                return ConnectionProvider.CurrentConnection.Query<StorageAccount>(query, new {Id = id}).FirstOrDefault();
+                return _connectionProvider.CurrentConnection.Query<StorageAccount>(query, new {Id = id}).FirstOrDefault();
             });
         }
         public StorageAccount Load(string accountName, int storagePluginId, int userId)
@@ -52,7 +51,7 @@ namespace StorageMonster.Database.MySql.Repositories
             return SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} a WHERE a.storage_plugin_id = @StoragePluginId AND a.user_id = @UserId AND a.account_name = @AccountName;", SelectFieldList, TableName);
-                return ConnectionProvider.CurrentConnection.Query<StorageAccount>(query, new { StoragePluginId = storagePluginId, UserId = userId, AccountName = accountName }).FirstOrDefault();
+                return _connectionProvider.CurrentConnection.Query<StorageAccount>(query, new { StoragePluginId = storagePluginId, UserId = userId, AccountName = accountName }).FirstOrDefault();
             });
         }
 
@@ -61,7 +60,7 @@ namespace StorageMonster.Database.MySql.Repositories
             SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE id = @Id;", TableName);
-                ConnectionProvider.CurrentConnection.Execute(query, new { Id = storageAccountId });
+                _connectionProvider.CurrentConnection.Execute(query, new { Id = storageAccountId });
             });
         }
 
@@ -73,12 +72,12 @@ namespace StorageMonster.Database.MySql.Repositories
             return SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "INSERT INTO {1} {0}; SELECT LAST_INSERT_ID();", InsertFieldList, TableName);
-                int insertedId = (int)ConnectionProvider.CurrentConnection.Query<long>(query, new { account.AccountName, account.StoragePluginId, account.UserId, account.Stamp }).FirstOrDefault();
+                int insertedId = (int)_connectionProvider.CurrentConnection.Query<long>(query, new { account.AccountName, account.StoragePluginId, account.UserId, account.Stamp }).FirstOrDefault();
                 if (insertedId <= 0)
                     throw new MonsterDbException("Account insertion failed");
 
                 String idAndStampQuery = string.Format(CultureInfo.InvariantCulture, "SELECT id AS Id, stamp AS Stamp FROM {0} WHERE id=@Id;", TableName);
-                IdAndStamp idAndStamp = ConnectionProvider.CurrentConnection.Query<IdAndStamp>(idAndStampQuery, new { Id = insertedId }).FirstOrDefault();
+                IdAndStamp idAndStamp = _connectionProvider.CurrentConnection.Query<IdAndStamp>(idAndStampQuery, new { Id = insertedId }).FirstOrDefault();
 
                 if (idAndStamp == null)
                     throw new MonsterDbException("Account insertion failed");

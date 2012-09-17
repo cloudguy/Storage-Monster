@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
 using StorageMonster.Database.Repositories;
 using StorageMonster.Domain;
-using System.Globalization;
 
 namespace StorageMonster.Database.MySql.Repositories
 {
-    public class ResetPasswdRequestsRepository : IResetPasswdRequestsRepository
+    public class ResetPasswordRequestsRepository : IResetPasswordRequestsRepository
     {
-        protected IConnectionProvider ConnectionProvider { get; set; }
+        private readonly IConnectionProvider _connectionProvider;
 
-        protected const string TableName = "reset_password_requests";
-        protected const string SelectFieldList = "rp.id AS Id, rp.user_id AS UserId, rp.token AS Token, rp.expiration_date AS Expiration";
-        protected const string InsertFieldList = "(user_id, token, expiration_date) VALUES (@UserId, @Token, @Expiration)";
+        private const string TableName = "reset_password_requests";
+        private const string SelectFieldList = "rp.id AS Id, rp.user_id AS UserId, rp.token AS Token, rp.expiration_date AS Expiration";
+        private const string InsertFieldList = "(user_id, token, expiration_date) VALUES (@UserId, @Token, @Expiration)";
 
-        public ResetPasswdRequestsRepository(IConnectionProvider connectionProvider)
+        public ResetPasswordRequestsRepository(IConnectionProvider connectionProvider)
         {
-            ConnectionProvider = connectionProvider;
+            _connectionProvider = connectionProvider;
         }
 
         public ResetPasswordRequest GetActiveRequestByToken(string token)
@@ -27,7 +25,7 @@ namespace StorageMonster.Database.MySql.Repositories
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} rp " +
                 "WHERE rp.token = @Token AND rp.expiration_date > @Expiration ORDER BY rp.expiration_date DESC LIMIT 1", SelectFieldList, TableName);
-                return ConnectionProvider.CurrentConnection.Query<ResetPasswordRequest>(query, new { Token = token, Expiration = DateTime.UtcNow }).FirstOrDefault();
+                return _connectionProvider.CurrentConnection.Query<ResetPasswordRequest>(query, new { Token = token, Expiration = DateTime.UtcNow }).FirstOrDefault();
             });
         }
 
@@ -39,7 +37,7 @@ namespace StorageMonster.Database.MySql.Repositories
             return SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "INSERT INTO {1} {0}; SELECT LAST_INSERT_ID();", InsertFieldList, TableName);
-                int insertedId = (int)ConnectionProvider.CurrentConnection.Query<long>(query, new { request.UserId, request.Token, request.Expiration }).FirstOrDefault();
+                int insertedId = (int)_connectionProvider.CurrentConnection.Query<long>(query, new { request.UserId, request.Token, request.Expiration }).FirstOrDefault();
 
                 request.Id = insertedId;               
                 return request;
@@ -52,7 +50,7 @@ namespace StorageMonster.Database.MySql.Repositories
             SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE id = @Id ",TableName);
-                ConnectionProvider.CurrentConnection.Execute(query, new {Id = id });
+                _connectionProvider.CurrentConnection.Execute(query, new {Id = id });
             });
         }
 
@@ -61,7 +59,7 @@ namespace StorageMonster.Database.MySql.Repositories
             SqlQueryExecutor.Execute(() =>
             {
                 String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE expiration_date < @Expiration", TableName);
-                ConnectionProvider.CurrentConnection.Execute(query, new { Expiration = DateTime.UtcNow });
+                _connectionProvider.CurrentConnection.Execute(query, new { Expiration = DateTime.UtcNow });
             });
         }
     }

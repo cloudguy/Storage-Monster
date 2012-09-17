@@ -3,37 +3,40 @@ using System.Web.Security;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Globalization;
+using StorageMonster.Services;
+using StorageMonster.Web.Services.Security;
 
 namespace StorageMonster.Web.Services.Validation
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class MinPasswordLengthAttribute : ValidationAttribute
 	{
-		protected const string DefaultErrorMessage = "'{0}' must be at least {1} characters long.";
-		protected readonly int MinCharactersProtected = Membership.Provider.MinRequiredPasswordLength;
+		private const string DefaultErrorMessage = "'{0}' must be at least {1} characters long.";
+        private readonly int _inCharacters;
 
-        protected readonly PropertyInfo NamePropertyProtected;
-        protected readonly Type ResourceTypeProtected;
+        private readonly PropertyInfo _namePropertyProtected;
+        private readonly Type _resourceTypeProtected;
 
         public bool CanBeNull { get; set; }
 
         public MinPasswordLengthAttribute(string displayNameKey, Type displayResourceType)
             : base(DefaultErrorMessage)
 		{
-			ResourceTypeProtected = displayResourceType;
-			NamePropertyProtected = ResourceTypeProtected.GetProperty(displayNameKey, BindingFlags.Static | BindingFlags.Public);
+			_resourceTypeProtected = displayResourceType;
+			_namePropertyProtected = _resourceTypeProtected.GetProperty(displayNameKey, BindingFlags.Static | BindingFlags.Public);
+            _inCharacters = IocContainer.Instance.Resolve<IMembershipService>().MinPasswordLength;
 		}
 
 
-        public int MinCharacters { get { return MinCharactersProtected; } }
+        public int MinCharacters { get { return _inCharacters; } }
 
 		public override string FormatErrorMessage(string name)
 		{			
-			if (NamePropertyProtected == null)
-                return String.Format(CultureInfo.CurrentCulture, DefaultErrorMessage, name, MinCharactersProtected);
+			if (_namePropertyProtected == null)
+                return String.Format(CultureInfo.CurrentCulture, DefaultErrorMessage, name, _inCharacters);
 
-			string format = (string)NamePropertyProtected.GetValue(NamePropertyProtected.DeclaringType, null);
-            return String.Format(CultureInfo.CurrentCulture, format, name, MinCharactersProtected);
+			string format = (string)_namePropertyProtected.GetValue(_namePropertyProtected.DeclaringType, null);
+            return String.Format(CultureInfo.CurrentCulture, format, name, _inCharacters);
 		}		
 
 		public override bool IsValid(object value)
@@ -42,7 +45,7 @@ namespace StorageMonster.Web.Services.Validation
             if (valueAsString == null)
                 return CanBeNull;
             
-            return (valueAsString != null && valueAsString.Length >= MinCharactersProtected);
+            return (valueAsString != null && valueAsString.Length >= _inCharacters);
 		}
 	}
 }

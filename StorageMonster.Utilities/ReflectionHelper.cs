@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace StorageMonster.Utilities
 {
-    public class ReflectionHelper
+    public static class ReflectionHelper
     {
         public static IEnumerable<PropertyInfo> GetPropertiesWithAttribute(object instance, Type attributeType)
         {

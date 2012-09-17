@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Runtime.Remoting.Messaging;
 using System.Web;
+using System.Data.Common;
 
 namespace StorageMonster.Utilities
 {
@@ -9,10 +10,10 @@ namespace StorageMonster.Utilities
         public const string DbConnectionKey = "db_connection";
         public const string LocaleKey = "locale";
 
-        public static IDbConnection DbConnection
+        public static DbConnection DbConnection
         {
             set { SetValue(DbConnectionKey, value); }
-            get { return (IDbConnection)GetValue(DbConnectionKey); }
+            get { return (DbConnection)GetValue(DbConnectionKey); }
         }
 
         public static void SetValue(string key, object value)

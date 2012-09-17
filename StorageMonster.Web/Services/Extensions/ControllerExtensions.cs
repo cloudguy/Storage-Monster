@@ -7,7 +7,7 @@ namespace StorageMonster.Web.Services.Extensions
 {
     public static class ControllerExtensions
     {
-        public static string RenderViewToString<T>(this ControllerBase controller, string viewName, T model)
+        public static string RenderViewToString(this ControllerBase controller, string viewName, object model)
         {
             if (controller == null)
                 throw new ArgumentNullException("controller");

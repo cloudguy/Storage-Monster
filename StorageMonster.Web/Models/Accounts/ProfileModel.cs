@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace StorageMonster.Web.Models.Accounts
+﻿namespace StorageMonster.Web.Models.Accounts
 {
     public class ProfileModel
     {

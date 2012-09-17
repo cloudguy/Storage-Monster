@@ -8,6 +8,6 @@ namespace StorageMonster.Plugin.StorageQuery
     public interface IStorageQueryExecutor
     {
         IStorageQueryExceptionHandler IfExceptionIs(Type exceptiontype);
-        void Run();
+        T Run<T>() where T : StorageQueryResult;
     }
 }

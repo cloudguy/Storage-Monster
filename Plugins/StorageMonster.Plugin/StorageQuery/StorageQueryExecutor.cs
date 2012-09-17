@@ -7,16 +7,17 @@ namespace StorageMonster.Plugin.StorageQuery
 {
     public class StorageQueryExecutor : IStorageQueryExecutor
     {
-        protected Action ActionToPerform;
+        protected Func<StorageQueryResult> ActionToPerform;
 
         private IList<StorageQueryExceptionHandler> _exceptionHandlers = new List<StorageQueryExceptionHandler>();
 
-        protected StorageQueryExecutor(Action actionToPerform)
+
+        protected StorageQueryExecutor(Func<StorageQueryResult> actionToPerform)
         {
             ActionToPerform = actionToPerform;
         }
 
-        public static StorageQueryExecutor WithAction(Action action)
+        public static StorageQueryExecutor WithAction(Func<StorageQueryResult> action)
         {
             if (action == null)
                 throw new ArgumentNullException("action");
@@ -34,12 +35,12 @@ namespace StorageMonster.Plugin.StorageQuery
             return handler;
         }
 
-        public void Run()
+        public T Run<T>() where T : StorageQueryResult
         {
             Exception error = null;            
             try
             {
-                ActionToPerform();
+                return (T)ActionToPerform();
             }
             catch (Exception exception)
             {
@@ -60,7 +61,9 @@ namespace StorageMonster.Plugin.StorageQuery
             
                 if (!exceptionHandled)
                     throw error;
-            }            
+            }
+
+            return null;
         }
     }
 }

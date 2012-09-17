@@ -7,7 +7,7 @@ namespace StorageMonster.Services
         IEnumerable<LocaleData> SupportedLocales { get; }
         LocaleData DefaultCulture { get; }
         void Init(LocaleData[] supportedLocales, LocaleData defaultLocale);
-        LocaleData GetCultureByName(string name);
+        LocaleData GetCultureByNameOrDefault(string name);
         void SetThreadLocale(LocaleData locale);
     }
 }

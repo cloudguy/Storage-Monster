@@ -133,6 +133,15 @@ namespace ViewResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        public static string ProfileChangePasswordTitle {
+            get {
+                return ResourceManager.GetString("ProfileChangePasswordTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile change was unsuccessful. Please correct the errors and try again..
         /// </summary>
         public static string ProfileEditValidationSummary {

@@ -11,10 +11,8 @@ namespace StorageMonster.Web.Services
         public static void CreateContainer()
         {
             StructureMapIoC container = new StructureMapIoC();
-// ReSharper disable RedundantNameQualifier
             StructureMapIoC.Configure();
             IocContainer.InstanceInternal = container;
-// ReSharper restore RedundantNameQualifier
         }
 
         private static void Configure()

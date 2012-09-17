@@ -1,5 +1,6 @@
 ﻿using System;
 using StorageMonster.Database;
+using System.IO;
 
 namespace StorageMonster.Plugin
 {
@@ -9,6 +10,7 @@ namespace StorageMonster.Plugin
         object GetAccountConfigurationModel(int accountId);
         object GetAccountConfigurationModel();
         void ApplyConfiguration(int accountId, DateTime accountStamp, object configurationModel);
-        StorageQueryResult QueryStorage(int accountId, string path);
+        StorageFolderResult QueryStorage(int accountId, string path);
+        StorageFileStreamResult GetFileStream(string fileUrl, int accountId);
     }
 }

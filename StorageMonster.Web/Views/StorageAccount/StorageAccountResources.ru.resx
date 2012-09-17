@@ -120,10 +120,34 @@
   <data name="AddButtonText" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="AddStorageAccountValidationSummary" xml:space="preserve">
+    <value>Не удалось добавить новую учетную запись хранилища</value>
+  </data>
   <data name="AddTitle" xml:space="preserve">
     <value>Добавить учетную запись хранилища</value>
   </data>
+  <data name="AskDeleteCancelButtonText" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="AskDeleteQuestionFormat" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить учетную запись "{0}"?</value>
+  </data>
+  <data name="AskDeleteSubmitButtonText" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="AskDeleteTitle" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить учетную запись хранилища?</value>
+  </data>
+  <data name="AskDeleteValidationSummary" xml:space="preserve">
+    <value>Не удалось удалить учетную запись хранилища</value>
+  </data>
+  <data name="EditButtonText" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
   <data name="EditTitle" xml:space="preserve">
     <value>Редактирование настроек учетной записи хранилища</value>
+  </data>
+  <data name="GetFolderTitle" xml:space="preserve">
+    <value>Storage Monster</value>
   </data>
 </root>

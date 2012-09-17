@@ -4,19 +4,21 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Data;
 using StorageMonster.Utilities;
+using System.Transactions;
+using IsolationLevel = System.Transactions.IsolationLevel;
 
 namespace StorageMonster.Database.MySql
 {
     public class ConnectionProvider : IConnectionProvider
     {
-        protected static Func<String, DbConnection> ConnectionBuilder { get; set; }
-        protected static Func<String, DbCommand> CommandBuilder { get; set; }
+        private static Func<String, DbConnection> _connectionBuilder;
+        private static Func<String, DbCommand> _commandBuilder;
 
-        protected IDbConfiguration DbConfiguration { get; set; }
+        private readonly IDbConfiguration _dbConfiguration;
 
         private readonly object _locker = new object();
 
-        protected static void Initialize()
+        private static void Initialize()
         {
             //This is hack for Synology Nas server (ARMv6 proccessor)
             //Mono can't find MySql.Data.dll assembly, so i had to unlink it and load dynamically
@@ -44,40 +46,42 @@ namespace StorageMonster.Database.MySql
 
             var paramConnectionString = Expression.Parameter(typeof(string), "connectionString");
 
-            ConnectionBuilder = Expression.Lambda<Func<String, DbConnection>>(
+            _connectionBuilder = Expression.Lambda<Func<String, DbConnection>>(
                 Expression.New(mysqlConnectionConstructor, paramConnectionString), new[] { paramConnectionString }
                 ).Compile();
 
 
             var paramQuery = Expression.Parameter(typeof(string), "query");
-            CommandBuilder = Expression.Lambda<Func<String, DbCommand>>(
+            _commandBuilder = Expression.Lambda<Func<String, DbCommand>>(
                 Expression.New(mysqlCommandConstructor, paramQuery), new[] { paramQuery }
                 ).Compile();
         }
 
         public ConnectionProvider(IDbConfiguration dbConfiguration)
         {
-            DbConfiguration = dbConfiguration;
+            _dbConfiguration = dbConfiguration;
         }
 
-        public IDbConnection CreateConnection()
+        public DbConnection CreateConnection()
         {
-            if (ConnectionBuilder == null)
+            if (_connectionBuilder == null)
             {
                 lock (_locker)
                 {
-                    if (ConnectionBuilder == null)
+                    if (_connectionBuilder == null)
                         Initialize();
                 }
             }
 
 // ReSharper disable PossibleNullReferenceException
-            DbConnection connection = ConnectionBuilder(DbConfiguration.ConnectionString);
+            DbConnection connection = _connectionBuilder(_dbConfiguration.ConnectionString);
 // ReSharper restore PossibleNullReferenceException
             connection.Open();
-            DbCommand command = CommandBuilder("SET time_zone='+00:00'; SET names 'utf8';");
-            command.Connection = connection;
-            command.ExecuteNonQuery();
+            using (DbCommand command = _commandBuilder("SET time_zone='+00:00'; SET names 'utf8';"))
+            {
+                command.Connection = connection;
+                command.ExecuteNonQuery();
+            }
             return connection;
         }
 
@@ -89,11 +93,11 @@ namespace StorageMonster.Database.MySql
             RequestContext.DbConnection = null;
         }
 
-        public IDbConnection CurrentConnection
+        public DbConnection CurrentConnection
         {
             get
             {
-                IDbConnection connection = RequestContext.DbConnection;
+                DbConnection connection = RequestContext.DbConnection;
                 if (connection == null || connection.State == ConnectionState.Closed)
                 {
                     connection = CreateConnection();
@@ -101,6 +105,43 @@ namespace StorageMonster.Database.MySql
                 }
                 return connection;
             }
+        }
+
+        public void DoInTransaction(Action action, IsolationLevel level)
+        {
+            if (action == null)
+                throw new ArgumentNullException("action");
+
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = level }))
+            {
+                CurrentConnection.EnlistTransaction(Transaction.Current);
+                action();
+                scope.Complete();
+            }
+        }
+
+        public T DoInTransaction<T>(Func<T> action, IsolationLevel level)
+        {
+            if (action == null)
+                throw new ArgumentNullException("action");
+           
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = level }))
+            {
+                CurrentConnection.EnlistTransaction(Transaction.Current);
+                T result = action();
+                scope.Complete();
+                return result;
+            }
+        }
+
+        public void DoInTransaction(Action action)
+        {
+            DoInTransaction(action, IsolationLevel.ReadCommitted);
+        }
+
+        public T DoInTransaction<T>(Func<T> action)
+        {
+            return DoInTransaction<T>(action, IsolationLevel.ReadCommitted);
         }
     }
 }

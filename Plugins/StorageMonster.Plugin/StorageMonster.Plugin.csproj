@@ -42,10 +42,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GlobalSupressions.cs" />
     <Compile Include="IStoragePlugin.cs" />
+    <Compile Include="PluginErrorCodes.cs" />
+    <Compile Include="PluginException.cs" />
     <Compile Include="StorageFile.cs" />
+    <Compile Include="StorageFileStreamResult.cs" />
     <Compile Include="StorageFolder.cs" />
+    <Compile Include="StorageFolderResult.cs" />
+    <Compile Include="StoragePathItem.cs" />
     <Compile Include="StorageItemType.cs" />
     <Compile Include="StorageQuery\IStorageQueryExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +65,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\StorageMonster.Common\StorageMonster.Common.csproj">
+      <Project>{6EAD7036-B02D-4810-9DD8-C2B5ED772220}</Project>
+      <Name>StorageMonster.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\StorageMonster.Database\StorageMonster.Database.csproj">
       <Project>{98345447-133D-4824-8CBD-6D5C74D50CB7}</Project>
       <Name>StorageMonster.Database</Name>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using StorageMonster.Services;
 
 namespace StorageMonster.Web.Services.Security
 {
@@ -9,6 +10,11 @@ namespace StorageMonster.Web.Services.Security
         public Principal(Identity identity, string[] roles)
             :base(identity, roles)
         {
+        }
+
+        public new Identity Identity
+        {
+            get { return (Identity) base.Identity; }
         }
     }
 }

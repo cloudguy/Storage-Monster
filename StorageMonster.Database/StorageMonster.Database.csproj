@@ -41,10 +41,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDbConfiguration.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IConnectionProvider.cs" />
     <Compile Include="MonsterDbException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

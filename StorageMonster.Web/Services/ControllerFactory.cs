@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using StorageMonster.Services;
+using StorageMonster.Utilities.Serialization;
 
 namespace StorageMonster.Web.Services
 {
     public class ControllerFactory : DefaultControllerFactory
     {
-        protected IocContainer Container { get; set; }
+        private readonly IocContainer _container;
 
         public ControllerFactory(IocContainer container)
         {
-            Container = container;
+            _container = container;
         }
-
 
         public override IController CreateController(RequestContext requestContext, string controllerName)
         {
@@ -32,13 +33,17 @@ namespace StorageMonster.Web.Services
             if (controllerType == null)
                 throw new HttpException(404, requestContext.HttpContext.Request.FilePath);
 
-            return GetControllerInstance(controllerType);
+            return GetControllerInstance(requestContext, controllerType);
 
         }
 
-        protected virtual IController GetControllerInstance(Type controllerType)
+        protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
         {
-            return Container.Resolve(controllerType) as Controller;
+            var controller = _container.Resolve(controllerType) as Controller ?? base.GetControllerInstance(requestContext, controllerType) as Controller;
+            if (controller == null)
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Can't create controller {0}", controllerType.FullName));
+            controller.TempDataProvider = new CookieTempDataProvider();
+            return controller;
         }
     }
 }

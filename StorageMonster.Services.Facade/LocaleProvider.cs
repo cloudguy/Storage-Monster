@@ -10,9 +10,9 @@ namespace StorageMonster.Services.Facade
 {
     public class LocaleProvider : ILocaleProvider
     {
-        protected static ConcurrentBag<LocaleData> SupportedLocalesInternal = new ConcurrentBag<LocaleData>();
-        protected static LocaleData DefaultLocale;
-        public LocaleData DefaultCulture { get { return DefaultLocale; } }
+        private static readonly IList<LocaleData> SupportedLocalesInternal = new List<LocaleData>();
+        private static LocaleData _defaultLocale;
+        public LocaleData DefaultCulture { get { return _defaultLocale; } }
 
         public IEnumerable<LocaleData> SupportedLocales
         {
@@ -21,12 +21,18 @@ namespace StorageMonster.Services.Facade
 
         public void Init(LocaleData[] supportedLocales, LocaleData defaultLocale)
         {
+            if (supportedLocales == null)
+                throw new ArgumentNullException("supportedLocales");
+
+            if (defaultLocale == null)
+                throw new ArgumentNullException("defaultLocale");
+
             foreach (var supportedLocale in supportedLocales)
                 SupportedLocalesInternal.Add(supportedLocale);
-            DefaultLocale = defaultLocale;
+            _defaultLocale = defaultLocale;
         }
 
-        public LocaleData GetCultureByName(string name)
+        public LocaleData GetCultureByNameOrDefault(string name)
         {
             LocaleData info = SupportedLocales.Where(l => string.Compare(l.ShortName, name, StringComparison.OrdinalIgnoreCase) == 0)
                 .Select(l => l)
@@ -38,6 +44,9 @@ namespace StorageMonster.Services.Facade
         }
         public void SetThreadLocale(LocaleData locale)
         {
+            if (locale == null)
+                throw new ArgumentNullException("locale");
+
             RequestContext.SetValue(RequestContext.LocaleKey, locale);
 			Thread.CurrentThread.CurrentUICulture = locale.Culture;
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(locale.Culture.Name);

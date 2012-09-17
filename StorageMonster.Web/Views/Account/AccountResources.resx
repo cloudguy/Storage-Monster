@@ -141,6 +141,9 @@
   <data name="PasswordRequirementFormat" xml:space="preserve">
     <value>Passwords are required to be a minimum of {0} character(s) in length.</value>
   </data>
+  <data name="ProfileChangePasswordTitle" xml:space="preserve">
+    <value>Change password</value>
+  </data>
   <data name="ProfileEditValidationSummary" xml:space="preserve">
     <value>Profile change was unsuccessful. Please correct the errors and try again.</value>
   </data>

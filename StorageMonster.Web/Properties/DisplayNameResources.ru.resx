@@ -147,6 +147,9 @@
   <data name="ProfilePassword" xml:space="preserve">
     <value>Новый пароль</value>
   </data>
+  <data name="ProfileTimeZone" xml:space="preserve">
+    <value>Изменить часовой пояс</value>
+  </data>
   <data name="ProfileUserName" xml:space="preserve">
     <value>Новое имя пользователя</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="RegPassword" xml:space="preserve">
     <value>Пароль</value>
+  </data>
+  <data name="RegTimeZone" xml:space="preserve">
+    <value>Часовой пояс</value>
   </data>
   <data name="RegUserName" xml:space="preserve">
     <value>Имя пользователя</value>

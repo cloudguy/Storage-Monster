@@ -141,6 +141,9 @@
   <data name="PasswordRequirementFormat" xml:space="preserve">
     <value>Пароль должен содержать как минимум {0} символа(ов)</value>
   </data>
+  <data name="ProfileChangePasswordTitle" xml:space="preserve">
+    <value>Изменить пароль</value>
+  </data>
   <data name="ProfileEditValidationSummary" xml:space="preserve">
     <value>Изменить профиль не удалось. Исправьте ошибки и попробуйте снова.</value>
   </data>

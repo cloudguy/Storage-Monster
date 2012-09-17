@@ -5,23 +5,35 @@ namespace StorageMonster.Database.MySql
 {
     public class DbConfiguration : IDbConfiguration
     {
-        protected const string ConnectionKey = "StorageMonsterMySqlServices";
+        private const string ConnectionKey = "StorageMonsterMySqlServices";
+        private static string _connectionString;
+        private static object _locker = new object();
 
-        public DbConfiguration()
+        public string ConnectionString
         {
-            ConnectionStringSettingsCollection connectionSettings = ConfigurationManager.ConnectionStrings;
+            get
+            {
+                if (_connectionString == null)
+                {
+                    lock (_locker)
+                    {
+                        if (_connectionString == null)
+                        {
+                            ConnectionStringSettingsCollection connectionSettings = ConfigurationManager.ConnectionStrings;
 
-            if (connectionSettings == null)
-                throw new MonsterDbException("No connection settings found");
+                            if (connectionSettings == null)
+                                throw new MonsterDbException("No connection settings found");
 
-            ConnectionStringSettings connectionStringSettings = connectionSettings[ConnectionKey];
+                            ConnectionStringSettings connectionStringSettings = connectionSettings[ConnectionKey];
 
-            if (connectionStringSettings == null)
-                throw new MonsterDbException(string.Format(CultureInfo.InvariantCulture, "Connection string with name {0} not found", ConnectionKey));
-
-            ConnectionString = connectionStringSettings.ConnectionString;
+                            if (connectionStringSettings == null)
+                                throw new MonsterDbException(string.Format(CultureInfo.InvariantCulture, "Connection string with name {0} not found", ConnectionKey));
+                            _connectionString = connectionStringSettings.ConnectionString;
+                        }
+                    }
+                }
+                return _connectionString;
+            }
         }
-
-        public string ConnectionString { get; private set; }
     }
 }

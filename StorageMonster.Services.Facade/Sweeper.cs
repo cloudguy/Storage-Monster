@@ -4,23 +4,23 @@ namespace StorageMonster.Services.Facade
 {
     public class Sweeper : ISweeper
     {
-        protected ISessionRepository SessionRepository { get; set; }
-        protected IResetPasswdRequestsRepository ResetPasswdRequestsRepository { get; set; }
+        private readonly ISessionRepository _sessionRepository;
+        private readonly IResetPasswordRequestsRepository _resetPasswordRequestsRepository;
 
-        public Sweeper(ISessionRepository sessionRepository, IResetPasswdRequestsRepository resetPasswdRequestsRepository)
+        public Sweeper(ISessionRepository sessionRepository, IResetPasswordRequestsRepository resetPasswordRequestsRepository)
         {
-            SessionRepository = sessionRepository;
-            ResetPasswdRequestsRepository = resetPasswdRequestsRepository;
+            _sessionRepository = sessionRepository;
+            _resetPasswordRequestsRepository = resetPasswordRequestsRepository;
         }
 
         public void CleanUpExpiredSessions()
         {
-            SessionRepository.ClearExpiredSessions();
+            _sessionRepository.ClearExpiredSessions();
         }
 
         public void CleanUpExpiredResetPasswordsRequests()
         {
-            ResetPasswdRequestsRepository.DeleteExpiredRequests();
+            _resetPasswordRequestsRepository.DeleteExpiredRequests();
         }
 
         public void CleanUp()

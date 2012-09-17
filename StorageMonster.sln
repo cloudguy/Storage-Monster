@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Plugin.WebDa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Plugin.YandexDisk", "Plugins\StorageMonster.Plugin.YandexDisk\StorageMonster.Plugin.YandexDisk.csproj", "{D292CF40-B914-4C42-B000-DDFD11BC1FF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageMonster.Database.PgSql", "StorageMonster.Database.PgSql\StorageMonster.Database.PgSql.csproj", "{EA91E3A5-8D19-40F2-8DE7-A2D3F0F0FE25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D292CF40-B914-4C42-B000-DDFD11BC1FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA91E3A5-8D19-40F2-8DE7-A2D3F0F0FE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA91E3A5-8D19-40F2-8DE7-A2D3F0F0FE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA91E3A5-8D19-40F2-8DE7-A2D3F0F0FE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA91E3A5-8D19-40F2-8DE7-A2D3F0F0FE25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

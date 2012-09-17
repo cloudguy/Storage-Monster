@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
-using StorageMonster.Web.Services.Validation;
+﻿using System.ComponentModel.DataAnnotations;
 using StorageMonster.Common.DataAnnotations;
 using StorageMonster.Web.Properties;
+using StorageMonster.Web.Services.Validation;
 
 namespace StorageMonster.Web.Models.Accounts
 {
@@ -14,7 +10,7 @@ namespace StorageMonster.Web.Models.Accounts
         public string Token { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
-        [StringLength(200, ErrorMessageResourceName = "StringLengthFormat", ErrorMessageResourceType = typeof(ValidationResources))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [MinPasswordLength("PasswordMinLengthFormat", typeof(ValidationResources), CanBeNull = true)]
         [LocalizedDisplayName("ProfilePassword", typeof(DisplayNameResources))]
         public string NewPassword { get; set; }        
@@ -23,7 +19,7 @@ namespace StorageMonster.Web.Models.Accounts
         [LocalizedDisplayName("ProfileConfirmPassword", typeof(DisplayNameResources))]
         [PropertiesMustMatch("NewPassword", "PasswordsMustMatch", typeof(ValidationResources))]
         public string ConfirmNewPassword { get; set; }
-
+        
         public int MinPasswordLength { get; set; }
 
         public void Init(int minPasswordLength)

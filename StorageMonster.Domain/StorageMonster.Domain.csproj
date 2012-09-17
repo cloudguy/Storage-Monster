@@ -45,7 +45,6 @@
     <Compile Include="ResetPasswordRequest.cs" />
     <Compile Include="StorageAccount.cs" />
     <Compile Include="StorageAccountSetting.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IdAndStamp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />

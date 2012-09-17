@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using StorageMonster.Services;
 using StorageMonster.Web.Models;
 using StorageMonster.Web.Models.Accounts;
@@ -37,8 +36,8 @@ namespace StorageMonster.Web.Services.ActionAnnotations
                     {
                         Data = new AjaxUnauthorizedModel
                             {
-                                Redirect = u.Content(webConfig.LoginUrl),
-                                LogOnPage = actionContext.Controller.RenderViewToString<object>("~/Views/Account/LogOnFormControl.ascx", new LogOnModel())
+                                Redirect = u.Action("LogOn", "Account"),
+                                LogOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.ascx", new LogOnModel())
                             },
                         ContentEncoding = System.Text.Encoding.UTF8,
                         ContentType = Constants.JsonContentType,

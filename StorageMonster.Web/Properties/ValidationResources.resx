@@ -141,6 +141,9 @@
   <data name="AjaxServerError" xml:space="preserve">
     <value>Server error</value>
   </data>
+  <data name="AntiforgeryMismath" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
   <data name="BadRequestError" xml:space="preserve">
     <value>Request is not accepatble</value>
   </data>
@@ -150,26 +153,23 @@
   <data name="InvalidFieldFormat" xml:space="preserve">
     <value>Field '{0}' is invalid.</value>
   </data>
+  <data name="InvalidFileLocation" xml:space="preserve">
+    <value>File location is invalid</value>
+  </data>
   <data name="NoPermissionsError" xml:space="preserve">
     <value>You have no permissions to view this page</value>
   </data>
+  <data name="NoPermissionsToDownload" xml:space="preserve">
+    <value>You have no permissions to download file</value>
+  </data>
   <data name="OldPasswordsMismatchError" xml:space="preserve">
     <value>Old password is incorrect</value>
-  </data>
-  <data name="PasswordChangedInfo" xml:space="preserve">
-    <value>Password changed</value>
   </data>
   <data name="PasswordMinLengthFormat" xml:space="preserve">
     <value>Field '{0}' is required to be a minimum of {1} character(s) in length.</value>
   </data>
   <data name="PasswordsMustMatch" xml:space="preserve">
     <value>Paswords must match.</value>
-  </data>
-  <data name="PluginError" xml:space="preserve">
-    <value>Plugin crashed</value>
-  </data>
-  <data name="ProfileUpdateSuccessMessage" xml:space="preserve">
-    <value>Profile updated successfully</value>
   </data>
   <data name="RegDuplicateEmail" xml:space="preserve">
     <value>Specified e-mail address already exists. Please enter a different e-mail address.</value>
@@ -207,8 +207,8 @@
   <data name="ResetInstructionSendingFailedError" xml:space="preserve">
     <value>Server error</value>
   </data>
-  <data name="ResetPasswdRequestSentInfo" xml:space="preserve">
-    <value>Instructions for reseting the password were sent to your email box</value>
+  <data name="StampRequired" xml:space="preserve">
+    <value>Bad request</value>
   </data>
   <data name="StorageAccountNotFoundError" xml:space="preserve">
     <value>Storage account not found</value>

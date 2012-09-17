@@ -15,7 +15,6 @@ namespace StorageMonster.Web.Services
 {
     public class StorageAccountSettingsModelBinder : DefaultModelBinder
     {
-
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             NameValueCollection form = controllerContext.HttpContext.Request.Form;

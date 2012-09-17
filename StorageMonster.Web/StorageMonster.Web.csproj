@@ -86,13 +86,24 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StorageAccountController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Properties\ErrorResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Accounts\ResetPasswordModel.cs" />
     <Compile Include="Models\Accounts\ResetPasswordRequestModel.cs" />
+    <Compile Include="Models\AjaxResult.cs" />
     <Compile Include="Models\StorageAccount\AskDeleteModel.cs" />
+    <Compile Include="Models\StorageAccount\FolderModel.cs" />
+    <Compile Include="Properties\ErrorResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorResources.ru.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\MailResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,6 +138,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MailResources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\SuccessMessagesResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuccessMessagesResources.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\TimeZonesResources.Designer.cs">
+      <DependentUpon>TimeZonesResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\TimeZonesResources.ru.Designer.cs">
+      <DependentUpon>TimeZonesResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\ValidationResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,40 +170,60 @@
     <Compile Include="Services\ActionAnnotations\MonsterAuthorizeAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\StorageAccountMenuActivatorAttribute.cs" />
     <Compile Include="Services\ActionAnnotations\TempDataTransferAttribute.cs" />
+    <Compile Include="Services\ActionResults\ConditionalResult.cs" />
+    <Compile Include="Services\ActionResults\BufferLessFileResult.cs" />
     <Compile Include="Services\CaseInsensitiveViewEngine.cs" />
     <Compile Include="Services\Configuration\ConfigurationException.cs" />
     <Compile Include="Services\Configuration\IWebConfiguration.cs" />
     <Compile Include="Services\Configuration\WebConfiguration.cs" />
     <Compile Include="Services\ControllerFactory.cs" />
+    <Compile Include="Services\CookieTempDataProvider.cs" />
+    <Compile Include="Services\CookieTrackingService.cs" />
     <Compile Include="Services\Extensions\ControllerExtensions.cs" />
     <Compile Include="Services\Extensions\HtmlExtensions.cs" />
     <Compile Include="Services\Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Services\Extensions\TempDataDictionaryExtensions.cs" />
+    <Compile Include="Services\Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Services\Extensions\ViewDataDictionaryExtensions.cs" />
     <Compile Include="Services\HttpInMemoryCacheService.cs" />
+    <Compile Include="Services\HttpModules\LargeFileUploadHttpModule.cs" />
     <Compile Include="Services\HttpModules\MonsterAuthorizeHttpModule.cs" />
     <Compile Include="Services\HttpModules\MonsterCleanupHttpModule.cs" />
     <Compile Include="Services\HttpModules\MonsterLowercaseRoutesHttpModule.cs" />
-    <Compile Include="Services\IMailService.cs" />
-    <Compile Include="Services\MailService.cs" />
+    <Compile Include="Services\HttpModules\MonsterSecurityHttpModule.cs" />
+    <Compile Include="Services\IconProvider.cs" />
+    <Compile Include="Services\IIconProvider.cs" />
+    <Compile Include="Services\IMessageDeliveryService.cs" />
+    <Compile Include="Services\ITrackingService.cs" />
+    <Compile Include="Services\Mail\MailDeliveryService.cs" />
+    <Compile Include="Services\Mail\MailDeliveryException.cs" />
     <Compile Include="Services\Routing\LowercaseRoute.cs" />
     <Compile Include="Services\Routing\RouteCollectionExtensions.cs" />
+    <Compile Include="Services\Security\ForbiddenRequestsLogger.cs" />
+    <Compile Include="Services\Security\InvalidPasswordException.cs" />
     <Compile Include="Services\Security\InvalidPasswordTokenException.cs" />
+    <Compile Include="Services\Security\InvalidUserNameException.cs" />
     <Compile Include="Services\Security\PasswordsMismatchException.cs" />
     <Compile Include="Services\StorageAccountSettingsModelBinder.cs" />
     <Compile Include="Services\Security\FormsAuthenticationService.cs" />
     <Compile Include="Services\Security\Identity.cs" />
     <Compile Include="Services\Security\IFormsAuthenticationService.cs" />
     <Compile Include="Services\Security\IMembershipService.cs" />
-    <Compile Include="Services\Security\MembershipData.cs" />
     <Compile Include="Services\Security\MembershipService.cs" />
-    <Compile Include="Services\Security\MonsterMembershipProvider.cs" />
-    <Compile Include="Services\Security\MonsterRoleProvider.cs" />
     <Compile Include="Services\Security\Principal.cs" />
     <Compile Include="Services\StructureMapIoC.cs" />
+    <Compile Include="Services\Upload\FileUploader.cs" />
+    <Compile Include="Services\Upload\MultipartFormHelper.cs" />
+    <Compile Include="Services\Upload\MultipartParserStream.cs" />
+    <Compile Include="Services\Upload\RequestBufferlessStream.cs" />
     <Compile Include="Services\Validation\MinPasswordLengthAttribute.cs" />
     <Compile Include="Services\Validation\MinPasswordLengthValidator.cs" />
     <Compile Include="Services\Validation\PropertiesMustMatchValidator.cs" />
+    <Compile Include="Properties\SuccessMessagesResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuccessMessagesResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Account\AccountResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -233,70 +279,144 @@
     <Content Include="Content\Error.htm" />
     <Content Include="Content\themes\base\bootstrap-responsive.css" />
     <Content Include="Content\themes\base\bootstrap.css" />
-    <Content Include="Content\themes\base\images\active.png" />
-    <Content Include="Content\themes\base\images\icons.png" />
-    <Content Include="Content\themes\base\images\ui-bg_diagonals-small_50_262626_40x40.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_303030_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_4c4c4c_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_40_0a0a0a_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_55_f1fbe5_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_60_000000_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_55_000000_500x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_85_9fda58_500x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_95_f6ecd5_500x100.png" />
-    <Content Include="Content\themes\base\images\ui-icons_000000_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_1f1f1f_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_9fda58_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_b8ec79_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui-1.8.21.custom.css" />
-    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
-    <Content Include="Content\themes\base\jquery.ui.all.css" />
-    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
-    <Content Include="Content\themes\base\jquery.ui.base.css" />
-    <Content Include="Content\themes\base\jquery.ui.button.css" />
-    <Content Include="Content\themes\base\jquery.ui.core.css" />
-    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
-    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
-    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
-    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
-    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
-    <Content Include="Content\themes\base\jquery.ui.slider.css" />
-    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
-    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\icons22x22\application_pdf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_rss+xml.png" />
+    <Content Include="Content\themes\base\icons22x22\application_rtf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_vnd.ms_excel.png" />
+    <Content Include="Content\themes\base\icons22x22\application_vnd.ms_powerpoint.png" />
+    <Content Include="Content\themes\base\icons22x22\application_vnd.ms_word.png" />
+    <Content Include="Content\themes\base\icons22x22\application_xhtml+xml.png" />
+    <Content Include="Content\themes\base\icons22x22\application_xml.png" />
+    <Content Include="Content\themes\base\icons22x22\application_xsd.png" />
+    <Content Include="Content\themes\base\icons22x22\application_xslt+xml.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_7z_compressed.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_ace.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_applix_spreadsheet.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_arc.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_arj.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_awk.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_bittorrent.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_bzip.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_cd_image.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_cue.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_deb.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_executable.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_executable_script.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_font_afm.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_font_bdf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_font_otf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_font_pcf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_font_snf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_font_ttf.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_javascript.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_java_archive.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_lha.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_lzop.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_ms_dos_executable.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_object.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_perl.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_php.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_rar.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_rpm.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_ruby.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_tar.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_tarz.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_zerosize.png" />
+    <Content Include="Content\themes\base\icons22x22\application_x_zip.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_aac.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_ac3.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_midi.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_mpeg.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_vnd.rn_realaudio.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_vnd.rn_realvideo.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_x_aiff.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_x_flac.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_x_monkey.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_x_ms_wma.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_x_musepack.png" />
+    <Content Include="Content\themes\base\icons22x22\audio_x_wav.png" />
+    <Content Include="Content\themes\base\icons22x22\binary.png" />
+    <Content Include="Content\themes\base\icons22x22\document.png" />
+    <Content Include="Content\themes\base\icons22x22\drawing.png" />
+    <Content Include="Content\themes\base\icons22x22\flv.png" />
+    <Content Include="Content\themes\base\icons22x22\folder.png" />
+    <Content Include="Content\themes\base\icons22x22\formula.png" />
+    <Content Include="Content\themes\base\icons22x22\html.png" />
+    <Content Include="Content\themes\base\icons22x22\image_bmp.png" />
+    <Content Include="Content\themes\base\icons22x22\image_gif.png" />
+    <Content Include="Content\themes\base\icons22x22\image_jpeg.png" />
+    <Content Include="Content\themes\base\icons22x22\image_png.png" />
+    <Content Include="Content\themes\base\icons22x22\image_svg+xml.png" />
+    <Content Include="Content\themes\base\icons22x22\image_tiff.png" />
+    <Content Include="Content\themes\base\icons22x22\image_x_dds.png" />
+    <Content Include="Content\themes\base\icons22x22\image_x_generic.png" />
+    <Content Include="Content\themes\base\icons22x22\image_x_ico.png" />
+    <Content Include="Content\themes\base\icons22x22\image_x_psd.png" />
+    <Content Include="Content\themes\base\icons22x22\image_x_tga.png" />
+    <Content Include="Content\themes\base\icons22x22\image_x_xpixmap.png" />
+    <Content Include="Content\themes\base\icons22x22\msi.png" />
+    <Content Include="Content\themes\base\icons22x22\presentation.png" />
+    <Content Include="Content\themes\base\icons22x22\source_c.png" />
+    <Content Include="Content\themes\base\icons22x22\source_cpp.png" />
+    <Content Include="Content\themes\base\icons22x22\source_h.png" />
+    <Content Include="Content\themes\base\icons22x22\text_css.png" />
+    <Content Include="Content\themes\base\icons22x22\text_csv.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_csharp.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_generic.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_java.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_makefile.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_python.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_sql.png" />
+    <Content Include="Content\themes\base\icons22x22\text_x_texinfo.png" />
+    <Content Include="Content\themes\base\icons22x22\video_mp4.png" />
+    <Content Include="Content\themes\base\icons22x22\video_x_matroska.png" />
+    <Content Include="Content\themes\base\icons22x22\video_x_msvideo.png" />
+    <Content Include="Content\themes\base\icons22x22\video_x_ms_asf.png" />
+    <Content Include="Content\themes\base\icons22x22\video_x_ms_wmv.png" />
+    <Content Include="Content\themes\base\icons22x22\video_x_ogm+ogg.png" />
+    <Content Include="Content\themes\base\images\network_drive.png" />
+    <Content Include="Content\themes\base\images\wait.gif" />
     <Content Include="Content\themes\base\site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery-1.7.2.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Scripts\jquery.validate-1.9.0.min.js" />
     <Content Include="Scripts\jquery.validate.messages_ru.js" />
     <Content Include="Scripts\MicrosoftMvcJQueryValidation.js" />
+    <Content Include="Scripts\Monster.Widgets.js" />
     <Content Include="Scripts\MonsterMessages.en.js" />
     <Content Include="Scripts\MonsterMessages.ru.js" />
     <Content Include="Scripts\MonsterScripts.Ajax.js" />
     <Content Include="Scripts\MonsterValidation.js" />
+    <Content Include="Views\Account\Controls\RegisterControl.ascx" />
+    <Content Include="Views\Account\Controls\ResetPasswordControl.ascx" />
+    <Content Include="Views\Account\Controls\ResetPasswordRequestControl.ascx" />
     <Content Include="Views\Account\Edit.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\LogOnFormControl.ascx" />
-    <Content Include="Views\Account\ProfileBaseControl.ascx" />
-    <Content Include="Views\Account\ProfileControl.ascx" />
-    <Content Include="Views\Account\ProfilePasswordControl.ascx" />
+    <Content Include="Views\Account\Controls\LogOnFormControl.ascx" />
+    <Content Include="Views\Account\Controls\ProfileBaseControl.ascx" />
+    <Content Include="Views\Account\Controls\ProfileControl.ascx" />
+    <Content Include="Views\Account\Controls\ProfilePasswordControl.ascx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Account\ResetPassword.aspx" />
     <Content Include="Views\Account\ResetPasswordRequest.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\BadRequest.aspx" />
+    <Content Include="Views\Shared\Controls\MessagesControl.ascx" />
     <Content Include="Views\Shared\Forbidden.aspx" />
-    <Content Include="Views\Shared\LogOnUserControl.ascx" />
+    <Content Include="Views\Shared\Controls\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\NotFound.aspx" />
-    <Content Include="Views\Shared\UserMenu.ascx" />
+    <Content Include="Views\Shared\Controls\UserMenuControl.ascx" />
     <Content Include="Views\StorageAccount\Add.aspx" />
     <Content Include="Views\StorageAccount\AskDelete.aspx" />
+    <Content Include="Views\StorageAccount\Controls\AddStorageAccountControl.ascx" />
+    <Content Include="Views\StorageAccount\Controls\AskDeleteControl.ascx" />
+    <Content Include="Views\StorageAccount\Controls\StorageAccountFolderControl.ascx" />
+    <Content Include="Views\StorageAccount\Controls\StorageNavigationControl.ascx" />
     <Content Include="Views\StorageAccount\Edit.aspx" />
     <Content Include="Views\StorageAccount\GetFolder.aspx" />
-    <Content Include="Views\StorageAccount\StorageAccountSettingsControl.ascx" />
-    <Content Include="Views\User\ListUserStorageAccountsControl.ascx" />
+    <Content Include="Views\StorageAccount\Controls\StorageAccountSettingsControl.ascx" />
+    <Content Include="Views\User\Controls\StorageAccountsControl.ascx" />
     <Content Include="Views\User\StorageAccounts.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -337,6 +457,10 @@
       <Project>{7EC44A61-F242-48F7-B606-1BC8FAF91D48}</Project>
       <Name>StorageMonster.Database.MySql</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Database.PgSql\StorageMonster.Database.PgSql.csproj">
+      <Project>{EA91E3A5-8D19-40F2-8DE7-A2D3F0F0FE25}</Project>
+      <Name>StorageMonster.Database.PgSql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Database\StorageMonster.Database.csproj">
       <Project>{98345447-133D-4824-8CBD-6D5C74D50CB7}</Project>
       <Name>StorageMonster.Database</Name>
@@ -359,6 +483,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\ErrorResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ErrorResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\MailResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MailResources.ru.Designer.cs</LastGenOutput>
@@ -375,6 +507,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DisplayNameResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\TimeZonesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeZonesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\TimeZonesResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimeZonesResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\ValidationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationResources.Designer.cs</LastGenOutput>
@@ -383,10 +523,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\SuccessMessagesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SuccessMessagesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\SuccessMessagesResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SuccessMessagesResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Account\AccountResources.resx">
+      <CustomToolNamespace>ViewResources</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AccountResources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>ViewResources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Account\AccountResources.ru.resx">
       <CustomToolNamespace>ViewResources</CustomToolNamespace>
@@ -450,9 +598,8 @@
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64403</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <DevelopmentServerVPath>/storagemonster</DevelopmentServerVPath>
+          <IISUrl>http://localhost:90</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

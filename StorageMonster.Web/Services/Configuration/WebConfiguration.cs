@@ -18,17 +18,17 @@ namespace StorageMonster.Web.Services.Configuration
         public const string DefaultLocaleCookieName = "sm_locale";
 
         public const string LocaleCookieTimeoutKey = "LocaleCookieTimeout";
-        public const int DefaultLocaleCookieTimeout = 600000;        
-
-        public const string AuthenticationLoginUrlConfigKey = "LoginUrl";
-        public const string DefaultAuthenticationLoginUrl = "~/account/logOn";
-
+        public const int DefaultLocaleCookieTimeout = 600000;
+        
         public const string AuthenticationSlidingExpirationConfigKey = "UseSlidingExpiration";
         public const bool DefaultAuthenticationSlidingExpiration = true;
 
         public const string AllowMultipleLogonsConfigKey = "AllowMultipleLogons";
         public const bool DefaultAllowMultipleLogons = false;
-        
+
+        public const string MinPasswordLengthConfigKey = "MinPasswordLength";
+        public const int DefaultMinPasswordLength = 6;
+
         public const string RunSweeperConfigKey = "RunSweeper";
         public const bool DefaultRunSweeperConfig = true;
 
@@ -40,6 +40,12 @@ namespace StorageMonster.Web.Services.Configuration
 
         public const string RestorePasswordMailFromConfigKey = "RestorePasswordMailFrom";
         public const string DefaultRestorePasswordMailFrom = "do-not-reply@storage-monster.com";
+
+        public const string SiteUrlConfigKey = "SiteUrl";
+        public const string DefaultsiteUrl = "";
+
+        public const string AutoDetectSiteUrlConfigKey = "AutoDetectSiteUrl";
+        public const bool DefaultautoDetectSiteUrl = false;
                
 
         private object _initObject;
@@ -59,7 +65,7 @@ namespace StorageMonster.Web.Services.Configuration
             minutes = ParsePositiveInt(LocaleCookieTimeoutKey, DefaultLocaleCookieTimeout);
             _localeCookieTimeout = new TimeSpan(0, minutes, 0);
             //------------------------------
-            _loginUrl = ParseString(AuthenticationLoginUrlConfigKey, DefaultAuthenticationLoginUrl);
+            _minPasswordLength = ParsePositiveInt(MinPasswordLengthConfigKey, DefaultMinPasswordLength);
             //------------------------------
             _authenticationSlidingExpiration = ParseBool(AuthenticationSlidingExpirationConfigKey, DefaultAuthenticationSlidingExpiration);
             //------------------------------
@@ -71,6 +77,9 @@ namespace StorageMonster.Web.Services.Configuration
             //------------------------------
             minutes = ParsePositiveInt(ResetPasswordRequestExpirationConfigKey, DefaultResetPasswordRequestExpiration);
             _resetPasswordRequestExpiration = new TimeSpan(0, minutes, 0);
+            //------------------------------
+            _siteUrl = ParseString(SiteUrlConfigKey, DefaultsiteUrl);
+            _autoDetectSiteUrl = ParseBool(AutoDetectSiteUrlConfigKey, DefaultautoDetectSiteUrl);
             //------------------------------
             if (_runSweeper)
             {
@@ -133,8 +142,7 @@ namespace StorageMonster.Web.Services.Configuration
 
         private TimeSpan _authenticationExpiration;
         private string _authenticationCookieName;
-        private bool _allowMultipleLogons;
-        private string _loginUrl;
+        private bool _allowMultipleLogons;        
         private bool _authenticationSlidingExpiration;
         private bool _runSweeper;
         private TimeSpan _sweeperTimeout;
@@ -142,11 +150,13 @@ namespace StorageMonster.Web.Services.Configuration
         private string _restorePasswordMailFrom;
         private string _localeCookieName;
         private TimeSpan _localeCookieTimeout;
+        private string _siteUrl;
+        private bool _autoDetectSiteUrl;
+        private int _minPasswordLength;
 
         public TimeSpan AuthenticationExpiration { get { return SafeGet(ref _authenticationExpiration); } }
         public String AuthenticationCookieName { get { return SafeGet(ref _authenticationCookieName); } }
         public bool AuthenticationSlidingExpiration { get { return SafeGet(ref _authenticationSlidingExpiration); } }
-        public string LoginUrl { get { return SafeGet(ref _loginUrl); } }
         public bool AllowMultipleLogons { get { return SafeGet(ref _allowMultipleLogons); } }
         public bool RunSweeper { get { return SafeGet(ref _runSweeper); } }
         public TimeSpan SweeperTimeout { get { return SafeGet(ref _sweeperTimeout); } }
@@ -154,5 +164,8 @@ namespace StorageMonster.Web.Services.Configuration
         public TimeSpan ResetPasswordRequestExpiration { get { return SafeGet(ref _resetPasswordRequestExpiration); } }
         public string LocaleCookieName { get { return SafeGet(ref _localeCookieName); } }
         public TimeSpan LocaleCookieTimeout { get { return SafeGet(ref _localeCookieTimeout); } }
+        public string SiteUrl { get { return SafeGet(ref _siteUrl); } }
+        public bool AutoDetectSiteUrl { get { return SafeGet(ref _autoDetectSiteUrl); } }
+        public int MinPasswordLength { get { return SafeGet(ref _minPasswordLength); } }
     }
 }

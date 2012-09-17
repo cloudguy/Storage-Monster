@@ -1181,11 +1181,19 @@ this IDbConnection cnn, string sql, Func<TFirst, TSecond, TThird, TFourth, TRetu
 			        }
 			        else if ((setterLocal.Property != null && setterLocal.Property.Type.Equals(typeof (DateTime))) || (setterLocal.Field != null && setterLocal.Field.FieldType.Equals(typeof (DateTime))) || (setterLocal.Property != null && setterLocal.Property.Type.Equals(typeof (DateTime?))) || setterLocal.Field != null && setterLocal.Field.FieldType.Equals(typeof (DateTime?)))
 			        {
-			            //converting DateTime to utc	
-			            DateTime dateTime = (DateTime) p;
-			            DateTime dateTime2 = dateTime;
-			            dateTime = dateTime.ToUniversalTime();
-			            p = dateTime.Add(TimeZoneInfo.Local.GetUtcOffset(dateTime2));
+                        //converting DateTime to utc	
+                        DateTime dateTime = (DateTime)p;
+                        switch (dateTime.Kind)
+                        {
+                            case DateTimeKind.Unspecified:
+                                DateTime dateTime2 = dateTime;
+                                dateTime = dateTime.ToUniversalTime();
+                                p = dateTime.Add(TimeZoneInfo.Local.GetUtcOffset(dateTime2));
+                                break;
+                            case DateTimeKind.Local:
+                                p = dateTime.ToUniversalTime();
+                                break;
+                        }         
 			        }
 
 			        if (setterLocal.Property != null)

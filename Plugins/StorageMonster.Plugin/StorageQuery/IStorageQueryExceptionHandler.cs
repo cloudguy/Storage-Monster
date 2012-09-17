@@ -7,6 +7,7 @@ namespace StorageMonster.Plugin.StorageQuery
 {
     public interface IStorageQueryExceptionHandler
     {
-        IStorageQueryExecutor CatchIt(Action<Exception> exceptionHandler);        
+        IStorageQueryExecutor CatchIt(Action<Exception> exceptionHandler);
+        IStorageQueryExecutor Throw(Func<Exception, Exception> exceptionRethrowHandler);
     }
 }

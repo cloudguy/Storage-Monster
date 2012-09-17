@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StorageMonster.Plugin
 {
+    [Serializable]
     public abstract class StorageItem
     {
         public virtual string Name { get; set; }

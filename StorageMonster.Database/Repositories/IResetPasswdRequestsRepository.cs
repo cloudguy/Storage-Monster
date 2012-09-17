@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StorageMonster.Domain;
+﻿using StorageMonster.Domain;
 
 namespace StorageMonster.Database.Repositories
 {
-    public interface IResetPasswdRequestsRepository
+    public interface IResetPasswordRequestsRepository
     {
         ResetPasswordRequest GetActiveRequestByToken(string token);
         void DeleteRequest(int id);

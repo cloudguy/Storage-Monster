@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -22,7 +21,6 @@ namespace StorageMonster.Web.Controllers
 {
     public sealed class AccountController : BaseController
     {
-       // private const string SuccessMessageTempDataKey = "success_message_temp_data";
         private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
 
         private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
@@ -32,24 +30,26 @@ namespace StorageMonster.Web.Controllers
         private readonly IMembershipService _membershipService;
         private readonly IUserService _userService;
         private readonly IFormsAuthenticationService _formsAuthService;
+        private readonly ITimeZonesProvider _timeZonesProvider;
 
         public AccountController(ICacheService cacheService, 
             ILocaleProvider localeProvider,
             IMembershipService membershipService,
             IUserService userService,
-            IFormsAuthenticationService formsAuthService)
+            IFormsAuthenticationService formsAuthService,
+            ITimeZonesProvider timeZonesProvider)
         {
             _cacheService = cacheService;
             _localeProvider = localeProvider;
             _membershipService = membershipService;
             _formsAuthService = formsAuthService;
             _userService = userService;
+            _timeZonesProvider = timeZonesProvider;
         }
         
         public ActionResult LogOff()
         {
             _formsAuthService.SignOut();
-			
             return RedirectToAction("Index", "Home");
         }        
         
@@ -61,14 +61,23 @@ namespace StorageMonster.Web.Controllers
                     Text = x.FullName,
                     Value = x.ShortName,
                     Selected = false
-                }).ToList() /*override lazy init*/);
+                }).ToArray() /*override lazy init*/);
+        }
+
+        private IEnumerable<SelectListItem> GetSupportedTimeZones()
+        {
+            return _timeZonesProvider.GetTimezones().Select(x => new SelectListItem
+                {
+                    Text = x.TimeZoneName,
+                    Value = x.Id.ToString(CultureInfo.InvariantCulture),
+                    Selected = false
+                });
         }
 
         public ActionResult Register()
         {
 			RegisterModel model = new RegisterModel();
-			model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);			
-            model.Init(GetSupportedLocales(), 6);	
+			model.Init(GetSupportedLocales(), GetSupportedTimeZones(), _membershipService.MinPasswordLength);			
 			return View(model);
         }
 
@@ -85,21 +94,24 @@ namespace StorageMonster.Web.Controllers
             {                
                 try
                 {
-#warning use stamp
                     _membershipService.ChangePassword(model.Token, model.NewPassword);
-                    ViewData.AddRequestSuccessMessage(ValidationResources.PasswordChangedInfo);
+                    ViewData.AddRequestSuccessMessage(SuccessMessagesResources.PasswordChangedInfo);
                     return View();
                 }
                 catch (InvalidPasswordTokenException ex)
                 {
                     throw new HttpException((int)HttpStatusCode.NotFound, "not found", ex);
                 }
-                catch (ObjectNotExistsException)
+                catch (InvalidPasswordException)
+                {
+                    ModelState.AddModelError("NewPassword", ValidationResources.RegInvalidPassword);
+                }
+                catch (UserNotExistsException)
                 {
                     ModelState.AddModelError("profile", ValidationResources.AccountNotFound);
                     return View();
                 }
-                catch (StaleObjectException)
+                catch (StaleUserException)
                 {
                     ModelState.AddModelError("profile", ValidationResources.AccountStalled);
                     return View();
@@ -108,6 +120,7 @@ namespace StorageMonster.Web.Controllers
             return View(model);           
         }
 
+        [ValidateInput(false)]
         public ActionResult ResetPassword(string token)
         {
             if (string.IsNullOrEmpty(token))
@@ -126,26 +139,25 @@ namespace StorageMonster.Web.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
         public ActionResult ResetPasswordRequest(ResetPasswordRequestModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    string siteUrl = Url.Action("Index", "Home", null, Request.Url.Scheme);
-#warning add manual url option
-                    _membershipService.RequestPasswordReset(model.Email, siteUrl, (token) => Url.Action("ResetPassword", "Account", new { token }, Request.Url.Scheme));
-                    ViewData.AddRequestSuccessMessage(ValidationResources.ResetPasswdRequestSentInfo);
+                    _membershipService.RequestPasswordReset(model.Email, BaseSiteUrl(), token => FullUrlForAction("ResetPassword", "Account", new { token }));
+                    ViewData.AddRequestSuccessMessage(SuccessMessagesResources.ResetPasswdRequestSentInfo);
                     return View();
                 }
-                catch (ObjectNotExistsException)
+                catch (UserNotExistsException)
                 {
                     ModelState.AddModelError("email", ValidationResources.EmailNotFoundError);
                 }
                 catch (DeliveryException ex)
                 {
                     Logger.Error(ex);
-                    ModelState.AddModelError("email_delivery", ValidationResources.ResetInstructionSendingFailedError);
+                    ModelState.AddModelError("delivery", ValidationResources.ResetInstructionSendingFailedError);
                 }
             }
             if (model == null)
@@ -154,96 +166,66 @@ namespace StorageMonster.Web.Controllers
         }
 
         
-
-		[MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
-        [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
-		public ActionResult Edit()
-		{
-            //if (TempData.ContainsKey(SuccessMessageTempDataKey))
-            //    ViewData.AddRequestSuccessMessage((string)TempData[SuccessMessageTempDataKey]);            
-
-            ProfileBaseModel baseModel = null;
-            ProfilePasswordModel passwdModel = null;
-            ProfileModel model = new ProfileModel 
-            {
-                BaseModel = GetProfileBaseModel(ref baseModel),
-                PasswordModel = GetProfilePasswordModel(ref passwdModel) 
-            };
-            return View(model);
-		}
-
-        private ProfilePasswordModel GetProfilePasswordModel(ref ProfilePasswordModel passwdModel)
+        private ProfilePasswordModel InitProfilePasswordModel(ref ProfilePasswordModel passwdModel, User user)
         {
             if (passwdModel == null)
                 passwdModel = new ProfilePasswordModel();
+            if (user != null)
+                passwdModel.Stamp = user.Stamp.ToBinary();
             passwdModel.Init(_membershipService.MinPasswordLength);
             return passwdModel;
         }
 
-        private ProfileBaseModel GetProfileBaseModel(ref ProfileBaseModel baseModel)
+        private ProfileBaseModel InitBaseProfileModel(ref ProfileBaseModel baseModel, User user)
         {
             if (baseModel == null)
-            {
                 baseModel = new ProfileBaseModel();
-                Principal principal = (Principal)User;
-                Identity identity = (Identity)principal.Identity;
-                User user = _userService.Load(identity.UserId);
+
+            if (user != null)
+            {
                 baseModel.Email = user.Email;
                 baseModel.UserName = user.Name;
                 baseModel.Locale = user.Locale;
-                ViewData.Add(Constants.StampFormKey, user.Stamp.ToBinary());
+                baseModel.Stamp = user.Stamp.ToBinary();
+                baseModel.TimeZone = user.TimeZone;
             }
 
             ProfileBaseModel tmpModel = baseModel;
-            baseModel.Init(GetSupportedLocales());
+            baseModel.Init(GetSupportedLocales(), GetSupportedTimeZones());
             var selectedLocale = baseModel.SupportedLocales.Where(l => String.Equals(l.Value, tmpModel.Locale, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
             if (selectedLocale != null)
                 selectedLocale.Selected = true;
             return baseModel;
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         public ActionResult ChangePassword()
         {
             return RedirectToAction("Edit");
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [AcceptVerbs(HttpVerbs.Post)]
-        [ValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]
-        [HandleError(ExceptionType = typeof(HttpAntiForgeryException), View = "Forbidden")]
+        [MonsterValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]
         [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
+        [ValidateInput(false)]
         public ActionResult ChangePassword(ProfilePasswordModel passwordModel)
         {
-#warning maybe move stamp to model and write custom hidden for?
-            long stamp;
-            if (!long.TryParse(Request.Form[Constants.StampFormKey], NumberStyles.Integer, CultureInfo.InvariantCulture, out stamp))
-            {
-                ModelState.AddModelError("user_stamp", ValidationResources.BadRequestError);
-                return View("Edit");
-            }
-
-            ProfileBaseModel baseModel = null;
-            baseModel = GetProfileBaseModel(ref baseModel);
+            Identity identity = User.Identity;
 
             if (ModelState.IsValid)
             {
-                Principal principal = (Principal)User;
-                Identity identity = (Identity)principal.Identity;
-
                 try
                 {
-                    User user = _membershipService.ChangePassword(identity.UserId, passwordModel.NewPassword, passwordModel.OldPassword, DateTime.FromBinary(stamp));
-                    //stamp = user.Stamp.ToBinary();                   
-                    //TempData[SuccessMessageTempDataKey] = ValidationResources.PasswordChangedInfo;                   
-                    TempData.AddRequestSuccessMessage(ValidationResources.PasswordChangedInfo);
+                    _membershipService.ChangePassword(identity.UserId, passwordModel.NewPassword, passwordModel.OldPassword, DateTime.FromBinary(passwordModel.Stamp));
+                    TempData.AddRequestSuccessMessage(SuccessMessagesResources.PasswordChangedInfo);
                     return RedirectToAction("Edit");
                 }
-                catch (StaleObjectException)
+                catch (StaleUserException)
                 {
                     ModelState.AddModelError("profile", ValidationResources.AccountStalled);
                 }
-                catch (ObjectNotExistsException)
+                catch (UserNotExistsException)
                 {
                     ModelState.AddModelError("profile", ValidationResources.AccountNotFound);
                 }
@@ -251,84 +233,113 @@ namespace StorageMonster.Web.Controllers
                 {
                     ModelState.AddModelError("profile", ValidationResources.OldPasswordsMismatchError);
                 }
+                catch (InvalidPasswordException)
+                {
+                    ModelState.AddModelError("NewPassword", ValidationResources.RegInvalidPassword);
+                }
             }
 
+            //smth went wrong
+            ProfileBaseModel baseModel = null;
             ProfileModel model = new ProfileModel
             {
-                BaseModel = baseModel,
-                PasswordModel = GetProfilePasswordModel(ref passwordModel)
+                BaseModel = InitBaseProfileModel(ref baseModel, _userService.Load(identity.UserId)),
+                PasswordModel = InitProfilePasswordModel(ref passwordModel, null)
             };
-            ViewData[Constants.StampFormKey] = stamp;
-            return View("Edit", model);
+            var resultAction = Condition()
+                .DoIfNotAjax(() => View("Edit", model))
+                .DoIfAjax(() => Json(new AjaxResult
+                {
+                    MainPanelHtml = this.RenderViewToString("~/Views/Account/Controls/ProfileControl.ascx", model)
+                }, JsonRequestBehavior.AllowGet));
+            return resultAction;
+        }
+
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
+        [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
+        public ActionResult Edit()
+        {
+#warning return nav bar page
+            ProfileModel model = null;
+            var resultAction = Condition()
+                        .DoIfNotAjax(() => View(model))
+                        .DoIfAjax(() => Json(new AjaxResult
+                        {
+                            MainPanelHtml = this.RenderViewToString("~/Views/Account/Controls/ProfileControl.ascx", model)
+                        }, JsonRequestBehavior.AllowGet));
+
+            User user = _userService.Load(User.Identity.UserId);
+
+            ProfileBaseModel baseModel = null;
+            ProfilePasswordModel passwdModel = null;
+            model = new ProfileModel()
+            {
+                BaseModel = InitBaseProfileModel(ref baseModel, user),
+                PasswordModel = InitProfilePasswordModel(ref passwdModel, user)
+            };
+            return resultAction;
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         [MonsterValidateAntiForgeryToken(Salt = Constants.Salt_Account_Edit)]        
         [MenuActivator(MenuActivator.ActivationTypeEnum.EditProfile)]
+        [ValidateInput(false)]
         public ActionResult Edit(ProfileBaseModel baseModel)
         {
-#warning add locale cookie            
-
-            long stamp;
-            if (!long.TryParse(Request.Form[Constants.StampFormKey], NumberStyles.Integer, CultureInfo.InvariantCulture, out stamp))
-            {
-                ModelState.AddModelError("user_stamp", ValidationResources.BadRequestError);
-                return View();
-            }
-
-            baseModel = GetProfileBaseModel(ref baseModel);
-
             if (ModelState.IsValid)
             {
-                Principal principal = (Principal)User;
-                Identity identity = (Identity)principal.Identity;
+                Identity identity = User.Identity;
 
                 try
                 {
-                    User user = _membershipService.UpdateUser(identity.UserId, baseModel.UserName, baseModel.Locale, DateTime.FromBinary(stamp));
-                    stamp = user.Stamp.ToBinary();
-#warning to service?
-                    LocaleData locale = _localeProvider.GetCultureByName(baseModel.Locale);
-                    _localeProvider.SetThreadLocale(locale);
-                    identity.Name = user.Name;
-                    identity.Locale = locale.ShortName;
-                    ViewData.AddRequestSuccessMessage(ValidationResources.ProfileUpdateSuccessMessage);                    
+                    _membershipService.UpdateUser(identity.UserId, baseModel.UserName, baseModel.Locale, baseModel.TimeZone, DateTime.FromBinary(baseModel.Stamp), identity);
+                    TempData.AddRequestSuccessMessage(SuccessMessagesResources.ProfileUpdateSuccessMessage);
+                    return RedirectToAction("Edit");
                 }
-                catch (StaleObjectException)
+                catch (StaleUserException)
                 {
                     ModelState.AddModelError("profile", ValidationResources.AccountStalled);
                 }
-                catch (ObjectNotExistsException)
+                catch (InvalidUserNameException)
+                {
+                    ModelState.AddModelError("UserName", ValidationResources.RegInvalidUserName);
+                }
+                catch (UserNotExistsException)
                 {
                     ModelState.AddModelError("profile", ValidationResources.AccountNotFound);
                 }
             }
 
             ProfilePasswordModel passwdModel = null;
+            baseModel = InitBaseProfileModel(ref baseModel, null);
             ProfileModel model = new ProfileModel
             {
                 BaseModel = baseModel,
-                PasswordModel = GetProfilePasswordModel(ref passwdModel)
+                PasswordModel = InitProfilePasswordModel(ref passwdModel, null)
             };
-            ViewData[Constants.StampFormKey] = stamp;           
-            return View("Edit", model);
+            var resultAction = Condition()
+                .DoIfNotAjax(() => View(model))
+                .DoIfAjax(() => Json(new AjaxResult
+                {
+                    MainPanelHtml = this.RenderViewToString("~/Views/Account/Controls/ProfileControl.ascx", model)
+                }, JsonRequestBehavior.AllowGet));
+            return resultAction;
         }
 
 		[AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
 		public ActionResult Register(RegisterModel model)
 		{
 			if (!ModelState.IsValid)
 			{
 				if (model == null)
 					model = new RegisterModel();
-				model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);
+                model.Init(GetSupportedLocales(), GetSupportedTimeZones(), _membershipService.MinPasswordLength);
 				return View(model);
 			}
 
-			model.Init(GetSupportedLocales(), _membershipService.MinPasswordLength);
-
 			// Attempt to register the user
-			MembershipCreateStatus createStatus = _membershipService.CreateUser(model.UserName, model.Password, model.Email, model.Locale);
+			MembershipCreateStatus createStatus = _membershipService.CreateUser(model.Email, model.Password, model.UserName, model.Locale, model.TimeZone);
 
 			if (createStatus == MembershipCreateStatus.Success)
 			{
@@ -338,22 +349,25 @@ namespace StorageMonster.Web.Controllers
 			
             ModelState.AddModelError("_FORM", ErrorCodeToString(createStatus));
 
+            model.Init(GetSupportedLocales(), GetSupportedTimeZones(), _membershipService.MinPasswordLength);
 			// If we got this far, something failed, redisplay form
 			return View(model);
 		}
 
-        
-        public ActionResult LogOn()
+
+        public ActionResult LogOn(string returnUrl)
         {
-            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             LogOnModel model = new LogOnModel();
+            model.ReturnUrl = returnUrl;
             return View(model);
         }
         
 
 		[AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult LogOn(LogOnModel model, string returnUrl)
+        [ValidateInput(false)]
+		public ActionResult LogOn(LogOnModel model)
 		{
             if (!ModelState.IsValid)
             {
@@ -379,7 +393,7 @@ namespace StorageMonster.Web.Controllers
                     return Json(new AjaxLogOnModel
                         {
                             Success = false,
-                            Html = this.RenderViewToString("LogOnFormControl", model)
+                            Html = this.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.ascx", model)
                         });
                 }
                 return View(model);
@@ -393,13 +407,11 @@ namespace StorageMonster.Web.Controllers
                     Success = true,
                 });
 
-			if (!String.IsNullOrEmpty(returnUrl))
-				return Redirect(returnUrl);
+			if (Url.IsLocalUrl(model.ReturnUrl))
+                return Redirect(model.ReturnUrl);
 
 			return RedirectToAction("Index", "Home");
 		}     
-
-        
 
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

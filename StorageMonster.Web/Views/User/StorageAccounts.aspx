@@ -5,12 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-<%  Html.ValidationSummary();                                                                           %>
-<%  if (ViewContext.ViewData.ModelState.IsValid)                                                        %>
-<%  {                                                                                                   %>
-<%      Html.RenderPartial("ListUserStorageAccountsControl", Model);                                           %>
-<%  }                                                                                                   %>
+    <% Html.RenderPartial("~/Views/User/Controls/StorageAccountsControl.ascx", Model);  %>
 </asp:Content>
 
 

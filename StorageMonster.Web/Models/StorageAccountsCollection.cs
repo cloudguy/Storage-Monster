@@ -14,24 +14,26 @@ namespace StorageMonster.Web.Models
             public int AccountId { get; set; }
             public int StoragePluginId { get; set; }
             public string StoragePluginName { get; set; }
-            public string AccountName { get; set; }
+            public string AccountName { get; set; }            
         }
 
-        public IEnumerable<AccountItem> Accounts { get; set; }
+        private IList<AccountItem> _accounts;
+        public IEnumerable<AccountItem> Accounts { get { return _accounts; } }
+        public int AccountsCount { get { return _accounts.Count; } }
         public int UserId { get; set; }
 
         public StorageAccountsCollection Init(IStorageAccountService storageAccountService, IStoragePluginsService storagePluginsService, int userId)
         {
             var accounts = storageAccountService.GetActiveStorageAccounts(userId);
             UserId = userId;
-            Accounts = accounts.Where(a=>storagePluginsService.GetStoragePlugin(a.Item2.Id) != null)
+            _accounts = accounts.Where(a => storagePluginsService.GetStoragePlugin(a.Item2.Id) != null)
                 .Select(a => new AccountItem()
                 {
                     AccountId = a.Item1.Id,
                     AccountName = a.Item1.AccountName,
                     StoragePluginId = a.Item1.StoragePluginId,
                     StoragePluginName = storagePluginsService.GetStoragePlugin(a.Item2.Id).Name
-                });
+                }).ToList();
             return this;
         }
     }

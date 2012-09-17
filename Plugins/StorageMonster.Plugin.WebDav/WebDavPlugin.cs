@@ -15,6 +15,7 @@ using StorageMonster.Common;
 using AppLimit.CloudComputing.SharpBox.Exceptions;
 using StorageMonster.Utilities;
 using System.Globalization;
+using System.IO;
 
 namespace StorageMonster.Plugin.WebDav
 {
@@ -26,6 +27,10 @@ namespace StorageMonster.Plugin.WebDav
         protected ICryptoService CryptoService { get; set; }
         protected ISecurityConfiguration SecurityConfiguration { get; set; }
 
+        protected WeakRefHolder<ConfigurationProvider> ConfigurationProviderReference;
+        protected WeakRefHolder<FolderQuery> FolderQueryReference;
+        protected WeakRefHolder<FileStreamQuery> FileStreamQueryReference;
+
         public WebDavPlugin(IStorageAccountService accountService, 
             ICryptoService cryptoService,
             ISecurityConfiguration securityConfiguration)
@@ -33,122 +38,88 @@ namespace StorageMonster.Plugin.WebDav
             AccountService = accountService;
             CryptoService = cryptoService;
             SecurityConfiguration = securityConfiguration;
+            ConfigurationProviderReference = new WeakRefHolder<ConfigurationProvider>(() => new ConfigurationProvider(AccountService, CryptoService, SecurityConfiguration));
+            FolderQueryReference = new WeakRefHolder<FolderQuery>(() => new FolderQuery());
+            FileStreamQueryReference = new WeakRefHolder<FileStreamQuery>(() => new FileStreamQuery());
         }
 
         public virtual object GetAccountConfigurationModel(int accountId)
-		{
-		    IEnumerable<StorageAccountSetting> settings = AccountService.GetSettingsForStoargeAccount(accountId);
-		    var model = new WebDavConfigurationModel
-		        {
-                    ServerUrl = settings.Where(s => string.Equals("server", s.SettingName, StringComparison.OrdinalIgnoreCase))
-                                .Select(s=>s.SettingValue)
-                                .FirstOrDefault(),
-                    AccountLogin = settings.Where(s => string.Equals("login", s.SettingName, StringComparison.OrdinalIgnoreCase))
-                                .Select(s => s.SettingValue)
-                                .FirstOrDefault(),                    
-		        };
-
-            string accountPasswordEncrypted = settings.Where(s => string.Equals("password", s.SettingName, StringComparison.OrdinalIgnoreCase))
-                                .Select(s => s.SettingValue)
-                                .FirstOrDefault();
-            if (!string.IsNullOrEmpty(accountPasswordEncrypted))
-                model.AccountPassword = CryptoService.DecryptString(accountPasswordEncrypted, SecurityConfiguration.EncryptionKey, SecurityConfiguration.EncryptionSalt);
-
-            return model;
-		}
+        {
+            return ConfigurationProviderReference.Target.GetAccountConfigurationModel(accountId);
+        }
 
         public virtual object GetAccountConfigurationModel()
         {
-            return new WebDavConfigurationModel();
+            return ConfigurationProviderReference.Target.GetAccountConfigurationModel();
         }
 
         public virtual void ApplyConfiguration(int accountId, DateTime accountStamp, object configurationModel)
         {
-            WebDavConfigurationModel webDavConfigurationModel = configurationModel as WebDavConfigurationModel;
-            if (webDavConfigurationModel == null)
-                return;
-
-            Dictionary<string, string> settings = new Dictionary<string, string>
-                {
-                    {"login", webDavConfigurationModel.AccountLogin}, 
-                    {"password", CryptoService.EncryptString(webDavConfigurationModel.AccountPassword, SecurityConfiguration.EncryptionKey, SecurityConfiguration.EncryptionSalt)}, 
-                    {"server", webDavConfigurationModel.ServerUrl}
-                };            
-            AccountService.SaveSettings(settings, accountId, accountStamp);
+            ConfigurationProviderReference.Target.ApplyConfiguration(accountId, accountStamp, configurationModel);            
         }
 
-        public StorageQueryResult QueryStorage(int accountId, string path)
+        protected static PluginException TranslateSharpboxException(SharpBoxException exception)
         {
-            StorageQueryResult result = new StorageQueryResult();
+            if (exception == null)
+                throw new ArgumentNullException("exception");
 
-            Action queryAction = new Action(() => 
+            PluginErrorCodes errorCode;
+            switch (exception.ErrorCode)
             {
-                WebDavConfigurationModel model = GetAccountConfigurationModel(accountId) as WebDavConfigurationModel;
+                case SharpBoxErrorCodes.ErrorCouldNotContactStorageService:
+                    errorCode = PluginErrorCodes.CouldNotContactStorageService;
+                    break;
+                case SharpBoxErrorCodes.ErrorCouldNotRetrieveDirectoryList:
+                    errorCode = PluginErrorCodes.CouldNotRetrieveDirectoryList;
+                    break;
+                case SharpBoxErrorCodes.ErrorCreateOperationFailed:
+                    errorCode = PluginErrorCodes.CreateOperationFailed;
+                    break;
+                case SharpBoxErrorCodes.ErrorFileNotFound:
+                    errorCode = PluginErrorCodes.FileNotFound;
+                    break;
+                case SharpBoxErrorCodes.ErrorInsufficientDiskSpace:
+                    errorCode = PluginErrorCodes.InsufficientDiskSpace;
+                    break;
+                case SharpBoxErrorCodes.ErrorInvalidCredentialsOrConfiguration:
+                    errorCode = PluginErrorCodes.InvalidCredentialsOrConfiguration;
+                    break;
+                case SharpBoxErrorCodes.ErrorInvalidFileOrDirectoryName:
+                    errorCode = PluginErrorCodes.InvalidFileOrDirectoryName;
+                    break;
+                case SharpBoxErrorCodes.ErrorTransferAbortedManually:
+                    errorCode = PluginErrorCodes.TransferAbortedManually;
+                    break;
+                default:
+                    errorCode = PluginErrorCodes.PluginError;
+                    break;
+            }
 
-                model = model.With(m => !string.IsNullOrEmpty(m.ServerUrl))
-                    .With(m => !string.IsNullOrEmpty(m.AccountLogin))
-                    .With(m => !string.IsNullOrEmpty(m.AccountPassword));
+            return new PluginException(errorCode, "Error", exception);
+        }
 
-                if (model == null)
-                    throw new MonsterFrontException(ValidationResources.StorageAccountNotConfiguredError);
-
-                Uri uri = new Uri(model.ServerUrl);
-                ICloudStorageConfiguration config = new WebDavConfiguration(uri);
-                GenericNetworkCredentials cred = new GenericNetworkCredentials();
-                cred.UserName = model.AccountLogin;
-                cred.Password = model.AccountPassword;
-
-                CloudStorage storage = null;
-                try
-                {
-                    storage = new CloudStorage();
-                    ICloudStorageAccessToken storageToken = storage.Open(config, cred);
-                    if (string.IsNullOrEmpty(path))
-                        path = "/";
-                    ICloudDirectoryEntry directory = storage.GetFolder(path, true);
-                    foreach (var entry in directory)
-                    {
-                        var dirEntry = entry as ICloudDirectoryEntry;
-                        string entryPath = string.Format(CultureInfo.InvariantCulture,"{0}{1}{2}", path, "/", entry.Name);
-                        if (dirEntry != null)
-                        {
-                            result.AddItem(new StorageFolder 
-                            { 
-                                Name = dirEntry.Name,
-                                Path = entryPath,
-                                StorageAccountId = accountId
-                            });
-                            continue;
-                        }
-                        result.AddItem(new StorageFile
-                        {
-                            Name = entry.Name,
-                            Path = entryPath,
-                            StorageAccountId = accountId
-                        });
-                    }
-                }
-                finally
-                {
-                    if (storage != null)
-                        storage.Close();
-                }
-
-            });
-
-            StorageQueryExecutor.WithAction(queryAction)
-                .IfExceptionIs(typeof(MonsterFrontException))
-                    .CatchIt((ex) => result.AddError(ex.Message))
+        protected static IStorageQueryExecutor BuildQueryExecutor(Func<StorageQueryResult> action)
+        {
+            return StorageQueryExecutor.WithAction(action)
                 .IfExceptionIs(typeof(UriFormatException))
-                    .CatchIt((ex) => result.AddError(ValidationResources.BadServerError))  
-                .IfExceptionIs(typeof(SharpBoxException))
-                    .CatchIt((ex)=>result.AddError(ValidationResources.CanNotConnectError))
+                    .Throw((ex) => new PluginException(PluginErrorCodes.InvalidCredentialsOrConfiguration, "Invalid url", ex))
                 .IfExceptionIs(typeof(UnauthorizedAccessException))
-#warning localization
-                    .CatchIt((ex)=>result.AddError("Unauthorized"))
-                .Run();
+                    .Throw((ex) => new PluginException(PluginErrorCodes.InvalidCredentialsOrConfiguration, "Unauthorized", ex))
+                .IfExceptionIs(typeof(SharpBoxException))
+                    .Throw((ex) => TranslateSharpboxException((SharpBoxException)ex));
+        }
 
-            return result;
+        public virtual StorageFileStreamResult GetFileStream(string fileUrl, int accountId)
+        {
+            WebDavConfigurationModel model = GetAccountConfigurationModel(accountId) as WebDavConfigurationModel;
+            return BuildQueryExecutor(() => FileStreamQueryReference.Target.Execute(model, fileUrl)).Run<StorageFileStreamResult>();
+        }
+               
+
+        public virtual StorageFolderResult QueryStorage(int accountId, string path)
+        {
+            WebDavConfigurationModel model = GetAccountConfigurationModel(accountId) as WebDavConfigurationModel;
+            return BuildQueryExecutor(() => FolderQueryReference.Target.Execute(model, path, accountId)).Run<StorageFolderResult>();            
         }		
     }
 }

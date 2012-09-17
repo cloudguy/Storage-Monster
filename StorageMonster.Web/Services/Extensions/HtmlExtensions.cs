@@ -45,6 +45,37 @@ namespace StorageMonster.Web.Services.Extensions
             return RequestSuccessInfo(htmlHelper, null);
         }
 
+
+        public static MvcHtmlString RequestErrorInfo(this HtmlHelper htmlHelper, object htmlAttributes)
+        {
+            IEnumerable<string> messages = htmlHelper.ViewData.GetRequestErrorMessages();
+            if (messages == null)
+                return null;
+
+            StringBuilder htmlBuilder = new StringBuilder();
+
+            foreach (var message in messages)
+            {
+                if (string.IsNullOrEmpty(message))
+                    continue;
+                TagBuilder divBuilder = new TagBuilder("div");
+                divBuilder.MergeAttributes<string, object>(new RouteValueDictionary(htmlAttributes));
+                divBuilder.AddCssClass(Constants.RequestErrorHtmlClass);
+
+                TagBuilder spanBuilder = new TagBuilder("span");
+                spanBuilder.SetInnerText(message);
+                divBuilder.InnerHtml = spanBuilder.ToString(TagRenderMode.Normal);
+                htmlBuilder.Append(divBuilder.ToString(TagRenderMode.Normal));
+            }
+
+            return MvcHtmlString.Create(htmlBuilder.ToString());
+        }
+
+        public static MvcHtmlString RequestErrorInfo(this HtmlHelper htmlHelper)
+        {
+            return RequestErrorInfo(htmlHelper, null);
+        }
+
 		public static MvcHtmlString LocalizedLabelFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression)
 		{
 			return LocalizedLabelFor(html, expression, null);

@@ -61,38 +61,11 @@ namespace StorageMonster.Plugin.WebDav {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server url is invalid.
-        /// </summary>
-        public static string BadServerError {
-            get {
-                return ResourceManager.GetString("BadServerError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not connect to storage. Either credentials are invalid or service is not accesible.
-        /// </summary>
-        public static string CanNotConnectError {
-            get {
-                return ResourceManager.GetString("CanNotConnectError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Field &apos;{0}&apos; is required.
         /// </summary>
         public static string RequiredFieldFormat {
             get {
                 return ResourceManager.GetString("RequiredFieldFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Storage account is not properly configured.
-        /// </summary>
-        public static string StorageAccountNotConfiguredError {
-            get {
-                return ResourceManager.GetString("StorageAccountNotConfiguredError", resourceCulture);
             }
         }
         

@@ -23,7 +23,7 @@ namespace StorageMonster.Web.Services.ActionAnnotations
             if (errorMsgs != null)
             {
                 foreach (var msg in errorMsgs)
-                    actionContext.Controller.ViewData.ModelState.AddModelError(msg.Key, msg.Value);
+                    actionContext.Controller.ViewData.AddRequestErrorMessage(msg);
             }
         }
     }

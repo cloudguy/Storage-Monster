@@ -7,6 +7,9 @@ using StorageMonster.Web.Models.User;
 using StorageMonster.Web.Properties;
 using StorageMonster.Web.Services.ActionAnnotations;
 using StorageMonster.Web.Services.Security;
+using System.Web;
+using System.Net;
+using StorageMonster.Web.Services.Extensions;
 
 namespace StorageMonster.Web.Controllers
 {
@@ -23,31 +26,43 @@ namespace StorageMonster.Web.Controllers
             _userService = userService;
         }
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         [MenuActivatorAttribute(MenuActivator.ActivationTypeEnum.StorageAccountsSettings)]
-        public ActionResult StorageAccounts(int Id)
+        public ActionResult StorageAccounts(int? id)
         {
-#warning if not admin -- show error
-            Identity identity = (Identity) HttpContext.User.Identity;
-            UserAccountsModel userAccountsModel = new UserAccountsModel();
+            if (id == null)
+                throw new HttpException((int)HttpStatusCode.NotFound, string.Empty);
+            UserAccountsModel userAccountsModel = null;
 
-            if (identity.UserId != Id && !HttpContext.User.IsInRole(MonsterRoleProvider.RoleAdmin))
+            var resultAction = Condition()
+                        .DoIfNotAjax(() => View(userAccountsModel))
+                        .DoIfAjax(() => Json(new AjaxResult
+                        {
+                            MainPanelHtml = this.RenderViewToString("~/Views/User/Controls/StorageAccountsControl.ascx", userAccountsModel)
+                        }, JsonRequestBehavior.AllowGet));
+
+
+            Identity identity = User.Identity;          
+
+            if (identity.UserId != id && !HttpContext.User.IsInRole(Constants.RoleAdmin))
             {
                 ModelState.AddModelError("forbidden", ValidationResources.NoPermissionsError);
-#warning activate admin menu
-#warning check rights to edit and delete
-                return View(userAccountsModel);
+                return resultAction;
             }
 
-            User targetUser = _userService.Load(Id);
+            User targetUser = _userService.Load(id.Value);
             if (targetUser == null)
             {
                 ModelState.AddModelError("usernotfound", ValidationResources.UserNotFoundError);
-                return View(userAccountsModel);
+                return resultAction;
             }
-            StorageAccountsCollection targetAccountsCollection = new StorageAccountsCollection().Init(_accountService, _storageService, Id);
+            userAccountsModel = new UserAccountsModel();
+            userAccountsModel.CanAddAcounts = identity.UserId == id;
+            userAccountsModel.CanDeleteAcounts = identity.UserId == id;
+            userAccountsModel.CanEditAcounts = identity.UserId == id;
+            StorageAccountsCollection targetAccountsCollection = new StorageAccountsCollection().Init(_accountService, _storageService, id.Value);
             userAccountsModel.AccountsCollection = targetAccountsCollection;
-            return View(userAccountsModel);
+            return resultAction;
         }
     }
 }

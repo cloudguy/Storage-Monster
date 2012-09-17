@@ -19,24 +19,22 @@ using StorageMonster.Web.Services.Configuration;
 using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Routing;
 using StorageMonster.Web.Services.Validation;
+using StorageMonster.Web.Services.Security;
 
 namespace StorageMonster.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
-
-#warning Validate antiforgery during ajax
     public class MonsterApplication : HttpApplication
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(MonsterApplication));
-        private static readonly ILog ForbiddenLogger = LogManager.GetLogger("ForbiddenRequests");
-
-        
 
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Content/*");
+            routes.IgnoreRoute("{resource}.smh/{*pathInfo}");
+
 
             routes.MapRouteLowercase(
                 "NotFound", // Route name
@@ -69,6 +67,7 @@ namespace StorageMonster.Web
 // ReSharper restore InconsistentNaming
         {
             Logger.Info("Storage Monster starting...");
+            MvcHandler.DisableMvcResponseHeader = true;
             try
             {
                 Initialize();
@@ -146,6 +145,12 @@ namespace StorageMonster.Web
 
             localeProvider.Init(new[] { defaultLocale, russianLocale }, defaultLocale);
 
+            var timeZoneProvider = IocContainer.Instance.Resolve<ITimeZonesProvider>();
+            timeZoneProvider.Init(TimeZonesResources.ResourceManager);
+
+            var iconProvider = IocContainer.Instance.Resolve<IIconProvider>();
+            iconProvider.Initizlize();
+
             var oldValidatorProvider = ModelValidatorProviders.Providers.Single(p => p is DataAnnotationsModelValidatorProvider);
             ModelValidatorProviders.Providers.Remove(oldValidatorProvider);
             DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
@@ -176,8 +181,7 @@ namespace StorageMonster.Web
             if (ex == null)
                 return;
 
-            HttpException httpException = ex as HttpException;
-            HttpAntiForgeryException antiforgeryException = ex as HttpAntiForgeryException;
+            HttpException httpException = ex as HttpException;           
             string reponseString = null;
             string contentType = null;
             bool loggingRequired = true;
@@ -207,52 +211,28 @@ namespace StorageMonster.Web
                         });
                         contentType = Constants.JsonContentType;
                     }
-#warning log path and ip
-                    ForbiddenLogger.Warn(ex);
+                    ForbiddenRequestsLogger.LogRequest(Request, ex);                    
                     loggingRequired = false;
                 }
-            }
-
-            if (antiforgeryException != null)
-            {
-                if (HttpContext.Current.Request.IsAjaxRequest())
-                {
-                    var jsserializer = new JavaScriptSerializer();
-                    reponseString = jsserializer.Serialize(new AjaxErrorModel
-                    {
-                        Error = ValidationResources.AjaxAccessDenied
-                    });
-                    contentType = Constants.JsonContentType;
-                }
-#warning log path and ip
-                ForbiddenLogger.Warn(ex);
-                loggingRequired = false;
             }
 
             if (loggingRequired)
                 Logger.Error(ex);
 
-            if (HttpContext.Current.Request.IsAjaxRequest())
-            {
-                var jsserializer = new JavaScriptSerializer();
-                reponseString = jsserializer.Serialize(new AjaxErrorModel
+           
+                if (reponseString != null)
                 {
-                    Error = ValidationResources.AjaxServerError
-                });
-
-            }
-            if (reponseString != null)
-            {
-                if (HttpContext.Current != null)
-                {
-                    HttpContext.Current.Response.ClearContent();
-                    HttpContext.Current.Response.Write(reponseString);
-                    if (contentType != null)
-                        HttpContext.Current.Response.ContentType = contentType;
-                    HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-                    HttpContext.Current.Response.End();
+                    if (HttpContext.Current != null)
+                    {
+                        HttpContext.Current.Response.ClearContent();
+                        HttpContext.Current.Response.Write(reponseString);
+                        if (contentType != null)
+                            HttpContext.Current.Response.ContentType = contentType;
+                        HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                        HttpContext.Current.Response.End();
+                    }
                 }
-            }
+            
         }
     }
 }

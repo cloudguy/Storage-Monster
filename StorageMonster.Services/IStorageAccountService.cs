@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using StorageMonster.Database;
 using StorageMonster.Domain;
 
 
 namespace StorageMonster.Services
 {
-#warning make exceptions
     public enum StorageAccountCreationResult
     {
         Success,

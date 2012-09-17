@@ -19,9 +19,13 @@ namespace StorageMonster.Services.Facade
         public string EncryptPassword(string password, string salt)
         {
             string passwordAndSalt = salt + password;
-            var md5Hash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(passwordAndSalt));
-            var sha512Hash = SHA512.Create().ComputeHash(md5Hash);
-            return salt + Convert.ToBase64String(sha512Hash);
+            using (var md5 = MD5.Create())
+            using (var sha512 = SHA512.Create())
+            {
+                var md5Hash = md5.ComputeHash(Encoding.UTF8.GetBytes(passwordAndSalt));
+                var sha512Hash = sha512.ComputeHash(md5Hash);
+                return salt + Convert.ToBase64String(sha512Hash);
+            }
         }
 
         public string GetSaltFromHash(string hash)
@@ -32,18 +36,19 @@ namespace StorageMonster.Services.Facade
             return hash.Substring(0, SaltLength);
         }
 
-        protected static string GenerateSalt(int length)
+        private static string GenerateSalt(int length)
         {
             char[] chars = SaltChars.ToCharArray();
 
             byte[] data = new byte[1];
-            RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
-            crypto.GetNonZeroBytes(data);
-            int size = length;
+            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+            {
+                crypto.GetNonZeroBytes(data);
 
-            data = new byte[size];
-            crypto.GetNonZeroBytes(data);
-            StringBuilder result = new StringBuilder(size);
+                data = new byte[length];
+                crypto.GetNonZeroBytes(data);
+            }
+            StringBuilder result = new StringBuilder(length);
 
             foreach (byte b in data)
                 result.Append(chars[b%(chars.Length - 1)]);

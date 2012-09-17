@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationProvider.cs" />
     <Compile Include="DisplayResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,6 +81,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DisplayResources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="FileStreamQuery.cs" />
+    <Compile Include="FolderQuery.cs" />
     <Compile Include="ValidationResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

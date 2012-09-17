@@ -151,6 +151,15 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change time zone.
+        /// </summary>
+        public static string ProfileTimeZone {
+            get {
+                return ResourceManager.GetString("ProfileTimeZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New user name.
         /// </summary>
         public static string ProfileUserName {
@@ -192,6 +201,15 @@ namespace StorageMonster.Web.Properties {
         public static string RegPassword {
             get {
                 return ResourceManager.GetString("RegPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time zone.
+        /// </summary>
+        public static string RegTimeZone {
+            get {
+                return ResourceManager.GetString("RegTimeZone", resourceCulture);
             }
         }
         

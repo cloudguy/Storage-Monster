@@ -147,6 +147,9 @@
   <data name="ProfilePassword" xml:space="preserve">
     <value>New password</value>
   </data>
+  <data name="ProfileTimeZone" xml:space="preserve">
+    <value>Change time zone</value>
+  </data>
   <data name="ProfileUserName" xml:space="preserve">
     <value>New user name</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="RegPassword" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="RegTimeZone" xml:space="preserve">
+    <value>Time zone</value>
   </data>
   <data name="RegUserName" xml:space="preserve">
     <value>User name</value>

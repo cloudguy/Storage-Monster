@@ -48,6 +48,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MonsterDownloadStream.cs" />
     <Compile Include="StorageAccountService.cs" />
     <Compile Include="AesCryptoService.cs" />
     <Compile Include="LocaleProvider.cs" />
@@ -56,7 +57,9 @@
     <Compile Include="SecurityConfiguration.cs" />
     <Compile Include="SessionService.cs" />
     <Compile Include="StoragePluginsService.cs" />
+    <Compile Include="StreamFactory.cs" />
     <Compile Include="Sweeper.cs" />
+    <Compile Include="TimeZonesProvider.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="VelocityTemplateEngine.cs" />
   </ItemGroup>

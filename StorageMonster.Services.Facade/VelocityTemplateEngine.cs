@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
+using System.IO;
+using Commons.Collections;
 using NVelocity;
 using NVelocity.App;
-using Commons.Collections;
-using System.IO;
-using System.Globalization;
 
 namespace StorageMonster.Services.Facade
 {
@@ -22,14 +20,16 @@ namespace StorageMonster.Services.Facade
             return ApplyTemplate(template, context);
         }
 
-        protected static string ApplyTemplate(string template, VelocityContext context)
+        private static string ApplyTemplate(string template, VelocityContext context)
         {
             VelocityEngine velocity = new VelocityEngine();
             ExtendedProperties props = new ExtendedProperties();            
             velocity.Init(props);
-            var writer = new StringWriter(CultureInfo.CurrentCulture);           
-            velocity.Evaluate(context, writer, string.Empty, template);
-            return writer.GetStringBuilder().ToString();
+            using (var writer = new StringWriter(CultureInfo.CurrentCulture))
+            {
+                velocity.Evaluate(context, writer, string.Empty, template);
+                return writer.GetStringBuilder().ToString();
+            }
         }
     }
 }

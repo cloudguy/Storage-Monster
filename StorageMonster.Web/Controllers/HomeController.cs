@@ -11,31 +11,34 @@ using StorageMonster.Web.Services.ActionAnnotations;
 using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
 using StorageMonster.Web.Properties;
+using StorageMonster.Plugin;
+using Newtonsoft.Json;
+using System.Web.Security;
+using System.IO;
 
 
 namespace StorageMonster.Web.Controllers
-{
-    public class HomeController : BaseController
+{    
+    public sealed class HomeController : BaseController
     {
-        protected IStorageAccountService AccountService;
-        protected IStoragePluginsService StorageService;
-        public HomeController(IStorageAccountService accountService, IStoragePluginsService storageService)
+        public HomeController()
         {
-            AccountService = accountService;
-            StorageService = storageService;
         }
 
-        
-
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         public ActionResult Index()
         {
+            //var service = IocContainer.Instance.Resolve<IStoragePluginsService>();
+            //var plugin = service.GetStoragePlugin(1);
+            //StreamReader  reader= new StreamReader(
+            //var s = plugin.GetFileStream("/logsql.txt", 9, null);
             return View();
         }      
       
-
+#warning move to base
+        /*
         [AjaxOnly(JsonRequestBehavior.AllowGet)]
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser, MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleUser, Constants.RoleAdmin)]
         public ActionResult UserMenu()
         {
             Identity identity = (Identity)HttpContext.User.Identity;
@@ -47,19 +50,19 @@ namespace StorageMonster.Web.Controllers
             string viewContent = this.RenderViewToString("UserMenu", menuModel);
             return Json(new { Menu = viewContent }, JsonRequestBehavior.AllowGet);
         }
-
+        */
  
 
 #if DEBUG
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleUser)]
+        [MonsterAuthorize(Constants.RoleUser)]
         public ActionResult TestUser()
         {
             return new EmptyResult();
         }
 
 
-        [MonsterAuthorize(MonsterRoleProvider.RoleAdmin)]
+        [MonsterAuthorize(Constants.RoleAdmin)]
         public ActionResult TestAdmin()
         {
             return new EmptyResult();

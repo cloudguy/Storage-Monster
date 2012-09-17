@@ -11,7 +11,7 @@ namespace StorageMonster.Database
                 throw new ArgumentNullException("delegate");
             try
             {
-                return @delegate();
+                return @delegate(); 
             }
             catch(DbException dbException)
             {

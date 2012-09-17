@@ -8,12 +8,14 @@ namespace StorageMonster.Web.Services.Configuration
 		string AuthenticationCookieName { get; }
         string LocaleCookieName { get; }
         TimeSpan LocaleCookieTimeout { get; }
-        string LoginUrl { get; }
+	    int MinPasswordLength { get; }        
         bool AuthenticationSlidingExpiration { get; }
         bool AllowMultipleLogons { get; }
 	    bool RunSweeper { get; }
 	    TimeSpan SweeperTimeout { get; }
         string RestorePasswordMailFrom { get; }
         TimeSpan ResetPasswordRequestExpiration { get; }
+        string SiteUrl { get; }
+	    bool AutoDetectSiteUrl { get; }
 	}
 }

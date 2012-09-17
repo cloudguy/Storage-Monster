@@ -13,9 +13,7 @@ namespace StorageMonster.Web.Services.Extensions
 				throw new ArgumentNullException("httpRequest");
 
 			var headers = httpRequest.Headers;
-// ReSharper disable AssignNullToNotNullAttribute
 			if (!headers.AllKeys.Contains("X-Requested-With") || headers.GetValues("X-Requested-With").FirstOrDefault() != "XMLHttpRequest")
-// ReSharper restore AssignNullToNotNullAttribute
 				return false;
 
 			return true;

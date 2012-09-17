@@ -11,52 +11,57 @@ namespace StorageMonster.Services.Facade
 {
     public class StorageAccountService : IStorageAccountService
     {
-        protected IStorageAccountRepository StorageAccountRepository { get; set; }
-        protected IStoragePluginsService StoragePluginsService { get; set; }
-        protected IStorageAccountSettingsRepository StorageAccountSettingsRepository { get; set; }
+        private readonly IStorageAccountRepository _storageAccountRepository;
+        private readonly IStoragePluginsService _storagePluginsService;
+        private readonly IStorageAccountSettingsRepository _storageAccountSettingsRepository;
+        private readonly IConnectionProvider _connectionProvider;
 
         public StorageAccountService(IStorageAccountRepository storageAccountRepository, 
             IStoragePluginsService storagePluginsService,
-            IStorageAccountSettingsRepository storageAccountSettingsRepository)
+            IStorageAccountSettingsRepository storageAccountSettingsRepository,
+            IConnectionProvider connectionProvider)
         {
-            StorageAccountRepository = storageAccountRepository;
-            StoragePluginsService = storagePluginsService;
-            StorageAccountSettingsRepository = storageAccountSettingsRepository;
+            _storageAccountRepository = storageAccountRepository;
+            _storagePluginsService = storagePluginsService;
+            _storageAccountSettingsRepository = storageAccountSettingsRepository;
+            _connectionProvider = connectionProvider;
         }
 
         public IEnumerable<Tuple<StorageAccount, StoragePlugin>> GetActiveStorageAccounts(int userId)
         {
-            return StorageAccountRepository.GetAccounts(userId, (int)StorageStatus.Loaded);
+            return _storageAccountRepository.GetAccounts(userId, (int)StorageStatus.Loaded);
         }
 
         public StorageAccount Load(int id)
         {
-            return StorageAccountRepository.Load(id);
+            return _storageAccountRepository.Load(id);
         }
 
         public StorageAccountCreationResult CreateStorageAccount(StorageAccount account)
         {
-            using (TransactionScope transactionScope = new TransactionScope())
+            if (account == null)
+                throw new ArgumentNullException("account");
+
+            return _connectionProvider.DoInTransaction(() =>
             {
-                if (StoragePluginsService.GetStoragePlugin(account.StoragePluginId) == null)
+                if (_storagePluginsService.GetStoragePlugin(account.StoragePluginId) == null)
                     return StorageAccountCreationResult.PluginNotFound;
 
-                StorageAccount checkAccount = StorageAccountRepository.Load(account.AccountName, account.StoragePluginId, account.UserId);
+                StorageAccount checkAccount = _storageAccountRepository.Load(account.AccountName, account.StoragePluginId, account.UserId);
 
                 if (checkAccount != null)
                     return StorageAccountCreationResult.AccountExists;
 
-                StorageAccountRepository.Insert(account);
-
-                transactionScope.Complete();
+                _storageAccountRepository.Insert(account);
+               
                 return StorageAccountCreationResult.Success;
-            }
+            });
         }
 
         public void SaveSettings(IDictionary<string, string> storageAccountSettingsList, int storageAccountId, DateTime storageAccountStamp)
         {
-            UpdateResult updateResult = StorageAccountSettingsRepository.SaveSettings(storageAccountSettingsList, storageAccountId, storageAccountStamp);
-
+            UpdateResult updateResult = _storageAccountSettingsRepository.SaveSettings(storageAccountSettingsList, storageAccountId, storageAccountStamp);
+#warning make new exceptions
             switch (updateResult)
             {
                 case UpdateResult.Stalled:
@@ -68,17 +73,16 @@ namespace StorageMonster.Services.Facade
 
         public IEnumerable<StorageAccountSetting> GetSettingsForStoargeAccount(int storageAccountId)
         {
-            return StorageAccountSettingsRepository.GetSettingsForStoargeAccount(storageAccountId);
+            return _storageAccountSettingsRepository.GetSettingsForStorageAccount(storageAccountId);
         }
 
         public void DeleteStorageAccount(int storageAccountId)
         {
-            using (var scope = new TransactionScope())
+            _connectionProvider.DoInTransaction(() =>
             {
-                StorageAccountSettingsRepository.DeleteSettings(storageAccountId);
-                StorageAccountRepository.Delete(storageAccountId);
-                scope.Complete();
-            }
+                _storageAccountSettingsRepository.DeleteSettings(storageAccountId);
+                _storageAccountRepository.Delete(storageAccountId);                
+            });
         }
     }
 }

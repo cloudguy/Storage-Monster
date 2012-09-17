@@ -20,11 +20,7 @@ namespace StorageMonster.Web.Services.HttpModules
             context.EndRequest += application_EndRequest;
 		}
 
-// ReSharper disable MemberCanBeMadeStatic.Local
-// ReSharper disable InconsistentNaming
 		void application_EndRequest(object sender, EventArgs e)
-// ReSharper restore InconsistentNaming
-// ReSharper restore MemberCanBeMadeStatic.Local
 		{
 			IConnectionProvider connectionProvider = IocContainer.Instance.Resolve<IConnectionProvider>();
 			connectionProvider.CloseCurrentConnection();

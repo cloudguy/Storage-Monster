@@ -141,6 +141,9 @@
   <data name="AjaxServerError" xml:space="preserve">
     <value>Ошибка сервера</value>
   </data>
+  <data name="AntiforgeryMismath" xml:space="preserve">
+    <value>Неправильный запрос</value>
+  </data>
   <data name="BadRequestError" xml:space="preserve">
     <value>Невозможно обработать запрос</value>
   </data>
@@ -150,26 +153,23 @@
   <data name="InvalidFieldFormat" xml:space="preserve">
     <value>Поле '{0}' заполнено неверно.</value>
   </data>
+  <data name="InvalidFileLocation" xml:space="preserve">
+    <value>Неправильное расположение файла</value>
+  </data>
   <data name="NoPermissionsError" xml:space="preserve">
     <value>У вас нет прав для просмотра данной страницы</value>
   </data>
+  <data name="NoPermissionsToDownload" xml:space="preserve">
+    <value>У вас нет прав для загрузки файла</value>
+  </data>
   <data name="OldPasswordsMismatchError" xml:space="preserve">
     <value>Старый пароль указан не верно</value>
-  </data>
-  <data name="PasswordChangedInfo" xml:space="preserve">
-    <value>Пароль изменен</value>
   </data>
   <data name="PasswordMinLengthFormat" xml:space="preserve">
     <value>Поле '{0}' должно содержать как минимум {1} символа(ов).</value>
   </data>
   <data name="PasswordsMustMatch" xml:space="preserve">
     <value>Пароли должны совпадать.</value>
-  </data>
-  <data name="PluginError" xml:space="preserve">
-    <value>Ошибка плагина</value>
-  </data>
-  <data name="ProfileUpdateSuccessMessage" xml:space="preserve">
-    <value>Профиль успешно обновлен</value>
   </data>
   <data name="RegDuplicateEmail" xml:space="preserve">
     <value>Пользователь с таким почтовым ящиком уже существует.</value>
@@ -207,8 +207,8 @@
   <data name="ResetInstructionSendingFailedError" xml:space="preserve">
     <value>Ошибка сервера</value>
   </data>
-  <data name="ResetPasswdRequestSentInfo" xml:space="preserve">
-    <value>Инструкции по сбросу пароля высланы на ваш почтовый ящик</value>
+  <data name="StampRequired" xml:space="preserve">
+    <value>Неправильный запрос</value>
   </data>
   <data name="StorageAccountNotFoundError" xml:space="preserve">
     <value>Учетная запись хранилища не найдена</value>

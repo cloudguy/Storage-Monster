@@ -1,25 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StorageMonster.Utilities
 {
     public static class Extensions
     {
-        public static TResult With<TInput, TResult>(this TInput o, Func<TInput, TResult> evaluator)
+        public static TResult With<TInput, TResult>(this TInput @object, Func<TInput, TResult> evaluator)
             where TResult : class
             where TInput : class
         {
-            if (o == null) return null;
-            return evaluator(o);
+            if (evaluator == null)
+                throw new ArgumentNullException("evaluator");
+
+            if (@object == null) return null;
+            return evaluator(@object);
         }
 
-        public static T With<T>(this T o, Func<T, bool> evaluator)            
+        public static T With<T>(this T @object, Func<T, bool> evaluator)            
             where T : class
         {
-            if (o == null) return null;
-            return evaluator(o) ? o : null;
+            if (evaluator == null)
+                throw new ArgumentNullException("evaluator");
+
+            if (@object == null) return null;
+            return evaluator(@object) ? @object : null;
         }
     }
 }

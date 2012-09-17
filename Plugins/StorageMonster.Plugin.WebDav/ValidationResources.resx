@@ -117,17 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BadServerError" xml:space="preserve">
-    <value>Server url is invalid</value>
-  </data>
-  <data name="CanNotConnectError" xml:space="preserve">
-    <value>Could not connect to storage. Either credentials are invalid or service is not accesible</value>
-  </data>
   <data name="RequiredFieldFormat" xml:space="preserve">
     <value>Field '{0}' is required</value>
-  </data>
-  <data name="StorageAccountNotConfiguredError" xml:space="preserve">
-    <value>Storage account is not properly configured</value>
   </data>
   <data name="StringLengthFormat" xml:space="preserve">
     <value>Field '{0}' must be less than {1} characters</value>

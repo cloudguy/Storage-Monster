@@ -4,7 +4,7 @@ namespace StorageMonster.Database.Repositories
 {
 	public interface IStoragePluginsRepository
 	{
-        void SetStoragesStauses(int status);
+        void SetStoragesStatuses(int status);
         StoragePlugin InitPluginStatus(string classPath, int status);
 	}
 }

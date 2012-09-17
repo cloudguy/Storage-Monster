@@ -13,9 +13,7 @@ namespace StorageMonster.Web.Services.Extensions
             if (dictionary == null)
                 throw new ArgumentNullException("dictionary");
 
-            IList<string> messages = dictionary[Constants.RequestSuccessMessagesTempDataKey] as IList<string>;
-            if (messages == null)
-                messages = new List<string>();
+            IList<string> messages = dictionary[Constants.RequestSuccessMessagesTempDataKey] as IList<string> ?? new List<string>();
 
             messages.Add(message);
             dictionary[Constants.RequestSuccessMessagesTempDataKey] = messages;
@@ -29,26 +27,23 @@ namespace StorageMonster.Web.Services.Extensions
             return dictionary[Constants.RequestSuccessMessagesTempDataKey] as IEnumerable<string>;
         }
 
-#warning separate key for viewdata
-        public static void AddRequestErrorMessage(this TempDataDictionary dictionary, string key, string message)
+        public static void AddRequestErrorMessage(this TempDataDictionary dictionary, string message)
         {
             if (dictionary == null)
                 throw new ArgumentNullException("dictionary");
 
-            IDictionary<string, string> messages = dictionary[Constants.RequestErrorMessagesTempDataKey] as IDictionary<string, string>;
-            if (messages == null)
-                messages = new Dictionary<string, string>();
+            IList<string> messages = dictionary[Constants.RequestErrorMessagesTempDataKey] as IList<string> ?? new List<string>();
 
-            messages[key] = message;
+            messages.Add(message);
             dictionary[Constants.RequestErrorMessagesTempDataKey] = messages;
         }
 
-        public static IDictionary<string, string> GetRequestErrorMessages(this TempDataDictionary dictionary)
+        public static IEnumerable<string> GetRequestErrorMessages(this TempDataDictionary dictionary)
         {
             if (dictionary == null)
                 throw new ArgumentNullException("dictionary");
 
-            return dictionary[Constants.RequestErrorMessagesTempDataKey] as IDictionary<string, string>;
+            return dictionary[Constants.RequestErrorMessagesTempDataKey] as IEnumerable<string>;
         }
     }
 }

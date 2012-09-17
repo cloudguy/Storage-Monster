@@ -8,9 +8,9 @@ namespace StorageMonster.Web.Services.Validation
     public class PropertiesMustMatchValidator : DataAnnotationsModelValidator<PropertiesMustMatchAttribute>
     {
         public PropertiesMustMatchValidator(ModelMetadata metadata, ControllerContext context, PropertiesMustMatchAttribute attribute)
-        : base(metadata, context, attribute)
-    {
-    }
+            : base(metadata, context, attribute)
+        {
+        }
         public override IEnumerable<ModelValidationResult> Validate(object container)
         {
             var propertyToMatch = Metadata.ContainerType.GetProperty(Attribute.PropertyNameToMatch);
@@ -29,8 +29,6 @@ namespace StorageMonster.Web.Services.Validation
                     yield return new ModelValidationResult { Message = ErrorMessage };
                 }
             }
-
-            // we're not calling base.Validate here so that the attribute IsValid method doesn't get called
         }
 
         public override IEnumerable<ModelClientValidationRule> GetClientValidationRules()

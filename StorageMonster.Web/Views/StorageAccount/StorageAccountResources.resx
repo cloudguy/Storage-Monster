@@ -120,10 +120,34 @@
   <data name="AddButtonText" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddStorageAccountValidationSummary" xml:space="preserve">
+    <value>Could not add new storage account</value>
+  </data>
   <data name="AddTitle" xml:space="preserve">
     <value>Add storage account</value>
   </data>
+  <data name="AskDeleteCancelButtonText" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="AskDeleteQuestionFormat" xml:space="preserve">
+    <value>Are you sure you want to delete storage account "{0}"?</value>
+  </data>
+  <data name="AskDeleteSubmitButtonText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AskDeleteTitle" xml:space="preserve">
+    <value>Are you sure you want to delete storage account?</value>
+  </data>
+  <data name="AskDeleteValidationSummary" xml:space="preserve">
+    <value>Could not delete storage account</value>
+  </data>
+  <data name="EditButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
   <data name="EditTitle" xml:space="preserve">
     <value>Edit storage account settings</value>
+  </data>
+  <data name="GetFolderTitle" xml:space="preserve">
+    <value>Storage Monster</value>
   </data>
 </root>

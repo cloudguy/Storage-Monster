@@ -43,7 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IStorageAccountService.cs" />
+    <Compile Include="IStreamFactory.cs" />
     <Compile Include="ITemplateEngine.cs" />
+    <Compile Include="ITimeZonesProvider.cs" />
+    <Compile Include="MonsterStream.cs" />
     <Compile Include="Security\ICryptoService.cs" />
     <Compile Include="ILocaleProvider.cs" />
     <Compile Include="IoCcontainer.cs" />
@@ -56,7 +59,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\IPasswordHasher.cs" />
     <Compile Include="Security\MonsterSecurityException.cs" />
+    <Compile Include="StoragePluginNotFoundException.cs" />
     <Compile Include="StorageStatus.cs" />
+    <Compile Include="TimeZoneData.cs" />
+    <Compile Include="UserNotExistsException.cs" />
+    <Compile Include="StaleUserException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">

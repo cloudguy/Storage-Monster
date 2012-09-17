@@ -7,20 +7,19 @@ using StorageMonster.Web.Models;
 
 namespace StorageMonster.Web.Services.ActionAnnotations
 {
-#warning maybe remove?
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class StorageAccountMenuActivatorAttribute : ActionFilterAttribute
     {
-        protected string StorageAccountformKey { get; set; }
+        private readonly string _storageAccountformKey;
 
         public StorageAccountMenuActivatorAttribute(string storageAccountformKey)
         {
-            StorageAccountformKey = storageAccountformKey;
+            _storageAccountformKey = storageAccountformKey;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string formValue = filterContext.HttpContext.Request.Form[StorageAccountformKey];
+            string formValue = filterContext.RouteData.Values[_storageAccountformKey] as string;
             int accountId = -1;
             int.TryParse(formValue, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out accountId);
 
