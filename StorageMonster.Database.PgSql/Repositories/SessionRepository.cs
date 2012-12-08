@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using StorageMonster.Database.Repositories;
 using StorageMonster.Domain;
+using StorageMonster.MicroORM;
 
 namespace StorageMonster.Database.PgSql.Repositories
 {
@@ -21,26 +22,20 @@ namespace StorageMonster.Database.PgSql.Repositories
 
         public Session CreateSession(Session session)
         {
-            return SqlQueryExecutor.Execute(() =>
-            {
-                String query = string.Format(CultureInfo.InvariantCulture, "INSERT INTO {1} {0} RETURNING id;", InsertFieldList, TableName);
-                int insertedId = _connectionProvider.CurrentConnection.Query<int>(query, new { session.UserId, session.Token, session.Expiration }).FirstOrDefault();
-                if (insertedId <= 0)
-                    throw new MonsterDbException("Session insertion failed");
+            String query = string.Format(CultureInfo.InvariantCulture, "INSERT INTO {1} {0} RETURNING id;", InsertFieldList, TableName);
+            int insertedId = _connectionProvider.CurrentConnection.Query<int>(query, new {session.UserId, session.Token, session.Expiration}).FirstOrDefault();
+            if (insertedId <= 0)
+                throw new MonsterDbException("Session insertion failed");
 
-                session.Id = insertedId;
-                return session;
-            });
+            session.Id = insertedId;
+            return session;
         }
 
         public Session GetSessionByToken(string token)
         {
-            return SqlQueryExecutor.Execute(() =>
-            {
-                String query = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} WHERE session_token=@Token AND (expiration_date IS NULL OR expiration_date>@Expiration) LIMIT 1;", SelectFieldList, TableName);
-                Session session = _connectionProvider.CurrentConnection.Query<Session>(query, new { Token = token, Expiration = DateTime.UtcNow }).FirstOrDefault();
-                return session;
-            });
+            String query = string.Format(CultureInfo.InvariantCulture, "SELECT {0} FROM {1} WHERE session_token=@Token AND (expiration_date IS NULL OR expiration_date>@Expiration) LIMIT 1;", SelectFieldList, TableName);
+            Session session = _connectionProvider.CurrentConnection.Query<Session>(query, new {Token = token, Expiration = DateTime.UtcNow}).FirstOrDefault();
+            return session;
         }
 
 
@@ -49,32 +44,22 @@ namespace StorageMonster.Database.PgSql.Repositories
             if (session == null)
                 throw new ArgumentNullException("session");
 
+            String query = string.Format(CultureInfo.InvariantCulture, "UPDATE {0} SET expiration_date=@Expiration WHERE Id=@Id OR session_token=@Token", TableName);
+            _connectionProvider.CurrentConnection.Execute(query, new {session.Id, session.Token, session.Expiration});
 
-            return SqlQueryExecutor.Execute(() =>
-            {
-                String query = string.Format(CultureInfo.InvariantCulture, "UPDATE {0} SET expiration_date=@Expiration WHERE Id=@Id OR session_token=@Token", TableName);
-                _connectionProvider.CurrentConnection.Execute(query, new { session.Id, session.Token, session.Expiration });
-
-                return session;
-            });
+            return session;
         }
 
         public void ClearUserSessions(int userId)
         {
-            SqlQueryExecutor.Execute(() =>
-            {
-                String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE user_id=@UserId", TableName);
-                _connectionProvider.CurrentConnection.Execute(query, new { UserId = userId });
-            });
+            String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE user_id=@UserId", TableName);
+            _connectionProvider.CurrentConnection.Execute(query, new {UserId = userId});
         }
 
         public void ClearExpiredSessions()
         {
-            SqlQueryExecutor.Execute(() =>
-            {
-                String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE expiration_date<@Expiration", TableName);
-                _connectionProvider.CurrentConnection.Execute(query, new { Expiration = DateTime.UtcNow });
-            });
+            String query = string.Format(CultureInfo.InvariantCulture, "DELETE FROM {0} WHERE expiration_date<@Expiration", TableName);
+            _connectionProvider.CurrentConnection.Execute(query, new {Expiration = DateTime.UtcNow});
         }
     }
 }

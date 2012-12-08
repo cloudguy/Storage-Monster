@@ -6,7 +6,7 @@ namespace StorageMonster.Services
     public interface ITimeZonesProvider
     {
         IEnumerable<TimeZoneData> GetTimezones();
-        void Init(ResourceManager timeZonesResourceManager);
+        void Init();
         TimeZoneData Gmt { get; }
         TimeZoneData GetTimeZoneByIdOrDefault(int id);
     }

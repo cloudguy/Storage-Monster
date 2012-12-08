@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+
+using System;
+using System.Globalization;
+using System.Text;
 using System.Web;
 using Common.Logging;
-using System.Text;
-using System.Globalization;
 
 namespace StorageMonster.Web.Services.Security
 {
     public static class ForbiddenRequestsLogger
     {
-        private static readonly ILog ForbiddenLogger = LogManager.GetLogger(Constants.ForbiddenRequestLoggerName);
+        private static readonly ILog ForbiddenLogger = LogManager.GetLogger("ForbiddenRequests");
 
-        private const string unknownFieldStab = "--unknown--";
+        private const string UnknownFieldStab = "--unknown--";
 
-        private static string BuildRequestInfo(string url, 
-            string rawUrl, 
+        private static string BuildRequestInfo(string url,
+            string rawUrl,
             string requestType,
             string userHostAddress,
             string userHostName,
@@ -68,19 +68,19 @@ namespace StorageMonster.Web.Services.Security
             string requestInfo = string.Empty;
 
             if (request != null)
-            {                
-                string url = request.Url != null ? request.Url.ToString() : unknownFieldStab;
-                string rawUrl = request.RawUrl ?? unknownFieldStab;
-                string requestType = request.RequestType ?? unknownFieldStab;
-                string userHostAddress = request.UserHostAddress ?? unknownFieldStab;
-                string userHostName = request.UserHostName ?? unknownFieldStab;
-                string urlReferer = request.UrlReferrer != null ? request.UrlReferrer.ToString() : unknownFieldStab;
-                string userAgent = request.UserAgent ?? unknownFieldStab;
+            {
+                string url = request.Url != null ? request.Url.ToString() : UnknownFieldStab;
+                string rawUrl = request.RawUrl ?? UnknownFieldStab;
+                string requestType = request.RequestType ?? UnknownFieldStab;
+                string userHostAddress = request.UserHostAddress ?? UnknownFieldStab;
+                string userHostName = request.UserHostName ?? UnknownFieldStab;
+                string urlReferer = request.UrlReferrer != null ? request.UrlReferrer.ToString() : UnknownFieldStab;
+                string userAgent = request.UserAgent ?? UnknownFieldStab;
 
                 requestInfo = BuildRequestInfo(url, rawUrl, requestType, userHostAddress, userHostName, urlReferer, userAgent, request.RequestContext.HttpContext.User as Principal);
             }
 
-            ForbiddenLogger.Warn(requestInfo, exception);            
+            ForbiddenLogger.Warn(requestInfo, exception);
         }
 
         public static void LogRequest(HttpRequest request, Exception exception)
@@ -88,19 +88,19 @@ namespace StorageMonster.Web.Services.Security
             string requestInfo = string.Empty;
 
             if (request != null)
-            {                
-                string url = request.Url != null ? request.Url.ToString() : unknownFieldStab;
-                string rawUrl = request.RawUrl ?? unknownFieldStab;
-                string requestType = request.RequestType ?? unknownFieldStab;
-                string userHostAddress = request.UserHostAddress ?? unknownFieldStab;
-                string userHostName = request.UserHostName ?? unknownFieldStab;
-                string urlReferer = request.UrlReferrer != null ? request.UrlReferrer.ToString() : unknownFieldStab;
-                string userAgent = request.UserAgent ?? unknownFieldStab;
+            {
+                string url = request.Url.ToString();
+                string rawUrl = request.RawUrl;
+                string requestType = request.RequestType;
+                string userHostAddress = request.UserHostAddress ?? UnknownFieldStab;
+                string userHostName = request.UserHostName ?? UnknownFieldStab;
+                string urlReferer = request.UrlReferrer != null ? request.UrlReferrer.ToString() : UnknownFieldStab;
+                string userAgent = request.UserAgent ?? UnknownFieldStab;
 
                 requestInfo = BuildRequestInfo(url, rawUrl, requestType, userHostAddress, userHostName, urlReferer, userAgent, request.RequestContext.HttpContext.User as Principal);
             }
 
-            ForbiddenLogger.Warn(requestInfo, exception);    
+            ForbiddenLogger.Warn(requestInfo, exception);
         }
     }
 }

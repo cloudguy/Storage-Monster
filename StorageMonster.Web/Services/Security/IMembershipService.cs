@@ -7,6 +7,9 @@ namespace StorageMonster.Web.Services.Security
     public interface IMembershipService
     {
         int MinPasswordLength { get; }
+        int MaxPasswordLength { get; }
+        int MaxEmailLength { get; }
+        int MaxUserNameLength { get; }
         bool ValidateUser(string email, string password);
         MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone);
         User UpdateUser(int userId, string userName, string locale, int timezone, DateTime stamp, Identity identity);

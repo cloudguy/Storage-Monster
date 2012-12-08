@@ -220,7 +220,10 @@
     <value>Тип хранилища не найден</value>
   </data>
   <data name="StringLengthFormat" xml:space="preserve">
-    <value>Поле '{0}' должно быть меньше, чем {1} символа(ов)</value>
+    <value>Поле '{0}' должно быть не больше, чем {2} символа(ов) и не меньше, чем {1} символа(ов)</value>
+  </data>
+  <data name="StringLengthLessThanFormat" xml:space="preserve">
+    <value>Поле '{0}' должно быть не больше, чем {2} символа(ов)</value>
   </data>
   <data name="UserNameOrPasswordIncorrect" xml:space="preserve">
     <value>Неправильно указан почтовый ящик или пароль.</value>

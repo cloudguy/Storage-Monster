@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using StorageMonster.Services;
 using StorageMonster.Web.Models;
-using StorageMonster.Web.Models.Accounts;
-using StorageMonster.Web.Services.Configuration;
+using StorageMonster.Web.Models.Account;
 using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
 
@@ -28,40 +25,38 @@ namespace StorageMonster.Web.Services.ActionAnnotations
         {
             if (!actionContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                IWebConfiguration webConfig = IocContainer.Instance.Resolve<IWebConfiguration>();
                 if (actionContext.HttpContext.Request.IsAjaxRequest())
                 {
                     UrlHelper u = new UrlHelper(actionContext.RequestContext);
                     actionContext.Result = new JsonResult
-                    {
-                        Data = new AjaxUnauthorizedModel
-                            {
-                                Redirect = u.Action("LogOn", "Account"),
-                                LogOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.ascx", new LogOnModel())
-                            },
-                        ContentEncoding = System.Text.Encoding.UTF8,
-                        ContentType = Constants.JsonContentType,
-                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                    };
+                        {
+                            Data = new AjaxUnauthorizedModel
+                                {
+                                    Redirect = u.Action("LogOn", "Account"),
+#warning razor render
+                                    LogOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.ascx", new LogOnModel())
+                                },
+                            ContentEncoding = System.Text.Encoding.UTF8,
+                            ContentType = "application/json",
+                            JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                        };
                     return;
                 }
-
-               // actionContext.Result = new RedirectResult(webConfig.LoginUrl);
-                actionContext.Result = new HttpUnauthorizedResult();
+                MonsterApplication.RedirectToLogon(HttpContext.Current.Request, HttpContext.Current.Response);
                 return;
             }
 
             if (_roles == null)
                 return;
 
-            string role = _roles.Where(r => actionContext.HttpContext.User.IsInRole(r)).FirstOrDefault();
-            
+            string role = _roles.FirstOrDefault(r => actionContext.HttpContext.User.IsInRole(r));
+
             if (role == null)
             {
-                String error = String.Format(CultureInfo.InvariantCulture, "User {0} requested page {1}", ((Identity)actionContext.HttpContext.User.Identity).Email, actionContext.HttpContext.Request.Path);
-                throw new HttpException((int)HttpStatusCode.Forbidden, error);
+                String error = String.Format(CultureInfo.InvariantCulture, "User {0} requested page {1}", ((Identity) actionContext.HttpContext.User.Identity).Email, actionContext.HttpContext.Request.Path);
+#warning add route
+                throw new HttpException((int) HttpStatusCode.Forbidden, error);
             }
         }
     }
 }
-

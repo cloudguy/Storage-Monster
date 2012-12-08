@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Globalization;
 using System.IO;
 
@@ -36,7 +34,7 @@ namespace StorageMonster.Web.Services
             }
         }
 
-        public void Initizlize()
+        public void Init()
         {
             IconNames.Add(".pdf", "application_pdf.png");
             IconNames.Add(".djvu", "image_x_generic.png");

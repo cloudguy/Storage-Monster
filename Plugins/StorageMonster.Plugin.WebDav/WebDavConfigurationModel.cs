@@ -11,18 +11,18 @@ namespace StorageMonster.Plugin.WebDav
         [StringLength(100, ErrorMessageResourceName = "StringLengthFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "RequiredFieldFormat")]
         [MonsterInputBox(Multiline = false, ShowOrder = 1)]
-        [LocalizedDisplayName("ServerUrl", typeof(DisplayResources))]
+        [Display( Name = "ServerUrl", ResourceType = typeof(DisplayResources) )]
 		public String ServerUrl { get; set; }
 
 		[StringLength(100, ErrorMessageResourceName = "StringLengthFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "RequiredFieldFormat")]
-        [LocalizedDisplayName("AccountLogin", typeof(DisplayResources))]
+        [Display(Name ="AccountLogin", ResourceType = typeof(DisplayResources))]
         [MonsterInputBox(Multiline = false, ShowOrder = 2)]
 		public String AccountLogin { get; set; }
 
         [StringLength(300, ErrorMessageResourceName = "StringLengthFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "RequiredFieldFormat")]
-        [LocalizedDisplayName("AccountPassword", typeof(DisplayResources))]
+        [Display(Name ="AccountPassword", ResourceType = typeof(DisplayResources))]
         [MonsterPasswordBox(ShowOrder = 3)]
 		public String AccountPassword { get; set; }       
 	}

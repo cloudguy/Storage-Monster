@@ -1,11 +1,10 @@
-﻿using System;
+﻿using StorageMonster.Database.Repositories;
+using StorageMonster.Domain;
+using StorageMonster.Plugin;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using StorageMonster.Database.Repositories;
-using StorageMonster.Domain;
-using StorageMonster.Plugin;
-using System.IO;
 
 namespace StorageMonster.Services.Facade
 {
@@ -78,7 +77,7 @@ namespace StorageMonster.Services.Facade
                 throw new StoragePluginNotFoundException(storageAccount.StoragePluginId);
 
             var streamResult = plugin.GetFileStream(url, storageAccount.Id);
-            streamResult.FileStream = _streamFactory.MakeDownloadStream(streamResult.FileStream);            
+            streamResult.FileStream = _streamFactory.CreateDownloadStream(streamResult.FileStream);            
             return streamResult;
         }
     }

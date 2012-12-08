@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace StorageMonster.Utilities.Serialization
 {
@@ -29,18 +26,10 @@ namespace StorageMonster.Utilities.Serialization
         {
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException("value");
-
-            try
+            byte[] bytes = Convert.FromBase64String(value);
+            using (var stream = new MemoryStream(bytes))
             {
-                byte[] bytes = Convert.FromBase64String(value);
-                using (var stream = new MemoryStream(bytes))
-                {
-                    return _formatter.Deserialize(stream) as T;
-                }
-            }
-            catch (FormatException ex)
-            {
-                throw new SerializationException("Deserialization failed", ex);
+                return _formatter.Deserialize(stream) as T;
             }
         }
     }

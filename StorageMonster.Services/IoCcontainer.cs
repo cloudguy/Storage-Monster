@@ -21,6 +21,8 @@ namespace StorageMonster.Services
         public abstract void CleanUpRequestResources();
 
 	    public abstract IEnumerable<T> GetAllInstances<T>();
+
+        public abstract IEnumerable<object> GetAllInstances(Type serviceType);
 	}
 }
 

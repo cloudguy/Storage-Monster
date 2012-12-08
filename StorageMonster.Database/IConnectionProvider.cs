@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System;
+﻿using System;
 using System.Data.Common;
 using IsolationLevel = System.Transactions.IsolationLevel;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using StorageMonster.Services;
@@ -11,23 +12,24 @@ namespace StorageMonster.Web.Services
     public class CookieTrackingService : ITrackingService
     {
         private readonly ILocaleProvider _localeProvider;
-        private readonly IWebConfiguration _webConfiguration;
-        public CookieTrackingService(ILocaleProvider localeProvider, IWebConfiguration webConfiguration)
+        public CookieTrackingService(ILocaleProvider localeProvider)
         {
             _localeProvider = localeProvider;
-            _webConfiguration = webConfiguration;
         }
 
         public void SetLocaleTracking(HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
+            if (!context.Response.IsClientConnected)
+                return;
             var localeData = RequestContext.GetValue<LocaleData>(RequestContext.LocaleKey);
 #warning don't set cookie every time
             if (localeData != null)
             {
-                HttpCookie localeCookie = new HttpCookie(_webConfiguration.LocaleCookieName, RequestContext.GetValue<LocaleData>(RequestContext.LocaleKey).ShortName);
-                localeCookie.Expires = DateTime.UtcNow.Add(_webConfiguration.LocaleCookieTimeout);
+                WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+                HttpCookie localeCookie = new HttpCookie(configuration.Tracking.CookieName, localeData.ShortName);
+                localeCookie.Expires = DateTime.UtcNow.AddMinutes(configuration.Tracking.CookieExpiration);
                 context.Response.SetCookie(localeCookie);
             }
         }
@@ -37,7 +39,8 @@ namespace StorageMonster.Web.Services
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            var cookie = context.Request.Cookies.Get(_webConfiguration.LocaleCookieName);
+            WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+            var cookie = context.Request.Cookies.Get(configuration.Tracking.CookieName);
             if (cookie != null)
                 return cookie.Value;
             return null;

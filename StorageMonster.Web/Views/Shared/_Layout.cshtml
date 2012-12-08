@@ -1,0 +1,41 @@
+﻿@using StorageMonster.Web.Services.Extensions
+@using StorageMonster.Web.Views.Shared
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    @Html.IncludeCss(new[] 
+    { 
+        "~/Content/reset.css",
+        "~/Content/themes/base/bootstrap.min.css",
+        "~/Content/themes/base/bootstrap-responsive.min.css",
+        "~/Content/themes/base/site.css"
+    })
+    
+    @Html.IncludeJs(new[] 
+    { 
+        "~/Scripts/jquery-1.8.3.min.js",
+        "~/Scripts/jquery.validate.min.js",
+        "~/Scripts/jquery.validate.unobtrusive.min.js",
+        "~/Scripts/underscore.min.js",
+        "~/Scripts/backbone.min.js",
+        "~/Scripts/bootstrap.min.js"
+    })
+   
+</head>
+
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">            
+                <div class="container-fluid">
+                    <a class="brand" href="@Url.Content("~/")">@SharedResources.Title</a>  
+                    @Html.Partial("~/Views/Shared/LogOnPartial.cshtml")          
+                </div>
+            </div>
+        </div>  
+        @RenderBody()
+    </body>
+</html>

@@ -7,7 +7,7 @@ namespace StorageMonster.Plugin
 {
     public class StorageFolderResult : StorageQueryResult
     {
-        private IList<StorageItem> _storageItems = new List<StorageItem>();
+        private readonly IList<StorageItem> _storageItems = new List<StorageItem>();
 
         public IEnumerable<StorageItem> StorageItems { get { return _storageItems; } }
 

@@ -14,7 +14,7 @@ namespace StorageMonster.Services.Facade
             if (string.IsNullOrEmpty(sharedSecret))
                 throw new ArgumentNullException("sharedSecret");
 
-            string outStr = null;                       
+            string outStr;                       
             RijndaelManaged aesAlg = null;  
 
             try
@@ -53,7 +53,7 @@ namespace StorageMonster.Services.Facade
                 throw new ArgumentNullException("sharedSecret");
           
             RijndaelManaged aesAlg = null;           
-            string plaintext = null;
+            string plaintext;
 
             try
             {               

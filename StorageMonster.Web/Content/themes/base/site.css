@@ -1,142 +1,5 @@
-body{
-    font: 14px 'Helvetica Neue', Helvetica, arial, sans-serif;    
-}
-.hidden 
-{
-    display:none;
-}
-
-.disablable {
-position:relative;
-overflow:hidden;
-}
-
-.disablable-disabled .glasspanel {
-display:block;
-position:absolute;
-top:0px;
-bottom:0px;
-opacity:0.4;
-filter:alpha(opacity=40);
-background: rgba( 255, 255, 255, .8 ) 
-                url('images/wait.gif') 
-                50% 50%                 
-                no-repeat;
-height:expression(parentElement.scrollHeight + 'px');
-width:100%;
-margin-left:0px;
-}
-
-.disablable-enabled .glasspanel {
-display: none;
-}
-
-.disablable-disabled .topglasspanel {
-display:block!important;
-position:absolute!important;
-top:0px!important;
-bottom:0px!important;
-opacity:0.4!important;
-filter:alpha(opacity=40)!important;
-background: rgba( 255, 255, 255, .8 ) 
-                url('images/wait.gif') 
-                50% 0% 
-                no-repeat!important;
-height:expression(parentElement.scrollHeight + 'px')!important;
-width:100%!important;
-margin-left:0px!important;
-}
-
-.disablable-enabled .topglasspanel {
-display: none;
-margin-bottom: -20px;
-}
-
-
-.js_only {    
-    display:none;
-}
-
-/* Start by setting display:none to make this hidden.
-   Then we position it in relation to the viewport window
-   with position:fixed. Width, height, top and left speak
-   speak for themselves. Background we set to 80% white with
-   our animation centered, and no-repeating */
-.waitmodal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 ) 
-                url('images/wait.gif') 
-                50% 50% 
-                no-repeat;
-}
-
-/* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-.loading {
-    overflow: hidden;   
-}
-
-/* Anytime the body has the loading class, our
-   modal element will be visible */
-.loading .waitmodal {
-    display: block;
-}
- 
-               
-.subnav-warn {
-    background-color: #AE0000;
-    border: 1px solid #AE0000;
-    color: #FFFFFF;
-    font-family: sans-serif;
-    font-size: 120%;
-    font-weight: bold;
-    height: 20px;
-    text-align: center;
-    width: 100%;
-}
-
-th.folder_nav_chkbox,
-td.folder_nav_chkbox
-{
-    width: 3%;
-}
-th.folder_nav_name,
-td.folder_nav_name
-{
-    width: 57%;
-}
-th.folder_nav_size,
-td.folder_nav_size
-{
-    width: 20%;    
-}
-th.folder_nav_created,
-td.folder_nav_created
-{
-    width: 20%;
-}
-
-.fullwidth
-{
-    width: 100%;    
-}
-
-.display_inline
-{
-    display : inline
-}
-
-.nav_history_imagelink
-{
-    text-decoration: none !important;   
-}
-
+/* Styles for validation helpers
+-----------------------------------------------------------*/
 .field-validation-error
 {
     color: #ff0000;
@@ -149,8 +12,8 @@ td.folder_nav_created
 
 .input-validation-error
 {
-    border: 1px solid #ff0000;
-    background-color: #ffeeee;
+    border: 1px solid #ff0000 !important;
+    background-color: #ffeeee !important;
 }
 
 .validation-summary-errors
@@ -159,13 +22,20 @@ td.folder_nav_created
     color: #ff0000;
 }
 
+.validation-summary-valid
+{
+    display: none;
+}
+
+
 .request-info-summary
 {
     font-weight: bold;
     color: #00ff00;
 }
 
-.validation-summary-valid
+.request-error-summary
 {
-    display: none;
+    font-weight: bold;
+    color: #ff0000;
 }

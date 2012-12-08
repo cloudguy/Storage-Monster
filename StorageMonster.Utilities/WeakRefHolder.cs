@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StorageMonster.Utilities
 {
     public class WeakRefHolder<T> where T : class
     {
-        private Func<T> _referenceCreator;
-        private object _locker = new object();
-        private WeakReference _weakReferencee = new WeakReference(null);
+        private readonly Func<T> _referenceCreator;
+        private readonly object _locker = new object();
+        private readonly WeakReference _weakReferencee = new WeakReference(null);
 
         public T Target
         {

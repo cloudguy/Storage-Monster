@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 namespace StorageMonster.Web.Services
 {
     public enum ItemType
@@ -12,7 +8,7 @@ namespace StorageMonster.Web.Services
     }
     public interface IIconProvider
     {
-        void Initizlize();
+        void Init();
         string GetIconPath(string fileName, ItemType type);
         string GetImagePath(string name);
     }

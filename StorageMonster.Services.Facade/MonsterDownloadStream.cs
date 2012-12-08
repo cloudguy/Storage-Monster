@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace StorageMonster.Services.Facade
 {
     public class MonsterDownloadStream : MonsterStream
     {
-        private Stream _underlyingStream;
+        private readonly Stream _underlyingStream;
 
         public static MonsterDownloadStream Create(Stream inputStream)
         {

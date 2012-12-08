@@ -220,7 +220,10 @@
     <value>Storage type not found</value>
   </data>
   <data name="StringLengthFormat" xml:space="preserve">
-    <value>Field '{0}' must be less than {1} characters</value>
+    <value>Field '{0}' must be not more than {2} characters and note less than {1} characters</value>
+  </data>
+  <data name="StringLengthLessThanFormat" xml:space="preserve">
+    <value>Field '{0}' must be not more than {2} characters</value>
   </data>
   <data name="UserNameOrPasswordIncorrect" xml:space="preserve">
     <value>The username or password provided is incorrect.</value>

@@ -38,6 +38,7 @@ namespace StorageMonster.Services.Facade
 
         private static string GenerateSalt(int length)
         {
+#warning rewrite
             char[] chars = SaltChars.ToCharArray();
 
             byte[] data = new byte[1];

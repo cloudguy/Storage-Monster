@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using StorageMonster.Services;
 using StructureMap;
@@ -11,8 +12,8 @@ namespace StorageMonster.Web.Services
         public static void CreateContainer()
         {
             StructureMapIoC container = new StructureMapIoC();
-            StructureMapIoC.Configure();
-            IocContainer.InstanceInternal = container;
+            Configure();
+            InstanceInternal = container;
         }
 
         private static void Configure()
@@ -22,7 +23,7 @@ namespace StorageMonster.Web.Services
                 container.PullConfigurationFromAppConfig = true;
                 container.Scan(x =>
                 {
-                    x.AssembliesFromApplicationBaseDirectory();
+                    //x.AssembliesFromApplicationBaseDirectory();
                     x.AddAllTypesOf<Controller>();
                 });
 
@@ -53,6 +54,11 @@ namespace StorageMonster.Web.Services
         public override IEnumerable<T> GetAllInstances<T>()
         {
             return ObjectFactory.GetAllInstances<T>();
+        }
+
+        public override IEnumerable<object> GetAllInstances(Type serviceType)
+        {
+            return ObjectFactory.GetAllInstances(serviceType).Cast<object>();
         }
     }
 }

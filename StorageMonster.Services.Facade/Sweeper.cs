@@ -1,4 +1,5 @@
-﻿using StorageMonster.Database.Repositories;
+﻿using StorageMonster.Database;
+using StorageMonster.Database.Repositories;
 
 namespace StorageMonster.Services.Facade
 {
@@ -6,11 +7,15 @@ namespace StorageMonster.Services.Facade
     {
         private readonly ISessionRepository _sessionRepository;
         private readonly IResetPasswordRequestsRepository _resetPasswordRequestsRepository;
+        private readonly IConnectionProvider _connectionProvider;
 
-        public Sweeper(ISessionRepository sessionRepository, IResetPasswordRequestsRepository resetPasswordRequestsRepository)
+        public Sweeper(ISessionRepository sessionRepository, 
+            IResetPasswordRequestsRepository resetPasswordRequestsRepository, 
+            IConnectionProvider connectionProvider)
         {
             _sessionRepository = sessionRepository;
             _resetPasswordRequestsRepository = resetPasswordRequestsRepository;
+            _connectionProvider = connectionProvider;
         }
 
         public void CleanUpExpiredSessions()
@@ -25,8 +30,21 @@ namespace StorageMonster.Services.Facade
 
         public void CleanUp()
         {
-            CleanUpExpiredSessions();
-            CleanUpExpiredResetPasswordsRequests();
+            CleanUp(true);
+        }
+
+        public void CleanUp(bool closeConnection)
+        {
+            try
+            {
+                CleanUpExpiredSessions();
+                CleanUpExpiredResetPasswordsRequests();
+            }
+            finally
+            {
+                if (closeConnection)
+                    _connectionProvider.CloseCurrentConnection();
+            }
         }
     }
 }
