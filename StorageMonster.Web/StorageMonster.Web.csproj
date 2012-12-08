@@ -88,15 +88,15 @@
     <Compile Include="Services\Validation\BaseRegexAttribute.cs" />
     <Compile Include="Services\Validation\UserNameLengthAttribute.cs" />
     <Compile Include="Services\Validation\UserNameRegexAttribute.cs" />
-    <Compile Include="Views\Account\AccountResources.Designer.cs">
+    <Compile Include="Views\Account\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AccountResources.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Account\AccountResources.ru.Designer.cs">
+    <Compile Include="Views\Account\Resources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AccountResources.ru.resx</DependentUpon>
+      <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\LogOnModel.cs" />
     <Compile Include="Models\AjaxErrorModel.cs" />
@@ -177,6 +177,16 @@
     <Compile Include="Services\StructureMapIoC.cs" />
     <Compile Include="Services\TimeZonesProvider.cs" />
     <Compile Include="Services\Validation\PasswordLengthAttribute.cs" />
+    <Compile Include="Views\Home\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\Resources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.ru.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\SharedResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -325,6 +335,9 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\MessagesPartial.cshtml" />
     <Content Include="Views\Shared\LogOnPartial.cshtml" />
+    <None Include="Web.Debug.Calipsod.MySQL.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Debug.P7H55.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -382,13 +395,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Account\AccountResources.resx">
+    <EmbeddedResource Include="Views\Account\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AccountResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Account\AccountResources.ru.resx">
+    <EmbeddedResource Include="Views\Account\Resources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AccountResources.ru.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\DisplayNameResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -422,6 +435,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\Resources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\SharedResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
@@ -454,6 +475,15 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.Syno.MySQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.Calipsod.MySQL|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>

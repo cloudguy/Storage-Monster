@@ -18,9 +18,7 @@ namespace StorageMonster.Database.MySql
             connection.Open();
             using (IDbCommand command = connection.CreateCommand())
             {
-                command.CommandText = "SET TIME ZONE 'UTC';";
-                command.ExecuteNonQuery();
-                command.CommandText = "SET CLIENT_ENCODING TO 'UTF8';";
+                command.CommandText = "SET time_zone='+00:00'; SET names 'utf8';";
                 command.ExecuteNonQuery();
             }
             return connection;
