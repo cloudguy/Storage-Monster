@@ -7,7 +7,7 @@ namespace StorageMonster.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        [MonsterAuthorize(UserRole.RoleUser, UserRole.RoleUser)]
+        [MonsterAuthorize(UserRoles.RoleUser, UserRoles.RoleUser)]
         public ActionResult Index()
         {
             return View();

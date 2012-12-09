@@ -89,6 +89,7 @@
     <Compile Include="DbConfigurationBase.cs" />
     <Compile Include="IDbConfiguration.cs" />
     <Compile Include="IConnectionProvider.cs" />
+    <Compile Include="IDbSessionManager.cs" />
     <Compile Include="MonsterDbException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IResetPasswdRequestsRepository.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Repositories\ISessionRepository.cs" />
     <Compile Include="Repositories\IStoragePluginsRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
-    <Compile Include="Repositories\IUserRoleRepository.cs" />
     <Compile Include="UpdateResult.cs" />
   </ItemGroup>
   <ItemGroup>

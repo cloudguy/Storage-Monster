@@ -27,15 +27,15 @@ namespace StorageMonster.Services.Facade
 			return _userRepository.GetUserBySessionToken(session);
 		}
 
-		public IEnumerable<UserRole> GetRolesForUser(string email)
+		public IEnumerable<UserRoles> GetRolesForUser(string email)
 		{
 			return _userRoleRepository.GetRolesForUser(email);
 		}
-		public IEnumerable<UserRole> GetRolesForUser(int userId)
+		public IEnumerable<UserRoles> GetRolesForUser(int userId)
 		{
 			return _userRoleRepository.GetRolesForUser(userId);
 		}
-		public IEnumerable<UserRole> GetRolesForUser(User user)
+		public IEnumerable<UserRoles> GetRolesForUser(User user)
 		{
 			return _userRoleRepository.GetRolesForUser(user);
 		}

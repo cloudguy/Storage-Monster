@@ -143,7 +143,7 @@ namespace StorageMonster.Web.Services.Security
             try
             {
                 _userService.Insert(user);
-                _userService.CreateRoleForUser(user, UserRole.RoleUser);
+                _userService.CreateRoleForUser(user, UserRoles.RoleUser);
             }
             catch (Exception ex)
             {

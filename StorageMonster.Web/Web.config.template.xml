@@ -14,6 +14,7 @@
     
     <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
     <section name="StructureMap" type="StructureMap.Configuration.StructureMapConfigurationSection, StructureMap"/>
+    <section name="hibernate-configuration" type="NHibernate.Cfg.ConfigurationSectionHandler, NHibernate"/>
   </configSections>
   
   <appSettings>
@@ -55,8 +56,46 @@
 
   <log4net>
   </log4net>
+
+  <hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
+  </hibernate-configuration>
   
   <StructureMap>
+    <!-- DB -->
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.IDbSessionManager, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.SessionManager, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"  />
+
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.IStoragePluginsRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.StoragePluginsRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.IUserRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.UserRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.IUserRoleRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.UserRoleRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.ISessionRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.SessionRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.IStorageAccountRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.StorageAccountRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.IStorageAccountSettingsRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.StorageAccountSettingsRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <DefaultInstance
+            PluginType  ="StorageMonster.Database.Repositories.IResetPasswordRequestsRepository, StorageMonster.Database"
+            PluggedType ="StorageMonster.Database.Nhibernate.Repositories.ResetPasswordRequestsRepository, StorageMonster.Database.Nhibernate"
+            Scope="Singleton"/>
+    <!-- services-->
     <DefaultInstance
           PluginType  ="StorageMonster.Services.IUserService, StorageMonster.Services"
           PluggedType ="StorageMonster.Services.Facade.UserService, StorageMonster.Services.Facade"

@@ -33,14 +33,14 @@ namespace StorageMonster.Web.Services.Security
 
             Session session = new Session
                 {
-                    UserId = user.Id,
+                    User = user,
                     Token = sessionToken                    
                 };
 
             DateTime expiration;
             var cookie = CreateAuthCookie(sessionToken, createPersistentCookie, out expiration);
 
-            session.Expiration = expiration;
+            session.Expires = expiration;
 
             if (!_configuration.CookieAuth.AllowMultipleLogons)
                 _sessionService.ClearUserSessions(user.Id);
@@ -90,13 +90,13 @@ namespace StorageMonster.Web.Services.Security
             if (session == null)
                 return;
 
-            DateTime expiration = DateTime.UtcNow.AddMinutes(_configuration.CookieAuth.AuthenticationExpiration);
+            DateTimeOffset expiration = DateTimeOffset.UtcNow.AddMinutes(_configuration.CookieAuth.AuthenticationExpiration);
             if (session.Expiration == null || !session.Expiration.Value.Equals(cookieTime))
                 _sessionService.UpdateSessionExpiration(session.Token, expiration);
 
             if (authCookie.Expires > DateTime.UtcNow) //not persistent cookie
             {
-                authCookie.Expires = expiration;
+                authCookie.Expires = expiration.DateTime;
                 httpContext.Response.Cookies.Add(authCookie);
             }
         }
@@ -113,7 +113,7 @@ namespace StorageMonster.Web.Services.Security
                 }
                 
                 var session = _sessionService.GetSessionByToken(authCookie.Value);
-                if (session == null || (session.Expiration != null && session.Expiration <= DateTime.UtcNow))
+                if (session == null || session.Expires <= DateTimeOffset.UtcNow)
                 {
                     SetUser(HttpContext.Current, null, null, false);
                     return;

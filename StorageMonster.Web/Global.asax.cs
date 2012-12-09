@@ -11,6 +11,7 @@ using System.Web.Routing;
 using System.Web.Script.Serialization;
 using Common.Logging;
 using StorageMonster.Common.DataAnnotations;
+using StorageMonster.Database;
 using StorageMonster.Plugin;
 using StorageMonster.Services;
 using StorageMonster.Web.Models;
@@ -140,6 +141,9 @@ namespace StorageMonster.Web
 
             Logger.Trace("Initializing icon provider");
             DependencyResolver.Current.GetService<IIconProvider>().Init();
+
+            Logger.Trace("Initializing database session manager");
+            DependencyResolver.Current.GetService<IDbSessionManager>().Init();
 
             Logger.Trace("Initializing validators");
             var oldValidatorProvider = ModelValidatorProviders.Providers.Single(p => p is DataAnnotationsModelValidatorProvider);

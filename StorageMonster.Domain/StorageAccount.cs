@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace StorageMonster.Domain
 {
     public class StorageAccount
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int StoragePluginId { get; set; }
-        public String AccountName { get; set; }
-        public DateTime Stamp { get; set; }
+        public virtual int Id { get; set; }
+        public virtual User User { get; set; }
+        public virtual StoragePlugin StoragePlugin { get; set; }
+        public virtual String AccountName { get; set; }
+        public virtual DateTime Stamp { get; set; }
+        public virtual long Version { get; set; }
+        public virtual IList<StorageAccountSetting> Settings { get; set; }
     }
 }

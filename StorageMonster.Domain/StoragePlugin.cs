@@ -4,9 +4,9 @@ namespace StorageMonster.Domain
 {
     public class StoragePlugin
     {
-        public int Id { get; set; }
-        public string ClassPath { get; set; }
-        public int Status { get; set; }
-        public DateTime Stamp { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string ClassPath { get; set; }
+        public virtual StoragePluginStatus Status { get; set; }
+        public virtual long Version { get; set; }
     }
 }

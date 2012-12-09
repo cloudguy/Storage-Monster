@@ -320,9 +320,6 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -330,7 +327,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Web.config.template.xml" />
+    <Content Include="Web.config.template.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\MessagesPartial.cshtml" />
@@ -361,13 +360,9 @@
       <Project>{6ead7036-b02d-4810-9dd8-c2b5ed772220}</Project>
       <Name>StorageMonster.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.Database.MySql\StorageMonster.Database.MySql.csproj">
-      <Project>{7ec44a61-f242-48f7-b606-1bc8faf91d48}</Project>
-      <Name>StorageMonster.Database.MySql</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.Database.PgSql\StorageMonster.Database.PgSql.csproj">
-      <Project>{ea91e3a5-8d19-40f2-8de7-a2d3f0f0fe25}</Project>
-      <Name>StorageMonster.Database.PgSql</Name>
+    <ProjectReference Include="..\StorageMonster.Database.Nhibernate\StorageMonster.Database.Nhibernate.csproj">
+      <Project>{8f475778-c4b2-4dbc-a2ca-7e97cba24a73}</Project>
+      <Name>StorageMonster.Database.Nhibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Database\StorageMonster.Database.csproj">
       <Project>{98345447-133d-4824-8cbd-6d5c74d50cb7}</Project>
@@ -376,10 +371,6 @@
     <ProjectReference Include="..\StorageMonster.Domain\StorageMonster.Domain.csproj">
       <Project>{9b8636b6-96c1-4c48-873f-fd142e67a7e2}</Project>
       <Name>StorageMonster.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StorageMonster.MicroORM\StorageMonster.MicroORM.csproj">
-      <Project>{12eef8ae-60b2-49bc-a8de-9d42b2ed15ae}</Project>
-      <Name>StorageMonster.MicroORM</Name>
     </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Services.Facade\StorageMonster.Services.Facade.csproj">
       <Project>{670674e3-2325-4c8a-8eaf-d9cfca5cfc98}</Project>

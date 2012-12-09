@@ -1,16 +1,5 @@
 CREATE DATABASE storage_services  WITH ENCODING='UTF8' CONNECTION LIMIT=-1;
   
-CREATE TABLE storage_plugins
-(
-   id serial NOT NULL, 
-   classpath character varying(100) NOT NULL, 
-   status integer NOT NULL, 
-   stamp timestamp with time zone NOT NULL DEFAULT current_timestamp,
-   PRIMARY KEY (id), 
-   CONSTRAINT un_classpath UNIQUE (classpath)
-) WITH (OIDS = FALSE);
-
-
 CREATE TABLE users
 (
    id serial NOT NULL, 
@@ -18,33 +7,31 @@ CREATE TABLE users
    email character varying(100) NOT NULL, 
    password character varying(200) NOT NULL, 
    locale character varying(10) NOT NULL DEFAULT 'en', 
+   role integer NOT NULL DEFAULT 0,
    timezone integer NOT NULL DEFAULT 0, 
-   stamp timestamp with time zone NOT NULL DEFAULT current_timestamp,
+   version int8 NOT NULL DEFAULT 0,
    PRIMARY KEY (id), 
    CONSTRAINT un_email UNIQUE (email)
 ) WITH (OIDS = FALSE);
-
-CREATE TABLE user_roles 
+ 
+ 
+CREATE TABLE storage_plugins
 (
-	id serial NOT NULL,
-	user_id integer NOT NULL,
-    role character varying(45) NOT NULL,
-	PRIMARY KEY (id),
-	CONSTRAINT fk_userroles_users 
-		FOREIGN KEY (user_id) 
-		REFERENCES users (id) 
-		ON DELETE CASCADE 
-		ON UPDATE CASCADE,
-	CONSTRAINT un_userroles 
-		UNIQUE (user_id, role)
-) WITH (OIDS=FALSE);
+   id serial NOT NULL, 
+   classpath character varying(100) NOT NULL, 
+   status integer NOT NULL, 
+   version int8 NOT NULL DEFAULT 0,
+   PRIMARY KEY (id), 
+   CONSTRAINT un_classpath UNIQUE (classpath)
+) WITH (OIDS = FALSE);
+
 
 CREATE TABLE sessions 
 (
 	id serial NOT NULL,
 	user_id integer NOT NULL,
     session_token character varying(32) NOT NULL,
-	expiration_date timestamp with time zone NULL, 
+	expires int8 NOT NULL, 
 	PRIMARY KEY (id),
 	CONSTRAINT fk_sessions_users 
 		FOREIGN KEY (user_id) 
@@ -63,7 +50,7 @@ CREATE  TABLE storage_accounts
 	user_id integer NOT NULL,
     storage_plugin_id integer NOT NULL,
     account_name character varying(100) NOT NULL, 
-    stamp timestamp with time zone NOT NULL DEFAULT current_timestamp,
+    version int8 NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   CONSTRAINT un_saccountlogin_spluginid 
 		UNIQUE (storage_plugin_id, account_name, user_id),  
@@ -86,7 +73,6 @@ CREATE  TABLE storage_accounts_settings
   storage_account_id integer NOT NULL,
   setting_name character varying(45) NOT NULL,
   setting_value character varying(300) NOT NULL,
-  stamp timestamp with time zone NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (id),
   CONSTRAINT un_saccountid_settingname 
 		UNIQUE (storage_account_id, setting_name),  
@@ -102,7 +88,7 @@ CREATE  TABLE reset_password_requests
   id serial NOT NULL,
   user_id integer NOT NULL,
   token character varying(100) NOT NULL,
-  expiration_date timestamp with time zone NULL, 
+  expires int8 NOT NULL,
   PRIMARY KEY (id),  
   CONSTRAINT fk_resetpasswd_users
     FOREIGN KEY (user_id)

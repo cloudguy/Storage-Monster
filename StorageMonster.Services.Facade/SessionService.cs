@@ -31,7 +31,7 @@ namespace StorageMonster.Services.Facade
 				Token = sessionToken,
 				Expiration = new DateTime(1900, 1, 1)
 			};
-			SessionRepository.UpdateExpiration(session);
+			SessionRepository.Update(session);
 		}
 
 		public void UpdateSessionExpiration(string sessionToken, DateTime expiration)
@@ -41,7 +41,7 @@ namespace StorageMonster.Services.Facade
 				Token = sessionToken,
 				Expiration = expiration
 			};
-			SessionRepository.UpdateExpiration(session);
+			SessionRepository.Update(session);
 		}
         public void ClearUserSessions(int userId)
         {
