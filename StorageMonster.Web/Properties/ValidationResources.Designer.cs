@@ -286,7 +286,7 @@ namespace StorageMonster.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        ///   Looks up a localized string similar to The authentication provider returned an error. Internal error. If the problem persists, please contact your system administrator..
         /// </summary>
         public static string RegProviderError {
             get {

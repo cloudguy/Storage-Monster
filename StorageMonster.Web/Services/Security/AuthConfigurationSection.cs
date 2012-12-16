@@ -3,9 +3,9 @@ using System.Configuration;
 
 namespace StorageMonster.Web.Services.Security
 {
-    public class SecurityConfigurationSection : ConfigurationSection
+    public class AuthConfigurationSection : ConfigurationSection
     {
-        public const string SectionLocation = "monster/security";
+        public const string SectionLocation = "monster/auth";
 
         [ConfigurationProperty("cookieauth")]
         public CookieAuthConfigurationObject CookieAuth

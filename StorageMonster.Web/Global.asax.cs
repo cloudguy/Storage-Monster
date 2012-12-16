@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.Script.Serialization;
-using Common.Logging;
-using StorageMonster.Common.DataAnnotations;
+﻿using Common.Logging;
 using StorageMonster.Database;
 using StorageMonster.Plugin;
 using StorageMonster.Services;
@@ -21,7 +9,17 @@ using StorageMonster.Web.Services.Configuration;
 using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Routing;
 using StorageMonster.Web.Services.Security;
-using StorageMonster.Web.Services.Validation;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace StorageMonster.Web
 {
@@ -142,15 +140,26 @@ namespace StorageMonster.Web
             Logger.Trace("Initializing icon provider");
             DependencyResolver.Current.GetService<IIconProvider>().Init();
 
-            Logger.Trace("Initializing database session manager");
-            DependencyResolver.Current.GetService<IDbSessionManager>().Init();
-
             Logger.Trace("Initializing validators");
             var oldValidatorProvider = ModelValidatorProviders.Providers.Single(p => p is DataAnnotationsModelValidatorProvider);
             ModelValidatorProviders.Providers.Remove(oldValidatorProvider);
             DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
             ModelValidatorProviders.Providers.Add(new DataAnnotationsModelValidatorProvider());
             DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+
+            Logger.Trace("Initializing database session manager");
+            var dbSessionManager = DependencyResolver.Current.GetService<IDbSessionManager>().Init();
+
+            try
+            {
+                dbSessionManager.OpenSession();
+                Logger.Trace("Initializing storage plugins");
+                InitializePlugins();
+            }
+            finally
+            {
+                dbSessionManager.CloseSession();
+            }
         }
 
 

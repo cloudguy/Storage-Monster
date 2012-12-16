@@ -26,15 +26,6 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -56,6 +47,15 @@
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.0.11\lib\Net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.5.4\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.0.11\lib\Net40\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -80,7 +80,6 @@
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Services\CookieTrackingService.cs" />
     <Compile Include="Services\HttpModules\AuthorizeHttpModule.cs" />
-    <Compile Include="Services\HttpModules\CleanupHttpModule.cs" />
     <Compile Include="Services\ITrackingService.cs" />
     <Compile Include="Services\Validation\BaseStringLengthAttribute.cs" />
     <Compile Include="Services\Validation\EmailLengthAttribute.cs" />
@@ -173,7 +172,7 @@
     <Compile Include="Services\Security\MembershipService.cs" />
     <Compile Include="Services\Security\PasswordsMismatchException.cs" />
     <Compile Include="Services\Security\Principal.cs" />
-    <Compile Include="Services\Security\SecurityConfigurationSection.cs" />
+    <Compile Include="Services\Security\AuthConfigurationSection.cs" />
     <Compile Include="Services\StructureMapIoC.cs" />
     <Compile Include="Services\TimeZonesProvider.cs" />
     <Compile Include="Services\Validation\PasswordLengthAttribute.cs" />
@@ -187,15 +186,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\SharedResources.Designer.cs">
+    <Compile Include="Views\Shared\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SharedResources.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\SharedResources.ru.Designer.cs">
+    <Compile Include="Views\Shared\Resources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SharedResources.ru.resx</DependentUpon>
+      <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +314,7 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\storagemonster.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Web.config">
@@ -337,6 +337,9 @@
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Debug.P7H55.MsSQL.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Debug.P7H55.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -352,6 +355,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin.WebDav\StorageMonster.Plugin.WebDav.csproj">
+      <Project>{2f6361af-fd3e-478c-bc45-7f9e9b70c563}</Project>
+      <Name>StorageMonster.Plugin.WebDav</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\StorageMonster.Plugin.YandexDisk\StorageMonster.Plugin.YandexDisk.csproj">
+      <Project>{d292cf40-b914-4c42-b000-ddfd11bc1ff1}</Project>
+      <Name>StorageMonster.Plugin.YandexDisk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugins\StorageMonster.Plugin\StorageMonster.Plugin.csproj">
       <Project>{f35d9f41-7648-4baf-87f0-dcf7c09c530a}</Project>
       <Name>StorageMonster.Plugin</Name>
@@ -434,13 +445,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Shared\SharedResources.resx">
+    <EmbeddedResource Include="Views\Shared\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Shared\SharedResources.ru.resx">
+    <EmbeddedResource Include="Views\Shared\Resources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SharedResources.ru.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -483,6 +494,15 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.P7H55.MsSQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -499,11 +519,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1558</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1558/</IISUrl>
+          <DevelopmentServerVPath>/sm</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1558/sm</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:1558/sm</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

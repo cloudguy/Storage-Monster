@@ -8,9 +8,6 @@ namespace StorageMonster.Services
 	{
 		User GetUserBySessionToken(Session session);
         User Load(int id);
-		IEnumerable<UserRoles> GetRolesForUser(string email);
-		IEnumerable<UserRoles> GetRolesForUser(int userId);
-		IEnumerable<UserRoles> GetRolesForUser(User user);
 		bool IsUserInRole(string userName, string roleName);
 		User GetUserByEmail(string email);
 	    User Insert(User user);

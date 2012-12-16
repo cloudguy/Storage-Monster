@@ -15,38 +15,29 @@ namespace StorageMonster.Web.Services.Security
     {
         private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
-        private readonly SecurityConfigurationSection _configuration;
+        private readonly AuthConfigurationSection _configuration;
 
 		public CookieAuthenticationService(IUserService userService, ISessionService sessionService)
         {
 			_userService = userService;
 			_sessionService = sessionService;
-            _configuration = (SecurityConfigurationSection)ConfigurationManager.GetSection(SecurityConfigurationSection.SectionLocation);
+            _configuration = (AuthConfigurationSection)ConfigurationManager.GetSection(AuthConfigurationSection.SectionLocation);
         }
-        public void SignIn(string email, bool createPersistentCookie)
+        public void SignIn(User user, bool createPersistentCookie)
         {
-            string sessionToken = Guid.NewGuid().ToString("N",CultureInfo.InvariantCulture);
-
-			User user = _userService.GetUserByEmail(email);
-            if (user ==null)
-                throw new MonsterSecurityException(String.Format(CultureInfo.InvariantCulture, "User {0} not found", email));
-
-            Session session = new Session
-                {
-                    User = user,
-                    Token = sessionToken                    
-                };
-
-            DateTime expiration;
-            var cookie = CreateAuthCookie(sessionToken, createPersistentCookie, out expiration);
-
-            session.Expires = expiration;
-
             if (!_configuration.CookieAuth.AllowMultipleLogons)
                 _sessionService.ClearUserSessions(user.Id);
 
-			_sessionService.CreateSession(session);
-
+            string sessionToken = Guid.NewGuid().ToString("N",CultureInfo.InvariantCulture);
+            DateTime expiration;
+            var cookie = CreateAuthCookie(sessionToken, createPersistentCookie, out expiration);
+            Session session = new Session
+            {
+                User = user,
+                Token = sessionToken,
+                Expires = expiration
+            };
+            _sessionService.Insert(session);
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
@@ -56,7 +47,7 @@ namespace StorageMonster.Web.Services.Security
             if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                 _sessionService.ExpireSession(authCookie.Value);
 
-			HttpCookie expiredCookie = new HttpCookie(FormsAuthentication.FormsCookieName)
+            HttpCookie expiredCookie = new HttpCookie(_configuration.CookieAuth.AuthenticationCookieName)
                 {
                     Expires = DateTime.UtcNow.AddDays(-1d)
                 };
@@ -85,14 +76,15 @@ namespace StorageMonster.Web.Services.Security
 
             DateTime cookieTime = authCookie.Expires.ToUniversalTime();
 
-            var session = _sessionService.GetSessionByToken(authCookie.Value);
+            var session = _sessionService.GetSessionByToken(authCookie.Value, true);
 
             if (session == null)
                 return;
 
             DateTimeOffset expiration = DateTimeOffset.UtcNow.AddMinutes(_configuration.CookieAuth.AuthenticationExpiration);
-            if (session.Expiration == null || !session.Expiration.Value.Equals(cookieTime))
-                _sessionService.UpdateSessionExpiration(session.Token, expiration);
+#warning what was that?
+           // if (session.Expiration == null || !session.Expiration.Value.Equals(cookieTime))
+           _sessionService.UpdateSessionExpiration(session.Token, expiration);
 
             if (authCookie.Expires > DateTime.UtcNow) //not persistent cookie
             {
@@ -108,33 +100,30 @@ namespace StorageMonster.Web.Services.Security
                 HttpCookie authCookie = HttpContext.Current.Request.Cookies[_configuration.CookieAuth.AuthenticationCookieName];
                 if (authCookie == null || string.IsNullOrEmpty(authCookie.Value))
                 {
-                    SetUser(HttpContext.Current, null, null, false);
+                    SetUser(HttpContext.Current, null, UserRole.None, false);
                     return;
                 }
                 
-                var session = _sessionService.GetSessionByToken(authCookie.Value);
+                var session = _sessionService.GetSessionByToken(authCookie.Value, true);
                 if (session == null || session.Expires <= DateTimeOffset.UtcNow)
                 {
-                    SetUser(HttpContext.Current, null, null, false);
+                    SetUser(HttpContext.Current, null, UserRole.None, false);
                     return;
                 }
-
-                User user = _userService.GetUserBySessionToken(session);
-
-                string[] roles = _userService.GetRolesForUser(user).Select(r => r.Role).ToArray();
-                SetUser(HttpContext.Current, user, roles, true);
+                SetUser(HttpContext.Current, session.User, session.User.UserRole, true);
             }
             catch
             {
-                SetUser(HttpContext.Current, null, null, false);
+                SetUser(HttpContext.Current, null, UserRole.None, false);
                 throw;
             }
         }
 
-        private static void SetUser(HttpContext context, User user, string[] roles, bool isAutheticated)
+        private static void SetUser(HttpContext context, User user, UserRole role, bool isAutheticated)
         {
             Identity identity = new Identity(user, isAutheticated);
-            Principal principal = new Principal(identity, roles);
+            string roleAsString = role.ToString();
+            Principal principal = new Principal(identity, new[] { roleAsString });
             context.User = principal;
         }
     }

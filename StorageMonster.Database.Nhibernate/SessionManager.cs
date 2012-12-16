@@ -19,7 +19,7 @@ namespace StorageMonster.Database.Nhibernate
 
         public static SessionManager Instance { get; private set; }
 
-        public void Init()
+        public IDbSessionManager Init()
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -30,6 +30,7 @@ namespace StorageMonster.Database.Nhibernate
             stopWatch.Stop();
             _log.TraceFormat(CultureInfo.InvariantCulture, "Configured NHibernate in {0}ms", stopWatch.ElapsedMilliseconds);
             Instance = this;
+            return this;
         }
 
         private ISession ContextSession
@@ -40,34 +41,56 @@ namespace StorageMonster.Database.Nhibernate
 
         public static ISession CurrentSession
         {
-            get { return Instance.GetSession(); }
+            get { return Instance.ContextSession; }
         }
 
-        public ISession GetSession()
+        public void OpenSession()
         {
-            return GetSession(null);
+            OpenSession(null);
         }
-             
-        private ISession GetSession(IInterceptor interceptor)
-        {
-            ISession session = ContextSession;
 
-            if (session == null)
+        private void OpenSession(IInterceptor interceptor)
+        {
+            if (ContextSession != null)
+                throw new InvalidOperationException("Session already opened");
+            ISession session  = interceptor != null ? _sessionFactory.OpenSession(interceptor) : _sessionFactory.OpenSession();
+            ContextSession = session;
+        }
+
+        public void CloseSession()
+        {
+            try
             {
-                session = interceptor != null ? _sessionFactory.OpenSession(interceptor) : _sessionFactory.OpenSession();
-                ContextSession = session;
+                CloseSession(ContextSession);
             }
-            return session;
+            finally
+            {
+                ContextSession = null;
+            }
         }
-      
-        public void RegisterInterceptor(IInterceptor interceptor)
-        {
-            ISession session = ContextSession;
 
-            if (session != null && session.IsOpen)
-                throw new HibernateException("You cannot register an interceptor once a session has already been opened");                
-            
-            GetSession(interceptor);
+        private void CloseSession(ISession session)
+        {
+            if (session == null)
+                return;
+
+            if (session.IsOpen)
+            {
+                try
+                {
+                    if (session.Transaction != null)
+                    {
+                        if (session.Transaction.IsActive)
+                            session.Transaction.Commit();
+                    }
+                    session.Flush();
+                }
+                finally
+                {
+                    session.Close();
+                    session.Dispose();
+                }
+            }
         }
 
         public void DoInTransaction(Action action, IsolationLevel level)

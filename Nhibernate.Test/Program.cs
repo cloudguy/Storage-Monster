@@ -67,7 +67,7 @@ namespace Nhibernate.Test
                         session.SaveOrUpdate(user);
                     }
 
-                    ICriteria sc1 = session.CreateCriteria<StoragePlugin>();
+                    ICriteria sc1 = session.CreateCriteria<StoragePluginDescriptor>();
 
                     //StoragePlugin s = new StoragePlugin();
                     //s.ClassPath = "clspth";
@@ -75,7 +75,7 @@ namespace Nhibernate.Test
                     //session.SaveOrUpdate(s);
                     
 
-                    var spl = sc1.List<StoragePlugin>();
+                    var spl = sc1.List<StoragePluginDescriptor>();
                    //User u =new User();
                    // u.Email = "uuu";
                    // u.Name = "nm";

@@ -8,7 +8,7 @@ namespace StorageMonster.Database.Nhibernate.Repositories
 {
     public class StorageAccountRepository : IStorageAccountRepository
     {
-        public IEnumerable<Tuple<Domain.StorageAccount, Domain.StoragePlugin>> GetAccounts(int userId, int storageStatus)
+        public IEnumerable<Tuple<Domain.StorageAccount, Domain.StoragePluginDescriptor>> GetAccounts(int userId, int storageStatus)
         {
             throw new NotImplementedException();
         }

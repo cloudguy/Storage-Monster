@@ -20,8 +20,7 @@ CREATE TABLE users (
 GO
 
 CREATE TABLE storage_plugins (
-    id INT IDENTITY NOT NULL,
-    version BIGINT DEFAULT 0  NOT NULL,
+    id INT IDENTITY NOT NULL,    
     classpath NVARCHAR(100) NOT NULL,
     status INT DEFAULT 0  NOT NULL,
     PRIMARY KEY (id),

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace StorageMonster.Web.Services.Validation
@@ -13,9 +11,9 @@ namespace StorageMonster.Web.Services.Validation
     {
         protected const string DefaultErrorMessage = "Field {0} must be less or equal than {1} characters and more or equal than {2} characters";
 
-        protected int _minLength;
-        protected int _maxLength;
-        private bool isInitialized;
+        protected int MinLength;
+        protected int MaxLength;
+        private bool _isInitialized;
 
         public BaseStringLengthAttribute()
             : base(DefaultErrorMessage)
@@ -27,28 +25,28 @@ namespace StorageMonster.Web.Services.Validation
 
         protected void SetupLength()
         {
-            if (!isInitialized)
+            if (!_isInitialized)
             {
-                _minLength = GetMinLength();
-                _maxLength = GetMaxLength();
-                isInitialized = true;
+                MinLength = GetMinLength();
+                MaxLength = GetMaxLength();
+                _isInitialized = true;
             }
         }
 
         public override string FormatErrorMessage(string name)
         {
             SetupLength();
-            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, _minLength, _maxLength);
+            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, MinLength, MaxLength);
         }
 
         public override bool IsValid(object value)
         {
             SetupLength();
-            string valueAsString = Convert.ToString(value, CultureInfo.CurrentCulture); ;
+            string valueAsString = Convert.ToString(value, CultureInfo.CurrentCulture);
             if (string.IsNullOrEmpty(valueAsString))
-                return _minLength <= 0;
+                return MinLength <= 0;
 
-            return (valueAsString.Length >= _minLength && valueAsString.Length <= _maxLength);
+            return (valueAsString.Length >= MinLength && valueAsString.Length <= MaxLength);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
@@ -59,13 +57,13 @@ namespace StorageMonster.Web.Services.Validation
                 ErrorMessage = FormatErrorMessage(metadata.DisplayName),
                 ValidationType = "length"
             };
-            if (_minLength != 0)
+            if (MinLength != 0)
             {
-                rule.ValidationParameters.Add("min", _minLength);
+                rule.ValidationParameters.Add("min", MinLength);
             }
-            if (_maxLength != 2147483647)
+            if (MaxLength != 2147483647)
             {
-                rule.ValidationParameters.Add("max", _maxLength);
+                rule.ValidationParameters.Add("max", MaxLength);
             }
             return new[] { rule };
         }

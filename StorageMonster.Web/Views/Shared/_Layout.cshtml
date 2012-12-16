@@ -19,19 +19,28 @@
     { 
         "~/Scripts/jquery-1.8.3.min.js",
         "~/Scripts/jquery.validate.min.js",
-        "~/Scripts/jquery.validate.unobtrusive.min.js",
-        "~/Scripts/underscore.min.js",
-        "~/Scripts/backbone.min.js",
-        "~/Scripts/bootstrap.min.js"
+        "~/Scripts/jquery.validate.unobtrusive.min.js"
     })
    
+    @if (Request.IsAuthenticated)
+    {
+        @Html.IncludeJs(new[]
+            {
+                "~/Scripts/underscore.min.js",
+                "~/Scripts/backbone.min.js",
+                "~/Scripts/bootstrap.min.js",
+                "~/Scripts/storagemonster.js"
+            })
+    }
+        
+
 </head>
 
     <body>
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">            
                 <div class="container-fluid">
-                    <a class="brand" href="@Url.Content("~/")">@SharedResources.Title</a>  
+                    <a class="brand" href="@Url.Content("~/")">@Resources.Title</a>  
                     @Html.Partial("~/Views/Shared/LogOnPartial.cshtml")          
                 </div>
             </div>

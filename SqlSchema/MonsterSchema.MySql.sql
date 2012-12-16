@@ -20,8 +20,7 @@ COLLATE = utf8_unicode_ci;
 CREATE  TABLE `storage_plugins` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `classpath` VARCHAR(100) NOT NULL ,
-  `status` INT NOT NULL DEFAULT 0 ,
-  `version` BIGINT NOT NULL DEFAULT 0 ,
+  `status` INT NOT NULL DEFAULT 0 ,  
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `un_classpath` (`classpath` ASC) )
 ENGINE = InnoDB

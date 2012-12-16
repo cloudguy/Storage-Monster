@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StorageMonster.Database.Repositories;
+using StorageMonster.Domain;
 
 namespace StorageMonster.Database.Nhibernate.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public Domain.User GetUserByEmail(string email)
+        public User GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return SessionManager.CurrentSession.QueryOver<User>()
+                          .Where(u => u.Email == email).SingleOrDefault();
         }
 
         public IEnumerable<Domain.User> List()
@@ -23,9 +25,9 @@ namespace StorageMonster.Database.Nhibernate.Repositories
             throw new NotImplementedException();
         }
 
-        public Domain.User Insert(Domain.User user)
+        public User Insert(Domain.User user)
         {
-            throw new NotImplementedException();
+            return SessionManager.CurrentSession.Save(user) as User;
         }
 
         public UpdateResult Update(Domain.User user)

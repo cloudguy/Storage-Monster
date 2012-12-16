@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StorageMonster.Domain
+﻿namespace StorageMonster.Domain
 {
     public class StorageAccountSetting
     {

@@ -25,7 +25,7 @@ namespace StorageMonster.Web.Services.Security
         private readonly IPasswordHasher _passwordHasher;
         private readonly ILocaleProvider _localeProvider;
         private readonly ITimeZonesProvider _timeZonesProvider;
-        private readonly SecurityConfigurationSection _configuration;
+        private readonly AuthConfigurationSection _configuration;
 
         public MembershipService(IUserService userService,
                                  ITemplateEngine templateEngine,
@@ -40,7 +40,7 @@ namespace StorageMonster.Web.Services.Security
             _passwordHasher = passwordHasher;
             _localeProvider = localeProvider;
             _timeZonesProvider = timeZonesProvider;
-            _configuration = (SecurityConfigurationSection)ConfigurationManager.GetSection(SecurityConfigurationSection.SectionLocation);
+            _configuration = (AuthConfigurationSection)ConfigurationManager.GetSection(AuthConfigurationSection.SectionLocation);
             _emailValidationRegex = new Regex(_configuration.Memebership.EmailRegexp, RegexOptions.Compiled);
             _userNameValidationRegex = new Regex(_configuration.Memebership.UserNameRegexp, RegexOptions.Compiled);
         }
@@ -66,13 +66,14 @@ namespace StorageMonster.Web.Services.Security
             get { return _configuration.Memebership.MaxUserNameLength; }
         }
 
-        public bool ValidateUser(string email, string password)
+        public bool ValidateUser(string email, string password, out User user)
         {
+            user = null;
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
                 return false;
 
 
-            var user = _userService.GetUserByEmail(email);
+            user = _userService.GetUserByEmail(email);
             if (user == null)
                 return false;
 
@@ -116,8 +117,9 @@ namespace StorageMonster.Web.Services.Security
             return userPassword.Length >= MinPasswordLength && userPassword.Length <= MaxPasswordLength;
         }
 
-        public MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone)
+        public MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone, out User user)
         {
+            user = null;
             if (!IsUserEmailValid(ref email))
                 return MembershipCreateStatus.InvalidEmail;
            
@@ -131,19 +133,19 @@ namespace StorageMonster.Web.Services.Security
             if (!IsUserPasswordValid(ref password))
                 return MembershipCreateStatus.InvalidPassword;
 
-            User user = new User
+            user = new User
                 {
                     Email = email,
                     Name = userName,
                     Password = _passwordHasher.EncryptPassword(password),
                     Locale = _localeProvider.GetCultureByNameOrDefault(locale).ShortName,
-                    TimeZone = _timeZonesProvider.GetTimeZoneByIdOrDefault(timezone).Id
+                    TimeZone = _timeZonesProvider.GetTimeZoneByIdOrDefault(timezone).Id,
+                    UserRole = UserRole.User
                 };
 
             try
             {
                 _userService.Insert(user);
-                _userService.CreateRoleForUser(user, UserRoles.RoleUser);
             }
             catch (Exception ex)
             {
@@ -164,8 +166,7 @@ namespace StorageMonster.Web.Services.Security
 
             if (!IsUserNameValid(ref userName))
                 throw new InvalidUserNameException(string.Format(CultureInfo.InvariantCulture, "User name {0} is invalid", userName));
-
-            user.Stamp = stamp;
+            
             user.Name = userName;
             user.Locale = _localeProvider.GetCultureByNameOrDefault(locale).ShortName;
             user.TimeZone = _timeZonesProvider.GetTimeZoneByIdOrDefault(timezone).Id;
@@ -205,7 +206,7 @@ namespace StorageMonster.Web.Services.Security
                 { "link", link },
                 { "siteurl", siteUrl },
                 { "username", user.Name },
-                { "expire", new DateTimeOffset(request.Expiration).ToOffset(timeZoneData.Offset).ToString("dd.MM.yyyy HH:mm zzz") }
+                { "expire", request.Expires.ToOffset(timeZoneData.Offset).ToString("dd.MM.yyyy HH:mm zzz") }
             };
             string emailBody = _templateEngine.TransformTemplate(templateData, MailResources.RestorePasswordMailBody);
             string emailSubject = _templateEngine.TransformTemplate(templateData, MailResources.RestorePasswordMailSubject);
@@ -232,9 +233,9 @@ namespace StorageMonster.Web.Services.Security
             if (!IsUserPasswordValid(ref newPassword))
                 throw new InvalidPasswordException(string.Format(CultureInfo.InvariantCulture, "Password {0} is invalid", newPassword));
 
-            User user = _userService.Load(request.UserId);
+            var user = request.User;
             if (user == null)
-                throw new UserNotExistsException(request.UserId);
+                throw new UserNotExistsException(string.Format(CultureInfo.InvariantCulture, "No user for reset password token {0}", request.Token));
 
             user.Password = _passwordHasher.EncryptPassword(newPassword);
             _userService.UpdateUser(user);
@@ -261,7 +262,6 @@ namespace StorageMonster.Web.Services.Security
            
 
             user.Password = _passwordHasher.EncryptPassword(newPassword);
-            user.Stamp = userStamp;
             _userService.UpdateUser(user);
             return user;
         }

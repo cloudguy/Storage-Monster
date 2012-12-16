@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.SqlTypes;
 using NHibernate.UserTypes;
 using StorageMonster.Domain;
-using StorageMonster.Utilities;
+using System;
+using System.Data;
 
 namespace StorageMonster.Database.Nhibernate.Types
 {

@@ -7,7 +7,7 @@ namespace StorageMonster.Domain
     {
         public virtual int Id { get; set; }
         public virtual User User { get; set; }
-        public virtual StoragePlugin StoragePlugin { get; set; }
+        public virtual StoragePluginDescriptor StoragePlugin { get; set; }
         public virtual String AccountName { get; set; }
         public virtual DateTime Stamp { get; set; }
         public virtual long Version { get; set; }

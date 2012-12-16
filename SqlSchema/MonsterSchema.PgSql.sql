@@ -19,8 +19,7 @@ CREATE TABLE storage_plugins
 (
    id serial NOT NULL, 
    classpath character varying(100) NOT NULL, 
-   status integer NOT NULL, 
-   version int8 NOT NULL DEFAULT 0,
+   status integer NOT NULL,    
    PRIMARY KEY (id), 
    CONSTRAINT un_classpath UNIQUE (classpath)
 ) WITH (OIDS = FALSE);

@@ -13,7 +13,7 @@ namespace StorageMonster.Services
     }
     public interface IStorageAccountService
     {
-        IEnumerable<Tuple<StorageAccount, StoragePlugin>> GetActiveStorageAccounts(int userId);
+        IEnumerable<Tuple<StorageAccount, StoragePluginDescriptor>> GetActiveStorageAccounts(int userId);
         StorageAccount Load(int id);
         StorageAccountCreationResult CreateStorageAccount(StorageAccount account);
         void SaveSettings(IDictionary<string, string> storageAccountSettingsList, int storageAccountId, DateTime storageAccountStamp);

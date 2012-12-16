@@ -3,16 +3,16 @@
     @if (Request.IsAuthenticated) { 
         <li class="navbar-text">   
             <p>    
-                @SharedResources.LogOnWelcome <b>@HttpContext.Current.User.Identity.Name</b>    
+                @Resources.LogOnWelcome <b>@HttpContext.Current.User.Identity.Name</b>    
             </p>
         </li>
         <li class="divider-vertical"></li>
         <li>
-            @Html.ActionLink(SharedResources.LogOffLinkContent, "LogOff", "Account")
+            @Html.ActionLink(Resources.LogOffLinkContent, "LogOff", "Account")
         </li>
     } else  {
         <li>
-        @Html.ActionLink(@SharedResources.LogOnLinkContent, "LogOn", "Account")
+        @Html.ActionLink(@Resources.LogOnLinkContent, "LogOn", "Account")
         </li>
     }
 </ul>        
