@@ -9,7 +9,7 @@ namespace StorageMonster.Web.Services.Validation
     {
         protected override string GetRegexPattern()
         {
-            var configuration = (SecurityConfigurationSection)ConfigurationManager.GetSection(SecurityConfigurationSection.SectionLocation);
+            var configuration = (AuthConfigurationSection)ConfigurationManager.GetSection(AuthConfigurationSection.SectionLocation);
             return configuration.Memebership.EmailRegexp;
         }
     }

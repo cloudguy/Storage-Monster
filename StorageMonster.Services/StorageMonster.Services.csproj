@@ -13,17 +13,6 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -78,8 +67,19 @@
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.P7H55.MsSQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug.P7H55.MsSQL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IStorageAccountService.cs" />
@@ -87,11 +87,11 @@
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="ITimeZonesProvider.cs" />
     <Compile Include="MonsterStream.cs" />
+    <Compile Include="Security\Configuration.cs" />
     <Compile Include="Security\ICryptoService.cs" />
     <Compile Include="ILocaleProvider.cs" />
     <Compile Include="IoCcontainer.cs" />
     <Compile Include="ISweeper.cs" />
-    <Compile Include="Security\ISecurityConfiguration.cs" />
     <Compile Include="Security\ISessionService.cs" />
     <Compile Include="IStoragePluginsService.cs" />
     <Compile Include="IUserService.cs" />
@@ -100,7 +100,6 @@
     <Compile Include="Security\IPasswordHasher.cs" />
     <Compile Include="Security\MonsterSecurityException.cs" />
     <Compile Include="StoragePluginNotFoundException.cs" />
-    <Compile Include="StorageStatus.cs" />
     <Compile Include="TimeZoneData.cs" />
     <Compile Include="TimeZonesProviderBase.cs" />
     <Compile Include="UserNotExistsException.cs" />

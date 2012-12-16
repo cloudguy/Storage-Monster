@@ -1,31 +1,46 @@
-﻿var AccountsList = Backbone.Model.extend({
-    initialize: function (url) {
+﻿function MonsterAjax(options,url) {
+    if (!!!options)
+        return;
+
+    $.ajax({
+        url: url,
+        type: options.type,
+        data: options.data,
+        beforeSend: options.beforeSend,
+        error: options.error,
+        success: function (data) {
+            options.success(data);
+        },
+        complete: options.complete
+    });
+}
+
+var AccountsList = Backbone.Model.extend({
+    initialize: function (url, ajaxCallback) {
+        if (!$.isFunction(ajaxCallback))
+            return;
         var uri = (!!url)?url.url:this.get('url');
         try {
-            this.fetchData(uri);
+            ajaxCallback(this.get('ajaxOptions'), uri);
         }catch(e){
             console.error(e);
         }
-        console.log(this.get('accounts'));
+        
     },
     defaults: {
-        url: '/StorageAccounts/list/default' 
+        url:'/',
+        ajaxOptions : {
+            type: 'POST',
+            data: 'json',
+            error: ajaxError(),
+            success:ajaxSuccess (data),
+            complete:ajaxComplete
+        }
     },
-    fetchData: function (uri) {
-        var accounts = this;
-        $.ajax({
-            url: uri,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                if (!accounts.get('accounts')) {
-                    accounts.set({ 'accounts': data });
-                }
-            },
-            error: function () {
-                throw "error fetch accounts";
-            }
-      });
+    ajaxError:function() {
+        
+    } 
+      );
     }
 });
 

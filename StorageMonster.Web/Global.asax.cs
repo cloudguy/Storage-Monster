@@ -1,4 +1,15 @@
-﻿using System;
+﻿using Common.Logging;
+using StorageMonster.Database;
+using StorageMonster.Plugin;
+using StorageMonster.Services;
+using StorageMonster.Web.Models;
+using StorageMonster.Web.Properties;
+using StorageMonster.Web.Services;
+using StorageMonster.Web.Services.Configuration;
+using StorageMonster.Web.Services.Extensions;
+using StorageMonster.Web.Services.Routing;
+using StorageMonster.Web.Services.Security;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
@@ -9,18 +20,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
-using Common.Logging;
-using StorageMonster.Common.DataAnnotations;
-using StorageMonster.Plugin;
-using StorageMonster.Services;
-using StorageMonster.Web.Models;
-using StorageMonster.Web.Properties;
-using StorageMonster.Web.Services;
-using StorageMonster.Web.Services.Configuration;
-using StorageMonster.Web.Services.Extensions;
-using StorageMonster.Web.Services.Routing;
-using StorageMonster.Web.Services.Security;
-using StorageMonster.Web.Services.Validation;
 
 namespace StorageMonster.Web
 {
@@ -147,6 +146,20 @@ namespace StorageMonster.Web
             DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
             ModelValidatorProviders.Providers.Add(new DataAnnotationsModelValidatorProvider());
             DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+
+            Logger.Trace("Initializing database session manager");
+            var dbSessionManager = DependencyResolver.Current.GetService<IDbSessionManager>().Init();
+
+            try
+            {
+                dbSessionManager.OpenSession();
+                Logger.Trace("Initializing storage plugins");
+                InitializePlugins();
+            }
+            finally
+            {
+                dbSessionManager.CloseSession();
+            }
         }
 
 

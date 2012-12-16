@@ -10,27 +10,83 @@ namespace StorageMonster.Services.Facade
 {
     public class StoragePluginsService : IStoragePluginsService
     {
-        private readonly IStoragePluginsRepository _storagePluginsRepository;
+        private readonly IStoragePluginDescriptorsRepository _storagePluginsRepository;
         private readonly IStreamFactory _streamFactory;
 
         private static readonly ConcurrentBag<CachedStoragePlugin> CachedStoragePlugins = new ConcurrentBag<CachedStoragePlugin>();
 
         private class CachedStoragePlugin
         {
-            public StoragePlugin PluginDescriptor { get; set; }
+            public StoragePluginDescriptor PluginDescriptor { get; set; }
             public IStoragePlugin Plugin { get; set; }
 
-            public CachedStoragePlugin(StoragePlugin pluginDescriptor, IStoragePlugin plugin)
+            public CachedStoragePlugin(StoragePluginDescriptor pluginDescriptor, IStoragePlugin plugin)
             {
                 PluginDescriptor = pluginDescriptor;
                 Plugin = plugin;
             }
         }
 
-		public StoragePluginsService(IStoragePluginsRepository storageRepository, IStreamFactory streamFactory)
+		public StoragePluginsService(IStoragePluginDescriptorsRepository storageRepository, IStreamFactory streamFactory)
         {
             _storagePluginsRepository = storageRepository;
             _streamFactory = streamFactory;
+        }
+
+        //public void InitStorges(IEnumerable<IStoragePlugin> storagePlugins)
+        //{
+        //    if (storagePlugins == null)
+        //        throw new ArgumentNullException("storagePlugins");
+
+        //    foreach (var storagePlugin in storagePlugins)
+        //    {
+        //        //updating db
+        //        StoragePlugin pluginDescriptor = _storagePluginsRepository.InitPluginStatus(storagePlugin.GetType().FullName, (int)StorageStatus.Loaded);
+        //        CachedStoragePlugins.Add(new CachedStoragePlugin(pluginDescriptor, storagePlugin));
+        //    }
+        //}
+
+        //public IEnumerable<StoragePlugin> GetAvailableStoragePlugins()
+        //{
+        //    return CachedStoragePlugins.Select(p => p.PluginDescriptor);
+        //}
+
+        //public void ResetStorages()
+        //{
+        //    _storagePluginsRepository.SetStoragesStatuses((int)StorageStatus.Unloaded);
+        //    CachedStoragePlugin result;
+        //    while (!CachedStoragePlugins.IsEmpty)
+        //        CachedStoragePlugins.TryTake(out result);
+        //}
+
+        //public IStoragePlugin GetStoragePlugin(int storagePluginId)
+        //{
+        //    CachedStoragePlugin cachedStoragePlugin = CachedStoragePlugins.FirstOrDefault(p => p.PluginDescriptor.Id == storagePluginId);
+        //    return cachedStoragePlugin == null ? null : cachedStoragePlugin.Plugin;
+        //}
+
+        //public StorageFileStreamResult DownloadFile(StorageAccount storageAccount, string url)
+        //{
+        //    if (storageAccount == null)
+        //        throw new ArgumentNullException("storageAccount");
+        //    if (string.IsNullOrEmpty(url))
+        //        throw new ArgumentNullException("url");
+
+        //    IStoragePlugin plugin = GetStoragePlugin(storageAccount.StoragePluginId);
+        //    if (plugin == null)
+        //        throw new StoragePluginNotFoundException(storageAccount.StoragePluginId);
+
+        //    var streamResult = plugin.GetFileStream(url, storageAccount.Id);
+        //    streamResult.FileStream = _streamFactory.CreateDownloadStream(streamResult.FileStream);            
+        //    return streamResult;
+        //}
+
+        public void ResetStorages()
+        {
+            _storagePluginsRepository.SetStoragesStatuses(StoragePluginStatus.Unloaded);
+            CachedStoragePlugin result;
+            while (!CachedStoragePlugins.IsEmpty)
+                CachedStoragePlugins.TryTake(out result);
         }
 
         public void InitStorges(IEnumerable<IStoragePlugin> storagePlugins)
@@ -41,44 +97,31 @@ namespace StorageMonster.Services.Facade
             foreach (var storagePlugin in storagePlugins)
             {
                 //updating db
-                StoragePlugin pluginDescriptor = _storagePluginsRepository.InitPluginStatus(storagePlugin.GetType().FullName, (int)StorageStatus.Loaded);
+                var pluginDescriptor = _storagePluginsRepository.GetPluginByClassPath(storagePlugin.GetType().FullName);
+                if (pluginDescriptor == null)
+                {
+                    pluginDescriptor = new StoragePluginDescriptor();
+                    pluginDescriptor.ClassPath = storagePlugin.GetType().FullName;
+                }
+                pluginDescriptor.Status = StoragePluginStatus.Loaded;
+                _storagePluginsRepository.SaveOrUpdate(pluginDescriptor);
                 CachedStoragePlugins.Add(new CachedStoragePlugin(pluginDescriptor, storagePlugin));
             }
         }
 
-        public IEnumerable<StoragePlugin> GetAvailableStoragePlugins()
-        {
-            return CachedStoragePlugins.Select(p => p.PluginDescriptor);
-        }
-
-        public void ResetStorages()
-        {
-            _storagePluginsRepository.SetStoragesStatuses((int)StorageStatus.Unloaded);
-            CachedStoragePlugin result;
-            while (!CachedStoragePlugins.IsEmpty)
-                CachedStoragePlugins.TryTake(out result);
-        }
-
         public IStoragePlugin GetStoragePlugin(int storagePluginId)
         {
-            CachedStoragePlugin cachedStoragePlugin = CachedStoragePlugins.FirstOrDefault(p => p.PluginDescriptor.Id == storagePluginId);
-            return cachedStoragePlugin == null ? null : cachedStoragePlugin.Plugin;
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<StoragePluginDescriptor> GetAvailableStoragePlugins()
+        {
+            throw new NotImplementedException();
         }
 
         public StorageFileStreamResult DownloadFile(StorageAccount storageAccount, string url)
         {
-            if (storageAccount == null)
-                throw new ArgumentNullException("storageAccount");
-            if (string.IsNullOrEmpty(url))
-                throw new ArgumentNullException("url");
-
-            IStoragePlugin plugin = GetStoragePlugin(storageAccount.StoragePluginId);
-            if (plugin == null)
-                throw new StoragePluginNotFoundException(storageAccount.StoragePluginId);
-
-            var streamResult = plugin.GetFileStream(url, storageAccount.Id);
-            streamResult.FileStream = _streamFactory.CreateDownloadStream(streamResult.FileStream);            
-            return streamResult;
+            throw new NotImplementedException();
         }
     }
 }

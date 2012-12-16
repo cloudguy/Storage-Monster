@@ -19,18 +19,21 @@
     { 
         "~/Scripts/jquery-1.8.3.min.js",
         "~/Scripts/jquery.validate.min.js",
-        "~/Scripts/jquery.validate.unobtrusive.min.js",
-        "~/Scripts/bootstrap.min.js" 
-    })
-   @if (Request.IsAuthenticated)
-   {
-    @Html.IncludeJs(new[] 
-    { 
-        "~/Scripts/underscore.min.js",
-        "~/Scripts/backbone.min.js",
-        "~/Scripts/monster-script.js"
+        "~/Scripts/jquery.validate.unobtrusive.min.js"
     })
    }
+    @if (Request.IsAuthenticated)
+    {
+        @Html.IncludeJs(new[]
+            {
+                "~/Scripts/underscore.min.js",
+                "~/Scripts/backbone.min.js",
+                "~/Scripts/bootstrap.min.js",
+                "~/Scripts/storagemonster.js"
+            })
+    }
+        
+
 </head>
     <body>
         <div id="main-menu">

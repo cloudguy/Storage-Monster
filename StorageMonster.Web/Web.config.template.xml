@@ -1,21 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <configuration>
-  
+
   <configSections>
     <sectionGroup name="monster">
       <section name="web" type="StorageMonster.Web.Services.Configuration.WebConfigurationSection, StorageMonster.Web" />
-      <section name="security" type="StorageMonster.Web.Services.Security.SecurityConfigurationSection, StorageMonster.Web" />
+      <section name="auth" type="StorageMonster.Web.Services.Security.AuthConfigurationSection, StorageMonster.Web" />
+      <section name="security" type="StorageMonster.Services.Security.Configuration, StorageMonster.Services" />
     </sectionGroup>
-    
+
     <sectionGroup name="common">
       <section name="logging" type="Common.Logging.ConfigurationSectionHandler, Common.Logging" />
     </sectionGroup>
-    
+
     <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
     <section name="StructureMap" type="StructureMap.Configuration.StructureMapConfigurationSection, StructureMap"/>
+    <section name="hibernate-configuration" type="NHibernate.Cfg.ConfigurationSectionHandler, NHibernate"/>
   </configSections>
-  
+
   <appSettings>
     <add key="webpages:Version" value="1.0.0.0" />
     <add key="ClientValidationEnabled" value="true" />
@@ -27,22 +29,27 @@
       <clientObjects jsVersion="v0.5js" cssVersion="v0.5css" />
       <sweeper enabled="true" timeout="30"/>
     </web>
-    <security>
-      <cookieauth allowMultipleLogons ="false"
-                  cookieName ="sm_auth"
-                  expiration ="60"
-                  slidingExpiration = "true" />
+    <auth>
+      <cookieauth allowMultipleLogons="false"
+                  cookieName="sm_auth"
+                  expiration="60"
+                  slidingExpiration="true" />
       <membership resetPasswdExpiration = "30"
                   resetPasswdMailFrom = "do-not-reply@storage-monster.com"
-                  userNameRegexp = "^[a-zA-Z1-9 ]{1,100}$"
-                  emailRegexp = "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
+                  userNameRegexp="^[a-zA-Z1-9 ]{1,100}$"
+                  emailRegexp="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
                   minPasswordLength = "6" />
+    </auth>
+    <security>
+      <encryption key="37d3a5e4-2a5f-4421-ba5e-8773c3a27958"
+                  salt="55ad57e7-54c2-4f09-836c-66c66014be1b" />
     </security>
   </monster>
-  
+
   <connectionStrings>
     <add name="StorageMonsterMySqlServices" connectionString="" />
     <add name="StorageMonsterPgSqlServices" connectionString="" />
+    <add name="StorageMonsterMsSqlServices" connectionString="" />
   </connectionStrings>
 
   <common>
@@ -55,8 +62,41 @@
 
   <log4net>
   </log4net>
-  
+
+  <hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
+  </hibernate-configuration>
+
   <StructureMap>
+    <!-- DB -->
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.IDbSessionManager, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.SessionManager, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"  />
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.Repositories.IStoragePluginDescriptorsRepository, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.Repositories.StoragePluginDescriptorsRepository, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"/>
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.Repositories.IUserRepository, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.Repositories.UserRepository, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"/>
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.Repositories.ISessionRepository, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.Repositories.SessionRepository, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"/>
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.Repositories.IStorageAccountRepository, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.Repositories.StorageAccountRepository, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"/>
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.Repositories.IStorageAccountSettingsRepository, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.Repositories.StorageAccountSettingsRepository, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"/>
+    <DefaultInstance
+          PluginType  ="StorageMonster.Database.Repositories.IResetPasswordRequestsRepository, StorageMonster.Database"
+          PluggedType ="StorageMonster.Database.Nhibernate.Repositories.ResetPasswordRequestsRepository, StorageMonster.Database.Nhibernate"
+          Scope="Singleton"/>
+    <!-- services-->
     <DefaultInstance
           PluginType  ="StorageMonster.Services.IUserService, StorageMonster.Services"
           PluggedType ="StorageMonster.Services.Facade.UserService, StorageMonster.Services.Facade"
@@ -66,47 +106,70 @@
           PluggedType ="StorageMonster.Services.Facade.SessionService, StorageMonster.Services.Facade"
           Scope="Singleton"  />
     <DefaultInstance
-           PluginType  ="StorageMonster.Web.Services.Security.IMembershipService, StorageMonster.Web"
-           PluggedType ="StorageMonster.Web.Services.Security.MembershipService, StorageMonster.Web"
-           Scope="Singleton"  />
+          PluginType  ="StorageMonster.Web.Services.Security.IMembershipService, StorageMonster.Web"
+          PluggedType ="StorageMonster.Web.Services.Security.MembershipService, StorageMonster.Web"
+          Scope="Singleton"  />
     <DefaultInstance
           PluginType  ="StorageMonster.Web.Services.Security.IAuthenticationService, StorageMonster.Web"
           PluggedType ="StorageMonster.Web.Services.Security.CookieAuthenticationService, StorageMonster.Web"
           Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Services.ILocaleProvider, StorageMonster.Services"
-            PluggedType ="StorageMonster.Services.Facade.LocaleProvider, StorageMonster.Services.Facade"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Services.ILocaleProvider, StorageMonster.Services"
+          PluggedType ="StorageMonster.Services.Facade.LocaleProvider, StorageMonster.Services.Facade"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Services.ITimeZonesProvider, StorageMonster.Services"
-            PluggedType ="StorageMonster.Web.Services.TimeZonesProvider, StorageMonster.Web"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Services.ITimeZonesProvider, StorageMonster.Services"
+          PluggedType ="StorageMonster.Web.Services.TimeZonesProvider, StorageMonster.Web"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Web.Services.IIconProvider, StorageMonster.Web"
-            PluggedType ="StorageMonster.Web.Services.IconProvider, StorageMonster.Web"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Web.Services.IIconProvider, StorageMonster.Web"
+          PluggedType ="StorageMonster.Web.Services.IconProvider, StorageMonster.Web"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Common.ICacheService, StorageMonster.Common"
-            PluggedType ="StorageMonster.Web.Services.HttpInMemoryCacheService, StorageMonster.Web"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Common.ICacheService, StorageMonster.Common"
+          PluggedType ="StorageMonster.Web.Services.HttpInMemoryCacheService, StorageMonster.Web"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Web.Services.IMessageDeliveryService, StorageMonster.Web"
-            PluggedType ="StorageMonster.Web.Services.Mail.MailDeliveryService, StorageMonster.Web"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Web.Services.IMessageDeliveryService, StorageMonster.Web"
+          PluggedType ="StorageMonster.Web.Services.Mail.MailDeliveryService, StorageMonster.Web"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Services.ITemplateEngine, StorageMonster.Services"
-            PluggedType ="StorageMonster.Services.Facade.VelocityTemplateEngine, StorageMonster.Services.Facade"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Services.ITemplateEngine, StorageMonster.Services"
+          PluggedType ="StorageMonster.Services.Facade.VelocityTemplateEngine, StorageMonster.Services.Facade"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Services.Security.IPasswordHasher, StorageMonster.Services"
-            PluggedType ="StorageMonster.Services.Facade.PasswordHasher, StorageMonster.Services.Facade"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Services.Security.IPasswordHasher, StorageMonster.Services"
+          PluggedType ="StorageMonster.Services.Facade.PasswordHasher, StorageMonster.Services.Facade"
+          Scope="Singleton"  />
     <DefaultInstance
-            PluginType  ="StorageMonster.Web.Services.ITrackingService, StorageMonster.Web"
-            PluggedType ="StorageMonster.Web.Services.CookieTrackingService, StorageMonster.Web"
-            Scope="Singleton"  />
+          PluginType  ="StorageMonster.Web.Services.ITrackingService, StorageMonster.Web"
+          PluggedType ="StorageMonster.Web.Services.CookieTrackingService, StorageMonster.Web"
+          Scope="Singleton"  />
+    <DefaultInstance
+          PluginType  ="StorageMonster.Services.IStoragePluginsService, StorageMonster.Services"
+          PluggedType ="StorageMonster.Services.Facade.StoragePluginsService, StorageMonster.Services.Facade"
+          Scope="Singleton"  />
+    <DefaultInstance
+          PluginType  ="StorageMonster.Services.IStoragePluginsService, StorageMonster.Services"
+          PluggedType ="StorageMonster.Services.Facade.StoragePluginsService, StorageMonster.Services.Facade"
+          Scope="Singleton"  />
+    <DefaultInstance
+          PluginType  ="StorageMonster.Services.IStreamFactory, StorageMonster.Services"
+          PluggedType ="StorageMonster.Services.Facade.StreamFactory, StorageMonster.Services.Facade"
+          Scope="Singleton"  />
+    <!-- Storage plugins -->
+    <AddInstance
+          Key="WebDav"
+          PluginType="StorageMonster.Plugin.IStoragePlugin, StorageMonster.Plugin"
+          PluggedType="StorageMonster.Plugin.WebDav.WebDavPlugin, StorageMonster.Plugin.WebDav"
+          Scope="Singleton"/>
+    <AddInstance
+          Key="YandexDisk"
+          PluginType="StorageMonster.Plugin.IStoragePlugin, StorageMonster.Plugin"
+          PluggedType="StorageMonster.Plugin.YandexDisk.YandexDiskPlugin, StorageMonster.Plugin.YandexDisk"
+          Scope="Singleton"/>
   </StructureMap>
-  
+
   <system.web>
     <customErrors mode="Off" />
     <compilation debug="true" targetFramework="4.0">
@@ -129,19 +192,19 @@
     </pages>
     <httpModules>
       <add name="SecurityModule" type="StorageMonster.Web.Services.HttpModules.SecurityHttpModule, StorageMonster.Web" />
-      <add name="CleanupHttpModule" type="StorageMonster.Web.Services.HttpModules.CleanupHttpModule, StorageMonster.Web" />
       <add name="AuthorizeHttpModule" type="StorageMonster.Web.Services.HttpModules.AuthorizeHttpModule, StorageMonster.Web" />
+      <add name="NhibernateSessionModule" type="StorageMonster.Database.Nhibernate.NHibernateSessionModule, StorageMonster.Database.Nhibernate" />
     </httpModules>
   </system.web>
   <system.webServer>
     <validation validateIntegratedModeConfiguration="false" />
     <modules runAllManagedModulesForAllRequests="false">
       <remove name="SecurityModule" />
-      <remove name="CleanupHttpModule" />
       <remove name="AuthorizeHttpModule" />
-      <add name="SecurityModule" type="StorageMonster.Web.Services.HttpModules.SecurityHttpModule, StorageMonster.Web" />
-      <add name="CleanupHttpModule" type="StorageMonster.Web.Services.HttpModules.CleanupHttpModule, StorageMonster.Web" />
-      <add name="AuthorizeHttpModule" type="StorageMonster.Web.Services.HttpModules.AuthorizeHttpModule, StorageMonster.Web" />
+      <remove name="NhibernateSessionModule" />
+      <add name="SecurityModule" type="StorageMonster.Web.Services.HttpModules.SecurityHttpModule, StorageMonster.Web" preCondition="managedHandler"/>
+      <add name="AuthorizeHttpModule" type="StorageMonster.Web.Services.HttpModules.AuthorizeHttpModule, StorageMonster.Web" preCondition="managedHandler"/>
+      <add name="NhibernateSessionModule" type="StorageMonster.Database.Nhibernate.NHibernateSessionModule, StorageMonster.Database.Nhibernate" preCondition="managedHandler"/>
     </modules>
   </system.webServer>
   <runtime>

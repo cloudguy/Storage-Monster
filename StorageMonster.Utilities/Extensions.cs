@@ -2,6 +2,7 @@
 
 namespace StorageMonster.Utilities
 {
+#warning is it needed?
     public static class Extensions
     {
         public static TResult With<TInput, TResult>(this TInput @object, Func<TInput, TResult> evaluator)

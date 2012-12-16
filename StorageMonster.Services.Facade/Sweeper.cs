@@ -7,15 +7,12 @@ namespace StorageMonster.Services.Facade
     {
         private readonly ISessionRepository _sessionRepository;
         private readonly IResetPasswordRequestsRepository _resetPasswordRequestsRepository;
-        private readonly IConnectionProvider _connectionProvider;
 
         public Sweeper(ISessionRepository sessionRepository, 
-            IResetPasswordRequestsRepository resetPasswordRequestsRepository, 
-            IConnectionProvider connectionProvider)
+            IResetPasswordRequestsRepository resetPasswordRequestsRepository)
         {
             _sessionRepository = sessionRepository;
             _resetPasswordRequestsRepository = resetPasswordRequestsRepository;
-            _connectionProvider = connectionProvider;
         }
 
         public void CleanUpExpiredSessions()
@@ -35,16 +32,17 @@ namespace StorageMonster.Services.Facade
 
         public void CleanUp(bool closeConnection)
         {
-            try
-            {
-                CleanUpExpiredSessions();
-                CleanUpExpiredResetPasswordsRequests();
-            }
-            finally
-            {
-                if (closeConnection)
-                    _connectionProvider.CloseCurrentConnection();
-            }
+#warning rewrite
+            //try
+            //{
+            //    CleanUpExpiredSessions();
+            //    CleanUpExpiredResetPasswordsRequests();
+            //}
+            //finally
+            //{
+            //    if (closeConnection)
+            //        //_connectionProvider.CloseCurrentConnection();
+            //}
         }
     }
 }

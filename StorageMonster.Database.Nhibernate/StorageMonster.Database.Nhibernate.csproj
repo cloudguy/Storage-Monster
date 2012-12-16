@@ -9,17 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StorageMonster.Database.Nhibernate</RootNamespace>
     <AssemblyName>StorageMonster.Database.Nhibernate</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,7 +30,46 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.P7H55.MsSQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug.P7H55.MsSQL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.P7H55.PgSQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug.P7H55.PgSQL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.P7H55.MySQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug.P7H55.MySQL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.Syno.MySQL|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug.Syno.MySQL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -51,18 +82,44 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\SessionMap.cs" />
+    <Compile Include="Mappings\StorageAccountMap.cs" />
+    <Compile Include="Mappings\StorageAccountSettingMap.cs" />
+    <Compile Include="Mappings\StoragePluginDescriptorMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
+    <Compile Include="NHibernateSessionModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Mappings\ResetPasswordRequestMap.cs" />
+    <Compile Include="Repositories\ResetPasswordRequestsRepository.cs" />
+    <Compile Include="Repositories\SessionRepository.cs" />
+    <Compile Include="Repositories\StorageAccountRepository.cs" />
+    <Compile Include="Repositories\StorageAccountSettingsRepository.cs" />
+    <Compile Include="Repositories\StoragePluginDescriptorsRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="Types\StoragePluginStatusType.cs" />
+    <Compile Include="Types\UnixDateTimeOffset.cs" />
+    <Compile Include="Types\UserRoleType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StorageMonster.Database\StorageMonster.Database.csproj">
+      <Project>{98345447-133d-4824-8cbd-6d5c74d50cb7}</Project>
+      <Name>StorageMonster.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StorageMonster.Domain\StorageMonster.Domain.csproj">
       <Project>{9B8636B6-96C1-4C48-873F-FD142E67A7E2}</Project>
       <Name>StorageMonster.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageMonster.Utilities\StorageMonster.Utilities.csproj">
+      <Project>{FCBFD68D-ABFA-4C96-A793-AEB57959EF81}</Project>
+      <Name>StorageMonster.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

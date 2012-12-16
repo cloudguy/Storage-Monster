@@ -193,7 +193,7 @@
     <value>The user name provided is invalid. Please check the value and try again.</value>
   </data>
   <data name="RegProviderError" xml:space="preserve">
-    <value>The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <value>The authentication provider returned an error. Internal error. If the problem persists, please contact your system administrator.</value>
   </data>
   <data name="RegUnknownError" xml:space="preserve">
     <value>An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>

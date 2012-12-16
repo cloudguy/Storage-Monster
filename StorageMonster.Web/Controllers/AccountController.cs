@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Security;
 using Common.Logging;
 using StorageMonster.Common;
+using StorageMonster.Domain;
 using StorageMonster.Services;
 using StorageMonster.Web.Models.Account;
 using System.Web.Mvc;
@@ -91,8 +92,8 @@ namespace StorageMonster.Web.Controllers
                 return View(model);
             }
 
-
-            if (!_membershipService.ValidateUser(model.Email, model.Password))
+            User user;
+            if (!_membershipService.ValidateUser(model.Email, model.Password, out user))
             {
                 ModelState.AddModelError("_FORM", ValidationResources.UserNameOrPasswordIncorrect);
                 //if (HttpContext.Request.IsAjaxRequest())
@@ -106,7 +107,7 @@ namespace StorageMonster.Web.Controllers
                 return View(model);
             }
 
-            _authService.SignIn(model.Email, model.RememberMe);
+            _authService.SignIn(user, model.RememberMe);
 
             //if (HttpContext.Request.IsAjaxRequest())
             //    return Json(new AjaxLogOnModel
@@ -139,12 +140,13 @@ namespace StorageMonster.Web.Controllers
                 return View(model);
             }
 
+            User user;
             // Attempt to register the user
-            MembershipCreateStatus createStatus = _membershipService.CreateUser(model.Email, model.Password, model.UserName, model.Locale, model.TimeZone);
+            MembershipCreateStatus createStatus = _membershipService.CreateUser(model.Email, model.Password, model.UserName, model.Locale, model.TimeZone, out user);
 
             if (createStatus == MembershipCreateStatus.Success)
             {
-                _authService.SignIn(model.Email, false /* createPersistentCookie */);
+                _authService.SignIn(user, false /* createPersistentCookie */);
                 return RedirectToAction("Index", "Home");
             }
 

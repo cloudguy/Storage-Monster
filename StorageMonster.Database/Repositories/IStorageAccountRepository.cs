@@ -7,7 +7,7 @@ namespace StorageMonster.Database.Repositories
 {
     public interface IStorageAccountRepository
     {
-        IEnumerable<Tuple<StorageAccount, StoragePlugin>> GetAccounts(int userId, int storageStatus);
+        IEnumerable<Tuple<StorageAccount, StoragePluginDescriptor>> GetAccounts(int userId, int storageStatus);
         StorageAccount Load(int id);
         StorageAccount Load(string accountName, int storagePluginId, int userId);
         StorageAccount Insert(StorageAccount account);

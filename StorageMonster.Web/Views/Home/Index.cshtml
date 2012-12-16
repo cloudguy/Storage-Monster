@@ -14,3 +14,40 @@
 
     
     
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var m1 = new App.Models.StorageAccount({ name: "Yandex disk", id: 1 });
+        var m2 = new App.Models.StorageAccount({ name: "Dropbox", id: 2 });
+        window.accColllection = new App.Collections.StorageAccountsCollection();
+        window.accColllection.reset([m1, m2]);
+        //accColllection.fetch();
+        window.router = new App.Router();
+        Backbone.history.start();
+    });
+</script>
+
+
+<div id="application" style="margin-top: 40px">
+    <div>
+        <div id="storageaccounts" />
+    </div>
+    <div>
+        <div id="route_result"/>
+    </div>
+</div>
+
+
+<div id="templates">
+    <script type="text/template" id="TStorageAccountsList">
+        <ul>
+        <% _.each( accounts, function( accounts_item ){ %>
+            <li>        
+            <p><a class="storageAccountLink" data-id="<%-accounts_item.get("id")%>" href='/'><%- accounts_item.get("name") %> - <%- accounts_item.get("id") %></a>
+            </li>            
+        <% }); %>
+        </ul>
+        <a href='/' id="refreshStorageAccounts">Refresh</a>
+    </script>
+</div>
+

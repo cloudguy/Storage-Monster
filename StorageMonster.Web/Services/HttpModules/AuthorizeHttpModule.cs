@@ -30,10 +30,6 @@ namespace StorageMonster.Web.Services.HttpModules
         {
             HttpApplication application = (HttpApplication)sender;
 
-            //updating locale cookies
-            var trackingService = DependencyResolver.Current.GetService<ITrackingService>();
-            trackingService.SetLocaleTracking(application.Context);
-
             if (!application.Response.IsClientConnected)
                 return;
             HttpStatusCode code = (HttpStatusCode)application.Response.StatusCode;
@@ -46,9 +42,11 @@ namespace StorageMonster.Web.Services.HttpModules
 
         void application_PreSendRequestHeaders(object sender, EventArgs e)
         {
+#warning nh session could be closed here
             HttpApplication application = (HttpApplication)sender;
-            IAuthenticationService authenticationService = DependencyResolver.Current.GetService<IAuthenticationService>();
-            authenticationService.SlideExpire(application.Context);
+            //updating locale cookies
+            var trackingService = DependencyResolver.Current.GetService<ITrackingService>();
+            trackingService.SetLocaleTracking(application.Context);
         }
 
 
@@ -103,6 +101,12 @@ namespace StorageMonster.Web.Services.HttpModules
 
             LocaleData locale = localeProvider.GetCultureByNameOrDefault(langName);
             localeProvider.SetThreadLocale(locale);
+
+            if (identity.IsAuthenticated)
+            {
+                IAuthenticationService authenticationService = DependencyResolver.Current.GetService<IAuthenticationService>();
+                authenticationService.SlideExpire(application.Context);
+            }
         }
     }
 }
