@@ -157,6 +157,10 @@
           PluginType  ="StorageMonster.Services.IStreamFactory, StorageMonster.Services"
           PluggedType ="StorageMonster.Services.Facade.StreamFactory, StorageMonster.Services.Facade"
           Scope="Singleton"  />
+    <DefaultInstance
+          PluginType  ="StorageMonster.Web.Services.Metadata.IModelMetadataExtractor, StorageMonster.Web"
+          PluggedType ="StorageMonster.Web.Services.Metadata.UrlEncodedModelMetadataExtractor, StorageMonster.Web"
+          Scope="Singleton"  />
     <!-- Storage plugins -->
     <AddInstance
           Key="WebDav"

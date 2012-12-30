@@ -26,8 +26,7 @@ namespace StorageMonster.Web.Services.ActionAnnotations
         {
             if (!actionContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                
-                if (!actionContext.HttpContext.Request.IsAjaxRequest())
+                if (actionContext.HttpContext.Request.IsAjaxRequest())
                 {
                     actionContext.Result = AuthorizationHelper.GetAuthAjaxResult(actionContext, false);
                     return;

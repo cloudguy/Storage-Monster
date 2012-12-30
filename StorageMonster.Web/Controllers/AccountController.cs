@@ -1,24 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Security;
-using Common.Logging;
-using StorageMonster.Common;
+﻿using StorageMonster.Common;
 using StorageMonster.Domain;
 using StorageMonster.Services;
 using StorageMonster.Web.Models.Account;
-using System.Web.Mvc;
 using StorageMonster.Web.Properties;
 using StorageMonster.Web.Services;
-using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
+using System.Web.Security;
 
 namespace StorageMonster.Web.Controllers
 {
     public class AccountController : BaseController
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
-
         private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
 
         private readonly ICacheService _cacheService;

@@ -103,7 +103,7 @@ namespace StorageMonster.Web.Services.HttpModules
 
             LocaleData locale = localeProvider.GetCultureByNameOrDefault(langName);
             localeProvider.SetThreadLocale(locale);
-            if (identity.IsAuthenticated)
+            if (identity != null && identity.IsAuthenticated)
             {
                 IAuthenticationService authenticationService = DependencyResolver.Current.GetService<IAuthenticationService>();
                 authenticationService.SlideExpire(application.Context);

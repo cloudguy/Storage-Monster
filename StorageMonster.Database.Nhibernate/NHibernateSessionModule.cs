@@ -16,7 +16,6 @@ namespace StorageMonster.Database.Nhibernate
             SessionManager.Instance.OpenSession();
         }
 
-
         private void CloseSession(object sender, EventArgs e)
         {
             SessionManager.Instance.CloseSession();

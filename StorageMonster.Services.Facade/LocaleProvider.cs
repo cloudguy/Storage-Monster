@@ -54,6 +54,7 @@ namespace StorageMonster.Services.Facade
                 return DefaultCulture;
             return info;
         }
+
         public void SetThreadLocale(LocaleData locale)
         {
             if (locale == null)
@@ -62,6 +63,19 @@ namespace StorageMonster.Services.Facade
             RequestContext.SetValue(LocaleKey, locale);
 			Thread.CurrentThread.CurrentUICulture = locale.Culture;
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(locale.Culture.Name);
+        }
+
+        public LocaleData GetThreadLocale(bool throwOnNull)
+        {
+            var locale = RequestContext.GetValue<LocaleData>(LocaleKey);
+            if (locale == null && throwOnNull)
+                throw new InvalidOperationException("Locale not set");
+            return locale;
+        }
+
+        public LocaleData GetThreadLocale()
+        {
+            return GetThreadLocale(true);
         }
     }
 }

@@ -83,6 +83,10 @@
     <Compile Include="Services\CookieTrackingService.cs" />
     <Compile Include="Services\HttpModules\AuthorizeHttpModule.cs" />
     <Compile Include="Services\ITrackingService.cs" />
+    <Compile Include="Services\Metadata\IModelMetadataExtractor.cs" />
+    <Compile Include="Services\Metadata\UrlEncodedModelMetadataExtractor.cs" />
+    <Compile Include="Services\Metadata\ModelMetadataForJs.cs" />
+    <Compile Include="Services\Metadata\ModelMetadataValidationDescriptor.cs" />
     <Compile Include="Services\Validation\BaseStringLengthAttribute.cs" />
     <Compile Include="Services\Validation\EmailLengthAttribute.cs" />
     <Compile Include="Services\Validation\EmailRegexAttribute.cs" />
