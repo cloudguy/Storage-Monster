@@ -35,7 +35,7 @@ namespace StorageMonster.Web.Services
             {
                 Data = new AjaxAuthModel
                 {
-                    Redirect = u.Action("LogOn", "Account"),
+                    LogonUrl = u.Action("LogOn", "Account"),
                     Authorized = authorized,
                     LogOnPage = logOnPage
                 },

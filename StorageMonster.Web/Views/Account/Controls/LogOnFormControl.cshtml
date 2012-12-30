@@ -1,17 +1,28 @@
-﻿@using StorageMonster.Web.Views.Account
+﻿@using StorageMonster.Web.Services.Extensions
+@using StorageMonster.Web.Views.Account
 @model StorageMonster.Web.Models.Account.LogOnModel
 
+@{
+    bool isAjax = HttpContext.Current.Request.IsAjaxRequest();
+}
 <div id="logOnContainer">
-    <div>
-        <h2>@Resources.LogOnTitle</h2>
-    </div>
+     @if (!isAjax)
+     {
+         <div>
+             <h2>@Resources.LogOnTitle</h2>
+         </div>
+     }
+    
 
     @Html.Partial("~/Views/Shared/MessagesPartial.cshtml", @Resources.LogOnValidationSummary)
 
-    <div class="well">
-         @using (Html.BeginForm("LogOn", "Account", FormMethod.Post)) {        
+    <div class="@(isAjax ? string.Empty : "well")">
+        @using (Html.BeginForm("LogOn", "Account", FormMethod.Post)) {        
             <fieldset>    
-                <legend>@Resources.AccountInfoTitle</legend>
+                @if (!isAjax)
+                {
+                    <legend>@Resources.AccountInfoTitle</legend>
+                }
                 <p>
                     @Html.LabelFor(model => model.Email)
                     @Html.TextBoxFor(model => model.Email)

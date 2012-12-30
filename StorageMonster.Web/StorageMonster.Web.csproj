@@ -318,6 +318,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\monster-script.js" />
+    <Content Include="Scripts\monsterCommon.js" />
     <Content Include="Scripts\storagemonster.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
