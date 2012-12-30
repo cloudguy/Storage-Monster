@@ -36,7 +36,7 @@ namespace StorageMonster.Web.Services.HttpModules
             HttpStatusCode code = (HttpStatusCode)application.Response.StatusCode;
             if (code == HttpStatusCode.Unauthorized)
             {
-                MonsterApplication.RedirectToLogon(application.Context.Request, application.Response);
+                AuthorizationHelper.RedirectToLogon(application.Context.Request, application.Response);
             }
         }
 

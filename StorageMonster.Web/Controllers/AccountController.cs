@@ -9,6 +9,7 @@ using StorageMonster.Services;
 using StorageMonster.Web.Models.Account;
 using System.Web.Mvc;
 using StorageMonster.Web.Properties;
+using StorageMonster.Web.Services;
 using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
 
@@ -81,14 +82,8 @@ namespace StorageMonster.Web.Controllers
             {
                 if (model == null)
                     model = new LogOnModel();
-                //if (HttpContext.Request.IsAjaxRequest())
-                //{
-                //    return Json(new AjaxLogOnModel
-                //    {
-                //        Success = false,
-                //        Html = this.RenderViewToString("LogOnFormControl", model)
-                //    });
-                //}
+                if (HttpContext.Request.IsAjaxRequest())
+                    return AuthorizationHelper.GetAuthAjaxResult(ControllerContext, model, false);
                 return View(model);
             }
 
@@ -96,24 +91,15 @@ namespace StorageMonster.Web.Controllers
             if (!_membershipService.ValidateUser(model.Email, model.Password, out user))
             {
                 ModelState.AddModelError("_FORM", ValidationResources.UserNameOrPasswordIncorrect);
-                //if (HttpContext.Request.IsAjaxRequest())
-                //{
-                //    return Json(new AjaxLogOnModel
-                //    {
-                //        Success = false,
-                //        Html = this.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.ascx", model)
-                //    });
-                //}
+                if (HttpContext.Request.IsAjaxRequest())
+                    return AuthorizationHelper.GetAuthAjaxResult(ControllerContext, model, false);
                 return View(model);
             }
 
             _authService.SignIn(user, model.RememberMe);
 
-            //if (HttpContext.Request.IsAjaxRequest())
-            //    return Json(new AjaxLogOnModel
-            //    {
-            //        Success = true,
-            //    });
+            if (HttpContext.Request.IsAjaxRequest())
+                return AuthorizationHelper.GetAuthAjaxResult(ControllerContext, model, true);
 
             if (Url.IsLocalUrl(model.ReturnUrl))
                 return Redirect(model.ReturnUrl);
