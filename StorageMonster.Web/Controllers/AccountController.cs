@@ -74,6 +74,7 @@ namespace StorageMonster.Web.Controllers
         [ValidateInput(false)]
         public ActionResult LogOn(LogOnModel model)
         {
+            
             if (!ModelState.IsValid)
             {
                 if (model == null)

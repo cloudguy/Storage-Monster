@@ -22,31 +22,79 @@
         "~/Scripts/jquery.validate.unobtrusive.min.js"
     })
    
+    
+     @Html.IncludeJs(new[]
+            {
+                "~/Scripts/monsterCommon.js",
+                "~/Scripts/bootstrap.min.js"
+            })
+
     @if (Request.IsAuthenticated)
     {
         @Html.IncludeJs(new[]
             {
                 "~/Scripts/underscore.min.js",
                 "~/Scripts/backbone.min.js",
-                "~/Scripts/bootstrap.min.js",
                 "~/Scripts/storagemonster.js"
             })
     }
         
 
 </head>
-
     <body>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">            
-                <div class="container-fluid">
-                    <a class="brand" href="@Url.Content("~/")">@Resources.Title</a>  
-                    @Html.Partial("~/Views/Shared/LogOnPartial.cshtml")          
+        <style>
+            .loader {
+                background: url('../Content/images/loader.gif');
+                height: 6px;
+                width: 50px;
+            }
+        </style>
+        <div id="main-menu">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">            
+                    <div class="container-fluid">
+                        <a class="brand" href="@Url.Content("~/")">@Resources.Title</a>  
+                        @Html.Partial("~/Views/Shared/NavBarMenuPartial.cshtml")          
+                    </div>
                 </div>
-            </div>
-        </div>  
-        <div>
-            @RenderBody()
+            </div>   
         </div>
+        @* сделай тут кнопку для тестовых целей которая будет спрашивать через обертку корень приложения *@
+        <script>
+            $(function () {
+                $('#test').on('click', function (e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+                    Ajax({
+                        url: url,
+                        cacheй: false,
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#Modal').modal('show');
+                            // console.log(data);
+                        },
+                        error: function(error) {
+                            $('#Modal .modal-body').html(error.responseText)
+                            $('#Modal').modal('show');
+                        }
+                    });
+                });
+            })
+        </script>
+        <a id="test" href="@Url.Action("Index", "Home", null)">test</a><br>
+                                                                       @RenderBody()
+                                                                       <div id="ModalLogon" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                           <div class="modal-header">
+                                                                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                               <h3 id="ModalLogonHeader">@StorageMonster.Web.Views.Account.Resources.LogOnTitle</h3>
+                                                                           </div>
+                                                                           <div class="modal-body">
+                
+                                                                           </div>
+                                                                           <div class="modal-footer">
+                                                                               <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button> 
+                                                                           </div>
+                                                                       </div>
     </body>
 </html>

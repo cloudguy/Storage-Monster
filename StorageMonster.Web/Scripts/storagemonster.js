@@ -12,7 +12,6 @@ viewEvents.bind("storageaccount:selected", function (storageAccount) {
     alert("account selected: " + storageAccount.get('name'));
 });
 
-
 accSyncStab = function (method, model) {
     if (method === 'read') {
         setTimeout(function() {
@@ -26,6 +25,7 @@ accSyncStab = function (method, model) {
 App.Router = Backbone.Router.extend({
     routes: {
         "profile": "profile",
+        "logoff":"logoFF",
         "storageaccount/:id": "storageAccount",
         "storageaccount/:id/*url": "storageAccount",
         "*actions": "defaultRoute"

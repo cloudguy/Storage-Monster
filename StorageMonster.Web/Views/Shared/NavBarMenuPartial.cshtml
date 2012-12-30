@@ -1,6 +1,8 @@
 ﻿@using StorageMonster.Web.Views.Shared
 <ul class="nav pull-right">
     @if (Request.IsAuthenticated) { 
+        
+        
         <li class="navbar-text">   
             <p>    
                 @Resources.LogOnWelcome <b>@HttpContext.Current.User.Identity.Name</b>    

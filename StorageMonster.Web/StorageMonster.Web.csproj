@@ -74,6 +74,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StorageAccountsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -320,6 +321,8 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\monster-script.js" />
+    <Content Include="Scripts\monsterCommon.js" />
     <Content Include="Scripts\storagemonster.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
@@ -339,7 +342,8 @@
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\MessagesPartial.cshtml" />
-    <Content Include="Views\Shared\LogOnPartial.cshtml" />
+    <Content Include="Views\Shared\NavBarMenuPartial.cshtml" />
+    <Content Include="Views\Shared\UserMainMenuPartial.cshtml" />
     <Content Include="Views\Account\Controls\LogOnFormControl.cshtml" />
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>

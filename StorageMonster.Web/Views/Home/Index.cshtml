@@ -3,9 +3,17 @@
     ViewBag.Title = Resources.IndexTitle;
 }
 
+
 @Html.ActionLink("Log on", "LogOn", "Account")
 
 @Html.ActionLink("Crash test", "CrashTest")
+
+@Html.Partial("~/Views/Shared/UserMainMenuPartial.cshtml")
+ 
+
+
+    
+    
 
 <script type="text/javascript">
     $(document).ready(function () {

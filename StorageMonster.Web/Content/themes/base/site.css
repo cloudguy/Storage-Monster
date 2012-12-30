@@ -21,6 +21,9 @@
     font-weight: bold;
     color: #ff0000;
 }
+#main-menu {
+    margin-bottom: 60px;
+}
 
 .validation-summary-valid
 {
