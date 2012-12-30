@@ -21,7 +21,7 @@
         "~/Scripts/jquery.validate.min.js",
         "~/Scripts/jquery.validate.unobtrusive.min.js"
     })
-   }
+   
     @if (Request.IsAuthenticated)
     {
         @Html.IncludeJs(new[]
@@ -40,7 +40,7 @@
            <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">            
                     <div class="container-fluid">
-                        <a class="brand" href="@Url.Content("~/")">@SharedResources.Title</a>  
+                        <a class="brand" href="@Url.Content("~/")">@Resources.Title</a>  
                         @Html.Partial("~/Views/Shared/NavBarMenuPartial.cshtml")          
                     </div>
                 </div>
