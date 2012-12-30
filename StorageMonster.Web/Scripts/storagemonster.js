@@ -2,8 +2,7 @@
     Models: {},
     Routers: {},
     Collections: {},
-    Views: {},
-    Ajax:null
+    Views: {}
 };
 
 
@@ -12,7 +11,6 @@ var viewEvents = _.extend({}, Backbone.Events);
 viewEvents.bind("storageaccount:selected", function (storageAccount) {
     alert("account selected: " + storageAccount.get('name'));
 });
-
 
 accSyncStab = function (method, model) {
     if (method === 'read') {
@@ -23,39 +21,11 @@ accSyncStab = function (method, model) {
         }, 2000);
     }
 };
-var Errors = {
-    AjaxOptionsFail: "options must be object"
-}
-
-    App.Ajax = function(options) {
-        if (!options || typeof options != 'object')
-            throw Errors.AjaxOptionsFail;
-        $.ajax({
-            url: options.url,
-            cache: options.cache,
-            data: options.data,
-            beforeSend: function (params) {
-                if (typeof options.beforeSend =='function')
-                    options.beforeSend(params);
-            },
-            error : function(error) {
-                if (typeof options.error == 'function')  
-                    options.error(error);
-            },
-            success : function (success){
-                if (typeof options.success == 'function')
-                    options.success(success);
-            },
-            complete: function(complete) {
-                if (typeof options.complete == 'function')
-                    options.complete(complete);
-            }
-        });
-    }
 
 App.Router = Backbone.Router.extend({
     routes: {
         "profile": "profile",
+        "logoff":"logoFF",
         "storageaccount/:id": "storageAccount",
         "storageaccount/:id/*url": "storageAccount",
         "*actions": "defaultRoute"

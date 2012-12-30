@@ -26,6 +26,7 @@ namespace StorageMonster.Web.Services.ActionAnnotations
         {
             if (!actionContext.HttpContext.User.Identity.IsAuthenticated)
             {
+                //можешь здесь поменять
                 if (actionContext.HttpContext.Request.IsAjaxRequest())
                 {
                     UrlHelper u = new UrlHelper(actionContext.RequestContext);

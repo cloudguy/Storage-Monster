@@ -22,6 +22,12 @@
         "~/Scripts/jquery.validate.unobtrusive.min.js"
     })
    
+    
+     @Html.IncludeJs(new[]
+            {
+                "~/Scripts/monsterCommon.js"
+            })
+
     @if (Request.IsAuthenticated)
     {
         @Html.IncludeJs(new[]
@@ -37,7 +43,7 @@
 </head>
     <body>
         <div id="main-menu">
-           <div class="navbar navbar-fixed-top">
+            <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">            
                     <div class="container-fluid">
                         <a class="brand" href="@Url.Content("~/")">@Resources.Title</a>  
@@ -46,6 +52,43 @@
                 </div>
             </div>   
         </div>
+        @* сделай тут кнопку для тестовых целей которая будет спрашивать через обертку корень приложения *@
+        <script>
+            $(function () {
+                $('#test').on('click', function (e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+                    Ajax({
+                        url: url,
+                        cacheй: false,
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#Modal').modal('show');
+                           // console.log(data);
+                        },
+                        error: function(error) {
+                            $('#Modal .modal-body').html(error.responseText)
+                            $('#Modal').modal('show');
+                        }
+                    });
+                });
+            })
+        </script>
+        <a id="test" href="@Url.Action("Index", "Home", null)">test</a><br>
         @RenderBody()
+        <div id="Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel"></h3>
+                </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </body>
 </html>
