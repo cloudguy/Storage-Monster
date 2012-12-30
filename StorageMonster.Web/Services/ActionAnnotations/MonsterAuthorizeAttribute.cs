@@ -26,23 +26,13 @@ namespace StorageMonster.Web.Services.ActionAnnotations
         {
             if (!actionContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                if (actionContext.HttpContext.Request.IsAjaxRequest())
+                
+                if (!actionContext.HttpContext.Request.IsAjaxRequest())
                 {
-                    UrlHelper u = new UrlHelper(actionContext.RequestContext);
-                    actionContext.Result = new JsonResult
-                        {
-                            Data = new AjaxUnauthorizedModel
-                                {
-                                    Redirect = u.Action("LogOn", "Account"),
-                                    LogOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.cshtml", new LogOnModel())
-                                },
-                            ContentEncoding = System.Text.Encoding.UTF8,
-                            ContentType = "application/json",
-                            JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                        };
+                    actionContext.Result = AuthorizationHelper.GetAuthAjaxResult(actionContext, false);
                     return;
                 }
-                MonsterApplication.RedirectToLogon(HttpContext.Current.Request, HttpContext.Current.Response);
+                AuthorizationHelper.RedirectToLogon(HttpContext.Current.Request, HttpContext.Current.Response);
                 return;
             }
             

@@ -2,9 +2,9 @@
 
 namespace StorageMonster.Web.Models
 {
-    public class AjaxUnauthorizedModel
+    public class AjaxAuthModel
     {
-        public bool Unauthorized { get { return true; } }
+        public bool Authorized { get; set; }
         public String Redirect { get; set; }
         public String LogOnPage { get; set; }
     }

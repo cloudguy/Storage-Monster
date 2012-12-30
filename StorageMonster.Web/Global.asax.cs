@@ -3,6 +3,7 @@ using StorageMonster.Database;
 using StorageMonster.Plugin;
 using StorageMonster.Services;
 using StorageMonster.Web.Models;
+using StorageMonster.Web.Models.Account;
 using StorageMonster.Web.Properties;
 using StorageMonster.Web.Services;
 using StorageMonster.Web.Services.Configuration;
@@ -219,22 +220,6 @@ namespace StorageMonster.Web
                     HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
                     HttpContext.Current.Response.End();
                 }
-            }
-        }
-
-        public static void RedirectToLogon(HttpRequest request, HttpResponse response)
-        {
-            if (!request.HttpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase))
-            {
-                response.Redirect("~/account/logon");
-            }
-            else
-            {
-                string returnUrl = Uri.EscapeUriString(request.Url.PathAndQuery);
-                if (returnUrl.Equals("/", StringComparison.OrdinalIgnoreCase))
-                    response.Redirect("~/account/logon");
-                else
-                    response.Redirect("~/account/logon?returnUrl=" + returnUrl);
             }
         }
     }
