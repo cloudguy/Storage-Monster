@@ -2,7 +2,8 @@
     Models: {},
     Routers: {},
     Collections: {},
-    Views: {}
+    Views: {},
+    Ajax:null
 };
 
 
@@ -22,6 +23,35 @@ accSyncStab = function (method, model) {
         }, 2000);
     }
 };
+var Errors = {
+    AjaxOptionsFail: "options must be object"
+}
+
+    App.Ajax = function(options) {
+        if (!options || typeof options != 'object')
+            throw Errors.AjaxOptionsFail;
+        $.ajax({
+            url: options.url,
+            cache: options.cache,
+            data: options.data,
+            beforeSend: function (params) {
+                if (typeof options.beforeSend =='function')
+                    options.beforeSend(params);
+            },
+            error : function(error) {
+                if (typeof options.error == 'function')  
+                    options.error(error);
+            },
+            success : function (success){
+                if (typeof options.success == 'function')
+                    options.success(success);
+            },
+            complete: function(complete) {
+                if (typeof options.complete == 'function')
+                    options.complete(complete);
+            }
+        });
+    }
 
 App.Router = Backbone.Router.extend({
     routes: {
