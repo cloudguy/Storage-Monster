@@ -193,6 +193,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\JsMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JsMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\JsMessages.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JsMessages.ru.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -322,7 +332,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\monster-script.js" />
-    <Content Include="Scripts\monsterCommon.js" />
+    <Content Include="Scripts\monster.common.js" />
     <Content Include="Scripts\storagemonster.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
@@ -341,10 +351,17 @@
     </Content>
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\MessagesPartial.cshtml" />
-    <Content Include="Views\Shared\NavBarMenuPartial.cshtml" />
-    <Content Include="Views\Shared\UserMainMenuPartial.cshtml" />
+    <Content Include="Views\Shared\Controls\MessagesControl.cshtml" />
+    <Content Include="Views\Shared\Controls\NavBarMenuControl.cshtml" />
     <Content Include="Views\Account\Controls\LogOnFormControl.cshtml" />
+    <Content Include="Views\Shared\Controls\AjaxLogonModalControl.cshtml" />
+    <Content Include="Views\Account\Controls\AjaxLogonFormControl.cshtml" />
+    <Content Include="Views\Shared\Controls\JsMessagesControl.cshtml" />
+    <EmbeddedResource Include="Views\Shared\JsMessages.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>JsMessages.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -455,6 +472,10 @@
     <EmbeddedResource Include="Views\Home\Resources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shared\JsMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>JsMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

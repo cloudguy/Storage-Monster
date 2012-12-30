@@ -30,7 +30,7 @@ namespace StorageMonster.Web.Services
             UrlHelper u = new UrlHelper(actionContext.RequestContext);
             string logOnPage = null;
             if (!authorized)
-                logOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.cshtml", model);
+                logOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/AjaxLogonFormControl.cshtml", model);
             return new JsonResult
             {
                 Data = new AjaxAuthModel

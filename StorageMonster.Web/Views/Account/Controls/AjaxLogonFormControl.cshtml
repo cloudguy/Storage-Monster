@@ -1,0 +1,34 @@
+﻿@using StorageMonster.Web.Views.Account
+@model StorageMonster.Web.Models.Account.LogOnModel
+
+<div id="ajaxLogOnContainer">
+    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", @Resources.LogOnValidationSummary)
+
+    <div>
+        @using (Html.BeginForm("LogOn", "Account", FormMethod.Post))
+        {
+            <p>
+                @Html.LabelFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @class = "input-block-level" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </p>
+            <p>                        
+                @Html.LabelFor(model => model.Password)                            
+                @Html.PasswordFor(model => model.Password, new { @class = "input-block-level" })
+                @Html.ValidationMessageFor(model => Model.Password)
+            </p>
+            <p>
+                <label class = "checkbox">
+                    @Html.CheckBoxFor(model => model.RememberMe)
+                    @Html.LabelFor(model => model.RememberMe)                  
+                    @Html.ValidationMessageFor(model => Model.RememberMe)
+                </label>
+            </p>
+            <p>
+                @Html.HiddenFor(model => model.ReturnUrl)
+                <input type="submit" class="btn" value="@Resources.LogOnButtonText" />
+                @Html.ActionLink(@Resources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account", null, new {target = "_blank"})
+            </p>
+        }
+    </div>
+</div>

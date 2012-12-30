@@ -1,4 +1,5 @@
-﻿using StorageMonster.Common;
+﻿using System;
+using StorageMonster.Common;
 using StorageMonster.Domain;
 using StorageMonster.Services;
 using StorageMonster.Web.Models.Account;
@@ -74,7 +75,7 @@ namespace StorageMonster.Web.Controllers
         [ValidateInput(false)]
         public ActionResult LogOn(LogOnModel model)
         {
-            
+            throw new Exception();
             if (!ModelState.IsValid)
             {
                 if (model == null)
