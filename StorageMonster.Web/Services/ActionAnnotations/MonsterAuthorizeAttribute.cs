@@ -34,8 +34,7 @@ namespace StorageMonster.Web.Services.ActionAnnotations
                             Data = new AjaxUnauthorizedModel
                                 {
                                     Redirect = u.Action("LogOn", "Account"),
-#warning razor render
-                                    LogOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.ascx", new LogOnModel())
+                                    LogOnPage = actionContext.Controller.RenderViewToString("~/Views/Account/Controls/LogOnFormControl.cshtml", new LogOnModel())
                                 },
                             ContentEncoding = System.Text.Encoding.UTF8,
                             ContentType = "application/json",

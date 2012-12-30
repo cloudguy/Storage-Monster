@@ -23,10 +23,11 @@ namespace StorageMonster.Web.Services
                 throw new ArgumentNullException("context");
             if (!context.Response.IsClientConnected)
                 return;
-            var localeData = RequestContext.GetValue<LocaleData>(RequestContext.LocaleKey);
+            var localeData = RequestContext.GetValue<LocaleData>(_localeProvider.LocaleKey);
 #warning don't set cookie every time
             if (localeData != null)
             {
+#warning cookie root
                 WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
                 HttpCookie localeCookie = new HttpCookie(configuration.Tracking.CookieName, localeData.ShortName);
                 localeCookie.Expires = DateTime.UtcNow.AddMinutes(configuration.Tracking.CookieExpiration);
