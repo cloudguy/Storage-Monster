@@ -14,38 +14,29 @@ namespace StorageMonster.Services.Facade
 			SessionRepository = sessionRepository;
 		}
 
-		public Session GetSessionByToken(string token)
-		{
-			return SessionRepository.GetSessionByToken(token);
-		}
-
-		public Session CreateSession(Session session)
-		{
-			return SessionRepository.CreateSession(session);			
-		}
-
-		public void ExpireSession(string sessionToken)
-		{
-			Session session = new Session
-			{
-				Token = sessionToken,
-				Expiration = new DateTime(1900, 1, 1)
-			};
-			SessionRepository.UpdateExpiration(session);
-		}
-
-		public void UpdateSessionExpiration(string sessionToken, DateTime expiration)
-		{
-			Session session = new Session
-			{
-				Token = sessionToken,
-				Expiration = expiration
-			};
-			SessionRepository.UpdateExpiration(session);
-		}
+        public Session Insert(Session session)
+        {
+            return SessionRepository.Insert(session);
+        }
+        
         public void ClearUserSessions(int userId)
         {
             SessionRepository.ClearUserSessions(userId);
         }
-	}
+
+        public Session GetSessionByToken(string token, bool fetchUser)
+        {
+            return SessionRepository.GetSessionByToken(token, fetchUser);
+        }
+
+        public void ExpireSession(string sessionToken)
+        {
+            SessionRepository.UpdateExpiration(sessionToken, new DateTimeOffset(1900, 1, 1, 0, 0, 0, 0, TimeSpan.Zero));
+        }
+
+        public void UpdateSessionExpiration(string sessionToken, DateTimeOffset expiration)
+        {
+            SessionRepository.UpdateExpiration(sessionToken, expiration);
+        }
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -22,29 +21,6 @@ namespace StorageMonster.Utilities
 
             string chunk = @string.Substring(0, maxLength - 3);
             return chunk + "...";
-        }
-
-        private class CharComparer : IEqualityComparer<char>
-        {
-            private char[] _charsToCheck;
-            public CharComparer(char[] charsToCheck)
-            {
-                _charsToCheck = charsToCheck;
-            }
-            bool IEqualityComparer<char>.Equals(char x, char y)
-            {
-                if (_charsToCheck != null)
-                {
-                    _charsToCheck.Contains(x);
-                    return x == y;
-                }
-                return false;
-            }
-
-            int IEqualityComparer<char>.GetHashCode(char obj)
-            {
-                return obj.GetHashCode();
-            }
         }
 
         public static string RemoveCharDuplicates(this string @string, params char[] charsToRemove)

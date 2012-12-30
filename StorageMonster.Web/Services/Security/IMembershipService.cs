@@ -7,8 +7,11 @@ namespace StorageMonster.Web.Services.Security
     public interface IMembershipService
     {
         int MinPasswordLength { get; }
-        bool ValidateUser(string email, string password);
-        MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone);
+        int MaxPasswordLength { get; }
+        int MaxEmailLength { get; }
+        int MaxUserNameLength { get; }
+        bool ValidateUser(string email, string password, out User user);
+        MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone, out User user);
         User UpdateUser(int userId, string userName, string locale, int timezone, DateTime stamp, Identity identity);
         void RequestPasswordReset(string email, string siteUrl, Func<string,string> resetUrlGenerator);
         ResetPasswordRequest GetActivePasswordResetRequestByToken(string token);

@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace StorageMonster.Web.Services.ActionResults
 {
-    public class BufferLessFileResult: ActionResult
+    public class BufferLessFileResult : ActionResult
     {
         private readonly Stream _stream;
         private readonly string _fileName;
@@ -25,12 +25,12 @@ namespace StorageMonster.Web.Services.ActionResults
             response.BufferOutput = false;
             response.Buffer = false;
 
-            response.ContentType = Constants.BinaryStreamContentType;
+            response.ContentType = "application/octet-stream";
 
             response.AddHeader("Content-Disposition", string.Format(CultureInfo.InvariantCulture, "attachment; filename=\"{0}\"", _fileName));
             if (_stream.CanSeek)
                 response.AddHeader("Content-Length", _stream.Length.ToString(CultureInfo.InvariantCulture));
-            
+
             using (response.OutputStream)
             {
                 byte[] buffer = new byte[BufferSize];

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using StorageMonster.Domain;
+﻿using StorageMonster.Domain;
 using StorageMonster.Plugin;
-using System.IO;
+using System.Collections.Generic;
 
 namespace StorageMonster.Services
 {
@@ -10,7 +9,7 @@ namespace StorageMonster.Services
         void ResetStorages();
         void InitStorges(IEnumerable<IStoragePlugin> storagePlugins);
         IStoragePlugin GetStoragePlugin(int storagePluginId);
-        IEnumerable<StoragePlugin> GetAvailableStoragePlugins();
+        IEnumerable<StoragePluginDescriptor> GetAvailableStoragePlugins();
         StorageFileStreamResult DownloadFile(StorageAccount storageAccount, string url);
     }
 }

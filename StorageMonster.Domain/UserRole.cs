@@ -1,9 +1,12 @@
-﻿namespace StorageMonster.Domain
+﻿using System;
+
+namespace StorageMonster.Domain
 {
-    public class UserRole
+    [Flags]
+    public enum UserRole
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Role { get; set; }
+        None = 0,
+        User = 1,
+        Admin = 2
     }
 }

@@ -1,5 +1,18 @@
-﻿using System;
+﻿using Common.Logging;
+using StorageMonster.Database;
+using StorageMonster.Plugin;
+using StorageMonster.Services;
+using StorageMonster.Web.Models;
+using StorageMonster.Web.Models.Account;
+using StorageMonster.Web.Properties;
+using StorageMonster.Web.Services;
+using StorageMonster.Web.Services.Configuration;
+using StorageMonster.Web.Services.Extensions;
+using StorageMonster.Web.Services.Routing;
+using StorageMonster.Web.Services.Security;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -8,51 +21,17 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
-using Common.Logging;
-using StorageMonster.Common.DataAnnotations;
-using StorageMonster.Plugin;
-using StorageMonster.Services;
-using StorageMonster.Web.Models;
-using StorageMonster.Web.Properties;
-using StorageMonster.Web.Services;
-using StorageMonster.Web.Services.Configuration;
-using StorageMonster.Web.Services.Extensions;
-using StorageMonster.Web.Services.Routing;
-using StorageMonster.Web.Services.Validation;
-using StorageMonster.Web.Services.Security;
 
 namespace StorageMonster.Web
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
     public class MonsterApplication : HttpApplication
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(MonsterApplication));
 
-        public static void RegisterRoutes(RouteCollection routes)
+        private static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Content/*");
-            routes.IgnoreRoute("{resource}.smh/{*pathInfo}");
-
-
-            routes.MapRouteLowercase(
-                "NotFound", // Route name
-                "NotFound", // URL with parameters
-                new { controller = "Home", action = "NotFound" } // Parameter defaults
-            );
-
-            routes.MapRouteLowercase(
-                "Forbidden", // Route name
-                "Forbidden", // URL with parameters
-                new { controller = "Home", action = "Forbidden" } // Parameter defaults
-            );
-
-            routes.MapRouteLowercase(
-                "BadRequest", // Route name
-                "BadRequest", // URL with parameters
-                new { controller = "Home", action = "BadRequest" } // Parameter defaults
-            );
 
             routes.MapRouteLowercase(
                 "Default", // Route name
@@ -62,109 +41,28 @@ namespace StorageMonster.Web
 
         }
 
-// ReSharper disable InconsistentNaming
-        protected void Application_Start()
-// ReSharper restore InconsistentNaming
+        private static void RegisterLocales(ILocaleProvider localeProvider)
         {
-            Logger.Info("Storage Monster starting...");
-            MvcHandler.DisableMvcResponseHeader = true;
-            try
-            {
-                Initialize();
-                InitializePlugins();
-                InitializeSweeper();
-            }
-            catch(Exception ex)
-            {
-                Logger.Error("Initialization failed", ex);
-                throw;
-            }
-        }
-
-        // ReSharper disable UseObjectOrCollectionInitializer
-        // ReSharper disable FunctionNeverReturns
-        protected static void InitializeSweeper()
-        {
-            IWebConfiguration webConfig = IocContainer.Instance.Resolve<IWebConfiguration>();
-
-            if (!webConfig.RunSweeper)
-                return;
-
-            ILog sweeperLogger = LogManager.GetLogger(typeof(ISweeper));
-
-            ISweeper sweeper = IocContainer.Instance.Resolve<ISweeper>();
-            TimeSpan timeout = webConfig.SweeperTimeout;
-            Thread sweeperThread = new Thread(() =>
-                    {
-                        while (true)
-                        {
-                            Thread.Sleep(timeout);
-                            try
-                            {
-                                sweeper.CleanUp();
-                            }
-                            catch (Exception ex)
-                            {
-                                sweeperLogger.Error(ex);
-                            }
-                        }
-
-                    });
-
-
-            sweeperThread.IsBackground = true;
-            sweeperThread.Start();
-        }
-        // ReSharper restore UseObjectOrCollectionInitializer
-        // ReSharper restore FunctionNeverReturns
-
-        protected static void Initialize()
-        {
-            AreaRegistration.RegisterAllAreas();
-            RegisterRoutes(RouteTable.Routes);
-
-            //mono hack
-            CaseInsensitiveViewEngine.Register(ViewEngines.Engines);
-
-            StructureMapIoC.CreateContainer();
-            ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(IocContainer.Instance));
-            ILocaleProvider localeProvider = IocContainer.Instance.Resolve<ILocaleProvider>();
             LocaleData defaultLocale = new LocaleData
             {
                 Culture = CultureInfo.GetCultureInfo("en"),
                 FullName = "English",
                 ShortName = "en"
             };
-
             LocaleData russianLocale = new LocaleData
             {
                 Culture = CultureInfo.GetCultureInfo("ru"),
                 FullName = "Русский",
                 ShortName = "ru"
             };
-
             localeProvider.Init(new[] { defaultLocale, russianLocale }, defaultLocale);
-
-            var timeZoneProvider = IocContainer.Instance.Resolve<ITimeZonesProvider>();
-            timeZoneProvider.Init(TimeZonesResources.ResourceManager);
-
-            var iconProvider = IocContainer.Instance.Resolve<IIconProvider>();
-            iconProvider.Initizlize();
-
-            var oldValidatorProvider = ModelValidatorProviders.Providers.Single(p => p is DataAnnotationsModelValidatorProvider);
-            ModelValidatorProviders.Providers.Remove(oldValidatorProvider);
-            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
-            ModelValidatorProviders.Providers.Add(new DataAnnotationsModelValidatorProvider());
-            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
-            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(MinPasswordLengthAttribute), typeof(MinPasswordLengthValidator));
-            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(PropertiesMustMatchAttribute), typeof(PropertiesMustMatchValidator));
         }
 
         protected static void InitializePlugins()
         {
-            IStoragePluginsService storageSerive = IocContainer.Instance.Resolve<IStoragePluginsService>();
+            IStoragePluginsService storageSerive = DependencyResolver.Current.GetService<IStoragePluginsService>();
             storageSerive.ResetStorages();
-            IEnumerable<IStoragePlugin> storagePlugins = IocContainer.Instance.GetAllInstances<IStoragePlugin>();
+            IEnumerable<IStoragePlugin> storagePlugins = DependencyResolver.Current.GetServices<IStoragePlugin>();
             if (storagePlugins.FirstOrDefault() == null)
             {
                 Logger.Warn("No storage plugins found");
@@ -173,15 +71,106 @@ namespace StorageMonster.Web
             storageSerive.InitStorges(storagePlugins);
         }
 
-// ReSharper disable InconsistentNaming
-        protected void Application_Error(object sender, EventArgs e)
-// ReSharper restore InconsistentNaming
+        protected static void InitializeSweeper()
+        {
+#warning test this
+            WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+
+            if (!configuration.Sweeper.Enabled)
+                return;
+
+            ILog sweeperLogger = LogManager.GetLogger(typeof(ISweeper));
+
+            ISweeper sweeper = DependencyResolver.Current.GetService<ISweeper>();
+            TimeSpan timeout = TimeSpan.FromMinutes(configuration.Sweeper.SweeperTimeout);
+            Thread sweeperThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(timeout);
+                    try
+                    {
+                        sweeper.CleanUp(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        sweeperLogger.Error(ex);
+                    }
+                }
+            });
+            sweeperThread.IsBackground = true;
+            sweeperThread.Start();
+        }
+
+        protected void Application_Start()
+        {
+            Logger.Info("Storage Monster is starting...");
+            try
+            {
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Initialization failed", ex);
+                throw;
+            }
+            Logger.Info("Storage Monster started");
+        }
+
+        private void Initialize()
+        {
+            Logger.Trace("Registering areas");
+            AreaRegistration.RegisterAllAreas();
+
+            Logger.Trace("Registering routes");
+            RegisterRoutes(RouteTable.Routes);
+
+            Logger.Trace("Registering case insensitive view engine");
+            CaseInsensitiveViewEngine.Register(ViewEngines.Engines);
+
+            Logger.Trace("Initializing IoC");
+            StructureMapIoC.CreateContainer();
+            DependencyResolver.SetResolver(new MonsterDependencyResolver(IocContainer.Instance));
+
+            Logger.Trace("Initializing locales");
+            RegisterLocales(DependencyResolver.Current.GetService<ILocaleProvider>());
+
+            Logger.Trace("Initializing time zones provider");
+            DependencyResolver.Current.GetService<ITimeZonesProvider>().Init();
+
+            Logger.Trace("Initializing icon provider");
+            DependencyResolver.Current.GetService<IIconProvider>().Init();
+
+            Logger.Trace("Initializing validators");
+            var oldValidatorProvider = ModelValidatorProviders.Providers.Single(p => p is DataAnnotationsModelValidatorProvider);
+            ModelValidatorProviders.Providers.Remove(oldValidatorProvider);
+            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+            ModelValidatorProviders.Providers.Add(new DataAnnotationsModelValidatorProvider());
+            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+
+            Logger.Trace("Initializing database session manager");
+            var dbSessionManager = DependencyResolver.Current.GetService<IDbSessionManager>().Init();
+
+            try
+            {
+                dbSessionManager.OpenSession();
+                Logger.Trace("Initializing storage plugins");
+                InitializePlugins();
+            }
+            finally
+            {
+                dbSessionManager.CloseSession();
+            }
+        }
+
+
+        private void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError();
             if (ex == null)
                 return;
 
-            HttpException httpException = ex as HttpException;           
+            HttpException httpException = ex as HttpException;
             string reponseString = null;
             string contentType = null;
             bool loggingRequired = true;
@@ -196,7 +185,7 @@ namespace StorageMonster.Web
                         {
                             Error = ValidationResources.AjaxNotFound
                         });
-                        contentType = Constants.JsonContentType;
+                        contentType = "application/json";
                     }
                     loggingRequired = false;
                 }
@@ -209,9 +198,9 @@ namespace StorageMonster.Web
                         {
                             Error = ValidationResources.AjaxAccessDenied
                         });
-                        contentType = Constants.JsonContentType;
+                        contentType = "application/json";
                     }
-                    ForbiddenRequestsLogger.LogRequest(Request, ex);                    
+                    ForbiddenRequestsLogger.LogRequest(Request, ex);
                     loggingRequired = false;
                 }
             }
@@ -219,20 +208,19 @@ namespace StorageMonster.Web
             if (loggingRequired)
                 Logger.Error(ex);
 
-           
-                if (reponseString != null)
+
+            if (reponseString != null)
+            {
+                if (HttpContext.Current != null)
                 {
-                    if (HttpContext.Current != null)
-                    {
-                        HttpContext.Current.Response.ClearContent();
-                        HttpContext.Current.Response.Write(reponseString);
-                        if (contentType != null)
-                            HttpContext.Current.Response.ContentType = contentType;
-                        HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-                        HttpContext.Current.Response.End();
-                    }
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.Write(reponseString);
+                    if (contentType != null)
+                        HttpContext.Current.Response.ContentType = contentType;
+                    HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                    HttpContext.Current.Response.End();
                 }
-            
+            }
         }
     }
 }

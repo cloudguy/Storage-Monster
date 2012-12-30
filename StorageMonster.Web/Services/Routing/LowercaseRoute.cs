@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Routing;
 
 namespace StorageMonster.Web.Services.Routing
@@ -24,7 +21,7 @@ namespace StorageMonster.Web.Services.Routing
             if (path != null)
             {
                 string virtualPath = path.VirtualPath;
-                var lastIndexOf = virtualPath.LastIndexOf("?");
+                var lastIndexOf = virtualPath.LastIndexOf("?", StringComparison.InvariantCultureIgnoreCase);
 
                 if (lastIndexOf != 0)
                 {

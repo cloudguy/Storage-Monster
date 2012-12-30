@@ -1,42 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Web.Mvc;
-using System.Text;
-using System.Linq.Expressions;
-using System.Web.Mvc.Html;
+﻿using System.Collections.Generic;
 using System.Web.Routing;
-using StorageMonster.Common.DataAnnotations;
-
+using StorageMonster.Web.Services.Configuration;
+using System.Configuration;
+using System.Globalization;
+using System.Text;
+using System.Web.Mvc;
 
 namespace StorageMonster.Web.Services.Extensions
 {
-	public static class HtmlExtensions
-	{        
+    public static class HtmlExtensions
+    {
+        public static MvcHtmlString IncludeJs(this HtmlHelper html, string[] urls)
+        {
+            var sb = new StringBuilder();
+
+            var config = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+            var urlHelper = new UrlHelper(html.ViewContext.RequestContext);
+            foreach (string url in urls)
+            {
+                var builder = new TagBuilder("script");
+                builder.Attributes.Add("type", "text/javascript");
+                builder.Attributes.Add("src", string.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlHelper.Content(url), config.ClientObjects.JsVersion));
+                sb.AppendLine(builder.ToString(TagRenderMode.Normal));
+            }
+            return new MvcHtmlString(sb.ToString());
+        }
+
+        public static MvcHtmlString IncludeCss(this HtmlHelper html, params string[] urls)
+        {
+            var sb = new StringBuilder();
+            var config = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+            var urlHelper = new UrlHelper(html.ViewContext.RequestContext);
+            foreach (string url in urls)
+            {
+                var builder = new TagBuilder("link");
+                builder.Attributes.Add("rel", "stylesheet");
+                builder.Attributes.Add("type", "text/css");
+                builder.Attributes.Add("href", string.Format(CultureInfo.InvariantCulture, "{0}?{1}", urlHelper.Content(url), config.ClientObjects.CssVersion));
+                sb.AppendLine(builder.ToString(TagRenderMode.SelfClosing));
+            }
+            return new MvcHtmlString(sb.ToString());
+        }
+
         public static MvcHtmlString RequestSuccessInfo(this HtmlHelper htmlHelper, object htmlAttributes)
-        {            
+        {
             IEnumerable<string> messages = htmlHelper.ViewData.GetRequestSuccessMessages();
             if (messages == null)
                 return null;
 
             StringBuilder htmlBuilder = new StringBuilder();
-            
+
             foreach (var message in messages)
             {
                 if (string.IsNullOrEmpty(message))
                     continue;
                 TagBuilder divBuilder = new TagBuilder("div");
-                divBuilder.MergeAttributes<string, object>(new RouteValueDictionary(htmlAttributes));
-                divBuilder.AddCssClass(Constants.RequestInfoHtmlClass);
+                divBuilder.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+                divBuilder.AddCssClass("request-info-summary");
 
-                TagBuilder spanBuilder = new TagBuilder("span");                
+                TagBuilder spanBuilder = new TagBuilder("span");
                 spanBuilder.SetInnerText(message);
                 divBuilder.InnerHtml = spanBuilder.ToString(TagRenderMode.Normal);
-                htmlBuilder.Append(divBuilder.ToString(TagRenderMode.Normal));                
+                htmlBuilder.Append(divBuilder.ToString(TagRenderMode.Normal));
             }
-            
+
             return MvcHtmlString.Create(htmlBuilder.ToString());
         }
 
@@ -59,8 +86,8 @@ namespace StorageMonster.Web.Services.Extensions
                 if (string.IsNullOrEmpty(message))
                     continue;
                 TagBuilder divBuilder = new TagBuilder("div");
-                divBuilder.MergeAttributes<string, object>(new RouteValueDictionary(htmlAttributes));
-                divBuilder.AddCssClass(Constants.RequestErrorHtmlClass);
+                divBuilder.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+                divBuilder.AddCssClass("request-error-summary");
 
                 TagBuilder spanBuilder = new TagBuilder("span");
                 spanBuilder.SetInnerText(message);
@@ -75,82 +102,5 @@ namespace StorageMonster.Web.Services.Extensions
         {
             return RequestErrorInfo(htmlHelper, null);
         }
-
-		public static MvcHtmlString LocalizedLabelFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression)
-		{
-			return LocalizedLabelFor(html, expression, null);
-		}
-
-		public static MvcHtmlString LocalizedLabelFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression, object htmlAttributes)
-		{
-			string propName = ExpressionHelper.GetExpressionText(expression);
-			ModelMetadata metadata = html.ViewData.ModelMetadata.Properties.First(p => p.PropertyName == propName);
-		    return LocalizedLabel(html, metadata, propName, htmlAttributes);
-		}
-
-        private static MvcHtmlString LocalizedLabel(HtmlHelper html, ModelMetadata metadata, string propName, object htmlAttributes)
-        {
-            string unqualifiedPropName = propName.Split('.').Last(); // if there is a . in the name, take the rightmost part.
-            string finalLabelText = metadata.DisplayName ?? metadata.PropertyName ?? unqualifiedPropName;
-            if (String.IsNullOrEmpty(finalLabelText))
-                return MvcHtmlString.Empty;
-
-            TagBuilder tag = new TagBuilder("label");
-            tag.Attributes.Add("for", html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId(propName));
-
-
-            StringBuilder htmlBuilder = new StringBuilder();
-            var localizedAttr = (DisplayAttribute)metadata.ContainerType.GetProperty(unqualifiedPropName).GetCustomAttributes(typeof(DisplayAttribute), true).FirstOrDefault();
-            htmlBuilder.Append(localizedAttr != null ? localizedAttr.GetName() : finalLabelText);
-
-
-            tag.InnerHtml = htmlBuilder.ToString();
-
-            if (htmlAttributes != null)
-                tag.MergeAttributes(new RouteValueDictionary(htmlAttributes));
-
-            return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
-        }
-
-        public static MvcHtmlString LocalizedLabel(this HtmlHelper html, string modelName, object  htmlAttributes)
-        {
-            return LocalizedLabel(html, ModelMetadata.FromStringExpression(modelName, html.ViewContext.ViewData), modelName, htmlAttributes);
-        }
-
-        public static MvcHtmlString LocalizedLabel(this HtmlHelper html, string modelName)
-        {
-            return LocalizedLabel(html, ModelMetadata.FromStringExpression(modelName, html.ViewContext.ViewData), modelName, null);
-        }
-
-        public static MvcHtmlString RenderProperty(this HtmlHelper html, PropertyInfo propertyInfo, IDictionary<string,object > htmlAttributes)
-        {
-            var attributes = propertyInfo.GetCustomAttributes(typeof (MonsterDisplayAttribute), true);
-            if (attributes.Length < 1)
-                return MvcHtmlString.Empty;
-
-            if (htmlAttributes == null)
-                htmlAttributes = new Dictionary<string, object>();
-            MonsterInputBoxAttribute inputBoxAttribute = attributes[0] as MonsterInputBoxAttribute;
-            if (inputBoxAttribute != null)
-            {
-                if (inputBoxAttribute.Multiline)
-                    htmlAttributes["multiline"] = true;
-                return html.TextBox(propertyInfo.Name, null, htmlAttributes);
-            }
-
-            MonsterPasswordBoxAttribute passwordBoxAttribute = attributes[0] as MonsterPasswordBoxAttribute;
-            if (passwordBoxAttribute != null)
-            {
-                return html.Password(propertyInfo.Name, null, htmlAttributes);
-            }
-
-            return MvcHtmlString.Empty;
-        }
-
-        public static MvcHtmlString RenderProperty(this HtmlHelper html, PropertyInfo propertyInfo)
-        {
-            return RenderProperty(html, propertyInfo, null);           
-        }
-
-	}
+    }
 }

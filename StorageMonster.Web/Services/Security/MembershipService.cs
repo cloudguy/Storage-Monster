@@ -1,16 +1,14 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Transactions;
-using System.Web.Security;
+﻿using Common.Logging;
 using StorageMonster.Domain;
-using System.Globalization;
 using StorageMonster.Services;
-using StorageMonster.Web.Services.Configuration;
-using StorageMonster.Web.Properties;
-using System.Collections.Generic;
 using StorageMonster.Services.Security;
-using Common.Logging;
-using StorageMonster.Database;
+using StorageMonster.Web.Properties;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Web.Security;
 
 namespace StorageMonster.Web.Services.Security
 {
@@ -18,53 +16,64 @@ namespace StorageMonster.Web.Services.Security
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(MembershipService));
 
-        private static readonly Regex EmailValidationRegex = new Regex(Constants.EmailRegexp, RegexOptions.Compiled);
-        private static readonly Regex UserNameValidationRegex = new Regex(Constants.UserNameRegexp, RegexOptions.Compiled);
+        private readonly Regex _emailValidationRegex;
+        private readonly Regex _userNameValidationRegex;
 
         private readonly IUserService _userService;
         private readonly ITemplateEngine _templateEngine;
         private readonly IMessageDeliveryService _mailService;
-        private readonly IWebConfiguration _webConfiguration;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ILocaleProvider _localeProvider;
         private readonly ITimeZonesProvider _timeZonesProvider;
-        private readonly IConnectionProvider _connectionProvider;
+        private readonly AuthConfigurationSection _configuration;
 
-        public MembershipService(IUserService userService, 
-            ITemplateEngine templateEngine,
-            IMessageDeliveryService mailService,
-            IWebConfiguration webConfiguration,
-            IPasswordHasher passwordHasher,
-            ILocaleProvider localeProvider,
-            ITimeZonesProvider timeZonesProvider,
-            IConnectionProvider connectionProvider)
+        public MembershipService(IUserService userService,
+                                 ITemplateEngine templateEngine,
+                                 IMessageDeliveryService mailService,
+                                 IPasswordHasher passwordHasher,
+                                 ILocaleProvider localeProvider,
+                                 ITimeZonesProvider timeZonesProvider)
         {
             _userService = userService;
             _templateEngine = templateEngine;
             _mailService = mailService;
-            _webConfiguration = webConfiguration;
             _passwordHasher = passwordHasher;
             _localeProvider = localeProvider;
             _timeZonesProvider = timeZonesProvider;
-            _connectionProvider = connectionProvider;
+            _configuration = (AuthConfigurationSection)ConfigurationManager.GetSection(AuthConfigurationSection.SectionLocation);
+            _emailValidationRegex = new Regex(_configuration.Memebership.EmailRegexp, RegexOptions.Compiled);
+            _userNameValidationRegex = new Regex(_configuration.Memebership.UserNameRegexp, RegexOptions.Compiled);
         }
-            
+
 
         public int MinPasswordLength
         {
-            get
-            {
-                return _webConfiguration.MinPasswordLength;
-            }
+            get { return _configuration.Memebership.MinPasswordLength; }
         }
 
-        public bool ValidateUser(string email, string password)
+        public int MaxPasswordLength
         {
+            get { return _configuration.Memebership.MaxPasswordLength; }
+        }
+
+        public int MaxEmailLength
+        {
+            get { return _configuration.Memebership.MaxEmailLength; }
+        }
+
+        public int MaxUserNameLength
+        {
+            get { return _configuration.Memebership.MaxUserNameLength; }
+        }
+
+        public bool ValidateUser(string email, string password, out User user)
+        {
+            user = null;
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
                 return false;
 
 
-            var user = _userService.GetUserByEmail(email);
+            user = _userService.GetUserByEmail(email);
             if (user == null)
                 return false;
 
@@ -84,20 +93,20 @@ namespace StorageMonster.Web.Services.Security
             return user.Password.Equals(hash, StringComparison.InvariantCulture);
         }
 
-        private static bool IsUserEmailValid(ref string email)
+        private bool IsUserEmailValid(ref string email)
         {
             if (email == null)
                 return false;
             email = email.Trim();
-            return EmailValidationRegex.IsMatch(email) && email.Length <= 100;
+            return _emailValidationRegex.IsMatch(email) && email.Length <= MaxEmailLength;
         }
 
-        private static bool IsUserNameValid(ref string userName)
+        private bool IsUserNameValid(ref string userName)
         {
             if (userName == null)
                 return false;
             userName = userName.Trim();
-            return !string.IsNullOrEmpty(userName) && userName.Length <= 100 && UserNameValidationRegex.IsMatch(userName);
+            return !string.IsNullOrEmpty(userName) && userName.Length <= MaxUserNameLength && _userNameValidationRegex.IsMatch(userName);
         }
 
         private bool IsUserPasswordValid(ref string userPassword)
@@ -105,11 +114,12 @@ namespace StorageMonster.Web.Services.Security
             if (userPassword == null)
                 return false;
 
-            return userPassword.Length >= _webConfiguration.MinPasswordLength && userPassword.Length <= 100;
+            return userPassword.Length >= MinPasswordLength && userPassword.Length <= MaxPasswordLength;
         }
 
-        public MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone)
+        public MembershipCreateStatus CreateUser(string email, string password, string userName, string locale, int timezone, out User user)
         {
+            user = null;
             if (!IsUserEmailValid(ref email))
                 return MembershipCreateStatus.InvalidEmail;
            
@@ -123,19 +133,19 @@ namespace StorageMonster.Web.Services.Security
             if (!IsUserPasswordValid(ref password))
                 return MembershipCreateStatus.InvalidPassword;
 
-            User user = new User
+            user = new User
                 {
                     Email = email,
                     Name = userName,
                     Password = _passwordHasher.EncryptPassword(password),
                     Locale = _localeProvider.GetCultureByNameOrDefault(locale).ShortName,
-                    TimeZone = _timeZonesProvider.GetTimeZoneByIdOrDefault(timezone).Id
+                    TimeZone = _timeZonesProvider.GetTimeZoneByIdOrDefault(timezone).Id,
+                    UserRole = UserRole.User
                 };
 
             try
             {
                 _userService.Insert(user);
-                _userService.CreateRoleForUser(user, Constants.RoleUser);
             }
             catch (Exception ex)
             {
@@ -156,8 +166,7 @@ namespace StorageMonster.Web.Services.Security
 
             if (!IsUserNameValid(ref userName))
                 throw new InvalidUserNameException(string.Format(CultureInfo.InvariantCulture, "User name {0} is invalid", userName));
-
-            user.Stamp = stamp;
+            
             user.Name = userName;
             user.Locale = _localeProvider.GetCultureByNameOrDefault(locale).ShortName;
             user.TimeZone = _timeZonesProvider.GetTimeZoneByIdOrDefault(timezone).Id;
@@ -177,7 +186,7 @@ namespace StorageMonster.Web.Services.Security
                 throw new ArgumentNullException("email");
 
             if (string.IsNullOrEmpty(siteUrl))
-                throw new ArgumentNullException("siteurl");
+                throw new ArgumentNullException("siteUrl");
 
             if (resetUrlGenerator == null)
                 throw new ArgumentNullException("resetUrlGenerator");
@@ -187,7 +196,7 @@ namespace StorageMonster.Web.Services.Security
             if (user == null)
                 throw new UserNotExistsException(string.Format(CultureInfo.InvariantCulture, "User with email {0} not found", email));
 
-            DateTime expiration = DateTime.UtcNow.Add(_webConfiguration.ResetPasswordRequestExpiration);
+            DateTime expiration = DateTime.UtcNow.AddMinutes(_configuration.Memebership.ResetPasswordRequestExpiration);
 
             ResetPasswordRequest request = _userService.CreatePasswordResetRequestForUser(user, expiration);
             string link = resetUrlGenerator(request.Token);
@@ -197,11 +206,11 @@ namespace StorageMonster.Web.Services.Security
                 { "link", link },
                 { "siteurl", siteUrl },
                 { "username", user.Name },
-                { "expire", new DateTimeOffset(request.Expiration).ToOffset(timeZoneData.Offset).ToString("dd.MM.yyyy HH:mm zzz") }
+                { "expire", request.Expires.ToOffset(timeZoneData.Offset).ToString("dd.MM.yyyy HH:mm zzz") }
             };
             string emailBody = _templateEngine.TransformTemplate(templateData, MailResources.RestorePasswordMailBody);
             string emailSubject = _templateEngine.TransformTemplate(templateData, MailResources.RestorePasswordMailSubject);
-            _mailService.SendMessage(emailSubject, emailBody, _webConfiguration.RestorePasswordMailFrom, user.Email);
+            _mailService.SendMessage(emailSubject, emailBody, _configuration.Memebership.RestorePasswordMailFrom, user.Email);
         }
 
         public ResetPasswordRequest GetActivePasswordResetRequestByToken(string token)
@@ -224,9 +233,9 @@ namespace StorageMonster.Web.Services.Security
             if (!IsUserPasswordValid(ref newPassword))
                 throw new InvalidPasswordException(string.Format(CultureInfo.InvariantCulture, "Password {0} is invalid", newPassword));
 
-            User user = _userService.Load(request.UserId);
+            var user = request.User;
             if (user == null)
-                throw new UserNotExistsException(request.UserId);
+                throw new UserNotExistsException(string.Format(CultureInfo.InvariantCulture, "No user for reset password token {0}", request.Token));
 
             user.Password = _passwordHasher.EncryptPassword(newPassword);
             _userService.UpdateUser(user);
@@ -253,7 +262,6 @@ namespace StorageMonster.Web.Services.Security
            
 
             user.Password = _passwordHasher.EncryptPassword(newPassword);
-            user.Stamp = userStamp;
             _userService.UpdateUser(user);
             return user;
         }

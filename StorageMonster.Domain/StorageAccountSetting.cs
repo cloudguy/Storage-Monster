@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace StorageMonster.Domain
+﻿namespace StorageMonster.Domain
 {
     public class StorageAccountSetting
     {
-        public int Id { get; set; }
-        public int StorageAccountId { get; set; }
-        public string SettingName { get; set; }
-        public string SettingValue { get; set; }
-        public DateTime Stamp { get; set; }
+        public virtual int Id { get; set; }
+        public virtual StorageAccount StorageAccount { get; set; }
+        public virtual string SettingName { get; set; }
+        public virtual string SettingValue { get; set; }
     }
 }

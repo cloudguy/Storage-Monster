@@ -1,21 +1,11 @@
-﻿using System.Data;
+﻿using System.Data.Common;
 using System.Runtime.Remoting.Messaging;
 using System.Web;
-using System.Data.Common;
 
 namespace StorageMonster.Utilities
 {
     public static class RequestContext
     {
-        public const string DbConnectionKey = "db_connection";
-        public const string LocaleKey = "locale";
-
-        public static DbConnection DbConnection
-        {
-            set { SetValue(DbConnectionKey, value); }
-            get { return (DbConnection)GetValue(DbConnectionKey); }
-        }
-
         public static void SetValue(string key, object value)
         {
             if (HttpContext.Current != null)

@@ -1,0 +1,51 @@
+﻿@using StorageMonster.Web.Services.Extensions
+@using StorageMonster.Web.Views.Account
+@model StorageMonster.Web.Models.Account.LogOnModel
+
+@{
+    bool isAjax = HttpContext.Current.Request.IsAjaxRequest();
+}
+<div id="logOnContainer">
+     @if (!isAjax)
+     {
+         <div>
+             <h2>@Resources.LogOnTitle</h2>
+         </div>
+     }
+    
+
+    @Html.Partial("~/Views/Shared/MessagesPartial.cshtml", @Resources.LogOnValidationSummary)
+
+    <div class="@(isAjax ? string.Empty : "well")">
+        @using (Html.BeginForm("LogOn", "Account", FormMethod.Post)) {        
+            <fieldset>    
+                @if (!isAjax)
+                {
+                    <legend>@Resources.AccountInfoTitle</legend>
+                }
+                <p>
+                    @Html.LabelFor(model => model.Email)
+                    @Html.TextBoxFor(model => model.Email)
+                    @Html.ValidationMessageFor(model=>model.Email)
+                </p>
+                <p>                        
+                    @Html.LabelFor(model => model.Password)                            
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model=>Model.Password)
+                </p>
+                <p>
+                    <label class = "checkbox">
+                        @Html.CheckBoxFor(model => model.RememberMe)
+                        @Html.LabelFor(model => model.RememberMe)                  
+                        @Html.ValidationMessageFor(model=>Model.RememberMe)
+                    </label>
+                </p>
+                <p>
+                    @Html.HiddenFor(model=>model.ReturnUrl)
+                    <input type="submit" class="btn" value="@Resources.LogOnButtonText" />
+                    @Html.ActionLink(@Resources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account", null, new { target = "_blank" })
+                </p>
+            </fieldset>        
+        }
+    </div>
+</div>

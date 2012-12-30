@@ -1,0 +1,62 @@
+﻿@using System.Globalization
+@using StorageMonster.Web.Views.Account
+@model StorageMonster.Web.Models.Account.RegisterModel
+
+@{
+    ViewBag.Title = Resources.RegisterTitle;
+}
+
+
+<div id="registerContainer">
+    <div>
+        <h2>@Resources.CreateNewAccount</h2>
+    </div>
+    <p>
+        @String.Format(CultureInfo.CurrentCulture, Resources.PasswordRequirementFormat, Model.MinPasswordLength)
+        <br/>
+        @Resources.NameRequirement
+    </p>
+
+    @Html.Partial("~/Views/Shared/MessagesPartial.cshtml", @Resources.RegisterValidationSummary)
+ 
+    <div class="well">
+        @using (Html.BeginForm()) {
+            <fieldset>
+                <legend>@Resources.AccountInfoTitle</legend>
+                <p>                        
+                    @Html.LabelFor(model => model.UserName)                               
+                    @Html.TextBoxFor(model => model.UserName)
+                    @Html.ValidationMessageFor(model=>model.UserName)                
+                </p>  
+                <p>
+                    @Html.LabelFor(model => model.Email)                             
+                    @Html.TextBoxFor(model => model.Email)
+                    @Html.ValidationMessageFor(model=>model.Email)
+                </p>
+                <p>
+                    @Html.LabelFor(model => model.Password)                         
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model=>Model.Password)
+                </p>
+                <p>
+                    @Html.LabelFor(model => model.ConfirmPassword)                      
+                    @Html.PasswordFor(model => model.ConfirmPassword)
+                    @Html.ValidationMessageFor(model=>model.ConfirmPassword)
+                </p>
+                <p>
+                    @Html.LabelFor(model => model.Locale)
+                    @Html.DropDownListFor(model => model.Locale, Model.SupportedLocales)                
+                    @Html.ValidationMessageFor(model=>model.Locale)
+                </p>
+                <p>
+                    @Html.LabelFor(model => model.TimeZone)
+                    @Html.DropDownListFor(model => model.TimeZone, Model.SupportedTimeZones, new { @class = "fullwidth" })                  
+                    @Html.ValidationMessageFor(model=>model.TimeZone)
+                </p>                
+                <p>
+                    <input type="submit" class="btn" value="@Resources.RegisterButtonText" />
+                </p>
+            </fieldset>
+        }      
+    </div>
+</div>

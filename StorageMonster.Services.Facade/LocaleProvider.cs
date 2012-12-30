@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using StorageMonster.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Globalization;
-using StorageMonster.Utilities;
 
 namespace StorageMonster.Services.Facade
 {
@@ -12,7 +11,20 @@ namespace StorageMonster.Services.Facade
     {
         private static readonly IList<LocaleData> SupportedLocalesInternal = new List<LocaleData>();
         private static LocaleData _defaultLocale;
+        private static string _localeKey = "locale_key";
+
         public LocaleData DefaultCulture { get { return _defaultLocale; } }
+
+        public string LocaleKey 
+        {
+            get { return _localeKey; }
+            set
+            { 
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentNullException("value");
+                _localeKey = value;
+            }
+        }
 
         public IEnumerable<LocaleData> SupportedLocales
         {
@@ -37,7 +49,7 @@ namespace StorageMonster.Services.Facade
             LocaleData info = SupportedLocales.Where(l => string.Compare(l.ShortName, name, StringComparison.OrdinalIgnoreCase) == 0)
                 .Select(l => l)
                 .FirstOrDefault();
-
+            
             if (info == null)
                 return DefaultCulture;
             return info;
@@ -47,7 +59,7 @@ namespace StorageMonster.Services.Facade
             if (locale == null)
                 throw new ArgumentNullException("locale");
 
-            RequestContext.SetValue(RequestContext.LocaleKey, locale);
+            RequestContext.SetValue(LocaleKey, locale);
 			Thread.CurrentThread.CurrentUICulture = locale.Culture;
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(locale.Culture.Name);
         }

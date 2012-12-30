@@ -8,7 +8,7 @@ using StorageMonster.Domain;
 namespace StorageMonster.Web.Services.Security
 {
     [Serializable]
-    public class Identity : IIdentity, ISerializable
+    public class Identity : MarshalByRefObject, IIdentity, ISerializable
     {
         private readonly bool _isAuthenticated;
         private string _name;

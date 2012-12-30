@@ -193,7 +193,7 @@
     <value>Неправильно указано имя пользователя.</value>
   </data>
   <data name="RegProviderError" xml:space="preserve">
-    <value>Ошибка регистрации. Проверьте введенные поля. Если ошибка остается, свяжитесь с системным администратором.</value>
+    <value>Ошибка регистрации. Системная ошибка. Если ошибка остается, свяжитесь с системным администратором.</value>
   </data>
   <data name="RegUnknownError" xml:space="preserve">
     <value>Неизвестная ошибка.  Проверьте введенные поля. Если ошибка остается, свяжитесь с системным администратором.</value>
@@ -220,7 +220,10 @@
     <value>Тип хранилища не найден</value>
   </data>
   <data name="StringLengthFormat" xml:space="preserve">
-    <value>Поле '{0}' должно быть меньше, чем {1} символа(ов)</value>
+    <value>Поле '{0}' должно быть не больше, чем {2} символа(ов) и не меньше, чем {1} символа(ов)</value>
+  </data>
+  <data name="StringLengthLessThanFormat" xml:space="preserve">
+    <value>Поле '{0}' должно быть не больше, чем {2} символа(ов)</value>
   </data>
   <data name="UserNameOrPasswordIncorrect" xml:space="preserve">
     <value>Неправильно указан почтовый ящик или пароль.</value>
