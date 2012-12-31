@@ -12,7 +12,10 @@
         </li>
     } else  {
         <li>
-            @Html.ActionLink(@Resources.LogOnLinkContent, "LogOn", "Account")
+            @Html.ActionLink(Resources.LogOnLinkContent, "LogOn", "Account")
+        </li>
+        <li>
+            @Html.ActionLink(Resources.RegisterLinkContent, "Register", "Account")
         </li>
     }
 </ul>

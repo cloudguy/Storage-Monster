@@ -4,9 +4,7 @@ using StorageMonster.Services.Security;
 using System;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
 using System.Web;
-using System.Web.Security;
 
 
 namespace StorageMonster.Web.Services.Security
@@ -43,11 +41,12 @@ namespace StorageMonster.Web.Services.Security
 
 		public void SignOut()
         {
-            HttpCookie authCookie = HttpContext.Current.Request.Cookies[_configuration.CookieAuth.AuthenticationCookieName];
+            string cookieName = CookieHelper.GetCookieName(_configuration.CookieAuth.AuthenticationCookieName, HttpContext.Current.Request.ApplicationPath);
+            HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
             if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                 _sessionService.ExpireSession(authCookie.Value);
 
-            HttpCookie expiredCookie = new HttpCookie(_configuration.CookieAuth.AuthenticationCookieName)
+            HttpCookie expiredCookie = new HttpCookie(cookieName)
                 {
                     Expires = DateTime.UtcNow.AddDays(-1d)
                 };
@@ -56,7 +55,8 @@ namespace StorageMonster.Web.Services.Security
 
         private HttpCookie CreateAuthCookie(string userData, bool persistent, out DateTime expiration)
         {
-            var cookie = new HttpCookie(_configuration.CookieAuth.AuthenticationCookieName, userData);
+            string cookieName = CookieHelper.GetCookieName(_configuration.CookieAuth.AuthenticationCookieName, HttpContext.Current.Request.ApplicationPath);
+            var cookie = new HttpCookie(cookieName, userData);
             expiration = DateTime.UtcNow.AddMinutes(_configuration.CookieAuth.AuthenticationExpiration);
             if (persistent)
                 cookie.Expires = expiration;
@@ -70,8 +70,8 @@ namespace StorageMonster.Web.Services.Security
                 return;
 
             //updating session expiration in db
-
-            HttpCookie authCookie = httpContext.Request.Cookies[_configuration.CookieAuth.AuthenticationCookieName];
+            string cookieName = CookieHelper.GetCookieName(_configuration.CookieAuth.AuthenticationCookieName, HttpContext.Current.Request.ApplicationPath);
+            HttpCookie authCookie = httpContext.Request.Cookies[cookieName];
             if (authCookie == null || string.IsNullOrEmpty(authCookie.Value)) return;
 
             DateTime cookieTime = authCookie.Expires.ToUniversalTime();
@@ -97,7 +97,8 @@ namespace StorageMonster.Web.Services.Security
         {
             try
             {
-                HttpCookie authCookie = HttpContext.Current.Request.Cookies[_configuration.CookieAuth.AuthenticationCookieName];
+                string cookieName = CookieHelper.GetCookieName(_configuration.CookieAuth.AuthenticationCookieName, HttpContext.Current.Request.ApplicationPath);
+                HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
                 if (authCookie == null || string.IsNullOrEmpty(authCookie.Value))
                 {
                     SetUser(HttpContext.Current, null, UserRole.None, false);

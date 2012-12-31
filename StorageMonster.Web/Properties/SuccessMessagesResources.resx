@@ -117,58 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackLinkName" xml:space="preserve">
-    <value>Back</value>
+  <data name="PasswordChangedInfo" xml:space="preserve">
+    <value>Password changed</value>
   </data>
-  <data name="BadRequestContent" xml:space="preserve">
-    <value>Bad request</value>
+  <data name="ProfileUpdateSuccessMessage" xml:space="preserve">
+    <value>Profile updated successfully</value>
   </data>
-  <data name="BadRequestTitle" xml:space="preserve">
-    <value>Bad request</value>
+  <data name="ResetPasswdRequestSentInfo" xml:space="preserve">
+    <value>Instructions for reseting the password were sent to your email box</value>
   </data>
-  <data name="ForbiddenContent" xml:space="preserve">
-    <value>Access denied</value>
+  <data name="StorageAccountDeletedFormat" xml:space="preserve">
+    <value>Storage account "{0}" deleted</value>
   </data>
-  <data name="ForbiddenTitle" xml:space="preserve">
-    <value>Access denied</value>
-  </data>
-  <data name="HomeLinkContent" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="LogOffLinkContent" xml:space="preserve">
-    <value>Log Off</value>
-  </data>
-  <data name="LogOnLinkContent" xml:space="preserve">
-    <value>Log On</value>
-  </data>
-  <data name="LogOnWelcome" xml:space="preserve">
-    <value>Welcome</value>
-  </data>
-  <data name="MenuItemAccountsMgr" xml:space="preserve">
-    <value>Storages settings</value>
-  </data>
-  <data name="MenuItemProfileMgr" xml:space="preserve">
-    <value>Profile settings</value>
-  </data>
-  <data name="MenuTitleSettings" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="MenuTitleStorageAccounts" xml:space="preserve">
-    <value>Storages</value>
-  </data>
-  <data name="NoScriptWarning" xml:space="preserve">
-    <value>Storage Monster works best with JavaScript enabled</value>
-  </data>
-  <data name="NotFoundContent" xml:space="preserve">
-    <value>Page not found</value>
-  </data>
-  <data name="NotFoundTitle" xml:space="preserve">
-    <value>Page not found</value>
-  </data>
-  <data name="RegisterLinkContent" xml:space="preserve">
-    <value>Register</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Storage Monster</value>
+  <data name="StorageAccountUpdatedFormat" xml:space="preserve">
+    <value>Storage account "{0}" updated</value>
   </data>
 </root>

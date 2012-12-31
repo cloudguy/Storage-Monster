@@ -5,6 +5,8 @@ using StorageMonster.Services;
 using StorageMonster.Web.Models.Account;
 using StorageMonster.Web.Properties;
 using StorageMonster.Web.Services;
+using StorageMonster.Web.Services.ActionAnnotations;
+using StorageMonster.Web.Services.Extensions;
 using StorageMonster.Web.Services.Security;
 using System.Collections.Generic;
 using System.Globalization;
@@ -144,6 +146,27 @@ namespace StorageMonster.Web.Controllers
         {
             _authService.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ResetPassword()
+        {
+            ResetPasswordModel model = new ResetPasswordModel();
+            return View(model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
+        [MonsterValidateAntiForgeryToken(Salt = AntiForgerySalts.ResetPassword)]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+#warning captcha
+            if (ModelState.IsValid)
+            {
+#warning do the staff
+                ViewData.AddRequestSuccessMessage(SuccessMessagesResources.ResetPasswdRequestSentInfo);
+                return View();
+            }
+            return View(model?? new ResetPasswordModel());
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

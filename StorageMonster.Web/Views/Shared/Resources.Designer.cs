@@ -205,6 +205,15 @@ namespace StorageMonster.Web.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string RegisterLinkContent {
+            get {
+                return ResourceManager.GetString("RegisterLinkContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Storage Monster.
         /// </summary>
         public static string Title {

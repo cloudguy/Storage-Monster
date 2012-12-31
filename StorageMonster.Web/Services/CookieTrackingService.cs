@@ -27,9 +27,9 @@ namespace StorageMonster.Web.Services
 #warning don't set cookie every time
             if (localeData != null)
             {
-#warning cookie root
                 WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
-                HttpCookie localeCookie = new HttpCookie(configuration.Tracking.CookieName, localeData.ShortName);
+                string cookieName = CookieHelper.GetCookieName(configuration.Tracking.CookieName, HttpContext.Current.Request.ApplicationPath);
+                HttpCookie localeCookie = new HttpCookie(cookieName, localeData.ShortName);
                 localeCookie.Expires = DateTime.UtcNow.AddMinutes(configuration.Tracking.CookieExpiration);
                 context.Response.SetCookie(localeCookie);
             }
@@ -41,7 +41,8 @@ namespace StorageMonster.Web.Services
                 throw new ArgumentNullException("context");
 
             WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
-            var cookie = context.Request.Cookies.Get(configuration.Tracking.CookieName);
+            string cookieName = CookieHelper.GetCookieName(configuration.Tracking.CookieName, HttpContext.Current.Request.ApplicationPath);
+            var cookie = context.Request.Cookies.Get(cookieName);
             if (cookie != null)
                 return cookie.Value;
             return null;

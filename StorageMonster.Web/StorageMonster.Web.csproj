@@ -80,7 +80,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\RegisterModel.cs" />
+    <Compile Include="Models\Account\ResetPasswordModel.cs" />
+    <Compile Include="Properties\SuccessMessagesResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuccessMessagesResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\SuccessMessagesResources.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SuccessMessagesResources.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ActionAnnotations\MonsterValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="Services\AuthorizationHelper.cs" />
+    <Compile Include="Services\CookieHelper.cs" />
     <Compile Include="Services\CookieTrackingService.cs" />
     <Compile Include="Services\HttpModules\AuthorizeHttpModule.cs" />
     <Compile Include="Services\ITrackingService.cs" />
@@ -88,6 +101,7 @@
     <Compile Include="Services\Metadata\UrlEncodedModelMetadataExtractor.cs" />
     <Compile Include="Services\Metadata\ModelMetadataForJs.cs" />
     <Compile Include="Services\Metadata\ModelMetadataValidationDescriptor.cs" />
+    <Compile Include="Services\Security\AntiforgerySalts.cs" />
     <Compile Include="Services\Validation\BaseStringLengthAttribute.cs" />
     <Compile Include="Services\Validation\EmailLengthAttribute.cs" />
     <Compile Include="Services\Validation\EmailRegexAttribute.cs" />
@@ -357,11 +371,22 @@
     <Content Include="Views\Shared\Controls\AjaxLogonModalControl.cshtml" />
     <Content Include="Views\Account\Controls\AjaxLogonFormControl.cshtml" />
     <Content Include="Views\Shared\Controls\JsMessagesControl.cshtml" />
+    <EmbeddedResource Include="Properties\SuccessMessagesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SuccessMessagesResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\SuccessMessagesResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SuccessMessagesResources.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Shared\JsMessages.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>JsMessages.ru.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="Views\Account\Controls\RegisterControl.cshtml" />
+    <Content Include="Views\Account\Controls\ResetPasswordControl.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
