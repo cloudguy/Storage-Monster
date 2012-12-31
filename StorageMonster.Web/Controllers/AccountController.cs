@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.Web;
+using Common.Logging;
 using StorageMonster.Common;
 using StorageMonster.Domain;
 using StorageMonster.Services;
@@ -18,6 +21,8 @@ namespace StorageMonster.Web.Controllers
 {
     public class AccountController : BaseController
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
+
         private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
 
         private readonly ICacheService _cacheService;
@@ -148,9 +153,54 @@ namespace StorageMonster.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult ResetPassword()
+        public ActionResult ResetPasswordRequest()
         {
+            ResetPasswordRequestModel model = new ResetPasswordRequestModel();
+            return View(model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
+        [MonsterValidateAntiForgeryToken(Salt = AntiForgerySalts.ResetPasswordRequest)]
+        public ActionResult ResetPasswordRequest(ResetPasswordRequestModel model)
+        {
+#warning captcha
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _membershipService.RequestPasswordReset(model.Email, BaseSiteUrl(), token => FullUrlForAction("ResetPassword", "Account", new {token}));
+                    ViewData.AddRequestSuccessMessage(SuccessMessagesResources.ResetPasswdRequestSentInfo);
+                    return View();
+                }
+                catch (UserNotExistsException)
+                {
+                    ModelState.AddModelError("email", ValidationResources.EmailNotFoundError);
+                }
+                catch (DeliveryException ex)
+                {
+                    Logger.Error(ex);
+                    ModelState.AddModelError("delivery", ValidationResources.ResetInstructionSendingFailedError);
+                }
+            }
+            return View(model?? new ResetPasswordRequestModel());
+        }
+
+
+        [ValidateInput(false)]
+        public ActionResult ResetPassword(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                throw new HttpException((int)HttpStatusCode.NotFound, "not found");
+
+            ResetPasswordRequest request = _membershipService.GetActivePasswordResetRequestByToken(token);
+            
+            if (request == null)
+                throw new HttpException((int)HttpStatusCode.NotFound, "not found");
+
             ResetPasswordModel model = new ResetPasswordModel();
+            model.Token = request.Token;
+            model.MinPasswordLength = _membershipService.MinPasswordLength;
             return View(model);
         }
 
@@ -159,15 +209,36 @@ namespace StorageMonster.Web.Controllers
         [MonsterValidateAntiForgeryToken(Salt = AntiForgerySalts.ResetPassword)]
         public ActionResult ResetPassword(ResetPasswordModel model)
         {
-#warning captcha
             if (ModelState.IsValid)
             {
-#warning do the staff
-                ViewData.AddRequestSuccessMessage(SuccessMessagesResources.ResetPasswdRequestSentInfo);
-                return View();
+                try
+                {
+                    _membershipService.ChangePassword(model.Token, model.NewPassword);
+                    ViewData.AddRequestSuccessMessage(SuccessMessagesResources.PasswordChangedInfo);
+                    return View();
+                }
+                catch (InvalidPasswordTokenException ex)
+                {
+                    throw new HttpException((int)HttpStatusCode.NotFound, "not found", ex);
+                }
+                catch (InvalidPasswordException)
+                {
+                    ModelState.AddModelError("NewPassword", ValidationResources.RegInvalidPassword);
+                }
+                catch (UserNotExistsException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.AccountNotFound);
+                    return View();
+                }
+                catch (StaleUserException)
+                {
+                    ModelState.AddModelError("profile", ValidationResources.AccountStalled);
+                    return View();
+                }
             }
-            return View(model?? new ResetPasswordModel());
+            return View(model);           
         }
+
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

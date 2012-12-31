@@ -239,7 +239,7 @@ namespace StorageMonster.Web.Services.Security
 
             user.Password = _passwordHasher.EncryptPassword(newPassword);
             _userService.UpdateUser(user);
-            _userService.DeleteResetPasswordRequest(request.Id);
+            _userService.DeleteResetPasswordRequest(request);
         }
 
         public User ChangePassword(int userId, string newPassword, string oldPassword, DateTime userStamp)

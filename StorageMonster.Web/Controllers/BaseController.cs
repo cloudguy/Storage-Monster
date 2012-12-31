@@ -1,9 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Web;
+﻿using System.Globalization;
 using StorageMonster.Web.Services.ActionAnnotations;
-using System.Web.Mvc;
+using StorageMonster.Web.Services.Configuration;
 using StorageMonster.Web.Services.Security;
+using System;
+using System.Configuration;
+using System.Web.Mvc;
 
 namespace StorageMonster.Web.Controllers
 {
@@ -16,27 +17,39 @@ namespace StorageMonster.Web.Controllers
                 throw new InvalidOperationException("Storage monster custom identity is supported only.");
         }
 
-        protected override void OnException(ExceptionContext filterContext)
+        private const string DefaultUrlScheme = "http";
+        protected string BaseSiteUrl()
         {
-            //HttpException httpEx = filterContext.Exception as HttpException;
-            //if (httpEx != null && httpEx.GetHttpCode() == (int) HttpStatusCode.Forbidden)
-            //{
-            //    //if (code == HttpStatusCode.Unauthorized)
-            //    //{
-            //    //    if (!application.Context.Request.HttpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase))
-            //    //    {
-            //    //        application.Response.Redirect("~/account/logon");
-            //    //        return;
-            //    //    }
-            //    //    string returnUrl = Uri.EscapeUriString(application.Context.Request.Url.PathAndQuery);
-            //    //    if (returnUrl.Equals("/", StringComparison.OrdinalIgnoreCase))
-            //    //        application.Response.Redirect("~/account/logon");
-            //    //    else
-            //    //        application.Response.Redirect("~/account/logon?returnUrl=" + returnUrl);
-            //    //}
-            //}
-            ////HttpException((int)HttpStatusCode.Forbidden, error);
-            base.OnException(filterContext);
+            var webConfig = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+            if (webConfig.AutoDetectSiteUrl)
+            {
+                string scheme;
+                if (Request == null || Request.Url == null)
+                    scheme = DefaultUrlScheme;
+                else
+                    scheme = Request.Url.Scheme;
+                return Url.Action("Index", "Home", null, scheme);
+            }
+            return webConfig.SiteUrl;
+        }
+
+        protected string FullUrlForAction(string action, string controller, object routeValues)
+        {
+            var webConfig = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
+            if (webConfig.AutoDetectSiteUrl)
+            {
+                string scheme;
+                if (Request == null || Request.Url == null)
+                    scheme = DefaultUrlScheme;
+                else
+                    scheme = Request.Url.Scheme;
+                return Url.Action(action, controller, routeValues, scheme);
+            }
+            string url = Url.Action(action, controller, routeValues);
+            if (url== null)
+                throw new Exception(string.Format(CultureInfo.InvariantCulture, "Url not found for action {0} and controller {1}", action, controller));
+            string relativeUrl = url.TrimStart(new[] { '~', '/' });
+            return string.Format(CultureInfo.InvariantCulture, "{0}/{1}", webConfig.SiteUrl.TrimEnd('/'), relativeUrl);
         }
     }
 }

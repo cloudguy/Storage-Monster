@@ -7,6 +7,20 @@ namespace StorageMonster.Web.Services.Configuration
     {
         public const string SectionLocation = "monster/web";
 
+        [ConfigurationProperty("autoDetectSiteUrl", DefaultValue = "True", IsRequired = false)]
+        public Boolean AutoDetectSiteUrl
+        {
+            get { return (Boolean)this["autoDetectSiteUrl"]; }
+            set { this["autoDetectSiteUrl"] = value; }
+        }
+
+        [ConfigurationProperty("siteUrl", DefaultValue = "", IsRequired = false)]
+        public string SiteUrl
+        {
+            get { return (string)this["siteUrl"]; }
+            set { this["siteUrl"] = value; }
+        }
+
         [ConfigurationProperty("clientObjects")]
         public ClientObjectsElement ClientObjects
         {

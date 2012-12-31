@@ -21,7 +21,6 @@ namespace StorageMonster.Web.Services.HttpModules
         {
             application.AuthorizeRequest += application_AuthorizeRequest;
             application.AcquireRequestState += application_AcquireRequestState;
-            //application.PreSendRequestHeaders += application_PreSendRequestHeaders;
             application.EndRequest += application_EndRequest;
             application.ReleaseRequestState += application_ReleaseRequestState;
         }
@@ -43,11 +42,9 @@ namespace StorageMonster.Web.Services.HttpModules
 
         void application_ReleaseRequestState(object sender, EventArgs e)
         {
-#warning nh session could be closed here
             HttpApplication application = (HttpApplication)sender;
             //updating locale cookies
             var trackingService = DependencyResolver.Current.GetService<ITrackingService>();
-#warning signature
             trackingService.SetLocaleTracking(application.Context);
         }
 

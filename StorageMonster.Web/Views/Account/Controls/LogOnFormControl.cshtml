@@ -36,7 +36,7 @@
                 <p>
                     @Html.HiddenFor(model=>model.ReturnUrl)
                     <input type="submit" class="btn" value="@Resources.LogOnButtonText" />
-                    @Html.ActionLink(@Resources.ResetPasswordLinkContent, "ResetPassword", "Account")
+                    @Html.ActionLink(@Resources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account")
                 </p>
             </fieldset>        
         }

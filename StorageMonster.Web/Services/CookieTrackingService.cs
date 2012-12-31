@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using StorageMonster.Services;
-using StorageMonster.Utilities;
+﻿using StorageMonster.Services;
 using StorageMonster.Web.Services.Configuration;
+using System;
+using System.Configuration;
+using System.Web;
 
 namespace StorageMonster.Web.Services
 {
@@ -23,12 +20,13 @@ namespace StorageMonster.Web.Services
                 throw new ArgumentNullException("context");
             if (!context.Response.IsClientConnected)
                 return;
-            var localeData = RequestContext.GetValue<LocaleData>(_localeProvider.LocaleKey);
-#warning don't set cookie every time
+
+            var localeData = _localeProvider.GetThreadLocale(false);
+
             if (localeData != null)
             {
                 WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
-                string cookieName = CookieHelper.GetCookieName(configuration.Tracking.CookieName, HttpContext.Current.Request.ApplicationPath);
+                string cookieName = CookieHelper.GetCookieName(configuration.Tracking.CookieName, context.Request.ApplicationPath);
                 HttpCookie localeCookie = new HttpCookie(cookieName, localeData.ShortName);
                 localeCookie.Expires = DateTime.UtcNow.AddMinutes(configuration.Tracking.CookieExpiration);
                 context.Response.SetCookie(localeCookie);
@@ -41,7 +39,7 @@ namespace StorageMonster.Web.Services
                 throw new ArgumentNullException("context");
 
             WebConfigurationSection configuration = (WebConfigurationSection)ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
-            string cookieName = CookieHelper.GetCookieName(configuration.Tracking.CookieName, HttpContext.Current.Request.ApplicationPath);
+            string cookieName = CookieHelper.GetCookieName(configuration.Tracking.CookieName, context.Request.ApplicationPath);
             var cookie = context.Request.Cookies.Get(cookieName);
             if (cookie != null)
                 return cookie.Value;

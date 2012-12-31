@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
+    <Compile Include="Models\Account\ResetPasswordRequestModel.cs" />
     <Compile Include="Properties\SuccessMessagesResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -97,6 +98,7 @@
     <Compile Include="Services\CookieTrackingService.cs" />
     <Compile Include="Services\HttpModules\AuthorizeHttpModule.cs" />
     <Compile Include="Services\ITrackingService.cs" />
+    <Compile Include="Services\Mail\MailDeliveryException.cs" />
     <Compile Include="Services\Metadata\IModelMetadataExtractor.cs" />
     <Compile Include="Services\Metadata\UrlEncodedModelMetadataExtractor.cs" />
     <Compile Include="Services\Metadata\ModelMetadataForJs.cs" />
@@ -385,8 +387,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Views\Account\Controls\RegisterControl.cshtml" />
-    <Content Include="Views\Account\Controls\ResetPasswordControl.cshtml" />
+    <Content Include="Views\Account\Controls\ResetPasswordRequestControl.cshtml" />
+    <Content Include="Views\Account\ResetPasswordRequest.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\Controls\ResetPasswordControl.cshtml" />
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

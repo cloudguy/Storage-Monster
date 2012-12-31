@@ -82,8 +82,6 @@ namespace StorageMonster.Web.Services.Security
                 return;
 
             DateTimeOffset expiration = DateTimeOffset.UtcNow.AddMinutes(_configuration.CookieAuth.AuthenticationExpiration);
-#warning what was that?
-           // if (session.Expiration == null || !session.Expiration.Value.Equals(cookieTime))
            _sessionService.UpdateSessionExpiration(session.Token, expiration);
 
             if (authCookie.Expires > DateTime.UtcNow) //not persistent cookie

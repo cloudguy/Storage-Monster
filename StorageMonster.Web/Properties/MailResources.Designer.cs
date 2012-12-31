@@ -63,7 +63,8 @@ namespace StorageMonster.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Hello, $username.
         ///Someone send request for reseting password on site $siteurl for your account.
-        ///In order to reset password go to this link $link. Link will be valid untill $expire.
+        ///In order to reset password go to this link: $link
+        ///Link will be valid untill $expire.
         ///
         ///If you did not request password reseting, ignore this email.
         ///
