@@ -125,7 +125,7 @@
 
 Если вы не запрашивали сброс пароля, проигнорируйте это письмо.
 
-Storage Monster team</value>
+Команда Storage Monster</value>
   </data>
   <data name="RestorePasswordMailSubject" xml:space="preserve">
     <value>Сброс пароля на сайте $siteurl</value>
