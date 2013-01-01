@@ -1,21 +1,21 @@
-﻿@using StorageMonster.Web.Views.Shared
+﻿@using StorageMonster.Web.Properties.ViewsResources
 <ul class="nav pull-right">
     @if (Request.IsAuthenticated) { 
         <li class="navbar-text">   
             <p>    
-                @Resources.LogOnWelcome <b>@HttpContext.Current.User.Identity.Name</b>    
+                @SharedResources.LogOnWelcome <b>@HttpContext.Current.User.Identity.Name</b>    
             </p>
         </li>
         <li class="divider-vertical"></li>
         <li>
-            @Html.ActionLink(Resources.LogOffLinkContent, "LogOff", "Account")
+            @Html.ActionLink(SharedResources.LogOffLinkContent, "LogOff", "Account")
         </li>
     } else  {
         <li>
-            @Html.ActionLink(Resources.LogOnLinkContent, "LogOn", "Account")
+            @Html.ActionLink(SharedResources.LogOnLinkContent, "LogOn", "Account")
         </li>
         <li>
-            @Html.ActionLink(Resources.RegisterLinkContent, "Register", "Account")
+            @Html.ActionLink(SharedResources.RegisterLinkContent, "Register", "Account")
         </li>
     }
 </ul>

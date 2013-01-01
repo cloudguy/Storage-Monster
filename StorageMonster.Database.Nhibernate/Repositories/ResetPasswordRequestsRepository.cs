@@ -1,23 +1,29 @@
 ﻿using System;
 using StorageMonster.Database.Repositories;
+using StorageMonster.Domain;
 
 namespace StorageMonster.Database.Nhibernate.Repositories
 {
     public class ResetPasswordRequestsRepository : IResetPasswordRequestsRepository
     {
-        public Domain.ResetPasswordRequest GetActiveRequestByToken(string token)
+        public ResetPasswordRequest GetActiveRequestByToken(string token)
         {
-            throw new NotImplementedException();
+            return SessionManager.CurrentSession.QueryOver<ResetPasswordRequest>()
+                          .Where(r => r.Token == token)
+                          .And(r=>r.Expires > DateTimeOffset.UtcNow)
+                          .SingleOrDefault();
         }
 
-        public void DeleteRequest(int id)
+        public void DeleteRequest(ResetPasswordRequest request)
         {
-            throw new NotImplementedException();
+            SessionManager.CurrentSession.Delete(request);
         }
 
-        public Domain.ResetPasswordRequest CreateRequest(Domain.ResetPasswordRequest request)
+        public ResetPasswordRequest Insert(ResetPasswordRequest request)
         {
-            throw new NotImplementedException();
+            SessionManager.CurrentSession.Save(request);
+            SessionManager.CurrentSession.Flush();
+            return request;
         }
 
         public void DeleteExpiredRequests()

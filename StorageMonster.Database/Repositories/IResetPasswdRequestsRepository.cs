@@ -5,8 +5,8 @@ namespace StorageMonster.Database.Repositories
     public interface IResetPasswordRequestsRepository
     {
         ResetPasswordRequest GetActiveRequestByToken(string token);
-        void DeleteRequest(int id);
-        ResetPasswordRequest CreateRequest(ResetPasswordRequest request);
+        void DeleteRequest(ResetPasswordRequest request);
+        ResetPasswordRequest Insert(ResetPasswordRequest request);
         void DeleteExpiredRequests();
     }
 }

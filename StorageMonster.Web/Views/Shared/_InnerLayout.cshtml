@@ -1,0 +1,61 @@
+﻿@using StorageMonster.Web.Services.Extensions
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    @Html.IncludeJs(new[]
+        {
+            "~/Scripts/underscore.min.js",
+            "~/Scripts/backbone.min.js",
+            "~/Scripts/monster.common.js",
+            "~/Scripts/storagemonster.js"
+        })
+    @Html.Partial("Controls/JsMessagesControl")
+}
+
+@section Stylesheets
+{
+    <style>
+        .loader {
+            background: url('../Content/images/loader.gif');
+            height: 6px;
+            width: 50px;
+        }
+    </style>
+}
+
+
+<script>
+    $(function () {
+        $('#test').on('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            MonsterApp.Ajax({
+                url: url,
+                cache: false,
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    //$('#Modal').modal('show');
+                    // console.log(data);
+                },
+                error: function(error) {
+                    //$('#Modal .modal-body').html(error.responseText)
+                    //$('#Modal').modal('show');
+                }
+            });
+        });
+    })
+</script>
+
+
+
+<div>
+    @RenderBody()
+</div>
+<a id="test" href="@Url.Action("Index", "Home", null)">test</a><br/>
+<div>
+    @Html.Partial("Controls/AjaxLogonModalControl")
+</div>

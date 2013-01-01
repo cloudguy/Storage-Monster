@@ -1,0 +1,15 @@
+﻿@using StorageMonster.Web.Properties.ViewsResources
+@{
+    Layout = null;
+}
+
+<div id="main-menu">
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">            
+            <div class="container-fluid">
+                <a class="brand" href="@Url.Content("~/")">@SharedResources.Title</a>  
+                @Html.Partial("Controls/NavBarMenuControl")          
+            </div>
+        </div>
+    </div>   
+</div>

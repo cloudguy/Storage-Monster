@@ -20,15 +20,19 @@ namespace StorageMonster.Database.Nhibernate.Repositories
 
         public StoragePluginDescriptor Insert(StoragePluginDescriptor pluginDescriptor)
         {
-            return SessionManager.CurrentSession.Save(pluginDescriptor) as StoragePluginDescriptor;
+            SessionManager.CurrentSession.Save(pluginDescriptor);
+            SessionManager.CurrentSession.Flush();
+            return pluginDescriptor;
         }
         public void Update(StoragePluginDescriptor pluginDescriptor)
         {
             SessionManager.CurrentSession.Update(pluginDescriptor);
+            SessionManager.CurrentSession.Flush();
         }
         public void SaveOrUpdate(StoragePluginDescriptor pluginDescriptor)
         {
             SessionManager.CurrentSession.SaveOrUpdate(pluginDescriptor);
+            SessionManager.CurrentSession.Flush();
         }
     }
 }

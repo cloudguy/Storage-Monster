@@ -1,8 +1,8 @@
-﻿@using StorageMonster.Web.Views.Account
+﻿@using StorageMonster.Web.Properties.ViewsResources
 @model StorageMonster.Web.Models.Account.LogOnModel
 
 <div id="ajaxLogOnContainer">
-    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", @Resources.LogOnValidationSummary)
+    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", AccountResources.LogOnValidationSummary)
 
     <div>
         @using (Html.BeginForm("LogOn", "Account", FormMethod.Post))
@@ -26,8 +26,8 @@
             </p>
             <p>
                 @Html.HiddenFor(model => model.ReturnUrl)
-                <input type="submit" class="btn" value="@Resources.LogOnButtonText" />
-                @Html.ActionLink(@Resources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account", null, new {target = "_blank"})
+                <input type="submit" class="btn" value="@AccountResources.LogOnButtonText" />
+                @Html.ActionLink(AccountResources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account", null, new {target = "_blank"})
             </p>
         }
     </div>

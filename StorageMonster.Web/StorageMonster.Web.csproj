@@ -110,15 +110,15 @@
     <Compile Include="Services\Validation\BaseRegexAttribute.cs" />
     <Compile Include="Services\Validation\UserNameLengthAttribute.cs" />
     <Compile Include="Services\Validation\UserNameRegexAttribute.cs" />
-    <Compile Include="Views\Account\Resources.Designer.cs">
+    <Compile Include="Properties\ViewsResources\AccountResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>AccountResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Account\Resources.ru.Designer.cs">
+    <Compile Include="Properties\ViewsResources\AccountResources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.ru.resx</DependentUpon>
+      <DependentUpon>AccountResources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\LogOnModel.cs" />
     <Compile Include="Models\AjaxErrorModel.cs" />
@@ -199,35 +199,35 @@
     <Compile Include="Services\StructureMapIoC.cs" />
     <Compile Include="Services\TimeZonesProvider.cs" />
     <Compile Include="Services\Validation\PasswordLengthAttribute.cs" />
-    <Compile Include="Views\Home\Resources.Designer.cs">
+    <Compile Include="Properties\ViewsResources\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>HomeResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Resources.ru.Designer.cs">
+    <Compile Include="Properties\ViewsResources\HomeResources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.ru.resx</DependentUpon>
+      <DependentUpon>HomeResources.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\JsMessages.Designer.cs">
+    <Compile Include="Properties\JsMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JsMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\JsMessages.ru.Designer.cs">
+    <Compile Include="Properties\JsMessages.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>JsMessages.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\Resources.Designer.cs">
+    <Compile Include="Properties\ViewsResources\SharedResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>SharedResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\Resources.ru.Designer.cs">
+    <Compile Include="Properties\ViewsResources\SharedResources.ru.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.ru.resx</DependentUpon>
+      <DependentUpon>SharedResources.ru.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -347,7 +347,6 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\monster-script.js" />
     <Content Include="Scripts\monster.common.js" />
     <Content Include="Scripts\storagemonster.js" />
     <Content Include="Scripts\underscore.js" />
@@ -381,7 +380,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SuccessMessagesResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Shared\JsMessages.ru.resx">
+    <EmbeddedResource Include="Properties\JsMessages.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>JsMessages.ru.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -391,6 +390,8 @@
     <Content Include="Views\Account\ResetPasswordRequest.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\Controls\ResetPasswordControl.cshtml" />
+    <Content Include="Views\Shared\_InnerLayout.cshtml" />
+    <Content Include="Views\Shared\_OuterLayout.cshtml" />
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -405,6 +406,7 @@
     </None>
     <None Include="Web.Debug.Syno.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -454,13 +456,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Account\Resources.resx">
+    <EmbeddedResource Include="Properties\ViewsResources\AccountResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>AccountResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Account\Resources.ru.resx">
+    <EmbeddedResource Include="Properties\ViewsResources\AccountResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
+      <LastGenOutput>AccountResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\DisplayNameResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -494,25 +496,25 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Home\Resources.resx">
+    <EmbeddedResource Include="Properties\ViewsResources\HomeResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>HomeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Home\Resources.ru.resx">
+    <EmbeddedResource Include="Properties\ViewsResources\HomeResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
+      <LastGenOutput>HomeResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Shared\JsMessages.resx">
+    <EmbeddedResource Include="Properties\JsMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>JsMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Shared\Resources.resx">
+    <EmbeddedResource Include="Properties\ViewsResources\SharedResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Shared\Resources.ru.resx">
+    <EmbeddedResource Include="Properties\ViewsResources\SharedResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.ru.Designer.cs</LastGenOutput>
+      <LastGenOutput>SharedResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

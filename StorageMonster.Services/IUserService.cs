@@ -15,6 +15,6 @@ namespace StorageMonster.Services
         void UpdateUser(User user);
         ResetPasswordRequest GetActivePasswordResetRequestByToken(string token);
         ResetPasswordRequest CreatePasswordResetRequestForUser(User user, DateTime expiration);
-        void DeleteResetPasswordRequest(int requestId);
+        void DeleteResetPasswordRequest(ResetPasswordRequest request);
 	}
 }

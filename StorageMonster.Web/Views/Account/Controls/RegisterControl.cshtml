@@ -1,23 +1,23 @@
-﻿@using StorageMonster.Web.Views.Account
+﻿@using StorageMonster.Web.Properties.ViewsResources
 @using System.Globalization
 @model StorageMonster.Web.Models.Account.RegisterModel
 
 <div id="registerContainer">
     <div>
-        <h2>@Resources.CreateNewAccount</h2>
+        <h2>@AccountResources.CreateNewAccount</h2>
     </div>
     <p>
-        @String.Format(CultureInfo.CurrentCulture, Resources.PasswordRequirementFormat, Model.MinPasswordLength)
+        @String.Format(CultureInfo.CurrentCulture, AccountResources.PasswordRequirementFormat, Model.MinPasswordLength)
         <br/>
-        @Resources.NameRequirement
+        @AccountResources.NameRequirement
     </p>
 
-    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", @Resources.RegisterValidationSummary)
+    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", AccountResources.RegisterValidationSummary)
  
     <div class="well">
         @using (Html.BeginForm()) {
             <fieldset>
-                <legend>@Resources.AccountInfoTitle</legend>
+                <legend>@AccountResources.AccountInfoTitle</legend>
                 <p>                        
                     @Html.LabelFor(model => model.UserName)                               
                     @Html.TextBoxFor(model => model.UserName, new { @class = "input-block-level" })
@@ -49,7 +49,7 @@
                     @Html.ValidationMessageFor(model=>model.TimeZone)
                 </p>                
                 <p>
-                    <input type="submit" class="btn" value="@Resources.RegisterButtonText" />
+                    <input type="submit" class="btn" value="@AccountResources.RegisterButtonText" />
                 </p>
             </fieldset>
         }      

@@ -1,4 +1,49 @@
-﻿var App = {
+﻿MonsterApp.BaseController = function() {
+    var self = this;
+    self.MasterView = new MonsterApp.Views.MasterView();
+    self.MasterView.render();
+};
+
+//MonsterApp.ProfileController = function () {
+//    MonsterApp.BaseController.call(this);
+//};
+
+MonsterApp.Views.BaseView = Backbone.View.extend({
+    getTemplate: function() {
+        var template = MonsterApp.TemplateCache[this.templateName];
+        if (typeof template == "undefined") {
+            template = "<div id='zz'>zzzzzzzz</div>";
+            template = _.template(template);
+            MonsterApp.TemplateCache[this.templateName] = template;
+        }
+        return template;
+    }
+});
+
+MonsterApp.Views.MasterView = MonsterApp.Views.BaseView.extend({
+    el: '#mainContent',
+    templateName: MonsterApp.TemplateNames.MasterViewTmpl,
+    render: function () {
+        var compiledTemplate = this.getTemplate();
+        this.$el.html(compiledTemplate());
+    }
+});
+
+MonsterApp.Router = Backbone.Router.extend({
+    routes: {
+        "profile": "profile",
+        "*actions": "defaultRoute"
+    },
+    profile: function () {
+        //$('#route_result').text('profile');
+        alert('profile');
+    },
+    defaultRoute: function() {
+        
+    },
+});
+
+/*var App = {
     Models: {},
     Routers: {},
     Collections: {},
@@ -101,3 +146,4 @@ App.Views.StorageAccountsView = Backbone.View.extend({
 //});
 
 
+*/

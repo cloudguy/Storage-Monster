@@ -7,5 +7,6 @@ namespace StorageMonster.Web.Models
         public bool Authorized { get; set; }
         public String LogonUrl { get; set; }
         public String LogOnPage { get; set; }
+        public String LogOnTitle { get; set; }
     }
 }

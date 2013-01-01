@@ -1,21 +1,21 @@
-﻿@using StorageMonster.Web.Views.Account
+﻿@using StorageMonster.Web.Properties.ViewsResources
 @model StorageMonster.Web.Models.Account.LogOnModel
 
 
 <div id="logOnContainer">
     <div>
-        <h2>@Resources.LogOnTitle</h2>
+        <h2>@AccountResources.LogOnTitle</h2>
     </div>
     <p>
-        @Resources.LogOnText @Html.ActionLink(Resources.RegisterLinkContent, "Register", "Account") @Resources.RegisterText
+        @AccountResources.LogOnText @Html.ActionLink(AccountResources.RegisterLinkContent, "Register", "Account") @AccountResources.RegisterText
     </p>  
 
-    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", @Resources.LogOnValidationSummary)
+    @Html.Partial("~/Views/Shared/Controls/MessagesControl.cshtml", AccountResources.LogOnValidationSummary)
 
     <div class="well">
         @using (Html.BeginForm("LogOn", "Account", FormMethod.Post)) {        
             <fieldset>
-                <legend>@Resources.AccountInfoTitle</legend>
+                <legend>@AccountResources.AccountInfoTitle</legend>
                 <p>
                     @Html.LabelFor(model => model.Email)
                     @Html.TextBoxFor(model => model.Email, new { @class = "input-block-level" })
@@ -35,8 +35,8 @@
                 </p>
                 <p>
                     @Html.HiddenFor(model=>model.ReturnUrl)
-                    <input type="submit" class="btn" value="@Resources.LogOnButtonText" />
-                    @Html.ActionLink(@Resources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account")
+                    <input type="submit" class="btn" value="@AccountResources.LogOnButtonText" />
+                    @Html.ActionLink(AccountResources.ResetPasswordLinkContent, "ResetPasswordRequest", "Account")
                 </p>
             </fieldset>        
         }

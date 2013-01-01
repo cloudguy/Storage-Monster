@@ -1,9 +1,18 @@
-﻿var MonsterApp = {};
+﻿var MonsterApp = {
+    Views: {},
+    TemplateCache: {}
+};
 
 MonsterApp.CssSelectors = {
     ModalLogonId: ' #modalLogon ',
     ModalLogonBodyClass: ' .modal-body ',
-    ErrorInfoBlock: ' div[data-errorinfo] '
+    ModalLogonHeaderId: ' #modalLogonHeader ',
+    ErrorInfoBlock: ' div[data-errorinfo] ',
+    MasterViewTemplateId: ' #MasterViewTmpl '
+};
+
+MonsterApp.TemplateNames = {
+    MasterViewTmpl: "MasterViewTmpl"
 };
 
 function lockFormLogon() {
@@ -16,8 +25,9 @@ function unlockFormLogon() {
     $(MonsterApp.CssSelectors.ModalLogonId).modal('hide');
 }
 
-function showLogOnForm(html) {
+function showLogOnForm(html, title) {
     $(MonsterApp.CssSelectors.ModalLogonId + MonsterApp.CssSelectors.ModalLogonBodyClass).html(html);
+    $(MonsterApp.CssSelectors.ModalLogonHeaderId).text(title);
     $.validator.unobtrusive.parse($(MonsterApp.CssSelectors.ModalLogonId));
     $(MonsterApp.CssSelectors.ModalLogonId).modal('show');
     $(MonsterApp.CssSelectors.ModalLogonId + MonsterApp.CssSelectors.ModalLogonBodyClass + 'form').on('submit', function (e) {
@@ -69,19 +79,19 @@ MonsterApp.Ajax = function (options) {
             if ($.isFunction(options.error))
                 options.error(error);
         },
-        success: function (success) {
-            if (typeof success.Error != 'undefined') {
+        success: function (data) {
+            if (typeof data.Error != 'undefined') {
                 if ($.isFunction(options.error)) 
-                    options.error(success);
+                    options.error(data);
                 return;
             }
-            if (typeof success.Authorized != 'undefined' && success.Authorized === false) {
-                showLogOnForm(success.LogOnPage);
+            if (typeof data.Authorized != 'undefined' && data.Authorized === false) {
+                showLogOnForm(data.LogOnPage, data.LogOnTitle);
                 $('div.loader').remove();
                 return;
             }
-            if ($.isFunction(options.success))
-                options.success(success);
+            if ($.isFunction(options.data))
+                options.success(data);
         },
         complete: function(complete) {
             if ($.isFunction(options.complete))

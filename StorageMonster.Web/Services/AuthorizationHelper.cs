@@ -1,5 +1,6 @@
 ﻿using StorageMonster.Web.Models;
 using StorageMonster.Web.Models.Account;
+using StorageMonster.Web.Properties.ViewsResources;
 using StorageMonster.Web.Services.Extensions;
 using System;
 using System.Web;
@@ -37,7 +38,8 @@ namespace StorageMonster.Web.Services
                 {
                     LogonUrl = u.Action("LogOn", "Account"),
                     Authorized = authorized,
-                    LogOnPage = logOnPage
+                    LogOnPage = logOnPage,
+                    LogOnTitle = AccountResources.LogOnTitle
                 },
                 ContentEncoding = System.Text.Encoding.UTF8,
                 ContentType = "application/json",

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHibernate;
 using StorageMonster.Database.Repositories;
 using StorageMonster.Domain;
 
@@ -15,7 +16,7 @@ namespace StorageMonster.Database.Nhibernate.Repositories
                           .Where(u => u.Email == email).SingleOrDefault();
         }
 
-        public IEnumerable<Domain.User> List()
+        public IEnumerable<User> List()
         {
             throw new NotImplementedException();
         }
@@ -25,14 +26,24 @@ namespace StorageMonster.Database.Nhibernate.Repositories
             throw new NotImplementedException();
         }
 
-        public User Insert(Domain.User user)
+        public User Insert(User user)
         {
-            return SessionManager.CurrentSession.Save(user) as User;
+            SessionManager.CurrentSession.Save(user);
+            return user;
         }
 
-        public UpdateResult Update(Domain.User user)
+        public UpdateResult Update(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SessionManager.CurrentSession.Update(user);
+                SessionManager.CurrentSession.Flush();
+                return UpdateResult.Success;
+            }
+            catch (StaleStateException)
+            {
+                return UpdateResult.Stalled;
+            }
         }
 
         public Domain.User Load(Domain.User user)

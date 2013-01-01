@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StorageMonster.Web.Views.Shared {
+namespace StorageMonster.Web.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace StorageMonster.Web.Views.Shared {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StorageMonster.Web.Views.Shared.JsMessages", typeof(JsMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StorageMonster.Web.Properties.JsMessages", typeof(JsMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

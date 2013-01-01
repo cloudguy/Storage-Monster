@@ -8,7 +8,8 @@ namespace StorageMonster.Database.Nhibernate.Repositories
     {
         public Session Insert(Session session)
         {
-            return SessionManager.CurrentSession.Save(session) as Session;
+            SessionManager.CurrentSession.Save(session);
+            return session;
         }
 
         public Session GetSessionByToken(string token, bool fetchUser)
@@ -23,6 +24,7 @@ namespace StorageMonster.Database.Nhibernate.Repositories
         public Session Update(Session session)
         {
             SessionManager.CurrentSession.Update(session);
+            SessionManager.CurrentSession.Flush();
             return session;
         }
 
@@ -31,6 +33,7 @@ namespace StorageMonster.Database.Nhibernate.Repositories
             SessionManager.CurrentSession.CreateQuery("delete Session s where s.User.Id = :userId")
                 .SetParameter("userId", userId)
                 .ExecuteUpdate();
+            SessionManager.CurrentSession.Flush();
         }
 
         public void UpdateExpiration(string sessionToken, DateTimeOffset expiration)
@@ -39,6 +42,7 @@ namespace StorageMonster.Database.Nhibernate.Repositories
                 .SetParameter("token", sessionToken)
                 .SetParameter("expires", expiration)
                 .ExecuteUpdate();
+            SessionManager.CurrentSession.Flush();
         }
 
         public void ClearExpiredSessions()

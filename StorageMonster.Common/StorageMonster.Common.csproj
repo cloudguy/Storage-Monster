@@ -86,6 +86,7 @@
     <Compile Include="DataAnnotations\MonsterPasswordBoxAttribute.cs" />
     <Compile Include="DataAnnotations\MonsterDisplayAttribute.cs" />
     <Compile Include="DataAnnotations\MonsterInputBoxAttribute.cs" />
+    <Compile Include="DeliveryException.cs" />
     <Compile Include="ICacheService.cs" />
     <Compile Include="ObjectNotExistsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
