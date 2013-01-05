@@ -6,12 +6,12 @@ using System.Web.Mvc;
 
 namespace StorageMonster.Web.Controllers
 {
-    public class TemplatesController : Controller
+    public class TemplatesController : BaseController
     {
+        
         public ActionResult Get(string templateName)
         {
             return View();
         }
-
     }
 }

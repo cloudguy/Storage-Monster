@@ -17,6 +17,11 @@ namespace StorageMonster.Web.Controllers
                 throw new InvalidOperationException("Storage monster custom identity is supported only.");
         }
 
+        public new Principal User
+        {
+            get { return (Principal)base.User; }
+        }
+
         private const string DefaultUrlScheme = "http";
         protected string BaseSiteUrl()
         {

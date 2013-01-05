@@ -8,11 +8,10 @@
     @Html.IncludeJs(new[]
         {
             "~/Scripts/underscore.min.js",
-            "~/Scripts/backbone.min.js",
+            "~/Scripts/backbone.js",
             "~/Scripts/monster.common.js",
             "~/Scripts/storagemonster.js"
         })
-    @Html.Partial("Controls/JsMessagesControl")
 }
 
 @section Stylesheets
@@ -56,6 +55,7 @@
     @RenderBody()
 </div>
 <a id="test" href="@Url.Action("Index", "Home", null)">test</a><br/>
+<a href="#profile">Profile</a><br/>
 <div>
     @Html.Partial("Controls/AjaxLogonModalControl")
 </div>

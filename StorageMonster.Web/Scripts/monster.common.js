@@ -1,6 +1,7 @@
 ﻿var MonsterApp = {
     Views: {},
-    TemplateCache: {}
+    Context: {},
+    Models: {}
 };
 
 MonsterApp.CssSelectors = {
@@ -8,11 +9,12 @@ MonsterApp.CssSelectors = {
     ModalLogonBodyClass: ' .modal-body ',
     ModalLogonHeaderId: ' #modalLogonHeader ',
     ErrorInfoBlock: ' div[data-errorinfo] ',
-    MasterViewTemplateId: ' #MasterViewTmpl '
+    TemplateCacheId: ' #templateCache '
 };
 
 MonsterApp.TemplateNames = {
-    MasterViewTmpl: "MasterViewTmpl"
+    MasterViewTmpl: "MasterViewTmpl",
+    ProfileTmpl: "ProfileTmpl"
 };
 
 function lockFormLogon() {
@@ -25,7 +27,7 @@ function unlockFormLogon() {
     $(MonsterApp.CssSelectors.ModalLogonId).modal('hide');
 }
 
-function showLogOnForm(html, title) {
+function showLogOnForm(html, title, oldOptions) {
     $(MonsterApp.CssSelectors.ModalLogonId + MonsterApp.CssSelectors.ModalLogonBodyClass).html(html);
     $(MonsterApp.CssSelectors.ModalLogonHeaderId).text(title);
     $.validator.unobtrusive.parse($(MonsterApp.CssSelectors.ModalLogonId));
@@ -36,17 +38,24 @@ function showLogOnForm(html, title) {
         if (!form.valid())
             return;
         var url = form.attr('action');
-        var data = form.serialize();
-        MonsterApp.Ajax({
+        var formData = form.serialize();
+        $.ajax({
             url: url,
-            data: data,
+            data: formData,
             dataType: 'json',
             type: 'post',
-            success: function(responce) {
-                if (typeof responce.Authorized != 'undefined' && responce.Authorized) {
-                    unlockFormLogon();
+            success: function (data) {
+                if (typeof data.Authorized != 'undefined'){
+                    if (data.Authorized === false) {
+                        showLogOnForm(data.LogOnPage, data.LogOnTitle, oldOptions);
+                        $('div.loader').remove();
+                        return;
+                    }
+                    if (data.Authorized === true) {
+                        unlockFormLogon();
+                        MonsterApp.Ajax(oldOptions);
+                    }
                 }
-
             },
             error: function (responce) {
                 var message = MonsterApp.Messages.ServerError;
@@ -65,7 +74,7 @@ function showLogOnForm(html, title) {
 MonsterApp.Ajax = function (options) {
     if (!options || typeof options != 'object')
         throw MonsterApp.Messages.AjaxOptionsFail;
-    $.ajax({
+    return $.ajax({
         url: options.url,
         cache: options.cache,
         data: options.data,
@@ -86,11 +95,11 @@ MonsterApp.Ajax = function (options) {
                 return;
             }
             if (typeof data.Authorized != 'undefined' && data.Authorized === false) {
-                showLogOnForm(data.LogOnPage, data.LogOnTitle);
-                $('div.loader').remove();
-                return;
+                    showLogOnForm(data.LogOnPage, data.LogOnTitle, options);
+                    $('div.loader').remove();
+                    return;
             }
-            if ($.isFunction(options.data))
+            if ($.isFunction(options.success))
                 options.success(data);
         },
         complete: function(complete) {

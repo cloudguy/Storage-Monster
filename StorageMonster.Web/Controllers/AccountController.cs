@@ -239,6 +239,19 @@ namespace StorageMonster.Web.Controllers
             return View(model);           
         }
 
+        [MonsterAuthorize(UserRole.Admin | UserRole.User)]
+        public ActionResult Profile()
+        {
+            User user = _userService.Load(User.Identity.UserId);
+            ProfileModel model = new ProfileModel();
+            model.Email = user.Email;
+            model.Locale = user.Locale;
+            model.UserName = user.Name;
+            model.TimeZone = user.TimeZone;
+            model.Init(GetSupportedLocales(), GetSupportedTimeZones());
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

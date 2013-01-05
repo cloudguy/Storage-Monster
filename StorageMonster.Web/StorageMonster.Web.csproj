@@ -79,6 +79,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\ProfileModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Models\Account\ResetPasswordRequestModel.cs" />
@@ -392,6 +393,7 @@
     <Content Include="Views\Account\Controls\ResetPasswordControl.cshtml" />
     <Content Include="Views\Shared\_InnerLayout.cshtml" />
     <Content Include="Views\Shared\_OuterLayout.cshtml" />
+    <Content Include="Views\Templates\MasterTemplate.cshtml" />
     <None Include="Web.Debug.Calipsod.MySQL.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

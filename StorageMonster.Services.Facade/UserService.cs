@@ -36,7 +36,7 @@ namespace StorageMonster.Services.Facade
 
         public User Load(int id)
         {
-            throw new NotImplementedException();
+            return _userRepository.Load(id);
         }
 
         public bool IsUserInRole(string userName, string roleName)

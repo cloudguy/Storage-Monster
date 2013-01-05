@@ -51,9 +51,9 @@ namespace StorageMonster.Database.Nhibernate.Repositories
             throw new NotImplementedException();
         }
 
-        public Domain.User Load(int id)
+        public User Load(int id)
         {
-            throw new NotImplementedException();
+            return SessionManager.CurrentSession.Load<User>(id);
         }
 
         public Domain.User GetUserBySessionToken(Domain.Session session)

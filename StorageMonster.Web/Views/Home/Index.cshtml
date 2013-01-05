@@ -5,47 +5,42 @@
 }
 
 
+@Html.Partial("Controls/JsMessagesControl")
 
 <div id="mainContent">
 </div>
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        MonsterApp.router = new MonsterApp.Router();
-        MonsterApp.TemplateCache[MonsterApp.TemplateNames.MasterViewTmpl] = _.template($(MonsterApp.CssSelectors.MasterViewTemplateId).html());
-        MonsterApp.controller = new MonsterApp.BaseController();
-        Backbone.history.start();
-    });
-</script>
-
-<script type="text/template" id="MasterViewTmpl">
-    @Html.Partial("~/Views/Templates/MasterTemplate.cshtml")
-</script>
-
-
-
-@*<script type="text/javascript">
     $(document).ready(function () {
-        var m1 = new App.Models.StorageAccount({ name: "Yandex disk", id: 1 });
-        var m2 = new App.Models.StorageAccount({ name: "Dropbox", id: 2 });
-        window.accColllection = new App.Collections.StorageAccountsCollection();
-        window.accColllection.reset([m1, m2]);
-        //accColllection.fetch();
-        window.router = new App.Router();
+        MonsterApp.Context.MainViewRendered = false;
+        MonsterApp.Context.Router = new MonsterApp.Router();
         Backbone.history.start();
     });
 </script>
 
 
-<div id="application" style="margin-top: 40px">
-    <div>
-        <div id="storageaccounts" />
-    </div>
-    <div>
-        <div id="route_result"/>
-    </div>
+<div id="templateCache" style="display: none">
+    <script type="text/template" id="MasterViewTmpl">
+        @Html.Partial("~/Views/Templates/MasterTemplate.cshtml")
+    </script>
+
+    <script type="text/template" id="ProfileTmpl">
+        <div class="container">
+            <div class="row">
+                <div class="span6 offset3">
+                    <div class="well">
+                        <div> <%- profile.get('Email') %> </div>  
+                        <div> <%- profile.get('UserName') %> </div>  
+                    </div>
+                <div>
+            </div>
+        </div>
+    </script>
 </div>
+
+
+@*
 
 
 <div id="templates">

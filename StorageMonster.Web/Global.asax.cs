@@ -173,36 +173,29 @@ namespace StorageMonster.Web
             string reponseString = null;
             string contentType = null;
             bool loggingRequired = true;
-            if (httpException != null)
+           
+            if (HttpContext.Current.Request.IsAjaxRequest())
             {
-                if (httpException.GetHttpCode() == (int)HttpStatusCode.NotFound)
+                var errorModel = new AjaxErrorModel();
+                contentType = "application/json";
+                string errorMessage = ValidationResources.AjaxServerError;
+                if (httpException != null)
                 {
-                    if (HttpContext.Current.Request.IsAjaxRequest())
+                    if (httpException.GetHttpCode() == (int) HttpStatusCode.NotFound)
                     {
-                        var jsserializer = new JavaScriptSerializer();
-                        reponseString = jsserializer.Serialize(new AjaxErrorModel
-                        {
-                            Error = ValidationResources.AjaxNotFound
-                        });
-                        contentType = "application/json";
+                        errorMessage = ValidationResources.AjaxNotFound;
+                        loggingRequired = false;
                     }
-                    loggingRequired = false;
-                }
-                if (httpException.GetHttpCode() == (int)HttpStatusCode.Forbidden)
-                {
-                    if (HttpContext.Current.Request.IsAjaxRequest())
+                    if (httpException.GetHttpCode() == (int) HttpStatusCode.Forbidden)
                     {
-                        var jsserializer = new JavaScriptSerializer();
-                        reponseString = jsserializer.Serialize(new AjaxErrorModel
-                        {
-                            Error = ValidationResources.AjaxAccessDenied
-                        });
-                        contentType = "application/json";
+                        errorMessage = ValidationResources.AjaxAccessDenied;
+                        loggingRequired = false;
                     }
-                    ForbiddenRequestsLogger.LogRequest(Request, ex);
-                    loggingRequired = false;
                 }
+                errorModel.Error = errorMessage;
+                reponseString = new JavaScriptSerializer().Serialize(errorModel);
             }
+            
 
             if (loggingRequired)
                 Logger.Error(ex);

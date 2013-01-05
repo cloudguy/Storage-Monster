@@ -1,30 +1,110 @@
-﻿MonsterApp.BaseController = function() {
-    var self = this;
-    self.MasterView = new MonsterApp.Views.MasterView();
-    self.MasterView.render();
+﻿MonsterApp.TemplateManager = {
+    getTemplateCache: function() {
+        if (typeof this.cache === 'undefined')
+            this.cache = $(MonsterApp.CssSelectors.TemplateCacheId);
+        return this.cache;
+    },
+    getTemplateSelector: function (templateName) {
+        return '#' + templateName;
+    },
+    getTemplate: function (templateName, templateCallback) {
+        var templateId = this.getTemplateSelector(templateName);
+        var template = this.getTemplateCache().find(templateId);
+        
+        if (template.length === 0) {
+            //get it from server
+            var templateText = "<div id='zz'>zzzzzzzz</div>";
+            template = this.addTemplate(templateName, templateText);
+        }
+        if ($.isFunction(templateCallback))
+            templateCallback(template.html());
+    },
+    addTemplate: function (templateName, templateText) {
+        return  $("<div />").attr('id', templateName).html(templateText).appendTo(this.getTemplateSelector());
+    }
 };
 
-//MonsterApp.ProfileController = function () {
-//    MonsterApp.BaseController.call(this);
-//};
+MonsterApp.BaseController = function (context) {
+    var self = this;
+    if (context.MainViewRendered === false) {
+        self.MasterView = new MonsterApp.Views.MasterView();
+        self.MasterView.render();
+        context.MainViewRendered = true;
+    }
+};
+
+MonsterApp.ProfileController = function (context) {
+    MonsterApp.BaseController.call(this, context);
+
+    this.RenderView = function () {
+        if (typeof this.View === 'undefined')
+            return;
+        this.View.render();
+    };
+
+    this.Show = function () {
+        this.Model = new MonsterApp.Models.StorageAccount();
+        this.View = new MonsterApp.Views.ProfileView({ model: this.Model });
+        this.Model.bind('change', this.RenderView);
+        this.Model.fetch();
+        return this;
+    };
+    _.bindAll(this);
+};
+
+
+MonsterApp.DefaultController = function (context) {
+    MonsterApp.BaseController.call(this, context);
+};
+
 
 MonsterApp.Views.BaseView = Backbone.View.extend({
-    getTemplate: function() {
-        var template = MonsterApp.TemplateCache[this.templateName];
-        if (typeof template == "undefined") {
-            template = "<div id='zz'>zzzzzzzz</div>";
-            template = _.template(template);
-            MonsterApp.TemplateCache[this.templateName] = template;
-        }
-        return template;
+    getTemplate: function(templateCallback) {
+        MonsterApp.TemplateManager.getTemplate(this.templateName, templateCallback);
     }
+});
+
+
+MonsterApp.Views.ProfileView = MonsterApp.Views.BaseView.extend({
+    el: '#innerContent',
+    templateName: MonsterApp.TemplateNames.ProfileTmpl,
+    initialize: function () {
+        _.bindAll(this);
+    },
+    render: function () {
+        this.getTemplate(this.renderTemplate);
+    },
+    renderTemplate: function (template) {
+        var compiledTemplate = _.template(template);
+        this.$el.html(compiledTemplate({ profile: this.model }));
+    }
+});
+
+
+MonsterApp.Models.StorageAccount = Backbone.Model.extend({
+    fetch: function () {
+        var self = this;
+        MonsterApp.Ajax({
+            url: this.url(),
+            success: function(data) {
+                self.set(self.parse(data));
+            }
+        });
+    },
+    urlRoot: 'account/profile'
 });
 
 MonsterApp.Views.MasterView = MonsterApp.Views.BaseView.extend({
     el: '#mainContent',
     templateName: MonsterApp.TemplateNames.MasterViewTmpl,
+    initialize: function() {
+        _.bindAll(this);
+    },
     render: function () {
-        var compiledTemplate = this.getTemplate();
+        this.getTemplate(this.renderTemplate);
+    },
+    renderTemplate: function (template) {
+        var compiledTemplate = _.template(template);
         this.$el.html(compiledTemplate());
     }
 });
@@ -35,115 +115,9 @@ MonsterApp.Router = Backbone.Router.extend({
         "*actions": "defaultRoute"
     },
     profile: function () {
-        //$('#route_result').text('profile');
-        alert('profile');
+        MonsterApp.CurrentController = new MonsterApp.ProfileController(MonsterApp.Context).Show();
     },
     defaultRoute: function() {
-        
+        MonsterApp.CurrentController = new MonsterApp.DefaultController(MonsterApp.Context);
     },
 });
-
-/*var App = {
-    Models: {},
-    Routers: {},
-    Collections: {},
-    Views: {}
-};
-
-
-
-var viewEvents = _.extend({}, Backbone.Events);
-viewEvents.bind("storageaccount:selected", function (storageAccount) {
-    alert("account selected: " + storageAccount.get('name'));
-});
-
-accSyncStab = function (method, model) {
-    if (method === 'read') {
-        setTimeout(function() {
-            var m1 = new App.Models.StorageAccount({ name: "Yandex disk", id: 1 });
-            var m2 = new App.Models.StorageAccount({ name: "Dropbox", id: 2 });
-            model.reset([m1, m2]);
-        }, 2000);
-    }
-};
-
-App.Router = Backbone.Router.extend({
-    routes: {
-        "profile": "profile",
-        "logoff":"logoFF",
-        "storageaccount/:id": "storageAccount",
-        "storageaccount/:id/*url": "storageAccount",
-        "*actions": "defaultRoute"
-    },
-    storageAccount: function (id, url) {
-        $('#route_result').text('storageaccount: ' + id + ' ' + url);
-        window.accColllection.get(id).select();
-    },
-    profile: function () {
-        $('#route_result').text('profile');
-    },
-    defaultRoute: function (actions) {
-        $('#route_result').text('default: '+actions);
-        //window.accCollection = new App.Collections.StorageAccountsCollection();
-        //window.accCollection.fetch();
-    }
-});
-
-App.Models.StorageAccount = Backbone.Model.extend({
-    select: function () {
-        this.set({ selected: true });
-        //this.collection.selectStorageAccount(this);
-        viewEvents.trigger("storageaccount:selected", this);
-    }
-});
-
-App.Collections.StorageAccountsCollection = Backbone.Collection.extend({
-    model: App.Models.StorageAccount,
-    sync: accSyncStab,
-    initialize: function () {
-        this.storageAccountsView = new App.Views.StorageAccountsView({collection : this });
-        this.bind("reset", this.storageAccountsView.renderList, this.storageAccountsView);
-    },
-    //selectStorageAccount: function (storageAccount) {
-    //   //
-    //}
-});
-
-App.Views.StorageAccountsView = Backbone.View.extend({
-    el: "#storageaccounts",
-    model: App.Collections.StorageAccountsCollection,
-    events: {
-        "click a#refreshStorageAccounts": "refreshAccounts",
-        "click a.storageAccountLink": "selectAccount"
-    },
-    initialize: function () {
-        this.renderWait();
-    },
-    renderWait: function() {
-        this.$el.html("LOADING......");
-    },
-    renderList: function (collection) {
-        var compiledTemplate = _.template($("#TStorageAccountsList").html());
-        this.$el.html(compiledTemplate({ accounts: collection.models }));
-    },
-    selectAccount: function (e) {
-        e.preventDefault();
-        window.router.navigate("/storageaccount/" + $(e.currentTarget).data("id"), { trigger: true, replace: true });
-    },
-    refreshAccounts: function (e) {
-        this.renderWait();
-        e.preventDefault();
-        this.collection.fetch();
-    }
-});
-
-//AppView = Backbone.View.extend({
-//    el: "#application",
-//    initialize: function(){
-//        this.accountsCollection = new App.Collections.StorageAccountsCollection();
-//        this.accountsCollection.fetch();
-//    }
-//});
-
-
-*/
