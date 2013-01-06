@@ -1,7 +1,21 @@
 ﻿var MonsterApp = {
     Views: {},
     Context: {},
-    Models: {}
+    Models: {},
+    Utils: {
+        isPresent: function(object) {
+            return typeof object !== 'undefined' && object !== null;
+        },
+        ifPresent: function (object, trueCallBack, falseCallback) {
+            if (this.isPresent(object)) {
+                if ($.isFunction(trueCallBack))
+                    return trueCallBack(object);
+            } else {
+                if ($.isFunction(falseCallback))
+                    return falseCallback();
+            }
+        }
+    }
 };
 
 MonsterApp.CssSelectors = {

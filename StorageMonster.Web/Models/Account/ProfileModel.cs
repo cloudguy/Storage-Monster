@@ -10,7 +10,7 @@ using StorageMonster.Web.Services.Validation;
 namespace StorageMonster.Web.Models.Account
 {
 #warning add version
-    public class ProfileModel
+    public class ProfileModel : BaseAjaxDataModel
     {
         private String _userName;
 

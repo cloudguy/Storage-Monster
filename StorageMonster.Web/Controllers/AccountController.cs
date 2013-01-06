@@ -249,7 +249,7 @@ namespace StorageMonster.Web.Controllers
             model.UserName = user.Name;
             model.TimeZone = user.TimeZone;
             model.Init(GetSupportedLocales(), GetSupportedTimeZones());
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return JsonWithMetadata(model, JsonRequestBehavior.AllowGet);
         }
 
 

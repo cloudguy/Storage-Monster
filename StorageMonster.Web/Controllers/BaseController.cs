@@ -1,6 +1,9 @@
 ﻿using System.Globalization;
+using StorageMonster.Web.Models;
 using StorageMonster.Web.Services.ActionAnnotations;
+using StorageMonster.Web.Services.ActionResults;
 using StorageMonster.Web.Services.Configuration;
+using StorageMonster.Web.Services.Metadata;
 using StorageMonster.Web.Services.Security;
 using System;
 using System.Configuration;
@@ -11,6 +14,23 @@ namespace StorageMonster.Web.Controllers
     [TempDataTransfer]
     public abstract class BaseController : Controller
     {
+        protected IModelMetadataExtractor ModelMetadataExtractor { get; set; }
+
+        protected BaseController()
+        {
+            ModelMetadataExtractor = DependencyResolver.Current.GetService<IModelMetadataExtractor>();
+        }
+
+        protected JsonWithMetadataResult<T> JsonWithMetadata<T>(T model, JsonRequestBehavior requestBehavior) where T : BaseAjaxDataModel
+        {
+            return new JsonWithMetadataResult<T>(model, ModelMetadataExtractor, requestBehavior);
+        }
+
+        protected JsonWithMetadataResult<T> JsonWithMetadata<T>(T model) where T : BaseAjaxDataModel
+        {
+            return JsonWithMetadata(model, JsonRequestBehavior.DenyGet);
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (!(filterContext.HttpContext.User.Identity is Identity))

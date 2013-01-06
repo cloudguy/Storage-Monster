@@ -9,27 +9,27 @@ using StorageMonster.Services;
 
 namespace StorageMonster.Web.Services.Metadata
 {
-    public class UrlEncodedModelMetadataExtractor : IModelMetadataExtractor
+    public class ModelMetadataExtractor : IModelMetadataExtractor
     {
-        private const string MetaDataCacheKeyTemplate = "UrlModelMeta_{0}_{1}";
+        private const string MetaDataCacheKeyTemplate = "ModelMeta_{0}_{1}";
         private readonly ICacheService _cacheService;
         private readonly ILocaleProvider _localeProvider;
 
-        public UrlEncodedModelMetadataExtractor(ICacheService cacheService, ILocaleProvider localeProvider)
+        public ModelMetadataExtractor(ICacheService cacheService, ILocaleProvider localeProvider)
         {
             _cacheService = cacheService;
             _localeProvider = localeProvider;
         }
-        public string GetMetadataFromModel<T>(T model, ControllerContext controllerContext)
+        public IDictionary<string, ModelMetadataForJs> GetMetadataFromModel<T>(T model, ControllerContext controllerContext)
         {
             Type modelType = typeof (T);
             string cacheKey = string.Format(CultureInfo.InvariantCulture, MetaDataCacheKeyTemplate, _localeProvider.GetThreadLocale().ShortName, modelType.FullName);
             return _cacheService.Get(cacheKey, () =>
                 {
                     var meta = ModelMetadataProviders.Current.GetMetadataForType(() => model, modelType);
-                    var metaForJs = meta.Properties.ToDictionary(p => p.PropertyName, p => ExtractPropertyMetadata(p, controllerContext));
-                    var jsonMeta = new JavaScriptSerializer().Serialize(metaForJs);
-                    return Uri.EscapeDataString(jsonMeta);
+                    return meta.Properties.ToDictionary(p => p.PropertyName, p => ExtractPropertyMetadata(p, controllerContext));
+                    //var jsonMeta = new JavaScriptSerializer().Serialize(metaForJs);
+                    //return Uri.EscapeDataString(jsonMeta);
                 });
             
         }

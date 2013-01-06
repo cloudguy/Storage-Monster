@@ -1,6 +1,6 @@
 ﻿MonsterApp.TemplateManager = {
-    getTemplateCache: function() {
-        if (typeof this.cache === 'undefined')
+    getTemplateCache: function () {
+        if (!MonsterApp.Utils.isPresent(this.cache))
             this.cache = $(MonsterApp.CssSelectors.TemplateCacheId);
         return this.cache;
     },
@@ -27,17 +27,31 @@
 MonsterApp.BaseController = function (context) {
     var self = this;
     if (context.MainViewRendered === false) {
-        self.MasterView = new MonsterApp.Views.MasterView();
-        self.MasterView.render();
+        if (!MonsterApp.Utils.isPresent(context.MasterView)) {
+            context.MasterView = new MonsterApp.Views.MasterView();
+        }
+        context.MasterView.render();
         context.MainViewRendered = true;
     }
+
+    this.dispose = function() {
+        if (MonsterApp.Utils.isPresent(self.View)) {
+            self.View.remove();
+            self.View.unbind();
+            self.View = null;
+        }
+        if (MonsterApp.Utils.isPresent(self.Model)) {
+            self.Model.unbind();
+            self.Model = null;
+        }
+    };
 };
 
 MonsterApp.ProfileController = function (context) {
     MonsterApp.BaseController.call(this, context);
 
     this.RenderView = function () {
-        if (typeof this.View === 'undefined')
+        if (!MonsterApp.Utils.isPresent(this.View))
             return;
         this.View.render();
     };
@@ -77,6 +91,11 @@ MonsterApp.Views.ProfileView = MonsterApp.Views.BaseView.extend({
     renderTemplate: function (template) {
         var compiledTemplate = _.template(template);
         this.$el.html(compiledTemplate({ profile: this.model }));
+        var form = $('#profileForm');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validate();
     }
 });
 
@@ -115,9 +134,16 @@ MonsterApp.Router = Backbone.Router.extend({
         "*actions": "defaultRoute"
     },
     profile: function () {
+        this.disposeCurrentController();
         MonsterApp.CurrentController = new MonsterApp.ProfileController(MonsterApp.Context).Show();
     },
-    defaultRoute: function() {
+    defaultRoute: function () {
+        this.disposeCurrentController();
         MonsterApp.CurrentController = new MonsterApp.DefaultController(MonsterApp.Context);
     },
+    disposeCurrentController: function () {
+        if (MonsterApp.Utils.isPresent(MonsterApp.CurrentController)){
+            MonsterApp.CurrentController.dispose();
+        }
+    }
 });

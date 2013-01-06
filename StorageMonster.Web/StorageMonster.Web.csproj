@@ -35,15 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Common.Logging.2.1.1\lib\net40\Common.Logging.dll</HintPath>
+      <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Log4Net1211">
-      <HintPath>..\packages\Common.Logging.Log4Net1211.2.1.1\lib\net40\Common.Logging.Log4Net1211.dll</HintPath>
+    <Reference Include="Common.Logging.Log4Net1211, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common.Logging.Log4Net1211.2.1.2\lib\net40\Common.Logging.Log4Net1211.dll</HintPath>
     </Reference>
-    <Reference Include="LeLog4net">
-      <HintPath>..\packages\le_log4net.2.3.3\lib\4.0\LeLog4net.dll</HintPath>
+    <Reference Include="LeLog4net, Version=2.3.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\le_log4net.2.3.4\lib\4.0\LeLog4net.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -83,6 +85,7 @@
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Models\Account\ResetPasswordRequestModel.cs" />
+    <Compile Include="Models\BaseAjaxDataModel.cs" />
     <Compile Include="Properties\SuccessMessagesResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -94,6 +97,7 @@
       <DependentUpon>SuccessMessagesResources.ru.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\ActionAnnotations\MonsterValidateAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Services\ActionResults\JsonWithMetadataResult.cs" />
     <Compile Include="Services\AuthorizationHelper.cs" />
     <Compile Include="Services\CookieHelper.cs" />
     <Compile Include="Services\CookieTrackingService.cs" />
@@ -101,7 +105,7 @@
     <Compile Include="Services\ITrackingService.cs" />
     <Compile Include="Services\Mail\MailDeliveryException.cs" />
     <Compile Include="Services\Metadata\IModelMetadataExtractor.cs" />
-    <Compile Include="Services\Metadata\UrlEncodedModelMetadataExtractor.cs" />
+    <Compile Include="Services\Metadata\ModelMetadataExtractor.cs" />
     <Compile Include="Services\Metadata\ModelMetadataForJs.cs" />
     <Compile Include="Services\Metadata\ModelMetadataValidationDescriptor.cs" />
     <Compile Include="Services\Security\AntiforgerySalts.cs" />
@@ -349,6 +353,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\monster.common.js" />
+    <Content Include="Scripts\monster.renderutils.js" />
     <Content Include="Scripts\storagemonster.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
