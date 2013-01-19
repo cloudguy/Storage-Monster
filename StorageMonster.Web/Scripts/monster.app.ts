@@ -168,6 +168,27 @@ module MonsterApp {
                 });
             }
         }
+		
+		export class StorageAccountModel extends Backbone.Model {
+            //urlRoot = 'StorageAccounts/create';
+            fetch() {
+                var self = this;
+                MonsterApp.Ajax({
+                    url: this.url(),
+                    success: function (data) {
+                        self.set(self.parse(data));
+                    }
+                });
+            }
+        }
+
+
+
+
+		export class StorageAccountsList extends Backbone.Collection {
+		    model = StorageAccountModel;
+		}
+
     }
 
     export module Views {

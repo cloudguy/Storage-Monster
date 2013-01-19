@@ -86,6 +86,9 @@
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Models\Account\ResetPasswordRequestModel.cs" />
     <Compile Include="Models\BaseAjaxDataModel.cs" />
+    <Compile Include="Models\SettingsModel.cs" />
+    <Compile Include="Models\StorageAccounts\StorageAccountModel.cs" />
+    <Compile Include="Models\StorageAccounts\StorageAccountsCollection.cs" />
     <Compile Include="Properties\SuccessMessagesResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

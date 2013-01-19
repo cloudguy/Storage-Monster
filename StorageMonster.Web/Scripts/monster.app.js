@@ -120,6 +120,34 @@ var MonsterApp;
             return ProfileModel;
         })(Backbone.Model);
         Models.ProfileModel = ProfileModel;        
+        var StorageAccountModel = (function (_super) {
+            __extends(StorageAccountModel, _super);
+            function StorageAccountModel() {
+                _super.apply(this, arguments);
+
+            }
+            StorageAccountModel.prototype.fetch = function () {
+                var self = this;
+                MonsterApp.Ajax({
+                    url: this.url(),
+                    success: function (data) {
+                        self.set(self.parse(data));
+                    }
+                });
+            };
+            return StorageAccountModel;
+        })(Backbone.Model);
+        Models.StorageAccountModel = StorageAccountModel;        
+        var StorageAccountsList = (function (_super) {
+            __extends(StorageAccountsList, _super);
+            function StorageAccountsList() {
+                _super.apply(this, arguments);
+
+                this.model = StorageAccountModel;
+            }
+            return StorageAccountsList;
+        })(Backbone.Collection);
+        Models.StorageAccountsList = StorageAccountsList;        
     })(MonsterApp.Models || (MonsterApp.Models = {}));
     var Models = MonsterApp.Models;
     (function (Views) {

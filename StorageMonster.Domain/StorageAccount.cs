@@ -5,6 +5,7 @@ namespace StorageMonster.Domain
 {
     public class StorageAccount
     {
+        public const string StorageAccountNameRegexPattern = "^[a-zA-Z1-9 ]{1,100}$";
         public virtual int Id { get; set; }
         public virtual User User { get; set; }
         public virtual StoragePluginDescriptor StoragePlugin { get; set; }

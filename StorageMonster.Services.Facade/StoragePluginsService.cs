@@ -111,12 +111,13 @@ namespace StorageMonster.Services.Facade
 
         public IStoragePlugin GetStoragePlugin(int storagePluginId)
         {
-            throw new NotImplementedException();
+            CachedStoragePlugin cachedStoragePlugin = CachedStoragePlugins.FirstOrDefault(p => p.PluginDescriptor.Id == storagePluginId);
+            return cachedStoragePlugin == null ? null : cachedStoragePlugin.Plugin;
         }
 
         public IEnumerable<StoragePluginDescriptor> GetAvailableStoragePlugins()
         {
-            throw new NotImplementedException();
+            return CachedStoragePlugins.Select(p => p.PluginDescriptor);
         }
 
         public StorageFileStreamResult DownloadFile(StorageAccount storageAccount, string url)

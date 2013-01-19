@@ -1,4 +1,8 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using StorageMonster.Common;
+using StorageMonster.Services;
 using StorageMonster.Web.Models;
 using StorageMonster.Web.Services.ActionAnnotations;
 using StorageMonster.Web.Services.ActionResults;
@@ -14,11 +18,57 @@ namespace StorageMonster.Web.Controllers
     [TempDataTransfer]
     public abstract class BaseController : Controller
     {
-        protected IModelMetadataExtractor ModelMetadataExtractor { get; set; }
+        protected const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
+        protected const string TimeZonesDropDownListCacheKey = "Web.TimeZonesDropDownListKey";
+        protected const string StoragePluginsDropDownListCacheKey = "Web.StoragePluginsDropDownListKey";
+       
+
+        protected readonly ICacheService CacheService;
+        protected readonly ILocaleProvider LocaleProvider;
+        protected readonly ITimeZonesProvider TimeZonesProvider;
+        protected readonly IStoragePluginsService StoragePluginsService;
+        protected readonly IModelMetadataExtractor ModelMetadataExtractor;
+
+        protected IEnumerable<SelectListItem> GetSupportedLocales()
+        {
+            return CacheService.Get(LocaleDropDownListCacheKey, () =>
+                LocaleProvider.SupportedLocales.Select(x => new SelectListItem
+                {
+                    Text = x.FullName,
+                    Value = x.ShortName,
+                    Selected = false
+                }).ToArray() /*override lazy init*/);
+        }
+
+        protected IEnumerable<SelectListItem> GetSupportedTimeZones()
+        {
+            return CacheService.Get(TimeZonesDropDownListCacheKey, () =>
+                TimeZonesProvider.GetTimezones().Select(x => new SelectListItem
+                {
+                    Text = x.TimeZoneName,
+                    Value = x.Id.ToString(CultureInfo.InvariantCulture),
+                    Selected = false
+                }).ToArray() /*override lazy init*/);
+        }
+
+        protected IEnumerable<SelectListItem> GetSupportedStoragePlugins()
+        {
+            return CacheService.Get(StoragePluginsDropDownListCacheKey, () =>
+                StoragePluginsService.GetAvailableStoragePlugins().Select(x => new SelectListItem
+                {
+                    Text = StoragePluginsService.GetStoragePlugin(x.Id).Name,
+                    Value = x.Id.ToString(CultureInfo.InvariantCulture),
+                    Selected = false
+                }).ToList() /*override lazy init*/);
+        }
 
         protected BaseController()
         {
             ModelMetadataExtractor = DependencyResolver.Current.GetService<IModelMetadataExtractor>();
+            CacheService = DependencyResolver.Current.GetService<ICacheService>();
+            LocaleProvider=DependencyResolver.Current.GetService<ILocaleProvider>();
+            TimeZonesProvider = DependencyResolver.Current.GetService<ITimeZonesProvider>();
+            StoragePluginsService = DependencyResolver.Current.GetService<IStoragePluginsService>();
         }
 
         protected JsonWithMetadataResult<T> JsonWithMetadata<T>(T model, JsonRequestBehavior requestBehavior) where T : BaseAjaxDataModel

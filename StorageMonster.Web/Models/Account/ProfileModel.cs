@@ -37,14 +37,5 @@ namespace StorageMonster.Web.Models.Account
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [Display(Name = "ProfileTimeZone", ResourceType = typeof(DisplayNameResources))]
         public int TimeZone { get; set; }
-
-        public IEnumerable<SelectListItem> SupportedLocales { get; set; }
-        public IEnumerable<SelectListItem> SupportedTimeZones { get; set; }
-
-        public void Init(IEnumerable<SelectListItem> supportedLocales, IEnumerable<SelectListItem> supportedTimeZones)
-        {
-            SupportedLocales = supportedLocales;
-            SupportedTimeZones = supportedTimeZones;
-        }
     }
 }

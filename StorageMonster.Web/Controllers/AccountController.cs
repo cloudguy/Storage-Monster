@@ -21,52 +21,22 @@ namespace StorageMonster.Web.Controllers
     public class AccountController : BaseController
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(AccountController));
-
-        private const string LocaleDropDownListCacheKey = "Web.LocaleDropDownListKey";
-
-        private readonly ICacheService _cacheService;
-        private readonly ILocaleProvider _localeProvider;
         private readonly IMembershipService _membershipService;
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authService;
-        private readonly ITimeZonesProvider _timeZonesProvider;
+        
 
-        public AccountController(ICacheService cacheService,
-            ILocaleProvider localeProvider,
+        public AccountController(
             IMembershipService membershipService,
             IUserService userService,
-            IAuthenticationService authService,
-            ITimeZonesProvider timeZonesProvider)
+            IAuthenticationService authService)
         {
-            _cacheService = cacheService;
-            _localeProvider = localeProvider;
             _membershipService = membershipService;
             _authService = authService;
             _userService = userService;
-            _timeZonesProvider = timeZonesProvider;
         }
-
-        private IEnumerable<SelectListItem> GetSupportedLocales()
-        {
-#warning pref locale
-            return _cacheService.Get(LocaleDropDownListCacheKey, () =>
-                _localeProvider.SupportedLocales.Select(x => new SelectListItem
-                {
-                    Text = x.FullName,
-                    Value = x.ShortName,
-                    Selected = false
-                }).ToArray() /*override lazy init*/);
-        }
-
-        private IEnumerable<SelectListItem> GetSupportedTimeZones()
-        {
-            return _timeZonesProvider.GetTimezones().Select(x => new SelectListItem
-            {
-                Text = x.TimeZoneName,
-                Value = x.Id.ToString(CultureInfo.InvariantCulture),
-                Selected = false
-            });
-        }
+        
+        
 
         public ActionResult LogOn(string returnUrl)
         {
@@ -248,7 +218,6 @@ namespace StorageMonster.Web.Controllers
             model.Locale = user.Locale;
             model.UserName = user.Name;
             model.TimeZone = user.TimeZone;
-            model.Init(GetSupportedLocales(), GetSupportedTimeZones());
             return JsonWithMetadata(model, JsonRequestBehavior.AllowGet);
         }
 

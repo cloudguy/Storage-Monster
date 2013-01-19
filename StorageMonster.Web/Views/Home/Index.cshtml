@@ -1,7 +1,12 @@
-﻿@using StorageMonster.Web.Properties.ViewsResources
+﻿@using System.Web.Script.Serialization
+@using StorageMonster.Web.Properties.ViewsResources
+@model StorageMonster.Web.Models.SettingsModel
+
 @{
     ViewBag.Title = HomeResources.IndexTitle;
     Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    
+    JavaScriptSerializer serializer = new JavaScriptSerializer();
 }
 
 
@@ -13,7 +18,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //MonsterApp.Context.MainViewRendered = false;
+        MonsterApp.ApplicationContext.Settings = @(Html.Raw(serializer.Serialize(Model))) ;
         MonsterApp.ApplicationContext.router = new MonsterApp.Router();
         Backbone.history.start();
     });
@@ -69,7 +74,7 @@
                                         profile, 
                                         'Locale',
                                         {class: 'input-block-level'},
-                                        profile.get('SupportedLocales'))
+                                        MonsterApp.ApplicationContext.Settings.SupportedLocales)
                                 %>   
                                 <%= MonsterApp.RenderUtils.Html.validationMessageFor(
                                             profile,
@@ -86,7 +91,7 @@
                                         profile, 
                                         'TimeZone',
                                         {class: 'input-block-level'},
-                                        profile.get('SupportedTimeZones'))
+                                        MonsterApp.ApplicationContext.Settings.SupportedTimeZones)
                                 %>    
                                 <%= MonsterApp.RenderUtils.Html.validationMessageFor(
                                             profile,
