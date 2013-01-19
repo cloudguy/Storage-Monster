@@ -626,7 +626,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1558</DevelopmentServerPort>
+          <DevelopmentServerPort>32628</DevelopmentServerPort>
           <DevelopmentServerVPath>/sm</DevelopmentServerVPath>
           <IISUrl>http://localhost:1558/sm</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>

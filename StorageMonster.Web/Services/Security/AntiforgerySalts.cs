@@ -10,5 +10,6 @@ namespace StorageMonster.Web.Services.Security
 #warning add logon and register salt
         public const string ResetPassword = "94d5c0d4-e5bc-4fac-a5b9-18fa68d6b640";
         public const string ResetPasswordRequest = "c7001e65-4827-472a-8eba-59dc02cc2b06";
+        public const string ProfileChange = "525f7ff5-0935-4a25-8a52-ea788a3f4f6f";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using Common.Logging;
 using StorageMonster.Common;
 using StorageMonster.Domain;
@@ -218,6 +219,7 @@ namespace StorageMonster.Web.Controllers
             model.Locale = user.Locale;
             model.UserName = user.Name;
             model.TimeZone = user.TimeZone;
+            model.AntiForgery = AntiForgery.GetHtml(HttpContext, AntiForgerySalts.ProfileChange, null, null).ToHtmlString();
             return JsonWithMetadata(model, JsonRequestBehavior.AllowGet);
         }
 

@@ -37,5 +37,7 @@ namespace StorageMonster.Web.Models.Account
         [Required(ErrorMessageResourceName = "RequiredFieldFormat", ErrorMessageResourceType = typeof(ValidationResources))]
         [Display(Name = "ProfileTimeZone", ResourceType = typeof(DisplayNameResources))]
         public int TimeZone { get; set; }
+
+        public string AntiForgery { get; set; }
     }
 }
