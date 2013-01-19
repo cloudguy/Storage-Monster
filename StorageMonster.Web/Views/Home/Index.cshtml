@@ -13,8 +13,8 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        MonsterApp.Context.MainViewRendered = false;
-        MonsterApp.Context.Router = new MonsterApp.Router();
+        //MonsterApp.Context.MainViewRendered = false;
+        MonsterApp.ApplicationContext.router = new MonsterApp.Router();
         Backbone.history.start();
     });
 </script>
@@ -37,62 +37,63 @@
                     <div class="well">
                         <form id="profileForm" method="post">
                             <p>                                
-                                <%= MonsterApp.RenderUtils.LabelFor(
+                                <%= MonsterApp.RenderUtils.Html.labelFor(
                                         profile, 
                                         'Email',
                                         {style: 'display:inline'})
                                 %>: <span><strong> <%- profile.get('Email') %> </strong></span>
-                            </p>  
+                            </p>          
                             <p>
-                                <%= MonsterApp.RenderUtils.LabelFor(
+                                <%= MonsterApp.RenderUtils.Html.labelFor(
                                         profile, 
                                         'UserName')
                                 %>                                
-                                <%= MonsterApp.RenderUtils.textBoxFor(
+                                <%= MonsterApp.RenderUtils.Html.textBoxFor(
                                             profile,
                                             'UserName',                                           
                                             {class: 'input-block-level'})  
-                                %>      
-                                <%= MonsterApp.RenderUtils.validationMessageFor(
+                                %>   
+                                <%= MonsterApp.RenderUtils.Html.validationMessageFor(
                                             profile,
                                             'UserName',                                           
                                             {class: 'field-validation-valid'})  
-                                %>               
+                                %>
                             </p>
+        
                             <p>
-                                <%= MonsterApp.RenderUtils.LabelFor(
+                                <%= MonsterApp.RenderUtils.Html.labelFor(
                                         profile, 
                                         'Locale')
                                 %>  
-                                <%= MonsterApp.RenderUtils.selectFor(
+                                <%= MonsterApp.RenderUtils.Html.selectFor(
                                         profile, 
                                         'Locale',
                                         {class: 'input-block-level'},
                                         profile.get('SupportedLocales'))
                                 %>   
-                                <%= MonsterApp.RenderUtils.validationMessageFor(
+                                <%= MonsterApp.RenderUtils.Html.validationMessageFor(
                                             profile,
                                             'Locale',                                           
                                             {class: 'field-validation-valid'})  
                                 %>                                                  
                             </p>
                             <p>
-                                <%= MonsterApp.RenderUtils.LabelFor(
+                                <%= MonsterApp.RenderUtils.Html.labelFor(
                                         profile, 
                                         'TimeZone')
                                 %>
-                                <%= MonsterApp.RenderUtils.selectFor(
+                                <%= MonsterApp.RenderUtils.Html.selectFor(
                                         profile, 
                                         'TimeZone',
                                         {class: 'input-block-level'},
                                         profile.get('SupportedTimeZones'))
                                 %>    
-                                <%= MonsterApp.RenderUtils.validationMessageFor(
+                                <%= MonsterApp.RenderUtils.Html.validationMessageFor(
                                             profile,
                                             'TimeZone',                                           
                                             {class: 'field-validation-valid'})  
                                 %>         
-                            </p>      
+                            </p> 
                             <input type="submit" class="btn" value="Not implemented yet"/> 
                         </form>
                     </div>

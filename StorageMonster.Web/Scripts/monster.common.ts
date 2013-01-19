@@ -1,34 +1,40 @@
-var MonsterApp;
-(function (MonsterApp) {
-    MonsterApp.TemplateNames = {
+declare var $;
+declare var MonsterApp;
+module MonsterApp {   
+
+    export var TemplateNames = {
         MasterViewTmpl: "MasterViewTmpl",
         ProfileTmpl: "ProfileTmpl"
     };
-    MonsterApp.CssSelectors = {
+
+    export var CssSelectors = {
         ModalLogonId: ' #modalLogon ',
         ModalLogonBodyClass: ' .modal-body ',
         ModalLogonHeaderId: ' #modalLogonHeader ',
         ErrorInfoBlock: ' div[data-errorinfo] ',
         TemplateCacheId: ' #templateCache '
     };
+
     function lockFormLogon() {
-        $('<div>').addClass('loader').appendTo(MonsterApp.CssSelectors.ModalLogonId);
+        $('<div>')
+            .addClass('loader')
+            .appendTo(CssSelectors.ModalLogonId);
     }
     function unlockFormLogon() {
         $('div.loader').remove();
-        $(MonsterApp.CssSelectors.ModalLogonId).modal('hide');
+        $(CssSelectors.ModalLogonId).modal('hide');
     }
+
     function showLogOnForm(html, title, oldOptions) {
-        $(MonsterApp.CssSelectors.ModalLogonId + MonsterApp.CssSelectors.ModalLogonBodyClass).html(html);
-        $(MonsterApp.CssSelectors.ModalLogonHeaderId).text(title);
-        $.validator.unobtrusive.parse($(MonsterApp.CssSelectors.ModalLogonId));
-        $(MonsterApp.CssSelectors.ModalLogonId).modal('show');
-        $(MonsterApp.CssSelectors.ModalLogonId + MonsterApp.CssSelectors.ModalLogonBodyClass + 'form').on('submit', function (e) {
+        $(CssSelectors.ModalLogonId + CssSelectors.ModalLogonBodyClass).html(html);
+        $(CssSelectors.ModalLogonHeaderId).text(title);
+        $.validator.unobtrusive.parse($(CssSelectors.ModalLogonId));
+        $(CssSelectors.ModalLogonId).modal('show');
+        $(CssSelectors.ModalLogonId + CssSelectors.ModalLogonBodyClass + 'form').on('submit', function (e) {
             e.preventDefault();
-            var form = $(MonsterApp.CssSelectors.ModalLogonId + 'form');
-            if(!form.valid()) {
+            var form = $(CssSelectors.ModalLogonId + 'form');
+            if (!form.valid())
                 return;
-            }
             var url = form.attr('action');
             var formData = form.serialize();
             $.ajax({
@@ -37,13 +43,13 @@ var MonsterApp;
                 dataType: 'json',
                 type: 'post',
                 success: function (data) {
-                    if(typeof data.Authorized != 'undefined') {
-                        if(data.Authorized === false) {
+                    if (typeof data.Authorized != 'undefined') {
+                        if (data.Authorized === false) {
                             showLogOnForm(data.LogOnPage, data.LogOnTitle, oldOptions);
                             $('div.loader').remove();
                             return;
                         }
-                        if(data.Authorized === true) {
+                        if (data.Authorized === true) {
                             unlockFormLogon();
                             Ajax(oldOptions);
                         }
@@ -51,10 +57,9 @@ var MonsterApp;
                 },
                 error: function (responce) {
                     var message = MonsterApp.Messages.ServerError;
-                    if(typeof responce.Error != 'undefined') {
+                    if (typeof responce.Error != 'undefined')
                         message = responce.Error;
-                    }
-                    $(MonsterApp.CssSelectors.ModalLogonId + MonsterApp.CssSelectors.ErrorInfoBlock).text(message).show();
+                    $(CssSelectors.ModalLogonId + CssSelectors.ErrorInfoBlock).text(message).show();
                     $('div.loader').remove();
                 },
                 beforeSend: function () {
@@ -63,27 +68,26 @@ var MonsterApp;
             });
         });
     }
-    function Ajax(options) {
-        options || (options = {
-        });
+
+    export function Ajax(options: any) {
+        options || (options = {});
+
         var successFunction = options.success;
-        options.success = function (data) {
-            if(typeof data.Error != 'undefined') {
-                if($.isFunction(options.error)) {
+        options.success = (data: any) => {
+            if (typeof data.Error != 'undefined') {
+                if ($.isFunction(options.error))
                     options.error(data);
-                }
                 return;
             }
-            if(typeof data.Authorized != 'undefined' && data.Authorized === false) {
+            if (typeof data.Authorized != 'undefined' && data.Authorized === false) {
                 showLogOnForm(data.LogOnPage, data.LogOnTitle, options);
                 $('div.loader').remove();
                 return;
             }
-            if($.isFunction(successFunction)) {
+            if ($.isFunction(successFunction))
                 successFunction(data);
-            }
         };
+
         return $.ajax(options);
     }
-    MonsterApp.Ajax = Ajax;
-})(MonsterApp || (MonsterApp = {}));
+}

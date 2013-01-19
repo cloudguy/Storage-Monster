@@ -16,14 +16,7 @@ namespace StorageMonster.Web.Services
 
         public object GetService(Type serviceType)
         {
-            try
-            {
-                return _container.Resolve(serviceType);
-            }
-            catch
-            {
-                return null;
-            }
+            return _container.Resolve(serviceType);
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
