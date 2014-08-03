@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaRegistrationContextExtensions.cs" />
+    <Compile Include="BundleHelper.cs" />
     <Compile Include="CaseInsensitiveViewEngine.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="CookieHelper.cs" />
