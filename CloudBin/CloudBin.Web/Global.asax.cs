@@ -1,4 +1,5 @@
 ﻿using CloudBin.Core;
+using CloudBin.Core.Configuration;
 using CloudBin.Core.Utilities;
 using CloudBin.IoC.Castle.Windsor;
 using CloudBin.Web.Services.Configuration;
@@ -41,6 +42,11 @@ namespace CloudBin.Web
             IRequestContextProvider requestContextProvider = System.Web.Mvc.DependencyResolver.Current.GetService<IRequestContextProvider>();
             RequestContext.SetProvider(requestContextProvider);
 
+            Logger.Debug("Initializing locales");
+            IGlobalizationConfiguration globalizationConfiguration = System.Web.Mvc.DependencyResolver.Current.GetService<IGlobalizationConfiguration>();
+            ILocaleProvider localeProvider = System.Web.Mvc.DependencyResolver.Current.GetService<ILocaleProvider>();
+            localeProvider.Initialize(globalizationConfiguration);
+
             Logger.Debug("Registering routes");
             RouteConfiguration.RegisterRoutes(RouteTable.Routes);
 
@@ -64,7 +70,6 @@ namespace CloudBin.Web
             DependencyContainer.ShutDown();
         }
 
-
         protected void Application_Error()
         {
             Exception error = Server.GetLastError();
@@ -73,6 +78,5 @@ namespace CloudBin.Web
                 Logger.Error("Unhandled exception", error);
             }
         }
-
     }
 }

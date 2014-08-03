@@ -4,7 +4,7 @@ namespace CloudBin.Web.Utilities
 {
     public sealed class WebXmlConfiguration : IWebConfiguration
     {
-        private static Lazy<WebConfigurationSection> _configSection = new Lazy<WebConfigurationSection>(() =>
+        private static readonly Lazy<WebConfigurationSection> _configSection = new Lazy<WebConfigurationSection>(() =>
         {
             return (WebConfigurationSection) System.Configuration.ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
         }, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);

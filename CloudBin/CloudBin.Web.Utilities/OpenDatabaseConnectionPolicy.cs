@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CloudBin.Core;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.UI;
-using CloudBin.Core;
 
 namespace CloudBin.Web.Utilities
 {
@@ -65,7 +62,7 @@ namespace CloudBin.Web.Utilities
             WebConfiguration = webConfiguration;
         }
         bool IOpenDatabaseConnectionPolicy.DatabaseConnectionRequired(HttpContext context)
-        {
+        {   
             if (!WebConfiguration.DoNotOpenDbSessionForScriptAndContent)
             {
                 return true;

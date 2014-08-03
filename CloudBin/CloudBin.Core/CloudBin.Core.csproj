@@ -38,10 +38,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IGlobalizationConfiguration.cs" />
+    <Compile Include="Configuration\LocaleConfigurationElement.cs" />
+    <Compile Include="Configuration\LocaleConfigurationElementCollection.cs" />
+    <Compile Include="Configuration\GlobalizationConfigurationSection.cs" />
+    <Compile Include="Configuration\GlobalizationXmlConfiguration.cs" />
+    <Compile Include="ILocaleProvider.cs" />
     <Compile Include="IRequestContextProvider.cs" />
+    <Compile Include="Locale.cs" />
+    <Compile Include="LocaleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDependencyContainer.cs" />
     <Compile Include="DependencyContainer.cs" />
@@ -57,7 +66,5 @@
   <ItemGroup />
   <ItemGroup>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

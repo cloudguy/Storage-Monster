@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using CloudBin.Core;
+using CloudBin.Core.Configuration;
 using Common.Logging;
 using CloudBin.Data;
 
@@ -14,6 +16,7 @@ namespace CloudBin.Web.Controllers
 
         public ActionResult Index()
         {
+            ILocaleProvider localeProvider = System.Web.Mvc.DependencyResolver.Current.GetService<ILocaleProvider>();
             var repo = DependencyResolver.Current.GetService<IStoragePluginDescriptorRepository>();
             var res = repo.Read(1);
             //Log.Error("zzzz");
