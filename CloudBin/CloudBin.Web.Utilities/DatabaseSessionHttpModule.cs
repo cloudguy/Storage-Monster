@@ -9,14 +9,14 @@ namespace CloudBin.Web.Utilities
     {
         private static readonly ILog Logger = LogManager.GetCurrentClassLogger();
 
-        private static readonly Lazy<IWebConfiguration> LazyWebConfiguration = new Lazy<IWebConfiguration>(() =>
+        private static readonly Lazy<IOpenDatabaseConnectionPolicy> LazyOpenDatabaseConnectionPolicy = new Lazy<IOpenDatabaseConnectionPolicy>(() =>
         {
-            return (IWebConfiguration) System.Web.Mvc.DependencyResolver.Current.GetService(typeof (IWebConfiguration));
+            return (IOpenDatabaseConnectionPolicy)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IOpenDatabaseConnectionPolicy));
         }, System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
-        private IWebConfiguration WebConfiguration
+        private IOpenDatabaseConnectionPolicy OpenDatabaseConnectionPolicy
         {
-            get { return LazyWebConfiguration.Value; }
+            get { return LazyOpenDatabaseConnectionPolicy.Value; }
         }
 
         #region IHttpModule implementation
@@ -35,7 +35,7 @@ namespace CloudBin.Web.Utilities
 
         private void OnBeginRequest(object sender, EventArgs e)
         {
-            if (WebConfiguration.DoNotOpenDbSessionForScriptAndContent && HttpContext.Current.Request.IsScriptOrContentRequest())
+            if (!OpenDatabaseConnectionPolicy.DatabaseConnectionRequired(HttpContext.Current))
             {
                 return;
             }
@@ -47,7 +47,7 @@ namespace CloudBin.Web.Utilities
 
         private void OnEndRequest(object sender, EventArgs e)
         {
-            if (WebConfiguration.DoNotOpenDbSessionForScriptAndContent && HttpContext.Current.Request.IsScriptOrContentRequest())
+            if (!OpenDatabaseConnectionPolicy.DatabaseConnectionRequired(HttpContext.Current))
             {
                 return;
             }
