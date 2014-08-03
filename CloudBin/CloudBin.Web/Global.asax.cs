@@ -58,7 +58,8 @@ namespace CloudBin.Web
 
             Logger.Debug("Initializing database session manager");
             IDatabaseSessionManager databaseSessionManager = System.Web.Mvc.DependencyResolver.Current.GetService<IDatabaseSessionManager>();
-            databaseSessionManager.Initialize();
+            IDatabaseConfiguration databaseConfiguration = System.Web.Mvc.DependencyResolver.Current.GetService<IDatabaseConfiguration>();
+            databaseSessionManager.Initialize(databaseConfiguration);
             DatabaseSessionManager.SetDatabaseSessionManager(databaseSessionManager);
 
             //AreaRegistration.RegisterAllAreas();

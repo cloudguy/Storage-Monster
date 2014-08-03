@@ -18,19 +18,21 @@ namespace CloudBin.Data.NHibernate
         private const string SessionKey = "NHIBERNATE_CONTEXT_SESSION_KEY";
         private ISessionFactory _sessionFactory;
 
-        IDatabaseSessionManager IDatabaseSessionManager.Initialize()
+        IDatabaseSessionManager IDatabaseSessionManager.Initialize(IDatabaseConfiguration configuration)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+            ConfigurationContext.SetContext(new ConfigurationContext(configuration));
             Configuration cfg = new Configuration();
             _sessionFactory = Fluently.Configure(cfg.Configure())
                 .Mappings(m => m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
                 .BuildSessionFactory();
             stopWatch.Stop();
+            ConfigurationContext.ResetContext();
             _log.DebugFormat(CultureInfo.InvariantCulture, "Configured NHibernate in {0}ms", stopWatch.ElapsedMilliseconds);
             return this;
         }
-
+        
         private ISession ContextSession
         {
             get { return RequestContext.Current.GetValue<ISession>(SessionKey); }

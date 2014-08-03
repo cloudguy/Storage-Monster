@@ -47,6 +47,7 @@
     <Compile Include="Configuration\LocaleConfigurationElementCollection.cs" />
     <Compile Include="Configuration\GlobalizationConfigurationSection.cs" />
     <Compile Include="Configuration\GlobalizationXmlConfiguration.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="ILocaleProvider.cs" />
     <Compile Include="IRequestContextProvider.cs" />
     <Compile Include="Locale.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="RequestContext.cs" />
     <Compile Include="Utilities\ReflectionHelper.cs" />
     <Compile Include="Utilities\AssemblyExtensions.cs" />
+    <Compile Include="Utilities\Synchronized.cs" />
     <Compile Include="Utilities\Verify.cs" />
     <Compile Include="Utilities\UnixTimeExtensions.cs" />
     <Compile Include="Domain\StoragePluginStatus.cs" />

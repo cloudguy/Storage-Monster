@@ -5,7 +5,7 @@ namespace CloudBin.Data
 {
     public interface IDatabaseSessionManager
     {
-        IDatabaseSessionManager Initialize();
+        IDatabaseSessionManager Initialize(IDatabaseConfiguration configuration);
         void DoInTransaction(Action action, IsolationLevel level);
         T DoInTransaction<T>(Func<T> action, IsolationLevel level);
         void DoInTransaction(Action action);
