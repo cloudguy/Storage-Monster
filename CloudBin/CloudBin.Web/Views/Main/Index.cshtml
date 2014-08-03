@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    @ViewData["Message"]
+    @Scripts.Render("~/bundles/jquerycommon.js")
+    @Styles.Render("~/bundles/site.css")
+    <meta name="description" content="The description of my page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+    <body>
+        <br>
+         @Html.ActionLink("index", "Index")
+        <br>
+        @Html.ActionLink("test", "Test")
+        <br>
+        
+    </body>
+</html>
+

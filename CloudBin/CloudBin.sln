@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Web", "CloudBin.Web\CloudBin.Web.csproj", "{E6288A36-A4DD-47C4-9C42-8992488B3596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Core", "CloudBin.Core\CloudBin.Core.csproj", "{C69050D4-E42E-4A1B-81C1-50E0DA66F300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.IoC.Castle.Windsor", "CloudBin.IoC.Castle.Windsor\CloudBin.IoC.Castle.Windsor.csproj", "{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Web.Utilities", "CloudBin.Web.Utilities\CloudBin.Web.Utilities.csproj", "{AE3738E0-D235-4B18-9D8A-A4F70A049B92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Data", "CloudBin.Data\CloudBin.Data.csproj", "{53F40504-6168-4BB7-93E2-0DB9A39F6961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Data.NHibernate", "CloudBin.Data.NHibernate\CloudBin.Data.NHibernate.csproj", "{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlSchema", "SqlSchema", "{D1C6AE9D-D08C-4B85-B923-15DEDC9EE732}"
+	ProjectSection(SolutionItems) = preProject
+		SqlSchema\MySQL.sql = SqlSchema\MySQL.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugLocalMySQL|Any CPU = DebugLocalMySQL|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6288A36-A4DD-47C4-9C42-8992488B3596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6288A36-A4DD-47C4-9C42-8992488B3596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6288A36-A4DD-47C4-9C42-8992488B3596}.DebugLocalMySQL|Any CPU.ActiveCfg = DebugLocalMySQL|Any CPU
+		{E6288A36-A4DD-47C4-9C42-8992488B3596}.DebugLocalMySQL|Any CPU.Build.0 = DebugLocalMySQL|Any CPU
+		{E6288A36-A4DD-47C4-9C42-8992488B3596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6288A36-A4DD-47C4-9C42-8992488B3596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69050D4-E42E-4A1B-81C1-50E0DA66F300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69050D4-E42E-4A1B-81C1-50E0DA66F300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69050D4-E42E-4A1B-81C1-50E0DA66F300}.DebugLocalMySQL|Any CPU.ActiveCfg = DebugLocalMySQL|Any CPU
+		{C69050D4-E42E-4A1B-81C1-50E0DA66F300}.DebugLocalMySQL|Any CPU.Build.0 = DebugLocalMySQL|Any CPU
+		{C69050D4-E42E-4A1B-81C1-50E0DA66F300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69050D4-E42E-4A1B-81C1-50E0DA66F300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}.DebugLocalMySQL|Any CPU.ActiveCfg = DebugLocalMySQL|Any CPU
+		{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}.DebugLocalMySQL|Any CPU.Build.0 = DebugLocalMySQL|Any CPU
+		{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE3738E0-D235-4B18-9D8A-A4F70A049B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE3738E0-D235-4B18-9D8A-A4F70A049B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE3738E0-D235-4B18-9D8A-A4F70A049B92}.DebugLocalMySQL|Any CPU.ActiveCfg = DebugLocalMySQL|Any CPU
+		{AE3738E0-D235-4B18-9D8A-A4F70A049B92}.DebugLocalMySQL|Any CPU.Build.0 = DebugLocalMySQL|Any CPU
+		{AE3738E0-D235-4B18-9D8A-A4F70A049B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE3738E0-D235-4B18-9D8A-A4F70A049B92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F40504-6168-4BB7-93E2-0DB9A39F6961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F40504-6168-4BB7-93E2-0DB9A39F6961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F40504-6168-4BB7-93E2-0DB9A39F6961}.DebugLocalMySQL|Any CPU.ActiveCfg = DebugLocalMySQL|Any CPU
+		{53F40504-6168-4BB7-93E2-0DB9A39F6961}.DebugLocalMySQL|Any CPU.Build.0 = DebugLocalMySQL|Any CPU
+		{53F40504-6168-4BB7-93E2-0DB9A39F6961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F40504-6168-4BB7-93E2-0DB9A39F6961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}.DebugLocalMySQL|Any CPU.ActiveCfg = DebugLocalMySQL|Any CPU
+		{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}.DebugLocalMySQL|Any CPU.Build.0 = DebugLocalMySQL|Any CPU
+		{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = CloudBin.Web\CloudBin.Web.csproj
+	EndGlobalSection
+EndGlobal

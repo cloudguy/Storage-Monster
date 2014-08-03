@@ -1,7 +1,6 @@
 *ReSharper*
-Release/
-bin
-obj
+bin/
+obj/
 Thumbs.db
 *.cache
 *.suo
@@ -9,9 +8,4 @@ Thumbs.db
 *.userprefs
 *.pidb
 *.userprefs
-logs/
 *.log
-TestResult.xml
-StorageMonster.Web/AppConfig.xml
-StorageMonster.Web/IoC.xml
-StorageMonster.Web/Log4Net.xml
