@@ -1,7 +1,6 @@
 ﻿using CloudBin.Core;
 using CloudBin.Core.Configuration;
 using CloudBin.Core.Utilities;
-using CloudBin.IoC.Castle.Windsor;
 using CloudBin.Web.Services.Configuration;
 using CloudBin.Web.Utilities;
 using Common.Logging;
