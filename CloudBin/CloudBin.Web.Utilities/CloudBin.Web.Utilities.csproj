@@ -75,7 +75,9 @@
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="HttpRequestContextProvider.cs" />
+    <Compile Include="IOpenDatabaseConnectionPolicy.cs" />
     <Compile Include="LowercaseRoute.cs" />
+    <Compile Include="OpenDatabaseConnectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />
     <Compile Include="CompressionHttpModule.cs" />
@@ -86,7 +88,7 @@
     <Compile Include="IWebConfiguration.cs" />
     <Compile Include="WebConfigurationSection.cs" />
     <Compile Include="WebXmlConfiguration.cs" />
-    <Compile Include="SecurityHeadersHttpModule.cs" />
+    <Compile Include="HeadersHttpModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudBin.Core\CloudBin.Core.csproj">
