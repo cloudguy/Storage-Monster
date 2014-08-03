@@ -9,11 +9,12 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using DependencyResolver = CloudBin.Web.Utilities.DependencyResolver;
+using DependencyResolver = System.Web.Mvc.DependencyResolver;
 using RequestContext = CloudBin.Core.RequestContext;
 using System;
 using System.Web.Optimization;
 using CloudBin.Data;
+using System.Globalization;
 
 namespace CloudBin.Web
 {
@@ -29,22 +30,28 @@ namespace CloudBin.Web
         protected void Application_Start()
         {
             Logger.Debug("Initializing IoC and controller factory");
-            DependencyContainer.Initialize(WindsorDependencyContainer.Create().RegisterFromAppConfig().RegisterTypesInDirectory(typeof (IController), Assembly.GetExecutingAssembly().Directory()));
-            System.Web.Mvc.DependencyResolver.SetResolver(new DependencyResolver(DependencyContainer.Current));
+            IDependencyContainerConfiguration dependencyContainerConfiguration = new DependencyContainerXmlConfiguration();
+            Type type = Type.GetType(dependencyContainerConfiguration.DependencyContainerType);
+            Verify.NotNull(() => type, string.Format(CultureInfo.InvariantCulture, "Dependency container type not found"));
+// ReSharper disable AssignNullToNotNullAttribute
+            IDependencyContainer container = (IDependencyContainer)Activator.CreateInstance(type);
+// ReSharper restore AssignNullToNotNullAttribute
+            DependencyContainer.Initialize(container.RegisterFromAppConfig().RegisterTypesInDirectory(typeof(IController), Assembly.GetExecutingAssembly().Directory()));
+            DependencyResolver.SetResolver(new Utilities.DependencyResolver(DependencyContainer.Current));
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(DependencyContainer.Current));
 
-            if (System.Web.Mvc.DependencyResolver.Current.GetService<IWebConfiguration>().RemoveVersionHeaders)
+            if (DependencyResolver.Current.GetService<IWebConfiguration>().RemoveVersionHeaders)
             {
                 MvcHandler.DisableMvcResponseHeader = true;
             }
 
             Logger.Debug("Settings request context provider");
-            IRequestContextProvider requestContextProvider = System.Web.Mvc.DependencyResolver.Current.GetService<IRequestContextProvider>();
+            IRequestContextProvider requestContextProvider = DependencyResolver.Current.GetService<IRequestContextProvider>();
             RequestContext.SetProvider(requestContextProvider);
 
             Logger.Debug("Initializing locales");
-            IGlobalizationConfiguration globalizationConfiguration = System.Web.Mvc.DependencyResolver.Current.GetService<IGlobalizationConfiguration>();
-            ILocaleProvider localeProvider = System.Web.Mvc.DependencyResolver.Current.GetService<ILocaleProvider>();
+            IGlobalizationConfiguration globalizationConfiguration = DependencyResolver.Current.GetService<IGlobalizationConfiguration>();
+            ILocaleProvider localeProvider = DependencyResolver.Current.GetService<ILocaleProvider>();
             localeProvider.Initialize(globalizationConfiguration);
 
             Logger.Debug("Registering routes");
@@ -57,13 +64,10 @@ namespace CloudBin.Web
             CaseInsensitiveViewEngine.Register(ViewEngines.Engines);
 
             Logger.Debug("Initializing database session manager");
-            IDatabaseSessionManager databaseSessionManager = System.Web.Mvc.DependencyResolver.Current.GetService<IDatabaseSessionManager>();
-            IDatabaseConfiguration databaseConfiguration = System.Web.Mvc.DependencyResolver.Current.GetService<IDatabaseConfiguration>();
+            IDatabaseSessionManager databaseSessionManager = DependencyResolver.Current.GetService<IDatabaseSessionManager>();
+            IDatabaseConfiguration databaseConfiguration = DependencyResolver.Current.GetService<IDatabaseConfiguration>();
             databaseSessionManager.Initialize(databaseConfiguration);
             DatabaseSessionManager.SetDatabaseSessionManager(databaseSessionManager);
-
-            //AreaRegistration.RegisterAllAreas();
-            //RegisterGlobalFilters(GlobalFilters.Filters);
         }
 
         protected void Application_End()

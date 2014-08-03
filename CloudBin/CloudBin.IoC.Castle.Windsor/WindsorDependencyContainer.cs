@@ -12,14 +12,9 @@ namespace CloudBin.IoC.Castle.Windsor
     {
         private readonly IWindsorContainer _windsorContainer;
 
-        private WindsorDependencyContainer()
+        public WindsorDependencyContainer()
         {
             _windsorContainer = new WindsorContainer();
-        }
-
-        public static IDependencyContainer Create()
-        {
-            return new WindsorDependencyContainer();
         }
 
         #region IDependencyContainer implementation

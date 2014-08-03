@@ -42,6 +42,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\DependencyContainerXmlConfiguration.cs" />
+    <Compile Include="Configuration\DependencyContainerConfigurationSection.cs" />
+    <Compile Include="Configuration\IDependencyContainerConfiguration.cs" />
     <Compile Include="Configuration\IGlobalizationConfiguration.cs" />
     <Compile Include="Configuration\LocaleConfigurationElement.cs" />
     <Compile Include="Configuration\LocaleConfigurationElementCollection.cs" />
