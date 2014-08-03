@@ -1,7 +1,10 @@
+using System.Globalization;
 using System.Linq;
 using System.Web.Optimization;
+using CloudBin.Core.Utilities;
+using CloudBin.Web.Utilities;
 
-namespace CloudBin.Web
+namespace CloudBin.Web.Services.Configuration
 {
     internal static class BundlesConfiguration
     {
@@ -9,12 +12,12 @@ namespace CloudBin.Web
         {
             BundleTable.EnableOptimizations = true;
 
-            bundles.Add(new ScriptBundle("~/bundles/jquerycommon.js").Include(
+            bundles.Add(new ScriptBundle(BundleHelper.GetBundlePath("jquerycommon.js")).Include(
                 "~/Scripts/jquery-{version}.min.js",
                 "~/Scripts/jquery.validate.min.js",
                 "~/Scripts/jquery.validate.unobtrusive.min.js").RemoveJsMinifier());
 
-            bundles.Add(new StyleBundle("~/bundles/site.css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle(BundleHelper.GetBundlePath("site.css")).Include("~/Content/site.css"));
         }
 
         private static Bundle RemoveJsMinifier(this Bundle bundle)
