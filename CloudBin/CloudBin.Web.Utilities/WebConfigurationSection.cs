@@ -29,5 +29,11 @@ namespace CloudBin.Web.Utilities
         {
             get { return (bool) this["sendSecurityHeaders"]; }
         }
+
+        [ConfigurationProperty("removeVersionHeaders", DefaultValue = "True", IsRequired = false)]
+        public bool RemoveVersionHeaders
+        {
+            get { return (bool)this["removeVersionHeaders"]; }
+        }
     }
 }

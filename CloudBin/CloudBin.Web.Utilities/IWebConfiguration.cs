@@ -6,5 +6,6 @@ namespace CloudBin.Web.Utilities
         bool CompressDynamicContent { get; }
         bool CompressStaticContent { get; }
         bool SendSecurityHeaders { get; }
+        bool RemoveVersionHeaders { get; }
     }
 }

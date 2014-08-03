@@ -63,11 +63,11 @@ namespace CloudBin.Web.Utilities
             {
                 case CompressionType.Gzip:
                     response.Filter = new System.IO.Compression.GZipStream(response.Filter, System.IO.Compression.CompressionMode.Compress);
-                    response.Headers[Constants.ContentEncodingHeaderName] = Constants.GzipEncodingHeaderValue;
+                    response.AppendHeader(Constants.ContentEncodingHeaderName, Constants.GzipEncodingHeaderValue);
                     break;
                 case CompressionType.Deflate:
                     response.Filter = new System.IO.Compression.DeflateStream(response.Filter, System.IO.Compression.CompressionMode.Compress);
-                    response.Headers[Constants.ContentEncodingHeaderName] = Constants.DeflateEncodingHeaderValue;
+                    response.AppendHeader(Constants.ContentEncodingHeaderName, Constants.DeflateEncodingHeaderValue);
                     break;
             }
 

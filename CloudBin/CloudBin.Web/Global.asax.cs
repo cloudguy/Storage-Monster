@@ -32,6 +32,11 @@ namespace CloudBin.Web
             System.Web.Mvc.DependencyResolver.SetResolver(new DependencyResolver(DependencyContainer.Current));
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(DependencyContainer.Current));
 
+            if (System.Web.Mvc.DependencyResolver.Current.GetService<IWebConfiguration>().RemoveVersionHeaders)
+            {
+                MvcHandler.DisableMvcResponseHeader = true;
+            }
+
             Logger.Debug("Settings request context provider");
             IRequestContextProvider requestContextProvider = System.Web.Mvc.DependencyResolver.Current.GetService<IRequestContextProvider>();
             RequestContext.SetProvider(requestContextProvider);

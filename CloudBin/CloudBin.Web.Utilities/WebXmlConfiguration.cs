@@ -8,9 +8,7 @@ namespace CloudBin.Web.Utilities
         {
             return (WebConfigurationSection) System.Configuration.ConfigurationManager.GetSection(WebConfigurationSection.SectionLocation);
         }, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
-
-        #region IWebConfiguration implementation
-
+       
         bool IWebConfiguration.DoNotOpenDbSessionForScriptAndContent
         {
             get { return _configSection.Value.DoNotOpenDbSessionForScriptAndContent; }
@@ -31,6 +29,9 @@ namespace CloudBin.Web.Utilities
             get { return _configSection.Value.SendSecurityHeaders; }
         }
 
-        #endregion
+        bool IWebConfiguration.RemoveVersionHeaders
+        {
+            get { return _configSection.Value.RemoveVersionHeaders; }
+        }
     }
 }
