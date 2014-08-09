@@ -10,8 +10,9 @@ namespace CloudBin.Data.NHibernate.Mappings
             Table("users");
             Id(x => x.Id).Column("id").GeneratedBy.Native();
             Map(x => x.Name).Column("name").Not.Nullable().Length(100);
+            HasMany(x => x.Emails).LazyLoad().Inverse().KeyColumn("user_id");
             Map(x => x.Password).Column("password").Not.Nullable().Length(200);
-            Map(x => x.Locale).Column("locale").Not.Nullable().Length(10).Default("'en-US'");
+            Map(x => x.Locale).Column("locale").Not.Nullable().Length(10).Default("en-US");
             Map(x => x.TimeZone).Column("timezone").Not.Nullable().Default("0");
             if (ConfigurationContext.Current.Configuration.UseOptimisticLockForUsers)
             {

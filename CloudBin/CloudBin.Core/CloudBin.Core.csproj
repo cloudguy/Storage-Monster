@@ -51,6 +51,7 @@
     <Compile Include="Configuration\GlobalizationConfigurationSection.cs" />
     <Compile Include="Configuration\GlobalizationXmlConfiguration.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\UserEmail.cs" />
     <Compile Include="ILocaleProvider.cs" />
     <Compile Include="IRequestContextProvider.cs" />
     <Compile Include="Locale.cs" />
