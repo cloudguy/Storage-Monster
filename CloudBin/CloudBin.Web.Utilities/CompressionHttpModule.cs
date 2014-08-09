@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.UI;
 using System.Web.Mvc;
+using CloudBin.Web.Utilities.Configuration;
 
 namespace CloudBin.Web.Utilities
 {

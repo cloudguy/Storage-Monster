@@ -62,13 +62,16 @@
     <Compile Include="ConfigurationContext.cs" />
     <Compile Include="Mappings\UserEmailMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
+    <Compile Include="Mappings\UserSessionMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mappings\StoragePluginDescriptorMap.cs" />
     <Compile Include="Types\StoragePluginStatusType.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="StoragePluginDescriptorRepository.cs" />
+    <Compile Include="Types\UnixDateTimeOffsetType.cs" />
     <Compile Include="UserRepository.cs" />
+    <Compile Include="UserSessionRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

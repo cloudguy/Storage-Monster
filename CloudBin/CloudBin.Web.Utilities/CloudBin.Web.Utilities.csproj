@@ -70,6 +70,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaRegistrationContextExtensions.cs" />
+    <Compile Include="Configuration\AuthenticationConfigurationSection.cs" />
+    <Compile Include="Configuration\IAuthenticationConfiguration.cs" />
+    <Compile Include="Configuration\XmlAuthenticationConfiguration.cs" />
+    <Compile Include="RequestCheckersFactory.cs" />
+    <Compile Include="RequestContextProviderExtensions.cs" />
+    <Compile Include="Security\AuthenticationCookie.cs" />
+    <Compile Include="Security\CookieAuthenticationHttpModule.cs" />
+    <Compile Include="Security\CookieAuthenticationService.cs" />
+    <Compile Include="Security\CookieProtector.cs" />
+    <Compile Include="Security\EncryptionFactory.cs" />
+    <Compile Include="Security\IAuthenticationService.cs" />
+    <Compile Include="Security\ICookieEncryption.cs" />
+    <Compile Include="Security\ICookieValidation.cs" />
     <Compile Include="BundleHelper.cs" />
     <Compile Include="CaseInsensitiveViewEngine.cs" />
     <Compile Include="ControllerFactory.cs" />
@@ -82,14 +95,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteCollectionExtensions.cs" />
     <Compile Include="CompressionHttpModule.cs" />
-    <Compile Include="IWebCompressionConfiguration.cs" />
     <Compile Include="DatabaseSessionHttpModule.cs" />
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="IWebConfiguration.cs" />
-    <Compile Include="WebConfigurationSection.cs" />
-    <Compile Include="WebXmlConfiguration.cs" />
+    <Compile Include="Configuration\IWebConfiguration.cs" />
+    <Compile Include="Security\Identity.cs" />
+    <Compile Include="Security\KeyedHashValidation.cs" />
+    <Compile Include="Security\SymmetricEncryption.cs" />
+    <Compile Include="Configuration\WebConfigurationSection.cs" />
+    <Compile Include="Configuration\WebXmlConfiguration.cs" />
     <Compile Include="HeadersHttpModule.cs" />
+    <Compile Include="Security\ValidationFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudBin.Core\CloudBin.Core.csproj">

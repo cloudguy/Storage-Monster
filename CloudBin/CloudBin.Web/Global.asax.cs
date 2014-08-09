@@ -3,6 +3,7 @@ using CloudBin.Core.Configuration;
 using CloudBin.Core.Utilities;
 using CloudBin.Web.Services.Configuration;
 using CloudBin.Web.Utilities;
+using CloudBin.Web.Utilities.Configuration;
 using Common.Logging;
 using System.Reflection;
 using System.Web;

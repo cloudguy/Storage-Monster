@@ -1,6 +1,6 @@
 using System.Configuration;
 
-namespace CloudBin.Web.Utilities
+namespace CloudBin.Web.Utilities.Configuration
 {
     public sealed class WebConfigurationSection : ConfigurationSection
     {

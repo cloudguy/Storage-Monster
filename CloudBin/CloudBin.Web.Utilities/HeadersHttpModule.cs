@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using CloudBin.Web.Utilities.Configuration;
 
 namespace CloudBin.Web.Utilities
 {

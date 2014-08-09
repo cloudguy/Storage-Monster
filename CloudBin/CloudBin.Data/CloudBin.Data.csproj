@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IUserRepository.cs" />
+    <Compile Include="IUserSessionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDatabaseSessionManager.cs" />
     <Compile Include="IDatabaseConfiguration.cs" />

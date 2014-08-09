@@ -38,3 +38,24 @@ CREATE TABLE `users_emails` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
+
+CREATE  TABLE `user_sessions` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `user_id` INT NOT NULL ,
+  `session_token` VARCHAR(32) NOT NULL ,
+  `is_persistent` TINYINT(1) NOT NULL,  
+  `user_agent` VARCHAR(200) NOT NULL ,  
+  `ip_address` VARCHAR(100) NOT NULL ,  
+  `expires` BIGINT NOT NULL ,
+  `signed_in` BIGINT NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_sessions_users` (`user_id` ASC) ,
+  UNIQUE INDEX `un_user_sessions_session_token` (`session_token` ASC) ,
+  CONSTRAINT `fk_user_sessions_users`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `users` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
