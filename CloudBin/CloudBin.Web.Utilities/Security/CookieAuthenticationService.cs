@@ -32,6 +32,11 @@ namespace CloudBin.Web.Utilities.Security
             throw new NotImplementedException();
         }
 
+        void IAuthenticationService.SignOut()
+        {
+            ((IAuthenticationService)this).SignOut(HttpContext.Current);
+        }
+
         void IAuthenticationService.SignOut(HttpContext httpContext)
         {
             ExpireAuthCookie(httpContext);
@@ -68,7 +73,6 @@ namespace CloudBin.Web.Utilities.Security
         void IAuthenticationService.AuthenticateRequest(HttpContext httpContext)
         {
             var request = httpContext.Request;
-            var response = httpContext.Response;
 
             if (_authenticationConfiguration.DoNotAuthenticateScriptAndContent && StaticContentCheckers.Any(checker => checker(httpContext)))
             {

@@ -1,0 +1,35 @@
+﻿@using CloudBin.Web.Utilities
+@model CloudBin.Web.Models.Account.RegisterModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Scripts.Render(BundleHelper.GetBundlePath("jquerycommon.js"))
+    <title></title>
+</head>
+<body>
+    <div>
+
+        @using(Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+        <p>
+            @Html.LabelFor(m=>m.UserName)
+            @Html.TextBoxFor(m=>m.UserName)
+            @Html.ValidationMessageFor(m=>m.UserName)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email)
+        </p>
+        <input type="submit" value="Register" />
+        }
+
+    </div>
+</body>
+</html>

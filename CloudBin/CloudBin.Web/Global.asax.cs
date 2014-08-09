@@ -68,6 +68,9 @@ namespace CloudBin.Web
             IDatabaseConfiguration databaseConfiguration = DependencyResolver.Current.GetService<IDatabaseConfiguration>();
             databaseSessionManager.Initialize(databaseConfiguration);
             DatabaseSessionManager.SetDatabaseSessionManager(databaseSessionManager);
+
+            Logger.Debug("Initializing validation");
+            FluentValidation.Mvc.FluentValidationModelValidatorProvider.Configure();
         }
 
         protected void Application_End()
