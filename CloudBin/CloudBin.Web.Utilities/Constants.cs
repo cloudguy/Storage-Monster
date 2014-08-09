@@ -26,6 +26,6 @@ namespace CloudBin.Web.Utilities
         public static readonly string PoweredByHeaderName = "X-Powered-By";
         public static readonly string AspNetVersionHeaderName = "X-AspNet-Version";
         public static readonly string AspNetMvcVersionHeaderName = "X-AspNetMvc-Version";
-        public static readonly string ServerHeaderName = "X-AspNetMvc-Version";
+        public static readonly string ServerHeaderName = "Server";
     }
 }
