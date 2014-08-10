@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4B555A41-CB8C-410F-A77C-0847C668DEDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CloudBin.Scheduling.Quartz</RootNamespace>
+    <AssemblyName>CloudBin.Scheduling.Quartz</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.2.2.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\packages\Quartz.2.2.4\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="job_scheduling_data_2_0.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudBin.Scheduling.Core\CloudBin.Scheduling.Core.csproj">
+      <Project>{224E1637-BBD4-4D36-AFF3-F0EA944850D7}</Project>
+      <Name>CloudBin.Scheduling.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBin.Core\CloudBin.Core.csproj">
+      <Project>{C69050D4-E42E-4A1B-81C1-50E0DA66F300}</Project>
+      <Name>CloudBin.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBin.Data\CloudBin.Data.csproj">
+      <Project>{53F40504-6168-4BB7-93E2-0DB9A39F6961}</Project>
+      <Name>CloudBin.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBin.Data.NHibernate\CloudBin.Data.NHibernate.csproj">
+      <Project>{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}</Project>
+      <Name>CloudBin.Data.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBin.IoC.Castle.Windsor\CloudBin.IoC.Castle.Windsor.csproj">
+      <Project>{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}</Project>
+      <Name>CloudBin.IoC.Castle.Windsor</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
