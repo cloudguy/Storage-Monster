@@ -45,7 +45,6 @@ namespace CloudBin.Data.NHibernate.Types
             }
 
             var dtValue = (DateTimeOffset)value;
-            Int64 intValue = dtValue.ConvertToUnixTimestamp();
             ((IDataParameter)cmd.Parameters[index]).Value = dtValue.ConvertToUnixTimestamp();
         }
 
