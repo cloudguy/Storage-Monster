@@ -50,6 +50,7 @@
     <Compile Include="Configuration\LocaleConfigurationElementCollection.cs" />
     <Compile Include="Configuration\GlobalizationConfigurationSection.cs" />
     <Compile Include="Configuration\GlobalizationXmlConfiguration.cs" />
+    <Compile Include="DependencyContainerFactory.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserEmail.cs" />
     <Compile Include="Domain\UserSession.cs" />

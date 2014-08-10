@@ -31,11 +31,7 @@ namespace CloudBin.Web.UI
         {
             Logger.Debug("Initializing IoC and controller factory");
             IDependencyContainerConfiguration dependencyContainerConfiguration = new DependencyContainerXmlConfiguration();
-            Type type = Type.GetType(dependencyContainerConfiguration.DependencyContainerType);
-            Verify.NotNull(() => type, string.Format(CultureInfo.InvariantCulture, "Dependency container type not found"));
-// ReSharper disable AssignNullToNotNullAttribute
-            IDependencyContainer container = (IDependencyContainer)Activator.CreateInstance(type);
-// ReSharper restore AssignNullToNotNullAttribute
+            IDependencyContainer container = DependencyContainerFactory.CreateContainer(dependencyContainerConfiguration);
             DependencyContainer.Initialize(container.RegisterFromAppConfig().RegisterTypesInDirectory(typeof(IController), Assembly.GetExecutingAssembly().Directory()));
             DependencyResolver.SetResolver(new Core.DependencyResolver(DependencyContainer.Current));
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(DependencyContainer.Current));
