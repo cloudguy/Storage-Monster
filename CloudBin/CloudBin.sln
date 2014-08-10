@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Scheduling.Core", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Scheduling.Quartz", "CloudBin.Scheduling.Quartz\CloudBin.Scheduling.Quartz.csproj", "{4B555A41-CB8C-410F-A77C-0847C668DEDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBin.Scheduling.Jobs.Python", "CloudBin.Scheduling.Jobs.Python\CloudBin.Scheduling.Jobs.Python.csproj", "{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,12 @@ Global
 		{4B555A41-CB8C-410F-A77C-0847C668DEDF}.DebugLocalMySQL|Any CPU.Build.0 = Release|Any CPU
 		{4B555A41-CB8C-410F-A77C-0847C668DEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B555A41-CB8C-410F-A77C-0847C668DEDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}.DebugLocalMySQL|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}.DebugLocalMySQL|Any CPU.Build.0 = Debug|Any CPU
+		{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C1CEEA-A2F1-4B12-898B-DE825D9C08DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
