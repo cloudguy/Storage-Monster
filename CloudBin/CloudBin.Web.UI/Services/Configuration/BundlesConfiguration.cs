@@ -1,6 +1,9 @@
 using System.Linq;
 using System.Web.Optimization;
+using BundleTransformer.Core.PostProcessors;
+using BundleTransformer.Core.Transformers;
 using CloudBin.Web.Core;
+using Microsoft.Ajax.Utilities;
 
 namespace CloudBin.Web.UI.Services.Configuration
 {
@@ -10,12 +13,35 @@ namespace CloudBin.Web.UI.Services.Configuration
         {
             BundleTable.EnableOptimizations = true;
 
-            bundles.Add(new ScriptBundle(BundleHelper.GetBundlePath("jquerycommon.js")).Include(
+            var scriptTransformer = new JsTransformer();
+            var scriptbundle = new Bundle(BundleHelper.GetBundlePath("jquerycommon.js"), scriptTransformer);
+            scriptbundle.Include(
+                "~/Scripts/vendor/jquery-{version}.js",
+                "~/Scripts/vendor/jquery.validate.js",
+                "~/Scripts/vendor/jquery.validate.unobtrusive.js");
+            bundles.Add(scriptbundle);
+          /*  bundles.Add(new ScriptBundle(BundleHelper.GetBundlePath("jquerycommon.js")).Include(
                 "~/Scripts/vendor/jquery-{version}.min.js",
                 "~/Scripts/vendor/jquery.validate.min.js",
                 "~/Scripts/vendor/jquery.validate.unobtrusive.min.js").RemoveJsMinifier());
+            */
+          
+            /*
+            var u = new UrlRewritingCssPostProcessor();
+            u.UseInDebugMode = true;
+            var styleTransformer = new StyleTransformer(new IPostProcessor[] { u});
+            //styleTransformer.
+            var st = new StyleBundle(BundleHelper.GetBundlePath("site.css")).Include("~/Content/site.css");
+            st.Transforms.Add(styleTransformer);
+            bundles.Add(st);
+             * */
 
-            bundles.Add(new StyleBundle(BundleHelper.GetBundlePath("site.css")).Include("~/Content/site.css"));
+
+            var cssTransformer = new CssTransformer();
+            //cssTransformer.Minifier.
+            var commonStylesBundle = new Bundle(BundleHelper.GetBundlePath("site.css"), cssTransformer);
+            commonStylesBundle.Include("~/Content/site.css");
+            bundles.Add(commonStylesBundle);
         }
 
         private static Bundle RemoveJsMinifier(this Bundle bundle)
