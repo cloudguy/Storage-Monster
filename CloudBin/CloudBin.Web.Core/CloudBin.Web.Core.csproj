@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaRegistrationContextExtensions.cs" />
+    <Compile Include="Bundling\BundlingHtmlHelperExtensions.cs" />
     <Compile Include="Configuration\AuthenticationConfigurationSection.cs" />
     <Compile Include="Configuration\IAuthenticationConfiguration.cs" />
     <Compile Include="Configuration\IThemingConfiguration.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Configuration\ThemingConfigurationSection.cs" />
     <Compile Include="Configuration\ThemingXmlConfiguration.cs" />
     <Compile Include="Configuration\XmlAuthenticationConfiguration.cs" />
+    <Compile Include="Bundling\IBundleProvider.cs" />
     <Compile Include="RequestCheckersFactory.cs" />
     <Compile Include="RequestContextProviderExtensions.cs" />
     <Compile Include="Security\AuthenticationCookie.cs" />
@@ -88,7 +90,6 @@
     <Compile Include="Security\IAuthenticationService.cs" />
     <Compile Include="Security\ICookieEncryption.cs" />
     <Compile Include="Security\ICookieValidation.cs" />
-    <Compile Include="BundleHelper.cs" />
     <Compile Include="CaseInsensitiveViewEngine.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="CookieHelper.cs" />

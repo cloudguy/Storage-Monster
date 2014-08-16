@@ -222,7 +222,7 @@
     <Content Include="Content\kendo\2014.1.318\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo\2014.1.318\kendo.bootstrap.mobile.min.css" />
     <Content Include="Content\kendo\2014.1.318\kendo.common-bootstrap.core.min.css" />
-    <Content Include="Content\kendo\2014.1.318\kendo.common-bootstrap.min.css" />
+    <Content Include="Content\css\kendo.common-bootstrap.min.css" />
     <Content Include="Content\kendo\2014.1.318\kendo.common.core.min.css" />
     <Content Include="Content\kendo\2014.1.318\kendo.common.min.css" />
     <Content Include="Content\kendo\2014.1.318\kendo.default.min.css" />
@@ -327,8 +327,8 @@
     <Content Include="Content\themes\default\bootstrap-theme.min.css">
       <DependentUpon>bootstrap-theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\themes\default\bootstrap.css" />
-    <Content Include="Content\themes\default\bootstrap.min.css">
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -469,6 +469,10 @@
     <ProjectReference Include="..\CloudBin.IoC.Castle.Windsor\CloudBin.IoC.Castle.Windsor.csproj">
       <Project>{FCFC6FE9-C5DC-48B4-A2A4-CAD79AAFD67F}</Project>
       <Name>CloudBin.IoC.Castle.Windsor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBin.Web.BundleTransformer\CloudBin.Web.BundleTransformer.csproj">
+      <Project>{b28a22c5-4168-4e3f-9a16-501eb9db46bb}</Project>
+      <Name>CloudBin.Web.BundleTransformer</Name>
     </ProjectReference>
     <ProjectReference Include="..\CloudBin.Web.Core\CloudBin.Web.Core.csproj">
       <Project>{AE3738E0-D235-4B18-9D8A-A4F70A049B92}</Project>

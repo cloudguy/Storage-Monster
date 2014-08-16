@@ -15,7 +15,6 @@ namespace CloudBin.Web.Core
 
         public static readonly string ScriptsFolderName = "Scripts";
         public static readonly string ContentFolderName = "Content";
-        public static readonly string BundlesRootPath = "bundles";
 
         public static readonly string GzipEncodingHeaderValue = "gzip";
         public static readonly string DeflateEncodingHeaderValue = "deflate";

@@ -1,11 +1,11 @@
-﻿using System.Globalization;
-using CloudBin.Core.Utilities;
+﻿using CloudBin.Core.Utilities;
+using System.Globalization;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.BundleTransformer
 {
-    public static class BundleHelper
+    internal static class BundleHelper
     {
-        public static string GetBundlePath(string bundleName)
+        internal static string GetBundlePath(string bundleName)
         {
             Verify.NotNullOrWhiteSpace(() => bundleName);
             return string.Format(CultureInfo.InvariantCulture, "~/{0}/{1}", Constants.BundlesRootPath, bundleName);

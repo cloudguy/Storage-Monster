@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
@@ -54,14 +55,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BundleHelper.cs" />
+    <Compile Include="BundleProvider.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudBin.Core\CloudBin.Core.csproj">
+      <Project>{C69050D4-E42E-4A1B-81C1-50E0DA66F300}</Project>
+      <Name>CloudBin.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBin.Web.Core\CloudBin.Web.Core.csproj">
+      <Project>{ae3738e0-d235-4b18-9d8a-a4f70a049b92}</Project>
+      <Name>CloudBin.Web.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

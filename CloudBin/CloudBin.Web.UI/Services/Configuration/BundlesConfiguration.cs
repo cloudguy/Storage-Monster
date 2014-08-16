@@ -3,7 +3,9 @@ using System.Web.Optimization;
 using BundleTransformer.Core.PostProcessors;
 using BundleTransformer.Core.Transformers;
 using CloudBin.Web.Core;
+using CloudBin.Web.Core.Bundling;
 using Microsoft.Ajax.Utilities;
+using DependencyResolver = System.Web.Mvc.DependencyResolver;
 
 namespace CloudBin.Web.UI.Services.Configuration
 {
@@ -11,21 +13,37 @@ namespace CloudBin.Web.UI.Services.Configuration
     {
         internal static void RegisterBundles(BundleCollection bundles)
         {
-            BundleTable.EnableOptimizations = true;
-
-            var scriptTransformer = new JsTransformer();
-            var scriptbundle = new Bundle(BundleHelper.GetBundlePath("jquerycommon.js"), scriptTransformer);
-            scriptbundle.Include(
+            IBundleProvider provider = (IBundleProvider) DependencyResolver.Current.GetService(typeof (IBundleProvider));
+            provider.EnableOptimizations = true;
+            provider.RegisterScriptBundle("jquerycommon.js", new[]
+            {
                 "~/Scripts/vendor/jquery-{version}.js",
                 "~/Scripts/vendor/jquery.validate.js",
-                "~/Scripts/vendor/jquery.validate.unobtrusive.js");
-            bundles.Add(scriptbundle);
-          /*  bundles.Add(new ScriptBundle(BundleHelper.GetBundlePath("jquerycommon.js")).Include(
+                "~/Scripts/vendor/jquery.validate.unobtrusive.js"
+            });
+
+            provider.RegisterStyleBundle("site.css", new[]
+            {
+                "~/Content/site.css"
+            });
+
+            //BundleTable.EnableOptimizations = true;
+
+            //var scriptTransformer = new JsTransformer();
+            //var scriptbundle = new Bundle(BundleHelper.GetBundlePath("jquerycommon.js"), scriptTransformer);
+            //scriptbundle.Include(
+            //    "~/Scripts/vendor/jquery-{version}.js",
+            //    "~/Scripts/vendor/jquery.validate.js",
+            //    "~/Scripts/vendor/jquery.validate.unobtrusive.js");
+            //bundles.Add(scriptbundle);
+
+
+            /*  bundles.Add(new ScriptBundle(BundleHelper.GetBundlePath("jquerycommon.js")).Include(
                 "~/Scripts/vendor/jquery-{version}.min.js",
                 "~/Scripts/vendor/jquery.validate.min.js",
                 "~/Scripts/vendor/jquery.validate.unobtrusive.min.js").RemoveJsMinifier());
             */
-          
+
             /*
             var u = new UrlRewritingCssPostProcessor();
             u.UseInDebugMode = true;
@@ -37,11 +55,10 @@ namespace CloudBin.Web.UI.Services.Configuration
              * */
 
 
-            var cssTransformer = new CssTransformer();
-            //cssTransformer.Minifier.
-            var commonStylesBundle = new Bundle(BundleHelper.GetBundlePath("site.css"), cssTransformer);
-            commonStylesBundle.Include("~/Content/site.css");
-            bundles.Add(commonStylesBundle);
+            //var cssTransformer = new CssTransformer();
+            //var commonStylesBundle = new Bundle(BundleHelper.GetBundlePath("site.css"), cssTransformer);
+            //commonStylesBundle.Include("~/Content/site.css");
+            //bundles.Add(commonStylesBundle);
         }
 
         private static Bundle RemoveJsMinifier(this Bundle bundle)
