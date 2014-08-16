@@ -72,6 +72,11 @@
     <Compile Include="AreaRegistrationContextExtensions.cs" />
     <Compile Include="Configuration\AuthenticationConfigurationSection.cs" />
     <Compile Include="Configuration\IAuthenticationConfiguration.cs" />
+    <Compile Include="Configuration\IThemingConfiguration.cs" />
+    <Compile Include="Configuration\ThemeConfigurationElement.cs" />
+    <Compile Include="Configuration\ThemeConfigurationElementCollection.cs" />
+    <Compile Include="Configuration\ThemingConfigurationSection.cs" />
+    <Compile Include="Configuration\ThemingXmlConfiguration.cs" />
     <Compile Include="Configuration\XmlAuthenticationConfiguration.cs" />
     <Compile Include="RequestCheckersFactory.cs" />
     <Compile Include="RequestContextProviderExtensions.cs" />
@@ -106,6 +111,9 @@
     <Compile Include="Configuration\WebXmlConfiguration.cs" />
     <Compile Include="HeadersHttpModule.cs" />
     <Compile Include="Security\ValidationFactory.cs" />
+    <Compile Include="Theming\IThemeProvider.cs" />
+    <Compile Include="Theming\Theme.cs" />
+    <Compile Include="Theming\ThemeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudBin.Core\CloudBin.Core.csproj">
