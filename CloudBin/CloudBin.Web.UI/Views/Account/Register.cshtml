@@ -1,4 +1,5 @@
 ﻿@using CloudBin.Web.Core
+@using CloudBin.Web.Core.Bundling
 @model CloudBin.Web.UI.Models.Account.RegisterModel
 @{
     Layout = null;
@@ -9,7 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    @Scripts.Render(BundleHelper.GetBundlePath("jquerycommon.js"))
+    @Html.RenderScriptBundle("jquerycommon.js")
     <title></title>
 </head>
 <body>

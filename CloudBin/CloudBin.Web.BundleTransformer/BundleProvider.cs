@@ -79,7 +79,7 @@ namespace CloudBin.Web.BundleTransformer
         void IBundleProvider.Initialize()
         {
             IBundleTransformerContext currentContext = global::BundleTransformer.Core.BundleTransformerContext.Current;
-            global::BundleTransformer.Core.BundleTransformerContext.Current = new CloudBin.Web.BundleTransformer.BundleTransformerContext(currentContext);
+            global::BundleTransformer.Core.BundleTransformerContext.Current = new BundleTransformerContext(currentContext);
         }
     }
 }
