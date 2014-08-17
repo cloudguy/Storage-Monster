@@ -9,6 +9,6 @@ namespace CloudBin.Web.Core.Bundling
         IHtmlString GetBundleUrl(string bundleName);
         bool IsBundleRequest();
         bool EnableOptimizations { get; set; }
-		void Initialize();
+        void Initialize();
     }
 }
