@@ -15,6 +15,7 @@ namespace CloudBin.Web.UI.Services.Configuration
         {
             IBundleProvider provider = (IBundleProvider) DependencyResolver.Current.GetService(typeof (IBundleProvider));
             provider.EnableOptimizations = true;
+			provider.Initialize ();
             provider.RegisterScriptBundle("jquerycommon.js", new[]
             {
                 "~/Scripts/vendor/jquery-{version}.js",

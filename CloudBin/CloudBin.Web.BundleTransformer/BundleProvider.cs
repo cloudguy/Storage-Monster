@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Web.Optimization;
+using BundleTransformer.Core;
 
 namespace CloudBin.Web.BundleTransformer
 {
@@ -41,6 +42,8 @@ namespace CloudBin.Web.BundleTransformer
         {
             return RequestContext.Current.LookUpValue("is_bundle_request", () =>
             {
+				//if (HttpContext.Current.Handler is System.Web.Optimization.)
+
                 const string requestPattern = "{0}{1}{2}/";
                 string applicationPath = HttpContext.Current.Request.ApplicationPath;
                 string pathDelimeter = (applicationPath != null && applicationPath.EndsWith("/")) ? string.Empty : "/";
@@ -57,5 +60,11 @@ namespace CloudBin.Web.BundleTransformer
             get { return BundleTable.EnableOptimizations; }
             set { BundleTable.EnableOptimizations = value; }
         }
+
+		void IBundleProvider.Initialize()
+		{
+			IBundleTransformerContext currentContext = global::BundleTransformer.Core.BundleTransformerContext.Current;
+			global::BundleTransformer.Core.BundleTransformerContext.Current = new CloudBin.Web.BundleTransformer.BundleTransformerContext (currentContext);
+		}
     }
 }
