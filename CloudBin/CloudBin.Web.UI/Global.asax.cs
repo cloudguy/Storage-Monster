@@ -1,11 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using CloudBin.Core;
+﻿using CloudBin.Core;
 using CloudBin.Core.Configuration;
 using CloudBin.Core.Utilities;
 using CloudBin.Data;
@@ -13,6 +6,11 @@ using CloudBin.Web.Core;
 using CloudBin.Web.Core.Configuration;
 using CloudBin.Web.UI.Services.Configuration;
 using Common.Logging;
+using System;
+using System.Reflection;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using DependencyResolver = System.Web.Mvc.DependencyResolver;
 using RequestContext = CloudBin.Core.RequestContext;
 
@@ -54,7 +52,7 @@ namespace CloudBin.Web.UI
             RouteConfiguration.RegisterRoutes(RouteTable.Routes);
 
             Logger.Debug("Registering bundles");
-            BundlesConfiguration.RegisterBundles(BundleTable.Bundles);
+            BundlesConfiguration.RegisterBundles();
 
             Logger.Debug("Registering case insensitive view engine");
             CaseInsensitiveViewEngine.Register(ViewEngines.Engines);
