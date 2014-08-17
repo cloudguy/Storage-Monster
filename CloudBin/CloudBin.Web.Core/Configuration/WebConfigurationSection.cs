@@ -24,6 +24,12 @@ namespace CloudBin.Web.Core.Configuration
             get { return (bool) this["compressStaticContent"]; }
         }
 
+        [ConfigurationProperty("compressBundledContent", DefaultValue = "False", IsRequired = false)]
+        public bool CompressBundledContent
+        {
+            get { return (bool)this["compressBundledContent"]; }
+        }
+
         [ConfigurationProperty("sendSecurityHeaders", DefaultValue = "True", IsRequired = false)]
         public bool SendSecurityHeaders
         {

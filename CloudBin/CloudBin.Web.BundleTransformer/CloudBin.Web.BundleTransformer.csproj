@@ -58,9 +58,11 @@
   <ItemGroup>
     <Compile Include="BundleHelper.cs" />
     <Compile Include="BundleProvider.cs" />
+    <Compile Include="BundleTransformerContext.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="FileSystemContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="urlrew.cs" />
+    <Compile Include="VirtualFileSystemWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BundleTransformer.Configuration.xsd">

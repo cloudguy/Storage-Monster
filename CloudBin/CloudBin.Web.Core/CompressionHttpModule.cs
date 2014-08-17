@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using CloudBin.Web.Core.Bundling;
 using CloudBin.Web.Core.Configuration;
 
 namespace CloudBin.Web.Core
@@ -12,6 +13,11 @@ namespace CloudBin.Web.Core
         private static readonly Lazy<IWebConfiguration> LazyWebConfiguration = new Lazy<IWebConfiguration>(() =>
         {
             return (IWebConfiguration) System.Web.Mvc.DependencyResolver.Current.GetService(typeof (IWebConfiguration));
+        }, System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
+        private static readonly Lazy<IBundleProvider> LazyBundleProvider = new Lazy<IBundleProvider>(() =>
+        {
+            return (IBundleProvider)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IBundleProvider));
         }, System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         private IWebConfiguration WebConfiguration
@@ -45,8 +51,12 @@ namespace CloudBin.Web.Core
                 return;
             }
 
-            IHttpHandler handler = application.Context.CurrentHandler;
+            if (LazyBundleProvider.Value.IsBundleRequest() && !WebConfiguration.CompressBundledContent)
+            {
+                return;
+            }
 
+            IHttpHandler handler = application.Context.CurrentHandler;
             bool isDynamicContent = handler is Page || handler is MvcHandler;
             if (isDynamicContent && !WebConfiguration.CompressDynamicContent)
             {

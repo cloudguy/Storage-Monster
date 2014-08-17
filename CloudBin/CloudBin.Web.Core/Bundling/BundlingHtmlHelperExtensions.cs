@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -41,7 +37,7 @@ namespace CloudBin.Web.Core.Bundling
             tagBuilder.Attributes.Add("rel", "stylesheet");
             tagBuilder.Attributes.Add("href", BundleProviderLazy.Value.GetBundleUrl(bundleName).ToString());
             tagBuilder.MergeAttributes(new RouteValueDictionary(htmlAttributes));
-            return MvcHtmlString.Create(tagBuilder.ToString());
+            return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.SelfClosing));
         }
     }
 }

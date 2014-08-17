@@ -4,6 +4,7 @@ namespace CloudBin.Web.Core.Configuration
     {
         bool DoNotOpenDbSessionForScriptAndContent { get; }
         bool CompressDynamicContent { get; }
+        bool CompressBundledContent { get; }
         bool CompressStaticContent { get; }
         bool SendSecurityHeaders { get; }
         bool RemoveVersionHeaders { get; }

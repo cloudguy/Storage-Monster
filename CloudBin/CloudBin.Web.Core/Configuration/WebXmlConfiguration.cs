@@ -33,5 +33,10 @@ namespace CloudBin.Web.Core.Configuration
         {
             get { return ConfigSection.Value.RemoveVersionHeaders; }
         }
+
+        bool IWebConfiguration.CompressBundledContent
+        {
+            get { return ConfigSection.Value.CompressBundledContent; }
+        }
     }
 }

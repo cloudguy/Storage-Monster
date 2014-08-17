@@ -27,7 +27,17 @@ namespace CloudBin.Core.Utilities
 
         public static void NotNull<T>(Expression<Func<T>> paramExpression) where T : class
         {
-            NotNull(paramExpression, null);
+            NotNull(paramExpression, (string)null);
+        }
+
+        public static void NotNull<T>(Expression<Func<T>> paramExpression, Func<Exception> exceptionFactory) where T : class
+        {
+            T value = paramExpression.Compile().Invoke();
+            if (value == null)
+            {
+                Exception ex = exceptionFactory();
+                throw ex;
+            }
         }
 
         #endregion

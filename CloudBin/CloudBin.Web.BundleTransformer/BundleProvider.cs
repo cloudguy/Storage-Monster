@@ -1,16 +1,28 @@
-﻿using BundleTransformer.Core.Transformers;
+﻿using BundleTransformer.Core;
+using BundleTransformer.Core.Transformers;
 using CloudBin.Core;
+using CloudBin.Core.Utilities;
 using CloudBin.Web.Core.Bundling;
 using System;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Optimization;
-using BundleTransformer.Core;
 
 namespace CloudBin.Web.BundleTransformer
 {
     public sealed class BundleProvider : IBundleProvider
     {
+        private readonly Lazy<Type> _bundleHandlerType = new Lazy<Type>(() =>
+        {
+            AssemblyName optimizationAssemblyName = Assembly.GetExecutingAssembly().GetReferencedAssemblies().First(a => a.Name.Equals("System.Web.Optimization", StringComparison.Ordinal));
+            Assembly optimizationAssembly = Assembly.Load(optimizationAssemblyName);
+            Type bundleHandlerType = optimizationAssembly.GetType("System.Web.Optimization.BundleHandler");
+            Verify.NotNull(() => bundleHandlerType, () => new InvalidOperationException("System.Web.Optimization.BundleHandler type not found"));
+            return bundleHandlerType;
+        });
+
         void IBundleProvider.RegisterScriptBundle(string bundleName, params string[] scriptVirtualPaths)
         {
             var scriptTransformer = new ScriptTransformer();
@@ -42,7 +54,10 @@ namespace CloudBin.Web.BundleTransformer
         {
             return RequestContext.Current.LookUpValue("is_bundle_request", () =>
             {
-				//if (HttpContext.Current.Handler is System.Web.Optimization.)
+                if (HttpContext.Current.Handler != null && HttpContext.Current.Handler.GetType() == _bundleHandlerType.Value)
+                {
+                    return true;
+                }
 
                 const string requestPattern = "{0}{1}{2}/";
                 string applicationPath = HttpContext.Current.Request.ApplicationPath;
