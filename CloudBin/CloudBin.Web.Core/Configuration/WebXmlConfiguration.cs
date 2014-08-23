@@ -43,5 +43,10 @@ namespace CloudBin.Web.Core.Configuration
         {
             get { return ConfigSection.Value.MinifyHtml; }
         }
+
+        string IWebConfiguration.TrackingCookieName
+        {
+            get { return ConfigSection.Value.TrackingCookieName; }
+        }
     }
 }

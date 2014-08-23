@@ -47,5 +47,11 @@ namespace CloudBin.Web.Core.Configuration
         {
             get { return (bool)this["minifyHtml"]; }
         }
+
+        [ConfigurationProperty("trackingCookieName", DefaultValue = "tracking", IsRequired = false)]
+        public string TrackingCookieName
+        {
+            get { return (string)this["trackingCookieName"]; }
+        }
     }
 }

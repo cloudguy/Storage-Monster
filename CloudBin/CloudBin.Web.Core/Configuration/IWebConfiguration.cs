@@ -9,5 +9,6 @@ namespace CloudBin.Web.Core.Configuration
         bool SendSecurityHeaders { get; }
         bool RemoveVersionHeaders { get; }
         bool MinifyHtml { get; }
+        string TrackingCookieName { get; }
     }
 }

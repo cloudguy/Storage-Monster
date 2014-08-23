@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using CloudBin.Core;
+using CloudBin.Web.Core.Tracking;
 
 namespace CloudBin.Web.UI.Controllers
 {
@@ -14,6 +15,9 @@ namespace CloudBin.Web.UI.Controllers
             //var res = repo.Read(1);
             //Log.Error("zzzz");
             ViewData["Message"] = "Welcome to ASP.NET MVC on Mono!";
+
+            var trk = DependencyResolver.Current.GetService<ITrackingService>();
+            trk.SetTrackedValue("locale", "ru");
             return View();
         }
 

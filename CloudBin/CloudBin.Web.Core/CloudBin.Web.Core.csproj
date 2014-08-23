@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
@@ -95,6 +99,10 @@
     <Compile Include="Security\IAuthenticationService.cs" />
     <Compile Include="Security\ICookieEncryption.cs" />
     <Compile Include="Security\ICookieValidation.cs" />
+    <Compile Include="Tracking\CookieTrackingService.cs" />
+    <Compile Include="Tracking\ITrackingService.cs" />
+    <Compile Include="Tracking\TrackingCookie.cs" />
+    <Compile Include="Tracking\TrackingHttpModule.cs" />
     <Compile Include="ViewEngines\CaseInsensitiveViewEngine.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="CookieHelper.cs" />
