@@ -17,7 +17,8 @@ namespace CloudBin.Web.UI.Services.Configuration
             {
                 "~/Scripts/vendor/jquery-{version}.min.js",
                 "~/Scripts/vendor/jquery.validate.min.js",
-                "~/Scripts/vendor/jquery.validate.unobtrusive.min.js"
+                "~/Scripts/vendor/jquery.validate.unobtrusive.min.js",
+                "~/Scripts/vendor/bootstrap.min.js"
             });
 
             themeProvider.Initialize(Resources.ThemeResources.ResourceManager);
