@@ -15,9 +15,9 @@ namespace CloudBin.Web.UI.Services.Configuration
             bundleProvider.Initialize();
             bundleProvider.RegisterScriptBundle("jquerycommon.js", new[]
             {
-                "~/Scripts/vendor/jquery-{version}.js",
-                "~/Scripts/vendor/jquery.validate.js",
-                "~/Scripts/vendor/jquery.validate.unobtrusive.js"
+                "~/Scripts/vendor/jquery-{version}.min.js",
+                "~/Scripts/vendor/jquery.validate.min.js",
+                "~/Scripts/vendor/jquery.validate.unobtrusive.min.js"
             });
 
             themeProvider.Initialize(Resources.ThemeResources.ResourceManager);
