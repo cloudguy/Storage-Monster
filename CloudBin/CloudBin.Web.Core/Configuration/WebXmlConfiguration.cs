@@ -38,5 +38,10 @@ namespace CloudBin.Web.Core.Configuration
         {
             get { return ConfigSection.Value.CompressBundledContent; }
         }
+
+        bool IWebConfiguration.MinifyHtml
+        {
+            get { return ConfigSection.Value.MinifyHtml; }
+        }
     }
 }

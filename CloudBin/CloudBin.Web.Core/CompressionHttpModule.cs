@@ -60,6 +60,10 @@ namespace CloudBin.Web.Core
 
         private void PlugInHtmlMinificationFilter(HttpApplication application)
         {
+            if (!LazyWebConfiguration.Value.MinifyHtml)
+            {
+                return;
+            }
             HttpResponse response = application.Response;
             HttpRequest request = application.Request;
             if (application.Context.CurrentHandler != null && response.ContentType.Equals(Constants.HtmlContentType, StringComparison.OrdinalIgnoreCase))

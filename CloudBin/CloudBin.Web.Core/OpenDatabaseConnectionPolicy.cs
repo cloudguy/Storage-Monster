@@ -1,4 +1,5 @@
-﻿using CloudBin.Core;
+﻿using System.Collections.Generic;
+using CloudBin.Core;
 using CloudBin.Web.Core.Configuration;
 using System;
 using System.Linq;
@@ -6,36 +7,38 @@ using System.Web;
 
 namespace CloudBin.Web.Core
 {
-    public class OpenDatabaseConnectionPolicy : IOpenDatabaseConnectionPolicy
+#warning remove this - make db session lazy
+    public sealed class OpenDatabaseConnectionPolicy : IOpenDatabaseConnectionPolicy
     {
-        protected readonly IWebConfiguration WebConfiguration;
-        protected readonly object Locker = new object();
-        protected volatile Func<HttpContext, bool>[] PolicyCheckerInternal;
-        protected Func<HttpContext, bool>[] PolicyCheckers
+        private readonly IWebConfiguration _webConfiguration;
+        private readonly static object Locker = new object();
+        private volatile static Func<HttpContext, bool>[] _policyCheckerInternal;
+
+        private IEnumerable<Func<HttpContext, bool>> PolicyCheckers
         {
             get
             {
-                if (PolicyCheckerInternal == null)
+                if (_policyCheckerInternal == null)
                 {
                     lock (Locker)
                     {
-                        if (PolicyCheckerInternal == null)
+                        if (_policyCheckerInternal == null)
                         {
-                            PolicyCheckerInternal = RequestCheckersFactory.CreateStaticContentCheckers(HttpContext.Current);
+                            _policyCheckerInternal = RequestCheckersFactory.CreateStaticContentCheckers(HttpContext.Current);
                         }
                     }
                 }
-                return PolicyCheckerInternal;
+                return _policyCheckerInternal;
             }
         }
 
         public OpenDatabaseConnectionPolicy(IWebConfiguration webConfiguration)
         {
-            WebConfiguration = webConfiguration;
+            _webConfiguration = webConfiguration;
         }
         bool IOpenDatabaseConnectionPolicy.DatabaseConnectionRequired(HttpContext context)
         {   
-            if (!WebConfiguration.DoNotOpenDbSessionForScriptAndContent)
+            if (!_webConfiguration.DoNotOpenDbSessionForScriptAndContent)
             {
                 return true;
             }

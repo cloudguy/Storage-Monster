@@ -41,5 +41,11 @@ namespace CloudBin.Web.Core.Configuration
         {
             get { return (bool)this["removeVersionHeaders"]; }
         }
+
+        [ConfigurationProperty("minifyHtml", DefaultValue = "True", IsRequired = false)]
+        public bool MinifyHtml
+        {
+            get { return (bool)this["minifyHtml"]; }
+        }
     }
 }

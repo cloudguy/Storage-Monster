@@ -8,5 +8,6 @@ namespace CloudBin.Web.Core.Configuration
         bool CompressStaticContent { get; }
         bool SendSecurityHeaders { get; }
         bool RemoveVersionHeaders { get; }
+        bool MinifyHtml { get; }
     }
 }
