@@ -5,10 +5,10 @@ using System.Web.UI;
 using CloudBin.Web.Core.Bundling;
 using CloudBin.Web.Core.Configuration;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.Core.Optimization
 {
     //use iis compression if available
-    public sealed class CompressionHttpModule : IHttpModule
+    public sealed class OptimizationHttpModule : IHttpModule
     {
         private static readonly Lazy<IWebConfiguration> LazyWebConfiguration = new Lazy<IWebConfiguration>(() =>
         {

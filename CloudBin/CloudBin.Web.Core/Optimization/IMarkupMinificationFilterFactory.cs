@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.Core.Optimization
 {
     public interface IMarkupMinificationFilterFactory
     {

@@ -69,7 +69,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AreaRegistrationContextExtensions.cs" />
+    <Compile Include="Routing\AreaRegistrationContextExtensions.cs" />
     <Compile Include="Html\BundlingExtensions.cs" />
     <Compile Include="Html\CloudBinHtmlHelper.cs" />
     <Compile Include="Configuration\AuthenticationConfigurationSection.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Bundling\IBundleProvider.cs" />
     <Compile Include="Html\HtmlHelperExtensions.cs" />
     <Compile Include="Html\ThemingExtensions.cs" />
-    <Compile Include="IMarkupMinificationFilterFactory.cs" />
+    <Compile Include="Optimization\IMarkupMinificationFilterFactory.cs" />
     <Compile Include="RequestCheckersFactory.cs" />
     <Compile Include="RequestContextProviderExtensions.cs" />
     <Compile Include="Security\AuthenticationCookie.cs" />
@@ -95,17 +95,17 @@
     <Compile Include="Security\IAuthenticationService.cs" />
     <Compile Include="Security\ICookieEncryption.cs" />
     <Compile Include="Security\ICookieValidation.cs" />
-    <Compile Include="CaseInsensitiveViewEngine.cs" />
+    <Compile Include="ViewEngines\CaseInsensitiveViewEngine.cs" />
     <Compile Include="ControllerFactory.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="HttpRequestContextProvider.cs" />
     <Compile Include="IOpenDatabaseConnectionPolicy.cs" />
-    <Compile Include="LowercaseRoute.cs" />
+    <Compile Include="Routing\LowercaseRoute.cs" />
     <Compile Include="OpenDatabaseConnectionPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteCollectionExtensions.cs" />
-    <Compile Include="CompressionHttpModule.cs" />
+    <Compile Include="Routing\RouteCollectionExtensions.cs" />
+    <Compile Include="Optimization\OptimizationHttpModule.cs" />
     <Compile Include="DatabaseSessionHttpModule.cs" />
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="Constants.cs" />

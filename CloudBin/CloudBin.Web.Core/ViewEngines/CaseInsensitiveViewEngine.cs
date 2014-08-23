@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.Core.ViewEngines
 {
     //thanks to http://hugoware.net/blog/ignoring-case-with-mono-mvc
     public sealed class CaseInsensitiveViewEngine : RazorViewEngine
@@ -19,11 +19,11 @@ namespace CloudBin.Web.Core
             IViewEngine[] razors = engines.Where(engine => engine is RazorViewEngine).ToArray();
             foreach (IViewEngine engine in razors)
             {
-                ViewEngines.Engines.Remove(engine);
+                System.Web.Mvc.ViewEngines.Engines.Remove(engine);
             }
 
             //add the new case-insensitive engine
-            ViewEngines.Engines.Add(new CaseInsensitiveViewEngine());
+            System.Web.Mvc.ViewEngines.Engines.Add(new CaseInsensitiveViewEngine());
         }
 
         //holds all of the actual paths to the required files

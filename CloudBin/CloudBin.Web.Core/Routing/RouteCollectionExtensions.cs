@@ -1,8 +1,8 @@
-﻿using CloudBin.Core.Utilities;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
+using CloudBin.Core.Utilities;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.Core.Routing
 {
     public static class RouteCollectionExtensions
     {

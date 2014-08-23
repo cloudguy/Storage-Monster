@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Routing;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.Core.Routing
 {
     public sealed class LowercaseRoute : Route
     {

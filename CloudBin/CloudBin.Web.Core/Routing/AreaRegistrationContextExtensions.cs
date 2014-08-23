@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace CloudBin.Web.Core
+namespace CloudBin.Web.Core.Routing
 {
     public static class AreaRegistrationContextExtensions
     {

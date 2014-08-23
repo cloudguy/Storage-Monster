@@ -1,4 +1,4 @@
-﻿using CloudBin.Web.Core;
+﻿using CloudBin.Web.Core.Optimization;
 using System.IO;
 using System.Text;
 using WebMarkupMin.Core;

@@ -4,6 +4,7 @@ using CloudBin.Core.Utilities;
 using CloudBin.Data;
 using CloudBin.Web.Core;
 using CloudBin.Web.Core.Configuration;
+using CloudBin.Web.Core.ViewEngines;
 using CloudBin.Web.UI.Services.Configuration;
 using Common.Logging;
 using System;
