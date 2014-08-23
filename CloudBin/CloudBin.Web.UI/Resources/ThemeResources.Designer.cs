@@ -61,6 +61,15 @@ namespace CloudBin.Web.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bootstrap.
+        /// </summary>
+        public static string theme_bootstrap {
+            get {
+                return ResourceManager.GetString("theme_bootstrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default.
         /// </summary>
         public static string theme_default {

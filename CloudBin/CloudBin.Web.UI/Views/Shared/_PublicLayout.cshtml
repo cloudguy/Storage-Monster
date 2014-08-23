@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        @RenderSection("Styles", false)
+        @Html.Partial("DefaultMeta")
+    </head>
+    <body>
+        @Html.Partial("BrowserCheck")
+        @RenderBody()
+        @RenderSection("Scripts", false)
+    </body>
+</html>

@@ -1,5 +1,6 @@
 ﻿@using CloudBin.Web.Core
 @using CloudBin.Web.Core.Bundling
+@using CloudBin.Web.Core.Html
 @{
     Layout = null;
 }
@@ -7,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	@Html.RenderStyleBundle("site.css")
+	@Html.CloudBin().RenderDefaultThemeBundle()
     <title>@ViewData["Message"]</title>
     
     
@@ -23,7 +24,7 @@
         <br/>
         @Html.ActionLink("test", "Test")
         <br/>
-        @Html.RenderScriptBundle("jquerycommon.js")
+        @Html.CloudBin().RenderScriptBundle("jquerycommon.js")
     </body>
 </html>
 

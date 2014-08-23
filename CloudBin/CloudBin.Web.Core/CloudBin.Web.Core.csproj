@@ -70,16 +70,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaRegistrationContextExtensions.cs" />
-    <Compile Include="Bundling\BundlingHtmlHelperExtensions.cs" />
+    <Compile Include="Html\BundlingExtensions.cs" />
+    <Compile Include="Html\CloudBinHtmlHelper.cs" />
     <Compile Include="Configuration\AuthenticationConfigurationSection.cs" />
     <Compile Include="Configuration\IAuthenticationConfiguration.cs" />
     <Compile Include="Configuration\IThemingConfiguration.cs" />
+    <Compile Include="Configuration\ThemeDescription.cs" />
     <Compile Include="Configuration\ThemeConfigurationElement.cs" />
     <Compile Include="Configuration\ThemeConfigurationElementCollection.cs" />
     <Compile Include="Configuration\ThemingConfigurationSection.cs" />
     <Compile Include="Configuration\ThemingXmlConfiguration.cs" />
     <Compile Include="Configuration\XmlAuthenticationConfiguration.cs" />
     <Compile Include="Bundling\IBundleProvider.cs" />
+    <Compile Include="Html\HtmlHelperExtensions.cs" />
+    <Compile Include="Html\ThemingExtensions.cs" />
     <Compile Include="IMarkupMinificationFilterFactory.cs" />
     <Compile Include="RequestCheckersFactory.cs" />
     <Compile Include="RequestContextProviderExtensions.cs" />

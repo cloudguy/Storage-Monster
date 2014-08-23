@@ -11,6 +11,7 @@ namespace CloudBin.Web.Core.Theming
         private static Theme _defaultThemeInternal;
         private static IEnumerable<Theme> _supportedThemesInternal;
         private readonly IThemingConfiguration _themingConfiguration;
+        private bool _initialized;
 
         public ThemeProvider(IThemingConfiguration themingConfiguration)
         {
@@ -28,8 +29,13 @@ namespace CloudBin.Web.Core.Theming
 
         void IThemeProvider.Initialize(ResourceManager resourceManager)
         {
-            _supportedThemesInternal = _themingConfiguration.ThemeNames.Select(themeName => new Theme(themeName, resourceManager)).ToArray();
-            _defaultThemeInternal = new Theme(_themingConfiguration.DefaultThemeName, resourceManager);
+            if (_initialized)
+            {
+                return;
+            }
+            _supportedThemesInternal = _themingConfiguration.Themes.Select(t => new Theme(t.Name, t.IsDefault, resourceManager)).ToArray();
+            _defaultThemeInternal = _supportedThemesInternal.First(t => t.IsDefault);
+            _initialized = true;
         }
     }
 }

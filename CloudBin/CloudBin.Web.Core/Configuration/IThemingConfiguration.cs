@@ -6,7 +6,6 @@ namespace CloudBin.Web.Core.Configuration
 {
     public interface IThemingConfiguration
     {
-        IEnumerable<string> ThemeNames { get; }
-        string DefaultThemeName { get; }
+        IEnumerable<ThemeDescription> Themes { get; }
     }
 }

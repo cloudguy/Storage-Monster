@@ -1,4 +1,6 @@
 using CloudBin.Web.Core.Bundling;
+using CloudBin.Web.Core.Theming;
+using System.Globalization;
 using DependencyResolver = System.Web.Mvc.DependencyResolver;
 
 namespace CloudBin.Web.UI.Services.Configuration
@@ -7,53 +9,38 @@ namespace CloudBin.Web.UI.Services.Configuration
     {
         internal static void RegisterBundles()
         {
-            IBundleProvider provider = (IBundleProvider) DependencyResolver.Current.GetService(typeof (IBundleProvider));
-            provider.EnableOptimizations = true;
-			provider.Initialize ();
-            provider.RegisterScriptBundle("jquerycommon.js", new[]
+            IBundleProvider bundleProvider = (IBundleProvider)DependencyResolver.Current.GetService(typeof(IBundleProvider));
+            IThemeProvider themeProvider = (IThemeProvider)DependencyResolver.Current.GetService(typeof(IThemeProvider));
+            bundleProvider.EnableOptimizations = true;
+            bundleProvider.Initialize();
+            bundleProvider.RegisterScriptBundle("jquerycommon.js", new[]
             {
                 "~/Scripts/vendor/jquery-{version}.js",
                 "~/Scripts/vendor/jquery.validate.js",
                 "~/Scripts/vendor/jquery.validate.unobtrusive.js"
             });
 
-            provider.RegisterStyleBundle("site.css", new[]
+            themeProvider.Initialize(Resources.ThemeResources.ResourceManager);
+            foreach (Theme theme in themeProvider.SupportedThemes)
             {
-                "~/Content/site.css"
+                RegisterThemeBundle(theme, bundleProvider);
+            }
+        }
+
+        private static void RegisterThemeBundle(Theme theme, IBundleProvider bundleProvider)
+        {
+            const string bootstrapCss = "~/Content/css/bootstrap.css";
+            const string kendoBootstrapCss = "~/Content/css/kendo.common-bootstrap.min.css";
+            const string bootstrapThemePattern = "~/Content/themes/{0}/bootstrap-theme.css";
+            const string kendoThemePattern = "~/Content/themes/{0}/kendo.{0}.min.css";
+
+            bundleProvider.RegisterStyleBundle(theme.BundleName, new[]
+            {
+                bootstrapCss,
+                kendoBootstrapCss,
+                string.Format(CultureInfo.InvariantCulture, bootstrapThemePattern, theme.Name),
+                string.Format(CultureInfo.InvariantCulture, kendoThemePattern, theme.Name)
             });
-
-            //BundleTable.EnableOptimizations = true;
-
-            //var scriptTransformer = new JsTransformer();
-            //var scriptbundle = new Bundle(BundleHelper.GetBundlePath("jquerycommon.js"), scriptTransformer);
-            //scriptbundle.Include(
-            //    "~/Scripts/vendor/jquery-{version}.js",
-            //    "~/Scripts/vendor/jquery.validate.js",
-            //    "~/Scripts/vendor/jquery.validate.unobtrusive.js");
-            //bundles.Add(scriptbundle);
-
-
-            /*  bundles.Add(new ScriptBundle(BundleHelper.GetBundlePath("jquerycommon.js")).Include(
-                "~/Scripts/vendor/jquery-{version}.min.js",
-                "~/Scripts/vendor/jquery.validate.min.js",
-                "~/Scripts/vendor/jquery.validate.unobtrusive.min.js").RemoveJsMinifier());
-            */
-
-            /*
-            var u = new UrlRewritingCssPostProcessor();
-            u.UseInDebugMode = true;
-            var styleTransformer = new StyleTransformer(new IPostProcessor[] { u});
-            //styleTransformer.
-            var st = new StyleBundle(BundleHelper.GetBundlePath("site.css")).Include("~/Content/site.css");
-            st.Transforms.Add(styleTransformer);
-            bundles.Add(st);
-             * */
-
-
-            //var cssTransformer = new CssTransformer();
-            //var commonStylesBundle = new Bundle(BundleHelper.GetBundlePath("site.css"), cssTransformer);
-            //commonStylesBundle.Include("~/Content/site.css");
-            //bundles.Add(commonStylesBundle);
         }
     }
 }
