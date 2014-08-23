@@ -26,5 +26,7 @@ namespace CloudBin.Web.Core
         public static readonly string AspNetVersionHeaderName = "X-AspNet-Version";
         public static readonly string AspNetMvcVersionHeaderName = "X-AspNetMvc-Version";
         public static readonly string ServerHeaderName = "Server";
+
+        public static readonly string HtmlContentType = "text/html";
     }
 }

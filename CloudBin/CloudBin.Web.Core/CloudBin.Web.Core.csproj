@@ -80,6 +80,7 @@
     <Compile Include="Configuration\ThemingXmlConfiguration.cs" />
     <Compile Include="Configuration\XmlAuthenticationConfiguration.cs" />
     <Compile Include="Bundling\IBundleProvider.cs" />
+    <Compile Include="IMarkupMinificationFilterFactory.cs" />
     <Compile Include="RequestCheckersFactory.cs" />
     <Compile Include="RequestContextProviderExtensions.cs" />
     <Compile Include="Security\AuthenticationCookie.cs" />

@@ -7,21 +7,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    @ViewData["Message"]
-    @Html.RenderScriptBundle("jquerycommon.js")
-    @Html.RenderStyleBundle("site.css")
+	@Html.RenderStyleBundle("site.css")
+    <title>@ViewData["Message"]</title>
+    
+    
     @*@Scripts.Render(BundleHelper.GetBundlePath("jquerycommon.js"))
     @Styles.Render("~/bundles/site.css")*@
     <meta name="description" content="The description of my page" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
     <body>
-        <br>
+	@ViewData["Message"]
+        <br/>
          @Html.ActionLink("index", "Index")
-        <br>
+        <br/>
         @Html.ActionLink("test", "Test")
-        <br>
-        
+        <br/>
+        @Html.RenderScriptBundle("jquerycommon.js")
     </body>
 </html>
 

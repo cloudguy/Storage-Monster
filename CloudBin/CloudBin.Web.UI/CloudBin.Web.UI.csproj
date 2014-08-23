@@ -465,6 +465,10 @@
       <Project>{BCA20749-A8C3-4D56-BA56-B9A4DF1E70FE}</Project>
       <Name>CloudBin.Data.NHibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CloudBin.Web.WebMarkupMin\CloudBin.Web.WebMarkupMin.csproj">
+      <Project>{1c97b3e0-e83c-4246-aae1-3e351d0a18be}</Project>
+      <Name>CloudBin.Web.WebMarkupMin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />

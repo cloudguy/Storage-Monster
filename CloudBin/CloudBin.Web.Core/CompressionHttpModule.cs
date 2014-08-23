@@ -20,6 +20,11 @@ namespace CloudBin.Web.Core
             return (IBundleProvider)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IBundleProvider));
         }, System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
+        private static readonly Lazy<IMarkupMinificationFilterFactory> LazyMarkupMinificationFilterFactory = new Lazy<IMarkupMinificationFilterFactory>(() =>
+        {
+            return (IMarkupMinificationFilterFactory)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IMarkupMinificationFilterFactory));
+        }, System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
         private IWebConfiguration WebConfiguration
         {
             get { return LazyWebConfiguration.Value; }
@@ -45,27 +50,48 @@ namespace CloudBin.Web.Core
         {
             HttpApplication application = (HttpApplication) sender;
             HttpResponse response = application.Response;
-
             if (response.Filter == null)
             {
                 return;
             }
+            PlugInHtmlMinificationFilter(application);
+            PlugInCompressionFilter(application);
+        }
 
-            if (LazyBundleProvider.Value.IsBundleRequest() && !WebConfiguration.CompressBundledContent)
+        private void PlugInHtmlMinificationFilter(HttpApplication application)
+        {
+            HttpResponse response = application.Response;
+            HttpRequest request = application.Request;
+            if (application.Context.CurrentHandler != null && response.ContentType.Equals(Constants.HtmlContentType, StringComparison.OrdinalIgnoreCase))
             {
-                return;
+                response.Filter = LazyMarkupMinificationFilterFactory.Value.CreateHtmlMinifierFilter(response.Filter, request.RawUrl, response.ContentEncoding);
             }
+        }
 
-            IHttpHandler handler = application.Context.CurrentHandler;
-            bool isDynamicContent = handler is Page || handler is MvcHandler;
-            if (isDynamicContent && !WebConfiguration.CompressDynamicContent)
+        private void PlugInCompressionFilter(HttpApplication application)
+        {
+            HttpResponse response = application.Response;
+
+            if (LazyBundleProvider.Value.IsBundleRequest())
             {
-                return;
+                if (!WebConfiguration.CompressBundledContent)
+                {
+                    return;
+                }
             }
-
-            if (!isDynamicContent && !WebConfiguration.CompressStaticContent)
+            else
             {
-                return;
+                IHttpHandler handler = application.Context.CurrentHandler;
+                bool isDynamicContent = handler is Page || handler is MvcHandler;
+                if (isDynamicContent && !WebConfiguration.CompressDynamicContent)
+                {
+                    return;
+                }
+
+                if (!isDynamicContent && !WebConfiguration.CompressStaticContent)
+                {
+                    return;
+                }
             }
 
             CompressionType compressionType = GetSupportedCompression(application.Request);
