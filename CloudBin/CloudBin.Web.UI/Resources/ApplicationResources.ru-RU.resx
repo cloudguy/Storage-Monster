@@ -118,9 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppName" xml:space="preserve">
-    <value>Cloud bin</value>
+    <value>Cloud Bin</value>
+  </data>
+  <data name="NoScriptWarningHtml" xml:space="preserve">
+    <value />
   </data>
   <data name="OldBrowserWarningHtml" xml:space="preserve">
     <value>Вы используете &lt;strong&gt;устаревший&lt;/strong&gt; браузер. Пожалуйста, &lt;a href="http://browsehappy.com/"&gt;обновите ваш браузер&lt;/a&gt;.</value>
+  </data>
+  <data name="RegisterDescription" xml:space="preserve">
+    <value>Регистрация нового профиля</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>Регистрация</value>
   </data>
 </root>

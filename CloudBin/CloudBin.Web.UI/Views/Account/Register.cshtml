@@ -1,7 +1,8 @@
-﻿@using CloudBin.Web.Core.Html
+﻿@using CloudBin.Web.UI.Services
 @model CloudBin.Web.UI.Models.Account.RegisterModel
 @{
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    this.SetTitleAndDescription(ApplicationResources.RegisterTitle, ApplicationResources.RegisterDescription);
 }
 
 @section Scripts{

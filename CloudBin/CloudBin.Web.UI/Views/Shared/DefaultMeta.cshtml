@@ -1,19 +1,19 @@
 ﻿<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>@ViewBag.Title</title>
+<title>@this.GetTitle()</title>
 <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/Content/images/cloudbin.ico")" />
-<link rel="fluid-icon" href="@Url.Content("~/Content/images/cloudbin-512x512.png")" title="@ViewBag.Title" />
+<link rel="fluid-icon" href="@Url.Content("~/Content/images/cloudbin-512x512.png")" title="@this.GetTitle()" />
 <link rel="apple-touch-icon" sizes="57x57" href="@Url.Content("~/Content/images/cloudbin-57x57.png")" />
 <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/images/cloudbin-72x72.png")">
 <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/images/cloudbin-114x114.png")" />
 <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/images/cloudbin-144x144.png")" />
-<meta name="application-name" content="@CloudBin.Web.UI.Resources.ApplicationResources.AppName" />
+<meta name="application-name" content="@ApplicationResources.AppName" />
 <meta name="msapplication-square70x70logo" content="@Url.Content("~/Content/images/cloudbin-70x70.png")" />
 <meta name="msapplication-square150x150logo" content="@Url.Content("~/Content/images/cloudbin-150x150.png")" />
 <meta name="msapplication-square310x310logo" content="@Url.Content("~/Content/images/cloudbin-310x310.png")" />
 <meta name="msapplication-wide310x150logo" content="@Url.Content("~/Content/images/cloudbin-310x150.png")" />
 <meta name="msapplication-TileImage" content="@Url.Content("~/Content/images/cloudbin-512x512.png")">
 <meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-tooltip" content="@ViewBag.Title" />
+<meta name="msapplication-tooltip" content="@this.GetTitle()" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="@ViewBag.Description" />
+<meta name="description" content="@this.GetDescription()" />

@@ -53,6 +53,7 @@
     <Reference Include="FluentValidation.Mvc">
       <HintPath>..\packages\FluentValidation.MVC4.5.1.0.0\lib\Net40\FluentValidation.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -142,6 +143,7 @@
     </Compile>
     <Compile Include="Services\Configuration\RouteConfiguration.cs" />
     <Compile Include="Services\Configuration\BundlesConfiguration.cs" />
+    <Compile Include="Services\PageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />

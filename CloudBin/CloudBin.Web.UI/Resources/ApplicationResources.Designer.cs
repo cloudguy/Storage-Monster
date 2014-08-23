@@ -61,11 +61,20 @@ namespace CloudBin.Web.UI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cloud bin.
+        ///   Looks up a localized string similar to Cloud Bin.
         /// </summary>
         public static string AppName {
             get {
                 return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string NoScriptWarningHtml {
+            get {
+                return ResourceManager.GetString("NoScriptWarningHtml", resourceCulture);
             }
         }
         
@@ -75,6 +84,24 @@ namespace CloudBin.Web.UI.Resources {
         public static string OldBrowserWarningHtml {
             get {
                 return ResourceManager.GetString("OldBrowserWarningHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register new profile.
+        /// </summary>
+        public static string RegisterDescription {
+            get {
+                return ResourceManager.GetString("RegisterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string RegisterTitle {
+            get {
+                return ResourceManager.GetString("RegisterTitle", resourceCulture);
             }
         }
     }
