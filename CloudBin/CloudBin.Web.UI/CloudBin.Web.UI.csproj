@@ -158,6 +158,8 @@
   <ItemGroup>
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\images\cloudbin-114x114.png" />
     <Content Include="Content\images\cloudbin-144x144.png" />
     <Content Include="Content\images\cloudbin-150x150.png" />
@@ -200,6 +202,36 @@
     <Content Include="Content\themes\bootstrap\Bootstrap\slider-v.gif" />
     <Content Include="Content\themes\bootstrap\Bootstrap\sprite.png" />
     <Content Include="Content\themes\bootstrap\Bootstrap\sprite_2x.png" />
+    <Content Include="Content\themes\bootstrap\textures\brushed-metal.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots1.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots10.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots11.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots12.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots13.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots2.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots3.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots4.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots5.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots6.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots7.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots8.png" />
+    <Content Include="Content\themes\bootstrap\textures\dots9.png" />
+    <Content Include="Content\themes\bootstrap\textures\glass-lighter.png" />
+    <Content Include="Content\themes\bootstrap\textures\glass.png" />
+    <Content Include="Content\themes\bootstrap\textures\highlight.png" />
+    <Content Include="Content\themes\bootstrap\textures\hsv-gradient.png" />
+    <Content Include="Content\themes\bootstrap\textures\hue.png" />
+    <Content Include="Content\themes\bootstrap\textures\leather1.png" />
+    <Content Include="Content\themes\bootstrap\textures\leather2.png" />
+    <Content Include="Content\themes\bootstrap\textures\noise.png" />
+    <Content Include="Content\themes\bootstrap\textures\stripe1.png" />
+    <Content Include="Content\themes\bootstrap\textures\stripe2.png" />
+    <Content Include="Content\themes\bootstrap\textures\stripe3.png" />
+    <Content Include="Content\themes\bootstrap\textures\stripe4.png" />
+    <Content Include="Content\themes\bootstrap\textures\stripe5.png" />
+    <Content Include="Content\themes\bootstrap\textures\stripe6.png" />
+    <Content Include="Content\themes\bootstrap\textures\transparency.png" />
+    <Content Include="Content\themes\bootstrap\textures\transtexture.png" />
     <Content Include="Content\themes\default\bootstrap-theme.min.css" />
     <Content Include="Content\themes\default\Default\editor.png" />
     <Content Include="Content\themes\default\Default\imagebrowser.png" />
@@ -247,10 +279,70 @@
     <Content Include="Content\kendo\2014.2.716\kendo.flat.mobile.min.css" />
     <Content Include="Content\kendo\2014.2.716\kendo.highcontrast.min.css" />
     <Content Include="Content\kendo\2014.2.716\kendo.highcontrast.mobile.min.css" />
+    <Content Include="Content\themes\default\textures\brushed-metal.png" />
+    <Content Include="Content\themes\default\textures\dots1.png" />
+    <Content Include="Content\themes\default\textures\dots10.png" />
+    <Content Include="Content\themes\default\textures\dots11.png" />
+    <Content Include="Content\themes\default\textures\dots12.png" />
+    <Content Include="Content\themes\default\textures\dots13.png" />
+    <Content Include="Content\themes\default\textures\dots2.png" />
+    <Content Include="Content\themes\default\textures\dots3.png" />
+    <Content Include="Content\themes\default\textures\dots4.png" />
+    <Content Include="Content\themes\default\textures\dots5.png" />
+    <Content Include="Content\themes\default\textures\dots6.png" />
+    <Content Include="Content\themes\default\textures\dots7.png" />
+    <Content Include="Content\themes\default\textures\dots8.png" />
+    <Content Include="Content\themes\default\textures\dots9.png" />
+    <Content Include="Content\themes\default\textures\glass-lighter.png" />
+    <Content Include="Content\themes\default\textures\glass.png" />
+    <Content Include="Content\themes\default\textures\highlight.png" />
+    <Content Include="Content\themes\default\textures\hsv-gradient.png" />
+    <Content Include="Content\themes\default\textures\hue.png" />
+    <Content Include="Content\themes\default\textures\leather1.png" />
+    <Content Include="Content\themes\default\textures\leather2.png" />
+    <Content Include="Content\themes\default\textures\noise.png" />
+    <Content Include="Content\themes\default\textures\stripe1.png" />
+    <Content Include="Content\themes\default\textures\stripe2.png" />
+    <Content Include="Content\themes\default\textures\stripe3.png" />
+    <Content Include="Content\themes\default\textures\stripe4.png" />
+    <Content Include="Content\themes\default\textures\stripe5.png" />
+    <Content Include="Content\themes\default\textures\stripe6.png" />
+    <Content Include="Content\themes\default\textures\transparency.png" />
+    <Content Include="Content\themes\default\textures\transtexture.png" />
     <Content Include="Content\themes\metro\kendo.metro.min.css" />
     <Content Include="Content\themes\metro\kendo.metro.mobile.min.css" />
     <Content Include="Content\kendo\2014.2.716\kendo.metroblack.min.css" />
     <Content Include="Content\kendo\2014.2.716\kendo.metroblack.mobile.min.css" />
+    <Content Include="Content\themes\metro\textures\brushed-metal.png" />
+    <Content Include="Content\themes\metro\textures\dots1.png" />
+    <Content Include="Content\themes\metro\textures\dots10.png" />
+    <Content Include="Content\themes\metro\textures\dots11.png" />
+    <Content Include="Content\themes\metro\textures\dots12.png" />
+    <Content Include="Content\themes\metro\textures\dots13.png" />
+    <Content Include="Content\themes\metro\textures\dots2.png" />
+    <Content Include="Content\themes\metro\textures\dots3.png" />
+    <Content Include="Content\themes\metro\textures\dots4.png" />
+    <Content Include="Content\themes\metro\textures\dots5.png" />
+    <Content Include="Content\themes\metro\textures\dots6.png" />
+    <Content Include="Content\themes\metro\textures\dots7.png" />
+    <Content Include="Content\themes\metro\textures\dots8.png" />
+    <Content Include="Content\themes\metro\textures\dots9.png" />
+    <Content Include="Content\themes\metro\textures\glass-lighter.png" />
+    <Content Include="Content\themes\metro\textures\glass.png" />
+    <Content Include="Content\themes\metro\textures\highlight.png" />
+    <Content Include="Content\themes\metro\textures\hsv-gradient.png" />
+    <Content Include="Content\themes\metro\textures\hue.png" />
+    <Content Include="Content\themes\metro\textures\leather1.png" />
+    <Content Include="Content\themes\metro\textures\leather2.png" />
+    <Content Include="Content\themes\metro\textures\noise.png" />
+    <Content Include="Content\themes\metro\textures\stripe1.png" />
+    <Content Include="Content\themes\metro\textures\stripe2.png" />
+    <Content Include="Content\themes\metro\textures\stripe3.png" />
+    <Content Include="Content\themes\metro\textures\stripe4.png" />
+    <Content Include="Content\themes\metro\textures\stripe5.png" />
+    <Content Include="Content\themes\metro\textures\stripe6.png" />
+    <Content Include="Content\themes\metro\textures\transparency.png" />
+    <Content Include="Content\themes\metro\textures\transtexture.png" />
     <Content Include="Content\themes\moonlight\bootstrap-theme.css" />
     <Content Include="Content\themes\moonlight\bootstrap-theme.min.css" />
     <Content Include="Content\themes\moonlight\kendo.moonlight.min.css" />
@@ -345,6 +437,37 @@
     <Content Include="Content\site.css" />
     <Content Include="Content\themes\default\bootstrap-theme.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\themes\moonlight\textures\brushed-metal.png" />
+    <Content Include="Content\themes\moonlight\textures\dots1.png" />
+    <Content Include="Content\themes\moonlight\textures\dots10.png" />
+    <Content Include="Content\themes\moonlight\textures\dots11.png" />
+    <Content Include="Content\themes\moonlight\textures\dots12.png" />
+    <Content Include="Content\themes\moonlight\textures\dots13.png" />
+    <Content Include="Content\themes\moonlight\textures\dots2.png" />
+    <Content Include="Content\themes\moonlight\textures\dots3.png" />
+    <Content Include="Content\themes\moonlight\textures\dots4.png" />
+    <Content Include="Content\themes\moonlight\textures\dots5.png" />
+    <Content Include="Content\themes\moonlight\textures\dots6.png" />
+    <Content Include="Content\themes\moonlight\textures\dots7.png" />
+    <Content Include="Content\themes\moonlight\textures\dots8.png" />
+    <Content Include="Content\themes\moonlight\textures\dots9.png" />
+    <Content Include="Content\themes\moonlight\textures\glass-lighter.png" />
+    <Content Include="Content\themes\moonlight\textures\glass.png" />
+    <Content Include="Content\themes\moonlight\textures\highlight.png" />
+    <Content Include="Content\themes\moonlight\textures\hsv-gradient.png" />
+    <Content Include="Content\themes\moonlight\textures\hue.png" />
+    <Content Include="Content\themes\moonlight\textures\leather1.png" />
+    <Content Include="Content\themes\moonlight\textures\leather2.png" />
+    <Content Include="Content\themes\moonlight\textures\noise.png" />
+    <Content Include="Content\themes\moonlight\textures\stripe1.png" />
+    <Content Include="Content\themes\moonlight\textures\stripe2.png" />
+    <Content Include="Content\themes\moonlight\textures\stripe3.png" />
+    <Content Include="Content\themes\moonlight\textures\stripe4.png" />
+    <Content Include="Content\themes\moonlight\textures\stripe5.png" />
+    <Content Include="Content\themes\moonlight\textures\stripe6.png" />
+    <Content Include="Content\themes\moonlight\textures\transparency.png" />
+    <Content Include="Content\themes\moonlight\textures\transtexture.png" />
     <Content Include="Scripts\vendor\kendo\cultures\kendo.culture.af-ZA.min.js" />
     <Content Include="Scripts\vendor\kendo\cultures\kendo.culture.af.min.js" />
     <Content Include="Scripts\vendor\kendo\cultures\kendo.culture.am-ET.min.js" />
@@ -917,5 +1040,41 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\PublicNavbar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\bootstrap\images\kendoui.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\bootstrap\images\kendoui.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\default\images\kendoui.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\default\images\kendoui.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\metro\images\kendoui.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\metro\images\kendoui.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\moonlight\images\kendoui.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\moonlight\images\kendoui.woff" />
   </ItemGroup>
 </Project>
