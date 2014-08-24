@@ -4,10 +4,6 @@
 @{
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
     this.SetTitleAndDescription(ApplicationResources.RegisterTitle, ApplicationResources.RegisterDescription);
-
-
-
-    ILocaleProvider lp =(ILocaleProvider)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(ILocaleProvider));
 }
 
 @section Scripts{
@@ -21,7 +17,7 @@
 <section class="well">
     <i class="fa fa-sign-in fa-3"></i>
     
-    @Html.CloudBin().LocaleFlag(lp.SupportedLocales.Skip(1).First()) 
+    @Html.CloudBin().CurrentLocaleFlag()
     @*<h2 class="ra-well-title">Profile Setup</h2>*@
 </section>
 

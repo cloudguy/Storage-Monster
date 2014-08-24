@@ -30,6 +30,13 @@ namespace CloudBin.Web.Core.Tracking
             return trackingKeys[key];
         }
 
+        bool ITrackingService.TryGetTrackedValue(string key, out string value)
+        {
+            Verify.NotNull(() => key);
+            IDictionary<string, string> trackingKeys = GetTrackingKeys();
+            return trackingKeys.TryGetValue(key, out value);
+        }
+
         void ITrackingService.SetTrackedValue(string key, string value)
         {
             Verify.NotNullOrWhiteSpace(()=>key);

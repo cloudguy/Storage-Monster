@@ -10,8 +10,13 @@ namespace CloudBin.Web.UI.Services
     {
         private static readonly Lazy<ILocaleProvider> LocaleProviderLazy = new Lazy<ILocaleProvider>(() =>
         {
-            return (ILocaleProvider)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(ILocaleProvider));
+            return (ILocaleProvider)DependencyResolver.Current.GetService(typeof(ILocaleProvider));
         });
+
+        public static MvcHtmlString CurrentLocaleFlag(this CloudBinHtmlHelper helper)
+        {
+            return LocaleFlag(helper, LocaleProviderLazy.Value.GetThreadLocale());
+        }
 
         public static MvcHtmlString LocaleFlag(this CloudBinHtmlHelper helper, Locale locale)
         {
@@ -20,7 +25,8 @@ namespace CloudBin.Web.UI.Services
             imgBuilder.Attributes.Add("src", urlHelper.Content("~/Content/images/blank.gif"));
             imgBuilder.Attributes.Add("alt", locale.FullName);
             imgBuilder.AddCssClass("flag");
-            imgBuilder.AddCssClass(string.Format(CultureInfo.InvariantCulture,"flag-{0}", locale.Culture.TwoLetterISOLanguageName));
+            RegionInfo regionInfo = new RegionInfo(locale.Culture.LCID);
+            imgBuilder.AddCssClass(string.Format(CultureInfo.InvariantCulture, "flag-{0}", regionInfo.TwoLetterISORegionName.ToLowerInvariant()));
             return new MvcHtmlString(imgBuilder.ToString(TagRenderMode.SelfClosing));
         }
     }

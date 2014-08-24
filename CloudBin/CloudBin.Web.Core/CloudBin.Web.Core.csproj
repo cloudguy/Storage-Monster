@@ -73,6 +73,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Globalization\LocaleHttpModule.cs" />
+    <Compile Include="Globalization\LocaleGettersChain.cs" />
     <Compile Include="Routing\AreaRegistrationContextExtensions.cs" />
     <Compile Include="Html\BundlingExtensions.cs" />
     <Compile Include="Html\CloudBinHtmlHelper.cs" />

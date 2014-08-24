@@ -28,5 +28,7 @@ namespace CloudBin.Web.Core
         public static readonly string ServerHeaderName = "Server";
 
         public static readonly string HtmlContentType = "text/html";
+
+        public static readonly string LocaleTrackingKey = "lc";
     }
 }

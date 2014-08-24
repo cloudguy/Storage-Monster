@@ -29,6 +29,12 @@ namespace CloudBin.Core
             return locale ?? _defaultLocaleInternal;
         }
 
+        bool ILocaleProvider.TryFindLocaleByName(string name, out Locale locale)
+        {
+            locale = _supportedLocalesInternal.FirstOrDefault(l => string.Compare(l.Name, name, StringComparison.OrdinalIgnoreCase) == 0);
+            return locale != null;
+        }
+
         void ILocaleProvider.Initialize(IGlobalizationConfiguration globalizationConfiguration)
         {
             _defaultLocaleInternal = globalizationConfiguration.DefaultLocale;
@@ -41,6 +47,11 @@ namespace CloudBin.Core
             RequestContext.Current.SetValue(LocaleKey, locale);
             Thread.CurrentThread.CurrentUICulture = locale.UiCulture;
             Thread.CurrentThread.CurrentCulture = locale.Culture;
+        }
+
+        Locale ILocaleProvider.GetThreadLocale()
+        {
+            return RequestContext.Current.GetValue<Locale>(LocaleKey);
         }
     }
 }
