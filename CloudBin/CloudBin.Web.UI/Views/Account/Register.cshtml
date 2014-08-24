@@ -10,7 +10,7 @@
 }
 
 @section Styles{
-    @Html.CloudBin().RenderDefaultThemeBundle()
+    @Html.CloudBin().RenderStyleBundle("theme_moonlight") @*.RenderDefaultThemeBundle()*@
 }
 
 <section class="well">
@@ -23,12 +23,12 @@
         {
         <p>
             @Html.LabelFor(m => m.UserName)
-            @Html.TextBoxFor(m => m.UserName, new { @class = "input k-textbox" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "input k-textbox", @autocomplete = "off" })
             @Html.ValidationMessageFor(m=>m.UserName)
         </p>
         <p>
             @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, new { @class = "input k-textbox" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "input k-textbox", @autocomplete = "off" })
             @Html.ValidationMessageFor(m => m.Email)
         </p>
         <input type="submit" value="Register" />
