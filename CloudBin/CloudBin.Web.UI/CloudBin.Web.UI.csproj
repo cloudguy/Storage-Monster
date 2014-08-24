@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Services\Configuration\RouteConfiguration.cs" />
     <Compile Include="Services\Configuration\BundlesConfiguration.cs" />
+    <Compile Include="Services\HtmlExtensions.cs" />
     <Compile Include="Services\PageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,9 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\flags.css" />
+    <Content Include="Content\images\blank.gif" />
+    <Content Include="Content\images\flags.png" />
     <Content Include="Content\images\cloudbin-114x114.png" />
     <Content Include="Content\images\cloudbin-144x144.png" />
     <Content Include="Content\images\cloudbin-150x150.png" />

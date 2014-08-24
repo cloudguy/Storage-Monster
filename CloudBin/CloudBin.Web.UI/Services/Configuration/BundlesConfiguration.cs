@@ -31,6 +31,7 @@ namespace CloudBin.Web.UI.Services.Configuration
         private static void RegisterThemeBundle(Theme theme, IBundleProvider bundleProvider)
         {
             const string awesomeFont = "~/Content/css/font-awesome.css";
+            const string flags = "~/Content/css/flags.css";
             const string bootstrapCss = "~/Content/css/bootstrap.css";
             const string kendoBootstrapCss = "~/Content/css/kendo.common-bootstrap.min.css";
             const string bootstrapThemePattern = "~/Content/themes/{0}/bootstrap-theme.css";
@@ -42,7 +43,8 @@ namespace CloudBin.Web.UI.Services.Configuration
                 bootstrapCss,
                 kendoBootstrapCss,
                 string.Format(CultureInfo.InvariantCulture, bootstrapThemePattern, theme.Name),
-                string.Format(CultureInfo.InvariantCulture, kendoThemePattern, theme.Name)
+                string.Format(CultureInfo.InvariantCulture, kendoThemePattern, theme.Name),
+                flags
             });
         }
     }

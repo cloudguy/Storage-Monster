@@ -11,7 +11,7 @@ namespace CloudBin.Web.Core.Html
             _htmlHelper = htmlHelper;
         }
 
-        internal HtmlHelper HtmlHelper
+        public HtmlHelper HtmlHelper
         {
             get { return _htmlHelper; }
         }
