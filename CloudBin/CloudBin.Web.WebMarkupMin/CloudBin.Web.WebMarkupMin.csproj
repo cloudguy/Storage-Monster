@@ -36,15 +36,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin">
-      <HintPath>..\packages\AjaxMin.5.11.5295.12309\lib\net40\AjaxMin.dll</HintPath>
+    <Reference Include="AjaxMin, Version=5.13.5463.15277, Culture=neutral, PublicKeyToken=21ef50ce11b5d80f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AjaxMin.5.13.5463.15282\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="WebMarkupMin.Core">
-      <HintPath>..\packages\WebMarkupMin.Core.0.8.21\lib\net40\WebMarkupMin.Core.dll</HintPath>
+    <Reference Include="WebMarkupMin.Core, Version=0.9.9.0, Culture=neutral, PublicKeyToken=99472178d266584b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebMarkupMin.Core.0.9.9\lib\net40\WebMarkupMin.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WebMarkupMin.MsAjax">
-      <HintPath>..\packages\WebMarkupMin.MsAjax.0.8.22\lib\net40\WebMarkupMin.MsAjax.dll</HintPath>
+    <Reference Include="WebMarkupMin.MsAjax, Version=0.9.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebMarkupMin.MsAjax.0.9.10\lib\net40\WebMarkupMin.MsAjax.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
